@@ -52,3 +52,5 @@ less
 arillo:flow-router-helpers
 themeteorchef:jquery-validation
 ongoworks:security
+practicalmeteor:chai
+practicalmeteor:sinon
