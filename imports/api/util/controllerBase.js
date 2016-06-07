@@ -55,6 +55,17 @@ export class controllerBase {
             }
         });
     }
+    
+       insert2(collectionData, callback) {
+        Meteor.call(this.getCollectionName() + '.insert2', collectionData, (error, result) => {
+            if (error) {
+                callback(error, null)
+            } else {
+                callback(null, result)
+            }
+        });
+    }
+
 
     update(id, collectionData, callback) {
         Meteor.call(this.getCollectionName() + '.update', id, collectionData, (error) => {

@@ -11,6 +11,26 @@ Meteor.methods({
     'test.resetDatabase': () => resetDatabase(),
 });
 
+var clienteTeste = {
+    nome: 'Jon Snow',
+    endereco: 'Winterfell',
+    telefone: 'none',
+    Email: 'jon@snow.com',
+    userId: '123456'
+}
+
+Meteor.methods({
+    'cliente.insert2'(cliente) {
+        check(cliente, Cliente.simpleSchema());
+        return Cliente.insert(cliente, (error) => {
+            if (error) {
+                console.log(error);
+            } else {
+                // console.log(cliente._id)
+            }
+        })
+    }
+});
 
 
 const templateFaker = function() {
@@ -18,33 +38,43 @@ const templateFaker = function() {
     this.collection = '';
     this.filter = '';
     this.projection = '';
-    this.subscribe = function(collection,filter,projection){
+    this.subscribe = function(collection, filter, projection) {
         this.collection = collection;
         this.filter = filter;
         this.projection = projection;
     }
 };
 
-describe('controllerBase', function (done) {
-    beforeEach(function (done) {
+describe('controllerBase', function(done) {
+    beforeEach(function(done) {
         // We need to wait until the method call is done before moving on, so we
         // use Mocha's async mechanism (calling a done callback)
         Meteor.call('test.resetDatabase', done);
     });
 
-    it('Verificar a correta definição do filtro do subscribe', function () {
+    it('Verificar a correta definição do filtro do subscribe', function() {
 
         template = new templateFaker();
-        //spies.create('template', template, 'subscribe');
-        //const Ctrl = new controllerBase("");
-        CtrlCliente.setFilter({time: 'Atlético-MG'});
-        CtrlCliente.applySubscribe(template, 'IDXXXXXXX', 'View');
-        chai.assert.equal(template.filter, CtrlCliente.getAll());
 
-        console.log(template.filter);
-        console.log({time: 'Atlético-MG',_id:'IDXXXXXXX'});
-        // Later on in your test or test suite tear down
-        //spies.restoreAll();
+        CtrlCliente.insert2(clienteTeste, (error, result) => {
+            if (error)
+                console.log(error);
+             return console.log(CtrlCliente.get(result));
+        });
+        
+        chai.assert.equal(Cliente, CtrlCliente.getCollection());
+
+        // CtrlCliente.setFilter({nome: 'John Smith'});
+        // CtrlCliente.applySubscribe(template, '123456', 'View');
+        // CtrlCliente.getCollection()
+        // console.log(CtrlCliente.get('123456'));
+        // console.log(CtrlCliente.getCollection());
+        // console.log(CtrlCliente.getCollectionName());
+        // console.log(CtrlCliente.getAll());
+        // console.log(template.filter);
+        // console.log({nome: 'John Smith', _id:'123456'});
 
     });
 });
+
+
