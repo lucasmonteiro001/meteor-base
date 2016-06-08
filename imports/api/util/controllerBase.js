@@ -13,7 +13,7 @@ export class controllerBase {
     }
 
     setProjection(projectionName, projectionData) {
-        this.projectio[projectionName] = projectionData;
+        this.projection[projectionName] = projectionData;
     }
 
     getAll() {

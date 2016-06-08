@@ -1,6 +1,6 @@
 import {Cliente} from "../cliente.js"
 
-Meteor.publish('cliente', function (filter, projection) {
+Meteor.publish(Cliente._name, function (filter, projection) {
     var data = null;
     projection || (projection = {});
     check(projection, Object);
