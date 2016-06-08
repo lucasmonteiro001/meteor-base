@@ -5,8 +5,7 @@ import '../cliente/server/methods'
 
 
 
-if( Meteor.isServer)
-{
+
 
 // NOTE: Before writing a method like this you'll want to double check
 // that this file is only going to be loaded in test mode!!
@@ -21,11 +20,7 @@ if( Meteor.isServer)
         Email: 'jon@snow.com',
         userId: '123456'
     }
-}
 
-
-if( Meteor.isClient)
-{
     const CtrlCliente = new controllerBase(Cliente);
     const templateFaker = function () {
 
@@ -71,5 +66,3 @@ if( Meteor.isClient)
         });
     });
 
-
-}
