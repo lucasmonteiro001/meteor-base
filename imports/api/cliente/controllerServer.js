@@ -1,14 +1,31 @@
-import {Cliente} from "./../cliente.js"
+import {clienteModel} from "./model.js"
+import {controllerServerBase} from '../util/controllerServerBase'
 
-//A segurança das operações de banco de dados é feita com a ferramenta "ongoworks:security".
-//Mais informações: https://atmospherejs.com/ongoworks/security
+class controllerServerCliente extends controllerServerBase {
+
+}
+
+export const clienteCtrlServer = new controllerServerCliente(clienteModel);
+
+//Aplicar os métodos que serão utilizados no Client através do "Meteor.Call"
+clienteCtrlServer.applyAllMethods();
+
+
+//Aplicar as publicações que serão consideradas quando no Client for executado o "Template.subscribe"
+clienteCtrlServer.applyPublications();
+
+
+
 
 //################################################
 //############ RESTRIÇÃO POR FUNCIONALIDADE ######
 //################################################
 //Por default, somente administradores conseguem editar as informações.
-Cliente.permit(['insert', 'update', 'remove','read']).ifHasRole(rolesCliente);
+//Mais informações: https://atmospherejs.com/ongoworks/security
 
+//Grupos que podem realizar operações no banco de dados
+let groups = ['administrador'];
+clienteCtrlServer.setGroupPermissions(['insert', 'update', 'remove','read'],groups);
 
 
 
@@ -27,7 +44,5 @@ Security.defineMethod('ownsDocument', {
         return userId === doc[field]||Roles.userIsInRole(userId, rolesCliente);
     }
 });
-
-Cliente.permit(['update', 'remove','read']).ownsDocument();
-
+clienteCtrlServer.setFuntionPermissions(['update', 'remove','read'],'ownsDocument');
 

@@ -1,2 +1,2 @@
-import "../../api/cliente/server_imports.js";
+import "../../api/cliente/controllerServer";
 import '../../api/users/server_imports';

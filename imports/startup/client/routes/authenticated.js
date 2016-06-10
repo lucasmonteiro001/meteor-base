@@ -2,8 +2,8 @@ import "../../../ui/authenticated/cliente/cliente";
 import {FlowRouter} from 'meteor/kadira:flow-router';
 import '../../../ui/authenticated/index';
 import  '../../../ui/authenticated/users/users';
-import {CtrlCliente} from '../../../api/cliente/controllerCliente.js'
-import {Message} from '../../../ui/utils/ui_utils';
+import {clienteCtrlClient} from '../../../api/cliente/controllerClient'
+import {Message} from '../../../ui/utils/message';
 
 const canViewFunction = function (renderFunction) {
     this.set = function (value) {
@@ -74,7 +74,7 @@ authenticatedRoutes.route('/clienteEdit/:_id', {
             BlazeLayout.render('default', {yield: 'clienteEdit'});
         })
         const id = FlowRouter.getParam("_id");
-        CtrlCliente.checkIfCanUserUpdate(cvFunction, id);
+        clienteCtrlClient.checkIfCanUserUpdate(cvFunction, id);
     }
 })
 ;
@@ -86,7 +86,7 @@ authenticatedRoutes.route('/clienteView/:_id', {
             BlazeLayout.render('default', {yield: 'clienteView'});
         })
         const id = FlowRouter.getParam("_id");
-        CtrlCliente.checkIfCanUserView(cvFunction, id);
+        clienteCtrlClient.checkIfCanUserView(cvFunction, id);
     }
 
 });

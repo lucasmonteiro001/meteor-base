@@ -1,4 +1,4 @@
-export class controllerBase {
+export class controllerClientBase {
 
 
     constructor(collection) {

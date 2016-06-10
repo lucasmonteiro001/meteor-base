@@ -2,11 +2,28 @@
 import {Meteor} from 'meteor/meteor';
 
 
-export class methodsBase {
+export class controllerServerBase {
 
     constructor(collection) {
+        this.myCollection = collection;
 
         this.functions = {};
+
+        this.publications = function (filter, projection) {
+            var data = null;
+            projection || (projection = {});
+            check(projection, Object);
+            // se existe um filtro
+            if (typeof filter === "object") {
+                check(filter, Object);
+                return collection.find(filter, {fields: projection})
+            }
+            else {
+                return this.ready();
+            }
+
+
+        }
 
         //funções padrões
         this.functions[collection._name+'.insert'] = function (dataObj) {
@@ -55,20 +72,20 @@ export class methodsBase {
             check(id, String);
             let result = Security.can(this.userId).update(id).for(collection).check();
             return result;
-        }        ;
+        };
 
 
         this.functions['user.can.'+collection._name+'.remove'] = function (id) {
             check(id, String);
             let result = Security.can(this.userId).remove(id).for(collection).check();
             return result;
-        }
+        };
 
         this.functions['user.can.'+collection._name+'.read'] = function (id) {
             check(id, String);
             let result = Security.can(this.userId).read(id).for(collection).check();
             return result;
-        }
+        };
 
     }
 
@@ -83,6 +100,22 @@ export class methodsBase {
     addMethod (methodName,functionDeclaration) {
         this.functions[methodName] = functionDeclaration;
     }    
+
+    setPublications(newPublicationsFunction) {
+        this.publications = newPublicationsFunction;
+    }
+
+    applyPublications () {
+        Meteor.publish(this.myCollection._name, this.publications);
+    }
+
+    setGroupPermissions(actionsList,groups) {
+        this.myCollection.permit(actionsList).ifHasRole(groups);
+    }
+
+    setFuntionPermissions(actionsList,functionName) {
+        this.myCollection.permit(actionsList)[functionName]();
+    }
     
 }
 
