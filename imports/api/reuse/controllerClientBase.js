@@ -3,6 +3,7 @@ export class controllerClientBase {
 
     constructor(collection) {
         this.myCollection = collection.getCollection();
+        this.myModel = collection;
         this.filter = {};
         this.projection = {default: {}};
 
@@ -30,6 +31,10 @@ export class controllerClientBase {
 
     getCollectionName() {
         return this.myCollection._name;
+    }
+
+    getSchema() {
+        return this.myModel.getSchema();
     }
 
     get(id) {
