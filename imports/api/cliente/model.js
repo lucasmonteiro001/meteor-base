@@ -1,8 +1,8 @@
-import { modelBase } from '../util/modelBase'; 
+import { modelBase } from '../reuse/modelBase';
 
-modelCliente = new modelBase('cliente');
+export const model = new modelBase('cliente');
 
-modelCliente.setSchema({
+model.setSchema({
     "endereco": {
         type: String,
         defaultValue: "",
@@ -30,7 +30,7 @@ modelCliente.setSchema({
     }
 });
 
-export const clienteModel = modelCliente.getCollection();
+
 
 
 

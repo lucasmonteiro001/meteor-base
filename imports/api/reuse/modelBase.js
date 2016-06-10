@@ -32,7 +32,7 @@ export class modelBase {
 
 
     setSchema(mySchema) {
-        this.mySchema = mySchema;
+        this.mySchema = new SimpleSchema(mySchema);
         this.myCollection.attachSchema(this.mySchema);
     }
 

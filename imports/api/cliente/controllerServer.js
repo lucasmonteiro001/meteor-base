@@ -1,11 +1,11 @@
-import {clienteModel} from "./model.js"
-import {controllerServerBase} from '../util/controllerServerBase'
+import {model} from "./model.js"
+import {controllerServerBase} from '../reuse/controllerServerBase'
 
 class controllerServerCliente extends controllerServerBase {
 
 }
 
-export const clienteCtrlServer = new controllerServerCliente(clienteModel);
+export const clienteCtrlServer = new controllerServerCliente(model);
 
 //Aplicar os métodos que serão utilizados no Client através do "Meteor.Call"
 clienteCtrlServer.applyAllMethods();
@@ -44,5 +44,5 @@ Security.defineMethod('ownsDocument', {
         return userId === doc[field]||Roles.userIsInRole(userId, rolesCliente);
     }
 });
-clienteCtrlServer.setFuntionPermissions(['update', 'remove','read'],'ownsDocument');
+clienteCtrlServer.setFunctionPermissions(['update', 'remove','read'],'ownsDocument');
 

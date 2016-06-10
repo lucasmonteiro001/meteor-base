@@ -2,7 +2,7 @@ export class controllerClientBase {
 
 
     constructor(collection) {
-        this.myCollection = collection;
+        this.myCollection = collection.getCollection();
         this.filter = {};
         this.projection = {default: {}};
 
