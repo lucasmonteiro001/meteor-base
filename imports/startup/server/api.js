@@ -1,2 +1,2 @@
-import "../../api/cliente/controllerServer";
+import "../../api/cliente/model";
 import '../../api/users/server_imports';

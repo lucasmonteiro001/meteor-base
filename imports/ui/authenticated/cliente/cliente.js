@@ -1,6 +1,6 @@
 import {Template} from 'meteor/templating';
 import {FlowRouter} from 'meteor/kadira:flow-router';
-import {clienteCtrlClient} from '../../../api/cliente/controllerClient.js'
+import {clienteController} from '../../../api/cliente/controller.js'
 import {Message} from '../../utils/message';
 import '../../utils/htmlGenerator';
 import './cliente.html';
@@ -9,19 +9,19 @@ let template;
 
 Template.cliente.onCreated(() => {
     template = Template.instance();
-    clienteCtrlClient.applySubscribe(template);
+    clienteController.applySubscribe(template);
     template.canInsertCliente = new ReactiveVar(false);
 });
 
 Template.cliente.onRendered(() => {
     template = Template.instance();
-    clienteCtrlClient.checkIfCanUserInsert(template.canInsertCliente);
+    clienteController.checkIfCanUserInsert(template.canInsertCliente);
 });
 
 Template.cliente.helpers({
     'canUserInsert': () => {
         template = Template.instance();
-        clienteCtrlClient.checkIfCanUserInsert(template.canInsertCliente);
+        clienteController.checkIfCanUserInsert(template.canInsertCliente);
         return template.canInsertCliente.get();
     }
 });
@@ -81,7 +81,7 @@ Template.clienteAdd.events({
             Email: template.find('[id="Email"]').value.trim()
         };
 
-        clienteCtrlClient.insert(clienteData, (error, data) => {
+        clienteController.insert(clienteData, (error, data) => {
             if (error) {
                 Message.showErro(error);
                 //console.log(erro.reason);
@@ -99,7 +99,7 @@ Template.clienteAdd.events({
 Template.clienteView.onCreated(() => {
     let id = FlowRouter.getParam('_id');
     template = Template.instance();
-    clienteCtrlClient.applySubscribe(template,id);
+    clienteController.applySubscribe(template,id);
     template.canUpdateCliente = new ReactiveVar(false);
     template.canRemoveCliente = new ReactiveVar(false);
 });
@@ -108,10 +108,10 @@ Template.clienteView.onRendered(() => {
     let id = FlowRouter.getParam('_id');
     template = Template.instance();
 
-    clienteCtrlClient.checkIfCanUserUpdate(template.canUpdateCliente, id);
-    clienteCtrlClient.checkIfCanUserRemove(template.canRemoveCliente, id);
+    clienteController.checkIfCanUserUpdate(template.canUpdateCliente, id);
+    clienteController.checkIfCanUserRemove(template.canRemoveCliente, id);
 
-    let dadosClientes = clienteCtrlClient.get({_id: id});
+    let dadosClientes = clienteController.get({_id: id});
     template.dadosDoCliente = dadosClientes;
 
 
@@ -119,11 +119,11 @@ Template.clienteView.onRendered(() => {
 
 Template.clienteView.helpers({
     'canUserUpdate': () => {
-        clienteCtrlClient.checkIfCanUserUpdate(template.canUpdateCliente, FlowRouter.getParam('_id'));
+        clienteController.checkIfCanUserUpdate(template.canUpdateCliente, FlowRouter.getParam('_id'));
         return template.canUpdateCliente.get()
     },
     'canUserRemove': () => {
-        clienteCtrlClient.checkIfCanUserRemove(template.canRemoveCliente, FlowRouter.getParam('_id'));
+        clienteController.checkIfCanUserRemove(template.canRemoveCliente, FlowRouter.getParam('_id'));
         return template.canRemoveCliente.get();
     },
     'canUserAccessActions': () => {
@@ -131,7 +131,7 @@ Template.clienteView.helpers({
     },
     'dadosDoCliente': () => {
         let idCliente = FlowRouter.getParam('_id');
-        return clienteCtrlClient.get({_id: idCliente});
+        return clienteController.get({_id: idCliente});
     }
 });
 
@@ -144,7 +144,7 @@ Template.clienteView.events({
 
         Message.showConfirmation("Remover o cliente?", "Não é possível recuperar um cliente removido!", "Sim, remover!", (erro, confirm) => {
             if (confirm) {
-                clienteCtrlClient.remove(id, (error, data) => {
+                clienteController.remove(id, (error, data) => {
                     if (error) {
                         Message.showErro(error);
                         //console.log(erro.reason);
@@ -167,13 +167,13 @@ Template.clienteView.events({
 Template.clienteEdit.onCreated(() => {
     let id = FlowRouter.getParam('_id');
     template = Template.instance();
-    clienteCtrlClient.applySubscribe(template,id);
+    clienteController.applySubscribe(template,id);
 });
 
 Template.clienteEdit.onRendered(() => {
 
     let id = FlowRouter.getParam('_id');
-    let dadosClientes = clienteCtrlClient.get({_id: id});
+    let dadosClientes = clienteController.get({_id: id});
     Template.instance().dadosDoCliente = dadosClientes;
 
 
@@ -217,7 +217,7 @@ Template.clienteEdit.onRendered(() => {
 Template.clienteEdit.helpers({
     'dadosDoCliente': () => {
         let idCliente = FlowRouter.getParam('_id');
-        return clienteCtrlClient.get({_id: idCliente});
+        return clienteController.get({_id: idCliente});
     }
 });
 
@@ -234,7 +234,7 @@ Template.clienteEdit.events({
             Email: template.find('[id="Email"]').value.trim()
         };
 
-        clienteCtrlClient.update(id, clienteData, (error, data) => {
+        clienteController.update(id, clienteData, (error, data) => {
             if (error) {
                 Message.showErro(error);
                 //console.log(erro.reason);
@@ -250,13 +250,13 @@ Template.clienteEdit.events({
 
 Template.clienteList.onCreated(() => {
     template = Template.instance();
-    clienteCtrlClient.applySubscribe(template);
+    clienteController.applySubscribe(template);
 });
 
 Template.clienteList.helpers({
     'settings': function () {
         return {
-            collection: clienteCtrlClient.getCollection(),
+            collection: clienteController.getCollection(),
             rowsPerPage: 10,
             showFilter: true,
             showRowCount: true,

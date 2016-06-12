@@ -1,14 +1,14 @@
-export class controllerClientBase {
+export class controllerBase {
 
 
-    constructor(collection) {
-        this.myCollection = collection.getCollection();
-        this.myModel = collection;
+    constructor(collectionBase) {
+        this.myCollection = collectionBase.getCollection();
+        this.myCollectionBase = collectionBase;
         this.filter = {};
         this.projection = {default: {}};
 
     }
-
+    
     setFilter(filter) {
         this.filter = filter;
     }
@@ -34,7 +34,7 @@ export class controllerClientBase {
     }
 
     getSchema() {
-        return this.myModel.getSchema();
+        return this.myCollectionBase.getSchema();
     }
 
     get(id) {
