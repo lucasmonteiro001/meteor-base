@@ -1,7 +1,19 @@
 <template name="publicNavigation">
-    <li class="{{currentRoute 'login'}}"><a href="{{pathFor 'login'}}"><i class="fa fa-diamond"></i> <span
+    <li class="nav-header">
+        <div class="dropdown profile-element">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                <div>
+                    <h2><strong>Synergia</strong></h2>
+                </div>
+            </a>
+        </div>
+        <div class="logo-element">
+            Synergia
+        </div>
+    </li>
+    <li class="{{currentRoute 'login'}}"><a href="{{pathFor 'login'}}"><i class="fa fa-sign-in"></i> <span
             class="nav-label">Login</span></a></li>
-    <li class="{{currentRoute 'signup'}}"><a href="{{pathFor 'signup'}}"><i class="fa fa-diamond"></i> <span
+    <li class="{{currentRoute 'signup'}}"><a href="{{pathFor 'signup'}}"><i class="fa fa-registered"></i> <span
             class="nav-label">Registrar</span></a></li>
     {{> publicmenu }}
 </template>

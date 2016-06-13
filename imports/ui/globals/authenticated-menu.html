@@ -1,4 +1,11 @@
 <template name="authenticatedmenu">
-    <li class="{{currentRoute 'cliente'}}"><a href="{{pathFor 'cliente'}}"><i class="fa fa-diamond"></i> <span
-            class="nav-label">Cliente</span></a></li>
+    <li class="{{currentRoute 'cliente'}}"><a href="{{pathFor 'cliente'}}"><i
+            class="fa fa-user"></i><span
+            class="nav-label">Cliente - Modelo</span></a>
+    </li>
+
+    <li class="{{currentRoute 'contato'}}"><a href="{{pathFor 'contato'}}"><i
+            class="fa fa-phone"></i><span
+            class="nav-label">Contato</span></a>
+    </li>
 </template>

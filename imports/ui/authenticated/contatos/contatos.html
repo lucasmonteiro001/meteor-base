@@ -1,13 +1,13 @@
-<template name="cliente">
-    <div class="row wrapper border-bottom white-bg page-heading">
+<template name="contato">
+    <div class="row wrapper border-bottom white-bg page-heading" style="margin-bottom: 5px">
         <div class="col-lg-8">
-            <h2> Lista de clientes </h2>
+            <h2> Contatos </h2>
             <ol class="breadcrumb">
                 <li>
                     <a href="{{pathFor route='index'}}">Página Principal</a>
                 </li>
                 <li class="active">
-                    <strong> Lista de Clientes </strong>
+                    <strong> Contatos </strong>
                 </li>
             </ol>
         </div>
@@ -18,9 +18,9 @@
         {{#if canUserInsert}}
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="pull-right btAdd">
-                        <a href="{{pathFor 'clienteAdd'}}" id="insert" class="btn btn-success" name="insert">
-                            <i class="fa fa-plus-circle" aria-hidden="true"></i> Novo</a>
+                    <div class="pull-right">
+                        <a href="{{pathFor 'contatoAdd'}}" id="insert" class="btn btn-success" name="insert">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i> Adicionar</a>
                     </div>
                 </div>
             </div>
@@ -28,97 +28,22 @@
 
         <div class="row">
             <div class="col-lg-12">
-                {{> clienteList}}
+                {{> contatoList}}
             </div>
         </div>
-
     </div>
-
 </template>
 
-<template name="clienteAdd">
+<template name="contatoAdd">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-8">
-            <h2> Cadastrar Cliente </h2>
+            <h2> Cadastrar Contato </h2>
             <ol class="breadcrumb">
                 <li>
                     <a href="{{pathFor route='index'}}">Página Principal</a>
                 </li>
                 <li class="active">
-                    <strong> Cadastrar Cliente </strong>
-                </li>
-            </ol>
-        </div>
-    </div>
-
-
-    <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
-        <form class="form-horizontal row-border" id="userForm" data-toggle="validator" role="form">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel-body" id="formContext2">
-
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="nome">Informe um nome</label>
-                            <div class="col-md-10">
-                                <input type="text" id="nome" name="nome" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="telefone">Telefone/Cel:</label>
-                            <div class="col-md-10">
-                                <input type="text" id="telefone" name="telefone" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="Email">Meu Email</label>
-                            <div class="col-md-10">
-                                <input type="email" id="Email" name="Email" class="form-control">
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="endereco">Informe o Endereço</label>
-                            <div class="col-md-10">
-                                <textarea class="form-control" rows="7" id="endereco" name="endereco"></textarea>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="pull-right btAdd">
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                        <a href="{{pathFor 'cliente'}}" class="btn">Voltar</a>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-
-
-</template>
-
-<template name="clienteEdit">
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-12">
-            <h2> {{ dadosDoCliente.nome }}</h2>
-            <ol class="breadcrumb">
-                <li>
-                    <a href="{{pathFor route='index'}}">Página Principal</a>
-                </li>
-                <li>
-                    <a href="{{pathFor route='cliente'}}">Lista de clientes</a>
-                </li>
-
-                <li class="active">
-                    <strong> {{ dadosDoCliente.nome }}</strong>
+                    <strong> Cadastrar Contato </strong>
                 </li>
             </ol>
         </div>
@@ -131,12 +56,64 @@
                 <div class="col-lg-12">
                     <div class="panel-body">
 
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="nome">Informe um nome</label>
+                            <div class="col-md-10">
+                                <input type="text" id="nome" name="nome" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="telefone">Telefone/Cel:</label>
+                            <div class="col-md-10">
+                                <input type="text" id="telefone" name="telefone" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="pull-right btAdd">
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                        <a href="{{pathFor 'contato'}}" class="btn btn-default">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</template>
+
+<template name="contatoEdit">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-12">
+            <h2> {{ dadosDoContato.nome }}</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{pathFor route='index'}}">Página Principal</a>
+                </li>
+                <li>
+                    <a href="{{pathFor route='contato'}}">Lista de contatos</a>
+                </li>
+
+                <li class="active">
+                    <strong> {{ dadosDoContato.nome }}</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
+        <form class="form-horizontal row-border" id="userForm" data-toggle="validator" role="form">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel-body">
+
 
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="nome">Informe um nome</label>
                             <div class="col-md-10">
                                 <input type="text" id="nome" name="nome" class="form-control"
-                                       value="{{ dadosDoCliente.nome }}">
+                                       value="{{ dadosDoContato.nome }}">
                             </div>
                         </div>
 
@@ -145,63 +122,44 @@
                             <label class="col-md-2 control-label" for="telefone">Telefone/Cel:</label>
                             <div class="col-md-10">
                                 <input type="text" id="telefone" name="telefone" class="form-control"
-                                       value="{{ dadosDoCliente.telefone }}">
+                                       value="{{ dadosDoContato.telefone }}">
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="Email">Meu Email</label>
-                            <div class="col-md-10">
-                                <input type="text" id="Email" name="Email" class="form-control"
-                                       value="{{ dadosDoCliente.Email }}">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="endereco">Informe o Endereço</label>
-                            <div class="col-md-10">
-                                <textarea class="form-control" rows="7" id="endereco"
-                                          name="endereco"> {{ dadosDoCliente.endereco }}</textarea>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="pull-right btAdd">
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                        <a href="{{pathFor 'clienteView'}}/{{dadosDoCliente._id}}" class="btn">Voltar</a>
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                        <a href="{{pathFor 'contatoView'}}/{{dadosDoContato._id}}" class="btn btn-default">Voltar</a>
                     </div>
                 </div>
             </div>
         </form>
     </div>
-
-
 </template>
 
-<template name="clienteView">
+<template name="contatoView">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-8">
-            <h2> {{ dadosDoCliente.nome }}</h2>
+            <h2> {{ dadosDoContato.nome }}</h2>
             <ol class="breadcrumb">
                 <li>
                     <a href="{{pathFor route='index'}}">Página Principal</a>
                 </li>
                 <li>
-                    <a href="{{pathFor route='cliente'}}">Lista de clientes</a>
+                    <a href="{{pathFor route='contato'}}">Lista de contatos</a>
                 </li>
 
                 <li class="active">
-                    <strong> {{ dadosDoCliente.nome }}</strong>
+                    <strong> {{ dadosDoContato.nome }}</strong>
                 </li>
             </ol>
         </div>
         <div class="col-lg-4">
             <div class="pull-right">
-                <a id="btn-criar-chamado-voltar" class="btn btn-default" href="{{pathFor 'cliente'}}">
+                <a id="btn-criar-chamado-voltar" class="btn btn-default" href="{{pathFor 'contato'}}">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     Voltar
                 </a>
@@ -215,14 +173,14 @@
                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
 
                             {{#if canUserUpdate}}
-                                <li><a id="linkEdit" href="{{pathFor 'clienteEdit'}}/{{dadosDoCliente._id}}"
+                                <li><a id="linkEdit" href="{{pathFor 'contatoEdit'}}/{{dadosDoContato._id}}"
                                        name="update"><i
                                         class="icon icon-pencil"></i>
                                     Editar...</a></li>
                             {{/if}}
                             <li class="divider"></li>
                             {{#if canUserRemove}}
-                                <li><a id="linkExcluir" href="#!" value="{{dadosDoCliente._id}}" name="remove"><i
+                                <li><a id="linkExcluir" href="#!" value="{{dadosDoContato._id}}" name="remove"><i
                                         class="icon icon-pencil"></i>
                                     Excluir...</a>
                                 </li>
@@ -234,7 +192,6 @@
         </div>
     </div>
 
-
     <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
         <div class="row form-horizontal row-border">
             <div class="col-lg-12">
@@ -244,23 +201,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="nome">Informe um nome</label>
                         <div class="col-md-10">
-                            <span id="nome">{{ dadosDoCliente.nome }} </span>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="endereco">Informe um endereco</label>
-                        <div class="col-md-10">
-                            <span id="endereco"> {{ dadosDoCliente.endereco }} </span>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="Email">Informe um Email</label>
-                        <div class="col-md-10">
-                            <span id="Email"> {{ dadosDoCliente.Email }} </span>
+                            <span id="nome">{{ dadosDoContato.nome }} </span>
                         </div>
                     </div>
 
@@ -268,10 +209,9 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="telefone">Informe um telefone</label>
                         <div class="col-md-10">
-                            <span id="telefone"> {{ dadosDoCliente.telefone }} </span>
+                            <span id="telefone"> {{ dadosDoContato.telefone }} </span>
                         </div>
                     </div>
-
 
                 </div>
             </div>
@@ -279,10 +219,10 @@
     </div>
 </template>
 
-<template name="clienteList">
+<template name="contatoList">
     {{> reactiveTable settings=settings}}
 </template>
 
-<template name="clienteTmpl">
-    <a href="{{pathFor 'clienteView'}}/{{_id}}">  {{nome}} </a>
+<template name="contatoTmpl">
+    <a href="{{pathFor 'contatoView'}}/{{_id}}">  {{nome}} </a>
 </template>

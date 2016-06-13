@@ -1,18 +1,17 @@
-import {collectionCliente} from './collection.js';
+import {collectionContato} from './collection.js';
 import {ModelBase} from '../reuse/modelBase';
 
-class ModelCliente extends ModelBase {
+class ModelContato extends ModelBase {
 
 }
 
-export const clienteModel = new ModelCliente(collectionCliente);
+export const contatoModel = new ModelContato(collectionContato);
 
 //Aplicar os métodos que serão utilizados no Client através do "Meteor.Call"
-clienteModel.applyAllMethods();
+contatoModel.applyAllMethods();
 
-//Aplicar as publicações que serão consideradas quando no Client for executado
-// o "Template.subscribe"
-clienteModel.applyPublications();
+//Aplicar as publicações que serão consideradas quando no Client for executado o "Template.subscribe"
+contatoModel.applyPublications();
 
 //################################################
 //############ RESTRIÇÃO POR FUNCIONALIDADE ######
@@ -22,7 +21,7 @@ clienteModel.applyPublications();
 
 //Grupos que podem realizar operações no banco de dados
 let groups = ['administrador'];
-clienteModel.setGroupPermissions(['insert', 'update', 'remove', 'read'], groups);
+contatoModel.setGroupPermissions(['insert', 'update', 'remove', 'read'], groups);
 
 //################################################
 //############ RESTRIÇÃO POR DADos ###############
@@ -32,12 +31,12 @@ clienteModel.setGroupPermissions(['insert', 'update', 'remove', 'read'], groups)
 
 // Por exemplo: O usuário só pode alterar registros criados por ele ou se ele pertencer à regra 'Administrador'.
 // Para mais informações sobre o uso do módulo Roles veja: http://alanning.github.io/meteor-roles/classes/Roles.html#method_userIsInRole
-Security.defineMethod('ownsDocument', {
+Security.defineMethod('youDocument', {
     fetch: [],
     allow(type, field, userId, doc) {
         if (!field) field = 'userId';
         return userId === doc[field] || Roles.userIsInRole(userId, groups);
     }
 });
-clienteModel.setFunctionPermissions(['update', 'remove', 'read'], 'ownsDocument');
+contatoModel.setFunctionPermissions(['update', 'remove', 'read'], 'youDocument');
 
