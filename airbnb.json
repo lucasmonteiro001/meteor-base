@@ -97,5 +97,6 @@
     "allExcept": [
       "urlComments"
     ]
-  }
+  },
+  "maxErrors": 1000
 }

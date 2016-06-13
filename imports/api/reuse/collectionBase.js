@@ -5,7 +5,8 @@ export class CollectionBase {
   constructor (collectionName) {
     this.collecitonName = collectionName;
     this.myCollection = new Mongo.Collection(collectionName);
-    this.mySchema = new SimpleSchema();
+
+    this.mySchema = { default: new SimpleSchema() };
 
     //##################################################
     //############# Definições de Segurança ############
@@ -27,13 +28,27 @@ export class CollectionBase {
 
   }
 
-  setSchema (mySchema) {
-    this.mySchema = new SimpleSchema(mySchema);
-    this.myCollection.attachSchema(this.mySchema);
+  setSchema (schemaName = 'default', schema) {
+    this.mySchema[schemaName] = schema;
+    if (schemaName === 'default') {
+      this.myCollection.attachSchema(new SimpleSchema(schema));
+    }
+
   }
 
-  getSchema () {
-    return this.mySchema;
+  getSchema (schemaName = 'default') {
+    return new SimpleSchema(this.mySchema[schemaName]);
+  }
+
+  getSchemaExceptFields (schemaName = 'default', fields) {
+    var result = {};
+    let schema = this.mySchema[schemaName];
+    for (key in schema) {
+      if (fields.indexOf(key) == -1) result[key] = schema[key];
+    }
+
+    return new SimpleSchema(result);
+
   }
 
   getCollection () {

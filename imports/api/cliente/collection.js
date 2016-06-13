@@ -1,7 +1,8 @@
 import { CollectionBase } from '../reuse/collectionBase';
 export const collectionCliente = new CollectionBase('cliente');
 
-collectionCliente.setSchema({
+//Definição dos Schemas
+collectionCliente.setSchema('default', {
   endereco: {
     type: String,
     defaultValue: '',
@@ -27,3 +28,4 @@ collectionCliente.setSchema({
     label: 'Associated User ID',
   },
 });
+

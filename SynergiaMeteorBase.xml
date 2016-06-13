@@ -13,12 +13,6 @@
     <option name="KEEP_FIRST_COLUMN_COMMENT" value="false"/>
     <option name="KEEP_BLANK_LINES_IN_CODE" value="1"/>
     <option name="SPACE_AROUND_UNARY_OPERATOR" value="true"/>
-    <option name="SPACE_WITHIN_IF_PARENTHESES" value="true"/>
-    <option name="SPACE_WITHIN_WHILE_PARENTHESES" value="true"/>
-    <option name="SPACE_WITHIN_FOR_PARENTHESES" value="true"/>
-    <option name="SPACE_WITHIN_CATCH_PARENTHESES" value="true"/>
-    <option name="SPACE_WITHIN_SWITCH_PARENTHESES" value="true"/>
-    <option name="SPACE_WITHIN_BRACKETS" value="true"/>
     <option name="SPACE_BEFORE_METHOD_PARENTHESES" value="true"/>
     <option name="DOWHILE_BRACE_FORCE" value="3"/>
     <indentOptions>
