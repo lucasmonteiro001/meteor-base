@@ -15,16 +15,16 @@
 
     <div class="wrapper wrapper-content white-bg animated fadeIn">
 
-{{#if canUserInsert}}
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="pull-right btAdd">
-                    <a href="{{pathFor 'clienteAdd'}}" id="insert" class="btn btn-primary" name="insert">
-                        <i class="fa fa-plus-circle" aria-hidden="true"></i> Adicionar...</a>
+        {{#if canUserInsert}}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="pull-right btAdd">
+                        <a href="{{pathFor 'clienteAdd'}}" id="insert" class="btn btn-primary" name="insert">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i> Adicionar...</a>
+                    </div>
                 </div>
             </div>
-        </div>
-{{/if}}
+        {{/if}}
 
         <div class="row">
             <div class="col-lg-12">
@@ -209,27 +209,28 @@
                 </a>
                 {{#if canUserAccessActions}}
 
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false">
-                        Ações <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="false">
+                            Ações <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
 
-                {{#if canUserUpdate}}
-                        <li><a id="linkEdit" href="{{pathFor 'clienteEdit'}}/{{dadosDoCliente._id}}" name="update"><i
-                                class="icon icon-pencil"></i>
-                            Editar...</a></li>
-                {{/if}}
-                        <li class="divider"></li>
-                {{#if canUserRemove}}
-                        <li><a id="linkExcluir" href="#!" value="{{dadosDoCliente._id}}" name="remove"><i
-                                class="icon icon-pencil"></i>
-                            Excluir...</a>
-                        </li>
-                {{/if}}
-                    </ul>
-                </div>
+                            {{#if canUserUpdate}}
+                                <li><a id="linkEdit" href="{{pathFor 'clienteEdit'}}/{{dadosDoCliente._id}}"
+                                       name="update"><i
+                                        class="icon icon-pencil"></i>
+                                    Editar...</a></li>
+                            {{/if}}
+                            <li class="divider"></li>
+                            {{#if canUserRemove}}
+                                <li><a id="linkExcluir" href="#!" value="{{dadosDoCliente._id}}" name="remove"><i
+                                        class="icon icon-pencil"></i>
+                                    Excluir...</a>
+                                </li>
+                            {{/if}}
+                        </ul>
+                    </div>
                 {{/if}}
             </div>
         </div>

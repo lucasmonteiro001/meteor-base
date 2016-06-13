@@ -5,10 +5,8 @@ let template;
 
 Template.index.onCreated(() => {
 
-    template = Template.instance();
+  template = Template.instance();
 
 });
 
-Template.index.helpers({
-
-});
+Template.index.helpers({});

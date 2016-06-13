@@ -1,4 +1,4 @@
-{Mongo} = require("meteor/mongo")
+{ Mongo } = require("meteor/mongo")
 
 TestCollection = new Mongo.Collection('cliente')
 module.exports = TestCollection

@@ -1,24 +1,24 @@
-import {expect} from "meteor/practicalmeteor:chai"
+import { expect } from 'meteor/practicalmeteor:chai';
 
-describe('Globals', function() {
+describe('Globals', function () {
 
-  before(function() {
+  before(function () {
     return console.log('before');
   });
-  after(function() {
+  after(function () {
     return console.log('after');
   });
-  beforeEach(function() {
+  beforeEach(function () {
     return console.log('beforeEach');
   });
-  afterEach(function() {
+  afterEach(function () {
     return console.log('afterEach');
   });
-  it('passing', function() {
-    return expect(true).to.be["true"];
+  it('passing', function () {
+    return expect(true).to.be[ "true" ];
   });
-  it('throwing', function() {
-    return expect(false).to.be["true"];
+  it('throwing', function () {
+    return expect(false).to.be[ "true" ];
   });
 
   specify("it works", function () {
@@ -29,8 +29,8 @@ describe('Globals', function() {
     throw new Error("This won't run")
   })
 
-  xdescribe('Skip suite (xdescribe)', function() {
-    return it("this won't run", function() {
+  xdescribe('Skip suite (xdescribe)', function () {
+    return it("this won't run", function () {
       throw new Error("This is an error");
     });
   });

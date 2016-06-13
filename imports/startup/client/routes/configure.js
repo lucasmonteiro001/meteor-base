@@ -1,8 +1,8 @@
-import {FlowRouter} from 'meteor/kadira:flow-router';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 import '../../../ui/globals/not-found';
 
 FlowRouter.notFound = {
   action() {
-    BlazeLayout.render( 'default', { yield: 'notFound' } );
+    BlazeLayout.render('default', { yield:'notFound' });
   }
 };

@@ -23,42 +23,44 @@
                             Exemplo de Página de Gestão de usuários
                         </h1>
                     </div>
-                        <h4>Exemplo de uso de montagem de uma tabela referente a Users Collection</h4>
-                        <div>
-                            <table id="usersTable" class="table table-striped">
-                                <thead>
+                    <h4>Exemplo de uso de montagem de uma tabela referente a Users Collection</h4>
+                    <div>
+                        <table id="usersTable" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>email</th>
+                                <th>grupo</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {{#each users}}
                                 <tr>
-                                    <th>email</th>
-                                    <th>grupo</th>
+                                    <td id="email">{{#if isCurrentUser _id}}
+                                        <label class="label label-success">You!</label>{{/if}}{{emails.[0].address}}
+                                    </td>
+                                    <td>
+                                        <select id="role" disabled="{{disableIfAdmin this._id}}">
+                                            <option selected='{{selected roles.[0] "administrador"}}'>administrador
+                                            </option>
+                                            <option selected='{{selected roles.[0] "comum"}}'>comum</option>
+                                            <option selected='{{selected roles.[0] "ClienteManagement"}}'>
+                                                ClienteManagement
+                                            </option>
+                                        </select>
+                                    </td>
                                 </tr>
-                                </thead>
-                                <tbody>
-
-                                {{#each users}}
-                                    <tr>
-                                        <td id="email">{{#if isCurrentUser _id}}
-                                            <label class="label label-success">You!</label>{{/if}}{{emails.[0].address}}
-                                        </td>
-                                        <td>
-                                            <select id="role" disabled="{{disableIfAdmin this._id}}">
-                                                <option selected='{{selected roles.[0] "administrador"}}'>administrador</option>
-                                                <option selected='{{selected roles.[0] "comum"}}'>comum</option>
-                                                <option selected='{{selected roles.[0] "ClienteManagement"}}'>ClienteManagement</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                {{/each}}
+                            {{/each}}
 
 
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
+                    </div>
 
-                        <br>
+                    <br>
 
-                        <h4>Exemplo de uso de uma tabela reativa. O pacote utilizado eh o ReactiveTable</h4>
-                        {{> reactiveTable settings=settings}}
-
+                    <h4>Exemplo de uso de uma tabela reativa. O pacote utilizado eh o ReactiveTable</h4>
+                    {{> reactiveTable settings=settings}}
 
 
                 </div>

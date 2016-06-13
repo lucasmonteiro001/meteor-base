@@ -8,64 +8,64 @@ let template;
 
 Template.users.onCreated(() => {
 
-    template = Template.instance();
+  template = Template.instance();
 
-    let currentPage = new ReactiveVar(Session.get('current-page') || 0);
+  let currentPage = new ReactiveVar(Session.get('current-page') || 0);
 
-    template.subscribe('Users');
-    template.subscribe('UsersTable')
+  template.subscribe('Users');
+  template.subscribe('UsersTable')
 
-    template.users = () => {
-        return Users.find();
-    };
+  template.users = () => {
+    return Users.find();
+  };
 
-
-    template.currentPage = currentPage;
-    template.autorun(function () {
-        Session.set('current-page', currentPage.get());
-    });
+  template.currentPage = currentPage;
+  template.autorun(function () {
+    Session.set('current-page', currentPage.get());
+  });
 
 });
 
 Template.users.helpers({
-    'users' : () => {
+  'users':() => {
 
-        return template.users();
-    },
-    'settings': function () {
-        return {
-            collection: template.users(),
-            currentPage: template.currentPage,
-            rowsPerPage: 10,
-            showFilter: true,
-            showRowCount: true,
-            showColumnToggles: true,
-            multiColumnSort: true,
-            fields: [
-                {key:'emails', label:'Emails',
-                    fn: function (value, object, key) {
-                        return value[0].address;
-                    }
-                },
-                {key:'roles', label:'Grupo'}
-            ]
-        };
-    }
+    return template.users();
+  },
+  'settings':function () {
+    return {
+      collection:template.users(),
+      currentPage:template.currentPage,
+      rowsPerPage:10,
+      showFilter:true,
+      showRowCount:true,
+      showColumnToggles:true,
+      multiColumnSort:true,
+      fields:[
+        {
+          key:'emails', label:'Emails',
+          fn:function (value, object, key) {
+            return value[ 0 ].address;
+          }
+        },
+        { key:'roles', label:'Grupo' }
+      ]
+    };
+  }
 });
 
 Template.users.events({
 
-    'change [id="role"]' : function(event) {
+  'change [id="role"]':function (event) {
 
-        let role = $( event.target ).find( 'option:selected' ).val();
+    let role = $(event.target).find('option:selected').val();
 
-        Meteor.call( "users.setRoleOnUser", {
-            user: this._id,
-            role: role
-        }, ( error, response ) => {
-            if ( error ) {
-                Bert.alert( error.reason, "warning" );
-            }
-        });
-    }
+    Meteor.call("users.setRoleOnUser", {
+      user:this._id,
+      role:role
+    }, (error, response) => {
+      if ( error ) {
+        Bert.alert(error.reason, "warning");
+      }
+    });
+  }
 });

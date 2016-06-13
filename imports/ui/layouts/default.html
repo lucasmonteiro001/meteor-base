@@ -10,25 +10,25 @@
                 <div class="sidebar-collapse">
                     <ul class="nav metismenu" id="side-menu">
                         {{#if currentUser}}
-                        <li class="nav-header">
+                            <li class="nav-header">
 
-                            <div class="dropdown profile-element">
-                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <div class="dropdown profile-element">
+                                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs"> <strong
                                     class="font-bold">{{email}}</strong>
                              </span> <span class="text-muted text-xs block">Usuário Logado <b class="caret"></b></span> </span>
-                                </a>
-                                <ul class="dropdown-menu animated fadeIn m-t-xs">
-                                    <li><a href="#">Item A</a></li>
-                                    <li><a href="#">Item B</a></li>
-                                    <li class="divider"></li>
-                                    <li class="logout"><a href="#">Logout</a></li>
-                                </ul>
-                            </div>
-                            <div class="logo-element">
-                                Synergia
-                            </div>
-                        </li>
+                                    </a>
+                                    <ul class="dropdown-menu animated fadeIn m-t-xs">
+                                        <li><a href="#">Item A</a></li>
+                                        <li><a href="#">Item B</a></li>
+                                        <li class="divider"></li>
+                                        <li class="logout"><a href="#">Logout</a></li>
+                                    </ul>
+                                </div>
+                                <div class="logo-element">
+                                    Synergia
+                                </div>
+                            </li>
 
 
                             {{> authenticatedNavigation}}
