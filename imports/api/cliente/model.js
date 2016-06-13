@@ -41,7 +41,7 @@ Security.defineMethod('ownsDocument', {
     fetch: [],
     allow(type, field, userId, doc) {
         if (!field) field = 'userId';
-        return userId === doc[field]||Roles.userIsInRole(userId, rolesCliente);
+        return userId === doc[field]||Roles.userIsInRole(userId, groups);
     }
 });
 clienteModel.setFunctionPermissions(['update', 'remove','read'],'ownsDocument');

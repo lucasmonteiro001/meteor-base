@@ -2,7 +2,6 @@ import {Template} from 'meteor/templating';
 import {FlowRouter} from 'meteor/kadira:flow-router';
 import {clienteController} from '../../../api/cliente/controller.js'
 import {Message} from '../../utils/message';
-import '../../utils/htmlGenerator';
 import './cliente.html';
 
 let template;

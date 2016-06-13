@@ -4,6 +4,10 @@ import {Meteor} from 'meteor/meteor';
 
 export class modelBase {
 
+
+    //##################################################
+    //###################### Construtor ################
+    //##################################################
     constructor(collectionBase) {
         this.myCollection = collectionBase.getCollection();
 
@@ -25,17 +29,52 @@ export class modelBase {
 
         }
 
-        //Methods / funções padrões
+
+        //##################################################
+        //###Inicialização de métodos de validaão###########
+        //##################################################
+        this.functions['user.can.'+collectionBase.getCollection()._name+'.insert'] = function (userId = this.userId) {
+            let objDataToCheck = {_id: "id_Fake_For_Permit_this_action"};
+            return Security.can(userId).insert(objDataToCheck).for(collectionBase.getCollection()).check();
+        };
+
+
+        this.functions['user.can.'+collectionBase.getCollection()._name+'.update'] = function (id,userId = this.userId) {
+            check(id, String);
+            return Security.can(userId).update(id).for(collectionBase.getCollection()).check();
+        };
+
+
+        this.functions['user.can.'+collectionBase.getCollection()._name+'.remove'] = function (id,userId = this.userId) {
+            check(id, String);
+            return Security.can(userId).remove(id).for(collectionBase.getCollection()).check();
+
+        };
+
+        this.functions['user.can.'+collectionBase.getCollection()._name+'.read'] = function (id,userId = this.userId) {
+            check(id, String);
+            return Security.can(userId).read(id).for(collectionBase.getCollection()).check();
+
+        };
+
+        //##################################################
+        //###Inicialização de métodos que alteram o banco###
+        //##################################################
         this.functions[collectionBase.getCollection()._name+'.insert'] = function (dataObj) {
 
             dataObj.userId = this.userId;
             check(dataObj, collectionBase.getCollection().simpleSchema());
-            Security.can(this.userId).insert(dataObj).for(collectionBase.getCollection()).throw("Você não tem permissão para inserir clientes!!!");
-            return collectionBase.getCollection().insert(dataObj, (error) => {
-                if (error) {
-                    console.log(error);
-                }
-            });
+
+            if (!Security.can(this.userId).insert(objDataToCheck).for(collectionBase.getCollection()).check()) {
+                throw new Meteor.Error('Acesso Negado',
+                    'Você não tem permissão para executar essa ação!');
+            } else {
+                return collectionBase.getCollection().insert(dataObj, (error) => {
+                    if (error) {
+                        console.log(error);
+                    }
+                });
+            }
         };
 
         this.functions[collectionBase.getCollection()._name+'.update'] = function (id, dataObj) {
@@ -44,50 +83,40 @@ export class modelBase {
             //Resgistra o último usuário que alterou o objeto no banco
             dataObj.userId = this.userId;
             check(dataObj, collectionBase.getCollection().simpleSchema());
-            Security.can(this.userId).update(id || dataObj).for(collectionBase.getCollection()).throw("Você não tem permissão para atualizar os dados do cliente!!!");
-            collectionBase.getCollection().update(id, {
-                $set: {
-                    nome: dataObj.nome,
-                    endereco: dataObj.endereco,
-                    telefone: dataObj.telefone,
-                    Email: dataObj.Email
-                },
-            });
+            if (!Security.can(this.userId).update(id||dataObj).for(collectionBase.getCollection()).check()) {
+                throw new Meteor.Error('Acesso Negado',
+                    'Você não tem permissão para executar essa ação!');
+            } else {
+                collectionBase.getCollection().update(id, {
+                    $set: {
+                        nome: dataObj.nome,
+                        endereco: dataObj.endereco,
+                        telefone: dataObj.telefone,
+                        Email: dataObj.Email
+                    },
+                });
+            }
         };
 
         this.functions[collectionBase.getCollection()._name+'.remove'] = function (id) {
             check(id, String);
-            Security.can(this.userId).remove(id).for(collectionBase.getCollection()).throw("Você não tem permissão para remover clientes!!!");
-            collectionBase.getCollection().remove(id);
-        };
+            if (!Security.can(this.userId).remove(id).for(collectionBase.getCollection()).check()) {
+                throw new Meteor.Error('Acesso Negado',
+                    'Você não tem permissão para executar essa ação!');
+            } else {
 
-        this.functions['user.can.'+collectionBase.getCollection()._name+'.insert'] = function () {
-            let objDataToCheck = {_id: "id_Fake_For_Permit_this_action"};
-            let result = Security.can(this.userId).insert(objDataToCheck).for(collectionBase.getCollection()).check();
-            return result;
-        };
-
-
-        this.functions['user.can.'+collectionBase.getCollection()._name+'.update'] = function (id) {
-            check(id, String);
-            let result = Security.can(this.userId).update(id).for(collectionBase.getCollection()).check();
-            return result;
-        };
-
-
-        this.functions['user.can.'+collectionBase.getCollection()._name+'.remove'] = function (id) {
-            check(id, String);
-            let result = Security.can(this.userId).remove(id).for(collectionBase.getCollection()).check();
-            return result;
-        };
-
-        this.functions['user.can.'+collectionBase.getCollection()._name+'.read'] = function (id) {
-            check(id, String);
-            let result = Security.can(this.userId).read(id).for(collectionBase.getCollection()).check();
-            return result;
+                collectionBase.getCollection().remove(id);
+            }
         };
 
     }
+
+
+
+
+    //##################################################
+    //################métodos da classe modelBase#######
+    //##################################################
 
     applyAllMethods () {
         Meteor.methods(this.functions);
