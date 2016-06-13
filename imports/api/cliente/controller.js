@@ -1,5 +1,5 @@
-import { collectionCliente } from './collection';
-import { ControllerBase } from '../reuse/controllerBase';
+import {collectionCliente} from './collection';
+import {ControllerBase} from '../reuse/controllerBase';
 
 class ControllerCliente extends ControllerBase {
 

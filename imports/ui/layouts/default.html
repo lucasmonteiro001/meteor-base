@@ -14,9 +14,13 @@
 
                                 <div class="dropdown profile-element">
                                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong
-                                    class="font-bold">{{email}}</strong>
-                             </span> <span class="text-muted text-xs block">Usuário Logado <b class="caret"></b></span> </span>
+                                    <span class="clear">
+                                        <span class="block m-t-xs"> <strong
+                                                class="font-bold">{{email}}</strong>
+                                        </span>
+                                        <span class="text-muted text-xs block">Usuário Logado <b
+                                                class="caret"></b></span>
+                                    </span>
                                     </a>
                                     <ul class="dropdown-menu animated fadeIn m-t-xs">
                                         <li><a href="#">Item A</a></li>
@@ -35,16 +39,16 @@
                         {{else}}
                             {{> publicNavigation}}
                         {{/if}}
-
                     </ul>
-
                 </div>
             </nav>
             <div id="page-wrapper" class="gray-bg">
                 {{>header}}
 
                 <div class="wrapper wrapper-content animated fadeIn">
+
                     {{#if authenticated}}
+
                         {{#unless redirectAuthenticated}}
                             {{> Template.dynamic template=yield}}
                         {{/unless}}
@@ -56,8 +60,6 @@
                 </div>
                 {{>footer}}
             </div>
-
-
         {{/if}}
 
     </div><!--wrapper-->

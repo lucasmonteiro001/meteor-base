@@ -1,7 +1,9 @@
 <template name="signup">
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-4">
-            <h4 class="page-header">Registrar</h4>
+
+    <div class="animated fadeInDown">
+        <div class="middle-box">
+            <h2>Registrar:</h2>
+            <hr>
             <form id="signup" class="signup">
                 <div class="form-group">
                     <label for="emailAddress">Email</label>
@@ -18,11 +20,10 @@
                         <option value="comum">comum</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-success" value="Registrar">
-                </div>
+                <button type="submit" value="Registrar" class="btn btn-info block full-width m-b">Registrar</button>
+
+                <p>Possui uma conta? <a href="{{pathFor 'login'}}">Log in</a>.</p>
             </form>
-            <p>Possui uma conta? <a href="{{pathFor 'login'}}">Log in</a>.</p>
         </div>
     </div>
 </template>
