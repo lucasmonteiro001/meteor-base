@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-export class collectionBase {
+export class CollectionBase {
 
   constructor (collectionName) {
     this.collecitonName = collectionName;

@@ -1,16 +1,17 @@
 import { collectionCliente } from './collection.js';
-import { modelBase } from '../reuse/modelBase';
+import { ModelBase } from '../reuse/modelBase';
 
-class modelCliente extends modelBase {
+class ModelCliente extends ModelBase {
 
 }
 
-export const clienteModel = new modelCliente(collectionCliente);
+export const clienteModel = new ModelCliente(collectionCliente);
 
 //Aplicar os métodos que serão utilizados no Client através do "Meteor.Call"
 clienteModel.applyAllMethods();
 
-//Aplicar as publicações que serão consideradas quando no Client for executado o "Template.subscribe"
+//Aplicar as publicações que serão consideradas quando no Client for executado
+// o "Template.subscribe"
 clienteModel.applyPublications();
 
 //################################################

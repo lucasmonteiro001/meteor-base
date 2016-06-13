@@ -1,4 +1,4 @@
-export class controllerBase {
+export class ControllerBase {
 
   constructor (collectionBase) {
     this.myCollection = collectionBase.getCollection();

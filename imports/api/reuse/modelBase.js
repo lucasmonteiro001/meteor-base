@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-export class modelBase {
+export class ModelBase {
 
 
   //##################################################
@@ -106,7 +106,7 @@ export class modelBase {
   }
 
   //##################################################
-  //################métodos da classe modelBase#######
+  //################métodos da classe ModelBase#######
   //##################################################
 
   applyAllMethods () {

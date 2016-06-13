@@ -1,29 +1,29 @@
 <code_scheme name="SynergiaMeteorBase">
-    <JSCodeStyleSettings>
-        <option name="SPACE_AFTER_PROPERTY_COLON" value="false"/>
-        <option name="USE_DOUBLE_QUOTES" value="false"/>
-        <option name="IMPORTS_WRAP" value="0"/>
-        <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true"/>
-        <option name="SPACES_WITHIN_IMPORTS" value="true"/>
-    </JSCodeStyleSettings>
-    <MultiMarkdownCodeStyleSettings>
-        <option name="RIGHT_MARGIN" value="72"/>
-    </MultiMarkdownCodeStyleSettings>
-    <codeStyleSettings language="JavaScript">
-        <option name="RIGHT_MARGIN" value="100"/>
-        <option name="KEEP_FIRST_COLUMN_COMMENT" value="false"/>
-        <option name="KEEP_BLANK_LINES_IN_CODE" value="1"/>
-        <option name="SPACE_WITHIN_IF_PARENTHESES" value="true"/>
-        <option name="SPACE_WITHIN_WHILE_PARENTHESES" value="true"/>
-        <option name="SPACE_WITHIN_FOR_PARENTHESES" value="true"/>
-        <option name="SPACE_WITHIN_CATCH_PARENTHESES" value="true"/>
-        <option name="SPACE_WITHIN_SWITCH_PARENTHESES" value="true"/>
-        <option name="SPACE_WITHIN_BRACKETS" value="true"/>
-        <option name="SPACE_BEFORE_METHOD_PARENTHESES" value="true"/>
-        <option name="DOWHILE_BRACE_FORCE" value="3"/>
-        <indentOptions>
-            <option name="INDENT_SIZE" value="2"/>
-            <option name="TAB_SIZE" value="2"/>
-        </indentOptions>
-    </codeStyleSettings>
+  <JSCodeStyleSettings>
+    <option name="USE_DOUBLE_QUOTES" value="false"/>
+    <option name="IMPORTS_WRAP" value="0"/>
+    <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true"/>
+    <option name="SPACES_WITHIN_IMPORTS" value="true"/>
+  </JSCodeStyleSettings>
+  <MultiMarkdownCodeStyleSettings>
+    <option name="RIGHT_MARGIN" value="72"/>
+  </MultiMarkdownCodeStyleSettings>
+  <codeStyleSettings language="JavaScript">
+    <option name="RIGHT_MARGIN" value="100"/>
+    <option name="KEEP_FIRST_COLUMN_COMMENT" value="false"/>
+    <option name="KEEP_BLANK_LINES_IN_CODE" value="1"/>
+    <option name="SPACE_AROUND_UNARY_OPERATOR" value="true"/>
+    <option name="SPACE_WITHIN_IF_PARENTHESES" value="true"/>
+    <option name="SPACE_WITHIN_WHILE_PARENTHESES" value="true"/>
+    <option name="SPACE_WITHIN_FOR_PARENTHESES" value="true"/>
+    <option name="SPACE_WITHIN_CATCH_PARENTHESES" value="true"/>
+    <option name="SPACE_WITHIN_SWITCH_PARENTHESES" value="true"/>
+    <option name="SPACE_WITHIN_BRACKETS" value="true"/>
+    <option name="SPACE_BEFORE_METHOD_PARENTHESES" value="true"/>
+    <option name="DOWHILE_BRACE_FORCE" value="3"/>
+    <indentOptions>
+      <option name="INDENT_SIZE" value="2"/>
+      <option name="TAB_SIZE" value="2"/>
+    </indentOptions>
+  </codeStyleSettings>
 </code_scheme>
