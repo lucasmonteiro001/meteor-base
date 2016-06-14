@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-
 export class CollectionBase {
 
   constructor (collectionName) {
@@ -31,6 +30,7 @@ export class CollectionBase {
   getSchema (schemaName = 'default') {
     let result = {};
     let schema = this.mySchema[schemaName];
+    let key;
     for (key in schema) {
 
       result[key] = schema[key];
@@ -66,6 +66,7 @@ export class CollectionBase {
     }
 
   }
+
   getCollection () {
     return this.myCollection;
   }
