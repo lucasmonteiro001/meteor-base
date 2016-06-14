@@ -17,6 +17,9 @@ collectionCliente.setSchema('default', {
     type: String,
     defaultValue: '',
     label: 'Informe um nome',
+    formOptions: {
+      inputType: 'text',
+    },
   },
   Email: {
     type: String,

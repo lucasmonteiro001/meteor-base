@@ -28,29 +28,44 @@ export class CollectionBase {
 
   }
 
-  setSchema (schemaName = 'default', schema) {
-    this.mySchema[schemaName] = schema;
-    if (schemaName === 'default') {
-      this.myCollection.attachSchema(new SimpleSchema(schema));
+  getSchema (schemaName = 'default') {
+    let result = {};
+    let schema = this.mySchema[schemaName];
+    for (key in schema) {
+
+      result[key] = schema[key];
+      if (typeof result[key].formOptions != 'undefined') {
+        delete result[key].formOptions;
+      }
+
     }
 
-  }
-
-  getSchema (schemaName = 'default') {
-    return new SimpleSchema(this.mySchema[schemaName]);
+    return new SimpleSchema(result);
   }
 
   getSchemaExceptFields (schemaName = 'default', fields) {
-    var result = {};
+    let result = {};
     let schema = this.mySchema[schemaName];
     for (key in schema) {
-      if (fields.indexOf(key) == -1) result[key] = schema[key];
+      if (fields.indexOf(key) == -1) {
+        result[key] = schema[key];
+        if (typeof result[key].formOptions != 'undefined') {
+          delete result[key].formOptions;
+        }
+      }
     }
 
     return new SimpleSchema(result);
 
   }
 
+  setSchema (schemaName = 'default', schema) {
+    this.mySchema[schemaName] = schema;
+    if (schemaName === 'default') {
+      this.myCollection.attachSchema(new SimpleSchema(this.getSchema('default')));
+    }
+
+  }
   getCollection () {
     return this.myCollection;
   }
