@@ -13,7 +13,7 @@ Template.users.onCreated(() => {
   let currentPage = new ReactiveVar(Session.get('current-page') || 0);
 
   template.subscribe('Users');
-  template.subscribe('UsersTable')
+  template.subscribe('UsersTable');
 
   template.users = () => {
     return Users.find();
@@ -27,43 +27,43 @@ Template.users.onCreated(() => {
 });
 
 Template.users.helpers({
-  'users':() => {
-
+  'users': () => {
     return template.users();
   },
-  'settings':function () {
+
+  'settings': () => {
     return {
-      collection:template.users(),
-      currentPage:template.currentPage,
-      rowsPerPage:10,
-      showFilter:true,
-      showRowCount:true,
-      showColumnToggles:true,
-      multiColumnSort:true,
-      fields:[
+      collection: template.users(),
+      currentPage: template.currentPage,
+      rowsPerPage: 10,
+      showFilter: true,
+      showRowCount: true,
+      showColumnToggles: true,
+      multiColumnSort: true,
+      fields: [
         {
-          key:'emails', label:'Emails',
-          fn:function (value, object, key) {
-            return value[ 0 ].address;
-          }
+          key: 'emails', label: 'Emails',
+          fn: function (value, object, key) {
+            return value[0].address;
+          },
         },
-        { key:'roles', label:'Grupo' }
-      ]
+        { key: 'roles', label: 'Grupo' },
+      ],
     };
-  }
+  },
 });
 
 Template.users.events({
 
-  'change [id="role"]':function (event) {
+  'change [id="role"]': function (event) {
 
     let role = $(event.target).find('option:selected').val();
 
     Meteor.call("users.setRoleOnUser", {
-      user:this._id,
-      role:role
+      user: this._id,
+      role: role,
     }, (error, response) => {
-      if ( error ) {
+      if (error) {
         Bert.alert(error.reason, "warning");
       }
     });

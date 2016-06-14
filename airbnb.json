@@ -10,7 +10,7 @@
   "disallowSpacesInCallExpression": true,
   "disallowSpacesInsideArrayBrackets": true,
   "disallowSpacesInsideParentheses": true,
-  "disallowQuotedKeysInObjects": true,
+  "disallowQuotedKeysInObjects": false,
   "disallowSpaceAfterObjectKeys": true,
   "requireSpaceBeforeObjectValues": true,
   "disallowSpaceAfterPrefixUnaryOperators": true,
@@ -19,7 +19,7 @@
     ","
   ],
   "disallowMixedSpacesAndTabs": true,
-  "disallowTrailingWhitespace": true,
+  "disallowTrailingWhitespace": false,
   "requireTrailingComma": {
     "ignoreSingleLine": true
   },
@@ -82,7 +82,7 @@
   },
   "requirePaddingNewLinesAfterBlocks": true,
   "requireSemicolons": true,
-  "requireShorthandArrowFunctions": true,
+  "requireShorthandArrowFunctions": false,
   "requireSpacesInsideImportedObjectBraces": true,
   "safeContextKeyword": "_this",
   "validateLineBreaks": false,
