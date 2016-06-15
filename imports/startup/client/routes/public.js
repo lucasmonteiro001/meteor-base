@@ -6,40 +6,40 @@ import '../../../ui/public/signup';
 import '../../../ui/layouts/default';
 
 const publicRedirect = (context, redirect) => {
-  if ( Meteor.userId() ) {
+  if (Meteor.userId()) {
     redirect('index');
   }
 };
 
 const publicRoutes = FlowRouter.group({
-  name:'public',
-  triggersEnter:[ publicRedirect ]
+  name: 'public',
+  triggersEnter: [publicRedirect]
 });
 
 publicRoutes.route('/signup', {
-  name:'signup',
+  name: 'signup',
   action() {
-    BlazeLayout.render('default', { yield:'signup' });
-  }
+    BlazeLayout.render('default', { yield: 'signup' });
+  },
 });
 
 publicRoutes.route('/login', {
-  name:'login',
+  name: 'login',
   action() {
-    BlazeLayout.render('default', { yield:'login' });
-  }
+    BlazeLayout.render('default', { yield: 'login' });
+  },
 });
 
 publicRoutes.route('/recover-password', {
-  name:'recover-password',
+  name: 'recover-password',
   action() {
-    BlazeLayout.render('default', { yield:'recoverPassword' });
-  }
+    BlazeLayout.render('default', { yield: 'recoverPassword' });
+  },
 });
 
 publicRoutes.route('/reset-password/:token', {
-  name:'reset-password',
+  name: 'reset-password',
   action() {
-    BlazeLayout.render('default', { yield:'resetPassword' });
-  }
+    BlazeLayout.render('default', { yield: 'resetPassword' });
+  },
 });

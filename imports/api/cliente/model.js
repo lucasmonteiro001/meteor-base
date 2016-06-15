@@ -10,7 +10,6 @@ export const clienteModel = new ModelCliente(collectionCliente);
 //Aplicar os métodos que serão utilizados no Client através do "Meteor.Call"
 clienteModel.applyAllMethods();
 
-
 //Aplicar as publicações que serão consideradas quando no Client for executado
 // o "Template.subscribe"
 clienteModel.applyPublications();
@@ -40,7 +39,7 @@ Security.defineMethod('ownsDocument', {
   allow(type, field, userId, doc) {
     if (!field) field = 'userId';
     return userId === doc[field] || Roles.userIsInRole(userId, groups);
-  }
+  },
 });
 clienteModel.setFunctionPermissions(['update', 'remove', 'read'], 'ownsDocument');
 

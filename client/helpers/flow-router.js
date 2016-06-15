@@ -1,12 +1,12 @@
 let pathFor = (path, view) => {
-  if ( path.hash ) {
+  if (path.hash) {
     view = path;
     path = view.hash.route;
     delete view.hash.route;
   }
 
-  if ( path == null ) {
-    path = "";
+  if (path == null) {
+    path = '';
   }
 
   let query = view.hash.query ? FlowRouter._qs.parse(view.hash.query) : {};
