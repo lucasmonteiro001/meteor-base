@@ -15,6 +15,7 @@ export class ModelBase {
       var data = null;
       projection || (projection = {});
       check(projection, Object);
+
       // se existe um filtro
       if (typeof filter === 'object') {
         check(filter, Object);
@@ -60,7 +61,7 @@ export class ModelBase {
       dataObj.userId = this.userId;
       check(dataObj, collectionBase.getSchema());
 
-      if (!Security.can(this.userId).insert(objDataToCheck).for(collectionBase.getCollection()).check()) {
+      if (!Security.can(this.userId).insert(dataObj).for(collectionBase.getCollection()).check()) {
         throw new Meteor.Error('Acesso Negado',
             'Você não tem permissão para executar essa ação!');
       } else {

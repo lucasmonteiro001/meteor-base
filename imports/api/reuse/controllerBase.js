@@ -4,7 +4,7 @@ export class ControllerBase {
     this.myCollection = collectionBase.getCollection();
     this.myCollectionBase = collectionBase;
     this.filter = {};
-    this.projection = { default:{} };
+    this.projection = { default: {} };
 
   }
 
@@ -13,12 +13,12 @@ export class ControllerBase {
   }
 
   setProjection (projectionName, projectionData) {
-    this.projection[ projectionName ] = projectionData;
+    this.projection[projectionName] = projectionData;
   }
 
   getAll () {
     const collectionData = this.myCollection.find();
-    if ( collectionData ) {
+    if (collectionData) {
       return collectionData;
     }
   };
@@ -32,8 +32,16 @@ export class ControllerBase {
     return this.myCollection._name;
   }
 
-  getSchema () {
-    return this.myCollectionBase.getSchema();
+  getSchemaExceptFields (schemaName = 'default', fields) {
+    return this.myCollectionBase.getSchemaExceptFields(schemaName, fields);
+  }
+
+  getSchema (schemaName = 'default') {
+    return this.myCollectionBase.getSchema(schemaName);
+  }
+
+  getSchemaJson (schemaName = 'default') {
+    return this.myCollectionBase.getSchemaJson(schemaName);
   }
 
   get (id) {
@@ -42,17 +50,17 @@ export class ControllerBase {
 
   applySubscribe (template, id = "", action = "default") {
     let filterTmp = this.filter;
-    if ( id != "" ) {
+    if (id != "") {
       filterTmp._id = id;
     } else {
       delete filterTmp._id;
     }
-    template.subscribe(this.getCollectionName(), filterTmp, this.projection[ action ]);
+    template.subscribe(this.getCollectionName(), filterTmp, this.projection[action]);
   }
 
   insert (collectionData, callback) {
     Meteor.call(this.getCollectionName() + '.insert', collectionData, (error, result) => {
-      if ( error ) {
+      if (error) {
         callback(error, null)
       } else {
         callback(null, result)
@@ -62,7 +70,7 @@ export class ControllerBase {
 
   update (id, collectionData, callback) {
     Meteor.call(this.getCollectionName() + '.update', id, collectionData, (error) => {
-      if ( error ) {
+      if (error) {
         callback(error, null)
       } else {
         callback(null, "ok")
@@ -73,7 +81,7 @@ export class ControllerBase {
   remove (id, callback) {
 
     Meteor.call(this.getCollectionName() + '.remove', id, (error) => {
-      if ( error ) {
+      if (error) {
         callback(error, null)
       } else {
         callback(null, "ok")
@@ -83,13 +91,13 @@ export class ControllerBase {
 
   checkIfCanUserRemove (reactVar, id) {
     let idToCheck = id;
-    if ( typeof id === 'undefined' || id === null ) {
+    if (typeof id === 'undefined' || id === null) {
       idToCheck = "id_Fake_For_Permit_this_action";
     } else {
       idToCheck = id;
     }
     Meteor.call('user.can.' + this.getCollectionName() + '.remove', idToCheck, (error, result) => {
-      if ( error ) {
+      if (error) {
         console.log(error);
       } else {
         reactVar.set(result);
@@ -99,7 +107,7 @@ export class ControllerBase {
 
   checkIfCanUserInsert (reactVar) {
     Meteor.call('user.can.' + this.getCollectionName() + '.insert', (error, result) => {
-      if ( error ) {
+      if (error) {
         console.log(error);
       } else {
         reactVar.set(result);
@@ -109,13 +117,13 @@ export class ControllerBase {
 
   checkIfCanUserUpdate (reactVar, id) {
     let idToCheck = id;
-    if ( typeof id === 'undefined' || id === null ) {
+    if (typeof id === 'undefined' || id === null) {
       idToCheck = "id_Fake_For_Permit_this_action";
     } else {
       idToCheck = id;
     }
     Meteor.call('user.can.' + this.getCollectionName() + '.update', idToCheck, (error, result) => {
-      if ( error ) {
+      if (error) {
         console.log(error);
       } else {
         reactVar.set(result);
@@ -125,13 +133,13 @@ export class ControllerBase {
 
   checkIfCanUserView (reactVar, id) {
     let idToCheck = id;
-    if ( typeof id === 'undefined' || id === null ) {
+    if (typeof id === 'undefined' || id === null) {
       idToCheck = "id_Fake_For_Permit_this_action";
     } else {
       idToCheck = id;
     }
     Meteor.call('user.can.' + this.getCollectionName() + '.read', idToCheck, (error, result) => {
-      if ( error ) {
+      if (error) {
         console.log(error);
       } else {
         reactVar.set(result);
