@@ -1,17 +1,17 @@
 import { Meteor } from 'meteor/meteor';
 
+
 Meteor.methods({
-  'users.addUser' (params) {
-    // check(params, Object);
+  'users.addUser'(params) {
     check(params, {
-      email:String,
-      password:String,
-      role:String
+      email: String,
+      password: String,
+      role: String,
     });
 
     const userId = Accounts.createUser({
-      email:params.email,
-      password:params.password
+      email: params.email,
+      password: params.password,
     });
 
     Roles.addUsersToRoles(userId, params.role);
@@ -19,17 +19,18 @@ Meteor.methods({
     return true;
 
   },
-  'users.setRoleOnUser' (options) {
+
+  'users.setRoleOnUser'(options) {
 
     check(options, {
-      user:String,
-      role:String
+      user: String,
+      role: String,
     });
 
     try {
-      Roles.setUserRoles(options.user, [ options.role ]);
-    } catch ( exception ) {
+      Roles.setUserRoles(options.user, [options.role]);
+    } catch (exception) {
       return exception;
     }
-  }
+  },
 });

@@ -6,8 +6,8 @@ Template.registerHelper('isCurrentUser', (currentUser) => {
 });
 
 Template.registerHelper('disableIfAdmin', (userId) => {
-  if ( Meteor.userId() === userId ) {
-    return Roles.userIsInRole(userId, 'admin') ? "disabled" : "";
+  if (Meteor.userId() === userId) {
+    return Roles.userIsInRole(userId, 'admin') ? 'disabled' : '';
   }
 });
 

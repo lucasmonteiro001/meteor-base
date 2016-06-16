@@ -57,7 +57,7 @@
   "requireDollarBeforejQueryAssignment": true,
   "requireLineFeedAtFileEnd": true,
   "requireCapitalizedConstructors": true,
-  "requireDotNotation": true,
+  "requireDotNotation": false,
   "requireSpacesInForStatement": true,
   "requireSpacesInsideObjectBrackets": "all",
   "requireSpaceBetweenArguments": true,
