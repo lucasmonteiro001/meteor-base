@@ -80,7 +80,7 @@
 <template name="clienteEdit">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-12">
-            <h2> {{ dadosDoCliente.nome }}</h2>
+            <h2> {{ collectionData.nome }}</h2>
             <ol class="breadcrumb">
                 <li>
                     <a href="{{pathFor route='index'}}">Página Principal</a>
@@ -90,7 +90,7 @@
                 </li>
 
                 <li class="active">
-                    <strong> {{ dadosDoCliente.nome }}</strong>
+                    <strong> {{ collectionData.nome }}</strong>
                 </li>
             </ol>
         </div>
@@ -101,41 +101,8 @@
         <form class="form-horizontal row-border" id="userForm" data-toggle="validator" role="form">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel-body">
+                    <div class="panel-body" id="formContext">
 
-
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="nome">Informe um nome</label>
-                            <div class="col-md-10">
-                                <input type="text" id="nome" name="nome" class="form-control"
-                                       value="{{ dadosDoCliente.nome }}">
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="telefone">Telefone/Cel:</label>
-                            <div class="col-md-10">
-                                <input type="text" id="telefone" name="telefone" class="form-control"
-                                       value="{{ dadosDoCliente.telefone }}">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="Email">Meu Email</label>
-                            <div class="col-md-10">
-                                <input type="text" id="Email" name="Email" class="form-control"
-                                       value="{{ dadosDoCliente.Email }}">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="endereco">Informe o Endereço</label>
-                            <div class="col-md-10">
-                                <textarea class="form-control" rows="7" id="endereco"
-                                          name="endereco"> {{ dadosDoCliente.endereco }}</textarea>
-                            </div>
-                        </div>
 
                     </div>
                 </div>
@@ -144,7 +111,7 @@
                 <div class="col-lg-12">
                     <div class="pull-right btAdd">
                         <button type="submit" class="btn btn-primary">Salvar</button>
-                        <a href="{{pathFor 'clienteView'}}/{{dadosDoCliente._id}}" class="btn">Voltar</a>
+                        <a href="{{pathFor 'clienteView'}}/{{collectionData._id}}" class="btn">Voltar</a>
                     </div>
                 </div>
             </div>
@@ -157,7 +124,7 @@
 <template name="clienteView">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-8">
-            <h2> {{ dadosDoCliente.nome }}</h2>
+            <h2> {{ collectionData.nome }}</h2>
             <ol class="breadcrumb">
                 <li>
                     <a href="{{pathFor route='index'}}">Página Principal</a>
@@ -167,7 +134,7 @@
                 </li>
 
                 <li class="active">
-                    <strong> {{ dadosDoCliente.nome }}</strong>
+                    <strong> {{ collectionData.nome }}</strong>
                 </li>
             </ol>
         </div>
@@ -187,14 +154,14 @@
                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
 
                             {{#if canUserUpdate}}
-                                <li><a id="linkEdit" href="{{pathFor 'clienteEdit'}}/{{dadosDoCliente._id}}"
+                                <li><a id="linkEdit" href="{{pathFor 'clienteEdit'}}/{{collectionData._id}}"
                                        name="update"><i
                                         class="icon icon-pencil"></i>
                                     Editar...</a></li>
                             {{/if}}
                             <li class="divider"></li>
                             {{#if canUserRemove}}
-                                <li><a id="linkExcluir" href="#!" value="{{dadosDoCliente._id}}" name="remove"><i
+                                <li><a id="linkExcluir" href="#!" value="{{collectionData._id}}" name="remove"><i
                                         class="icon icon-pencil"></i>
                                     Excluir...</a>
                                 </li>
@@ -216,7 +183,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="nome">Informe um nome</label>
                         <div class="col-md-10">
-                            <span id="nome">{{ dadosDoCliente.nome }} </span>
+                            <span id="nome">{{ collectionData.nome }} </span>
                         </div>
                     </div>
 
@@ -224,7 +191,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="endereco">Informe um endereco</label>
                         <div class="col-md-10">
-                            <span id="endereco"> {{ dadosDoCliente.endereco }} </span>
+                            <span id="endereco"> {{ collectionData.endereco }} </span>
                         </div>
                     </div>
 
@@ -232,7 +199,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="Email">Informe um Email</label>
                         <div class="col-md-10">
-                            <span id="Email"> {{ dadosDoCliente.Email }} </span>
+                            <span id="Email"> {{ collectionData.Email }} </span>
                         </div>
                     </div>
 
@@ -240,7 +207,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="telefone">Informe um telefone</label>
                         <div class="col-md-10">
-                            <span id="telefone"> {{ dadosDoCliente.telefone }} </span>
+                            <span id="telefone"> {{ collectionData.telefone }} </span>
                         </div>
                     </div>
 

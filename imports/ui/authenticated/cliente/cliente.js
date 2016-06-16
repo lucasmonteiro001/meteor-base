@@ -29,7 +29,7 @@ Template.cliente.helpers({
 Template.clienteAdd.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
 
-  document.getElementById('formContext').innerHTML = formGen.formRender(clienteController.getSchemaJson('default'));
+  document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default');
 
   $('#userForm').validate({
     rules: {
@@ -70,11 +70,11 @@ Template.clienteAdd.onRendered(() => {
 Template.clienteAdd.events({
 
   //Eventos do template de inserção
-  'submit form' (event, template) {
+  'submit form' (event, templateInstance) {
     template = Template.instance();
 
     event.preventDefault();
-    const clienteData = formGen.getFormData(clienteController.getSchemaJson('default'), template);
+    const clienteData = formGen.getFormData(clienteController.getSchemaJson('default'), templateInstance);
 
     clienteController.insert(clienteData, (error, data) => {
       if (error) {
@@ -105,8 +105,7 @@ Template.clienteView.onRendered(() => {
   clienteController.checkIfCanUserUpdate(template.canUpdateCliente, id);
   clienteController.checkIfCanUserRemove(template.canRemoveCliente, id);
 
-  let dadosClientes = clienteController.get({ _id: id });
-  template.dadosDoCliente = dadosClientes;
+  template.collectionData = clienteController.get({ _id: id });
 
 });
 
@@ -122,7 +121,7 @@ Template.clienteView.helpers({
   'canUserAccessActions': () => {
     return template.canRemoveCliente.get() || template.canUpdateCliente.get();
   },
-  'dadosDoCliente': () => {
+  'collectionData': () => {
     let idCliente = FlowRouter.getParam('_id');
     return clienteController.get({ _id: idCliente });
   }
@@ -164,7 +163,9 @@ Template.clienteEdit.onRendered(() => {
 
   let id = FlowRouter.getParam('_id');
   let dadosClientes = clienteController.get({ _id: id });
-  Template.instance().dadosDoCliente = dadosClientes;
+  Template.instance().collectionData = dadosClientes;
+  console.log(Template.instance().collectionData);
+  document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default', id);
 
   //Jquery Validation - https://jqueryvalidation.org/validate
   $('#userForm').validate({
@@ -204,7 +205,7 @@ Template.clienteEdit.onRendered(() => {
 });
 
 Template.clienteEdit.helpers({
-  'dadosDoCliente': () => {
+  'collectionData': () => {
     let idCliente = FlowRouter.getParam('_id');
     return clienteController.get({ _id: idCliente });
   }
@@ -216,12 +217,7 @@ Template.clienteEdit.events({
   'submit form' (event, template) {
     event.preventDefault();
     const id = FlowRouter.getParam('_id');
-    const clienteData = {
-      nome: template.find('[id="nome"]').value.trim(),
-      endereco: template.find('[id="endereco"]').value.trim(),
-      telefone: template.find('[id="telefone"]').value.trim(),
-      Email: template.find('[id="Email"]').value.trim()
-    };
+    const clienteData = formGen.getFormData(clienteController.getSchemaJson('default'), template);
 
     clienteController.update(id, clienteData, (error, data) => {
       if (error) {
