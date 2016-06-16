@@ -1,3 +1,5 @@
+import { Mongo } from 'meteor/mongo';
+
 export class ControllerBase {
 
   constructor (collectionBase) {
@@ -17,14 +19,13 @@ export class ControllerBase {
   }
 
   getAll () {
-    const collectionData = this.myCollection.find();
-    if (collectionData) {
-      return collectionData;
-    }
-  };
+    const resultado = this.myCollection.find();
+    if (resultado)
+      return resultado;
+  }
 
   getCollection () {
-    return this.myCollection
+    return this.myCollection;
 
   }
 
@@ -48,22 +49,23 @@ export class ControllerBase {
     return this.myCollection.findOne(id);
   }
 
-  applySubscribe (template, id = "", action = "default") {
+  applySubscribe (template, id = '', action = 'default') {
     let filterTmp = this.filter;
-    if (id != "") {
+    if (id != '') {
       filterTmp._id = id;
     } else {
       delete filterTmp._id;
     }
+
     template.subscribe(this.getCollectionName(), filterTmp, this.projection[action]);
   }
 
   insert (collectionData, callback) {
     Meteor.call(this.getCollectionName() + '.insert', collectionData, (error, result) => {
       if (error) {
-        callback(error, null)
+        callback(error, null);
       } else {
-        callback(null, result)
+        callback(null, result);
       }
     });
   }
@@ -71,9 +73,9 @@ export class ControllerBase {
   update (id, collectionData, callback) {
     Meteor.call(this.getCollectionName() + '.update', id, collectionData, (error) => {
       if (error) {
-        callback(error, null)
+        callback(error, null);
       } else {
-        callback(null, "ok")
+        callback(null, 'ok');
       }
     });
   }
@@ -82,9 +84,9 @@ export class ControllerBase {
 
     Meteor.call(this.getCollectionName() + '.remove', id, (error) => {
       if (error) {
-        callback(error, null)
+        callback(error, null);
       } else {
-        callback(null, "ok")
+        callback(null, 'ok');
       }
     });
   }
@@ -92,10 +94,11 @@ export class ControllerBase {
   checkIfCanUserRemove (reactVar, id) {
     let idToCheck = id;
     if (typeof id === 'undefined' || id === null) {
-      idToCheck = "id_Fake_For_Permit_this_action";
+      idToCheck = 'id_Fake_For_Permit_this_action';
     } else {
       idToCheck = id;
     }
+
     Meteor.call('user.can.' + this.getCollectionName() + '.remove', idToCheck, (error, result) => {
       if (error) {
         console.log(error);
@@ -118,10 +121,11 @@ export class ControllerBase {
   checkIfCanUserUpdate (reactVar, id) {
     let idToCheck = id;
     if (typeof id === 'undefined' || id === null) {
-      idToCheck = "id_Fake_For_Permit_this_action";
+      idToCheck = 'id_Fake_For_Permit_this_action';
     } else {
       idToCheck = id;
     }
+
     Meteor.call('user.can.' + this.getCollectionName() + '.update', idToCheck, (error, result) => {
       if (error) {
         console.log(error);
@@ -134,10 +138,11 @@ export class ControllerBase {
   checkIfCanUserView (reactVar, id) {
     let idToCheck = id;
     if (typeof id === 'undefined' || id === null) {
-      idToCheck = "id_Fake_For_Permit_this_action";
+      idToCheck = 'id_Fake_For_Permit_this_action';
     } else {
       idToCheck = id;
     }
+
     Meteor.call('user.can.' + this.getCollectionName() + '.read', idToCheck, (error, result) => {
       if (error) {
         console.log(error);
@@ -146,7 +151,6 @@ export class ControllerBase {
       }
     });
   }
-
 }
-
+;
 

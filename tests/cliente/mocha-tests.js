@@ -5,35 +5,35 @@ import TestCollection from './TestCollection';
 describe('1 - Array', function () {
   describe('1.1 - #indexOf()', function () {
     return it('should return -1 when the value is not present', function () {
-      expect([ 1, 2, 3 ].indexOf(5)).to.equal(-1);
-      return expect([ 1, 2, 3 ].indexOf(0)).to.equal(-1);
+      expect([1, 2, 3].indexOf(5)).to.equal(-1);
+      return expect([1, 2, 3].indexOf(0)).to.equal(-1);
     });
   });
 
   describe('1.2 - length', function () {
     return it('should return length of array', function () {
-      return expect([ 1, 2, 3 ].length).to.equal(3);
+      return expect([1, 2, 3].length).to.equal(3);
     });
   });
 
-  describe("Specify", function () {
+  describe('Specify', function () {
 
-    specify("it works", function () {
+    specify('it works', function () {
       expect(true).to.be.true;
     });
 
     xspecify("Skip: This won't run", function () {
-      throw new Error("This won't run")
-    })
-  })
+      throw new Error("This won't run");
+    });
+  });
 
-  context("Context test", function () {
-    it("it works", function () {
+  context('Context test', function () {
+    it('it works', function () {
       expect(true).to.be.true;
     });
   });
 
-  xcontext("Skip suite (xcontext)", function () {
+  xcontext('Skip suite (xcontext)', function () {
 
     it("This won't run", function () {
       throw new Error("This won't run")
@@ -95,10 +95,10 @@ describe('5 - All sync test suite', function () {
     return console.log('afterEach');
   });
   it('passing', function () {
-    return expect(true).to.be[ "true" ];
+    return expect(true).to.be["true"];
   });
   return it('throwing', function () {
-    return expect(false).to.be[ "true" ];
+    return expect(false).to.be["true"];
   });
 });
 
@@ -131,7 +131,7 @@ describe('6 - All async test suite', function () {
   });
   this.timeout(5000);
   it('passing', function (done) {
-    expect(this.keepContext).to.be[ "true" ];
+    expect(this.keepContext).to.be["true"];
     return Meteor.setTimeout((function () {
       return done();
     }), 2500);
@@ -147,7 +147,7 @@ describe('7 - implicit wait', function () {
   return it('during findOne', function () {
     var doc;
     return doc = TestCollection.findOne({
-      _id:'xxx'
+      _id: 'xxx'
     });
   });
 });

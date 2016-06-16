@@ -59,13 +59,13 @@ Template.users.events({
 
     let role = $(event.target).find('option:selected').val();
 
-    Meteor.call("users.setRoleOnUser", {
+    Meteor.call('users.setRoleOnUser', {
       user: this._id,
       role: role,
     }, (error, response) => {
       if (error) {
-        Bert.alert(error.reason, "warning");
+        Bert.alert(error.reason, 'warning');
       }
     });
-  }
+  },
 });

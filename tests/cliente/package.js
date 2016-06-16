@@ -1,7 +1,7 @@
 // Using the "wrapper package" version format
 Package.describe({
-  name:"test-package",
-  summary:"Test package for the mocha package"
+  name: 'test-package',
+  summary: 'Test package for the mocha package',
 });
 
 Package.onUse(function (api) {
@@ -13,7 +13,7 @@ Package.onUse(function (api) {
     'coffeescript',
     'practicalmeteor:loglevel',
     'practicalmeteor:chai',
-    "ecmascript"
+    'ecmascript',
   ]);
 
 });
@@ -25,7 +25,7 @@ Package.onTest(function (api) {
     'practicalmeteor:chai',
     'practicalmeteor:mocha@2.4.5_1',
     'ecmascript',
-    'test-package'
+    'test-package',
   ]);
 
   api.addFiles('cliente.js');

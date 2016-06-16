@@ -13,7 +13,7 @@ const publicRedirect = (context, redirect) => {
 
 const publicRoutes = FlowRouter.group({
   name: 'public',
-  triggersEnter: [publicRedirect]
+  triggersEnter: [publicRedirect],
 });
 
 publicRoutes.route('/signup', {

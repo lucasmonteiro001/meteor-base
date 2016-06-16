@@ -137,19 +137,21 @@ Template.clienteView.events({
     let sel = event.target;
     let id = sel.getAttribute('value');
 
-    Message.showConfirmation('Remover o cliente?', 'Não é possível recuperar um cliente removido!', 'Sim, remover!', (erro, confirm) => {
-      if (confirm) {
-        clienteController.remove(id, (error, data) => {
-          if (error) {
-            Message.showErro(error);
+    Message.showConfirmation
+    ('Remover o cliente?', 'Não é possível recuperar um cliente removido!', 'Sim, remover!',
+        (erro, confirm) => {
+          if (confirm) {
+            clienteController.remove(id, (error, data) => {
+              if (error) {
+                Message.showErro(error);
 
-          } else {
-            FlowRouter.go('cliente');
-            Message.showSuccessNotification('O Cliente foi removido com sucesso!');
+              } else {
+                FlowRouter.go('cliente');
+                Message.showSuccessNotification('O Cliente foi removido com sucesso!');
+              }
+            });
           }
         });
-      }
-    });
   },
 });
 
@@ -229,9 +231,8 @@ Template.clienteEdit.events({
         Message.showSuccessNotification('O Cliente foi atualizado com sucesso!');
         FlowRouter.go('/clienteView/' + id);
       }
-
     });
-  }
+  },
 });
 
 Template.clienteList.onCreated(() => {

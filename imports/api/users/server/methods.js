@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 
-
 Meteor.methods({
   'users.addUser'(params) {
     check(params, {

@@ -25,7 +25,6 @@ export class CollectionBase {
         return true;
       },
     });
-
   }
 
   /**
@@ -40,8 +39,8 @@ export class CollectionBase {
       if (typeof schema[key].formOptions != 'undefined') {
         delete schema[key].formOptions;
       }
-
     }
+
     return new SimpleSchema(schema);
   }
 
@@ -71,8 +70,8 @@ export class CollectionBase {
 
   getSchemaJson (schemaName = 'default') {
     return this.mySchema[schemaName];
-  }  
-  
+  }
+
   getCollection () {
     return this.myCollection;
   }
@@ -96,6 +95,5 @@ export class CollectionBase {
 
     return temp;
   }
-
 
 }
