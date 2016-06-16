@@ -6,23 +6,33 @@ collectionCliente.setSchema('default', {
   nome: {
     type: String,
     defaultValue: '',
-    label: 'Mome',
+    label: 'Nome',
     formOptions: {
       FIELD_TAG: 'input',
       FIELD_TYPE: 'text',
     },
     formValidation: {
-      required: true,
-      message: 'O nome do usúario é obrigatório',
-    },    
+      required: { value: true, message: 'O nome do usuário é obrigatório' },
+    },
+    tableView: {
+      label: 'Nome',
+      template: 'tmpl',
+    },
   },
-  Sala: {
+  idade: {
     type: String,
     defaultValue: '',
-    label: 'Sala',
+    label: 'Idade',
     formOptions: {
       FIELD_TAG: 'input',
-      FIELD_TYPE: 'text',
+      FIELD_TYPE: 'number',
+    },
+    formValidation: {
+      required: { value: true, message: 'O nome do usuário é obrigatório' },
+      minlength: { value: 2, message: 'Este campo deve ter no mínimo 2 caracteres' },
+    },
+    tableView: {
+      label: 'Idade'
     },
   },
   endereco: {
@@ -33,6 +43,9 @@ collectionCliente.setSchema('default', {
       FIELD_TAG: 'textarea',
       FIELD_TYPE: 'text',
     },
+    formValidation: {
+      required: { value: true, message: 'O nome do usuário é obrigatório' },
+    },
   },
   telefone: {
     type: String,
@@ -42,6 +55,12 @@ collectionCliente.setSchema('default', {
       FIELD_TAG: 'input',
       FIELD_TYPE: 'text',
     },
+    formValidation: {
+      required: { value: true, message: 'O nome do usuário é obrigatório' },
+    },
+    tableView: {
+      label: 'Telefone',
+    },
   },
   Email: {
     type: String,
@@ -50,6 +69,13 @@ collectionCliente.setSchema('default', {
     formOptions: {
       FIELD_TAG: 'input',
       FIELD_TYPE: 'text',
+    },
+    formValidation: {
+      required: { value: true, message: 'O nome do usuário é obrigatório' },
+      email: { value: true, message: 'O email informado não é válido' },
+    },
+    tableView: {
+      label: 'Email',
     },
   },
   userId: {

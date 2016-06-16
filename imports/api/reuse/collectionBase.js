@@ -43,6 +43,9 @@ export class CollectionBase {
       if (typeof schema[key].formValidation != 'undefined') {
         delete schema[key].formValidation;
       }
+      if (typeof schema[key].tableView != 'undefined') {
+        delete schema[key].tableView;
+      }
 
     }
     return new SimpleSchema(schema);
@@ -57,6 +60,9 @@ export class CollectionBase {
         }
         if (typeof schema[key].formValidation != 'undefined') {
           delete schema[key].formValidation;
+        }
+        if (typeof schema[key].tableView != 'undefined') {
+          delete schema[key].tableView;
         }
       } else {
         delete schema[key]
@@ -77,8 +83,8 @@ export class CollectionBase {
 
   getSchemaJson (schemaName = 'default') {
     return this.mySchema[schemaName];
-  }  
-  
+  }
+
   getCollection () {
     return this.myCollection;
   }
@@ -102,6 +108,5 @@ export class CollectionBase {
 
     return temp;
   }
-
 
 }

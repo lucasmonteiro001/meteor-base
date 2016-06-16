@@ -57,7 +57,7 @@ export class ControllerBase {
       delete filterTmp._id;
     }
 
-    template.subscribe(this.getCollectionName(), filterTmp, this.projection[action]);
+    return template.subscribe(this.getCollectionName(), filterTmp, this.projection[action]);
   }
 
   insert (collectionData, callback) {
