@@ -12,10 +12,10 @@ collectionCliente.setSchema('default', {
       FIELD_TYPE: 'text',
     },
   },
-  homepage: {
+  Sala: {
     type: String,
     defaultValue: '',
-    label: 'Informe um Site',
+    label: 'Sala do Cliente',
     formOptions: {
       FIELD_TAG: 'input',
       FIELD_TYPE: 'text',

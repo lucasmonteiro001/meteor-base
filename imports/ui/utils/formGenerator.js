@@ -5,20 +5,25 @@ class formGeneretor {
     this.templates['input'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
-          <input type="{FIELD_TYPE}" id="{FIELD_NAME}" name="{FIELD_NAME}" class="form-control XXA" > \
+          <input type="{FIELD_TYPE}" id="{FIELD_NAME}" name="{FIELD_NAME}" class="form-control XXA" value="{VALUE}"> \
           </div> \
           </div>';
     this.templates['textarea'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
-          <textarea class="form-control" rows="7" id="{FIELD_NAME}" name="{FIELD_NAME}"></textarea> \
+          <textarea class="form-control" rows="7" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</textarea> \
           </div> \
           </div>';
   }
 
-  formRender (schema) {
+  formRender (controller, schemaName = 'default', id = '') {
     let result = '';
     let fieldTmp = '';
+    let dadosCollection = {};
+    let schema = controller.getSchemaJson(schemaName);
+    if (id != '') {
+      dadosCollection = controller.get({ _id: id });
+    }
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
 
@@ -34,6 +39,10 @@ class formGeneretor {
           fieldTmp = fieldTmp.replace(new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
         }
 
+        //Valor dos campos
+        fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), dadosCollection[key] || '');
+
+
         //Resultado Final
         result = result + fieldTmp;
 
@@ -41,8 +50,8 @@ class formGeneretor {
 
     }
     return result;
-  }
-
+  }  
+  
   getFormData (schema, template) {
     let objData = {};
     for (let key in schema) {

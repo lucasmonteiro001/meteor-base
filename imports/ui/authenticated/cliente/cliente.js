@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { clienteController } from '../../../api/cliente/controller.js';
 import { Message } from '../../utils/message';
+import { formGen } from '../../utils/formGenerator';
 import './cliente.html';
 
 let template;
@@ -27,6 +28,9 @@ Template.cliente.helpers({
 
 Template.clienteAdd.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
+
+  document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default');
+
   $('#userForm').validate({
     rules: {
       nome: {
@@ -69,13 +73,7 @@ Template.clienteAdd.events({
     template = Template.instance();
 
     event.preventDefault();
-    const clienteData = {
-      userId: '',
-      nome: template.find('[id="nome"]').value.trim(),
-      endereco: template.find('[id="endereco"]').value.trim(),
-      telefone: template.find('[id="telefone"]').value.trim(),
-      Email: template.find('[id="Email"]').value.trim(),
-    };
+    const clienteData = formGen.getFormData(clienteController.getSchemaJson('default'), templateInstance);
 
     clienteController.insert(clienteData, (error, data) => {
       if (error) {
@@ -85,6 +83,7 @@ Template.clienteAdd.events({
         Message.showSuccessNotification('Cliente inserido com sucesso!');
         FlowRouter.go('/clienteView/' + data);
       }
+
     });
   },
 });
@@ -104,8 +103,7 @@ Template.clienteView.onRendered(() => {
   clienteController.checkIfCanUserUpdate(template.canUpdateCliente, id);
   clienteController.checkIfCanUserRemove(template.canRemoveCliente, id);
 
-  let dadosClientes = clienteController.get({ _id: id });
-  template.dadosDoCliente = dadosClientes;
+  template.collectionData = clienteController.get({ _id: id });
 
 });
 
@@ -137,21 +135,19 @@ Template.clienteView.events({
     let sel = event.target;
     let id = sel.getAttribute('value');
 
-    Message.showConfirmation
-    ('Remover o cliente?', 'Não é possível recuperar um cliente removido!', 'Sim, remover!',
-        (erro, confirm) => {
-          if (confirm) {
-            clienteController.remove(id, (error, data) => {
-              if (error) {
-                Message.showErro(error);
+    Message.showConfirmation('Remover o cliente?', 'Não é possível recuperar um cliente removido!', 'Sim, remover!', (erro, confirm) => {
+      if (confirm) {
+        clienteController.remove(id, (error, data) => {
+          if (error) {
+            Message.showErro(error);
 
-              } else {
-                FlowRouter.go('cliente');
-                Message.showSuccessNotification('O Cliente foi removido com sucesso!');
-              }
-            });
+          } else {
+            FlowRouter.go('cliente');
+            Message.showSuccessNotification('O Cliente foi removido com sucesso!');
           }
         });
+      }
+    });
   },
 });
 
@@ -165,7 +161,9 @@ Template.clienteEdit.onRendered(() => {
 
   let id = FlowRouter.getParam('_id');
   let dadosClientes = clienteController.get({ _id: id });
-  Template.instance().dadosDoCliente = dadosClientes;
+  Template.instance().collectionData = dadosClientes;
+  console.log(Template.instance().collectionData);
+  document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default', id);
 
   //Jquery Validation - https://jqueryvalidation.org/validate
   $('#userForm').validate({
@@ -213,15 +211,10 @@ Template.clienteEdit.helpers({
 Template.clienteEdit.events({
 
   //Eventos do template de inserção
-  'submit form'(event, template) {
+  'submit form' (event, template) {
     event.preventDefault();
     const id = FlowRouter.getParam('_id');
-    const clienteData = {
-      nome: template.find('[id="nome"]').value.trim(),
-      endereco: template.find('[id="endereco"]').value.trim(),
-      telefone: template.find('[id="telefone"]').value.trim(),
-      Email: template.find('[id="Email"]').value.trim(),
-    };
+    const clienteData = formGen.getFormData(clienteController.getSchemaJson('default'), template);
 
     clienteController.update(id, clienteData, (error, data) => {
       if (error) {
@@ -231,8 +224,9 @@ Template.clienteEdit.events({
         Message.showSuccessNotification('O Cliente foi atualizado com sucesso!');
         FlowRouter.go('/clienteView/' + id);
       }
+
     });
-  },
+  }
 });
 
 Template.clienteList.onCreated(() => {
