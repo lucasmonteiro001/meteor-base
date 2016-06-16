@@ -40,7 +40,10 @@ class formGeneretor {
         }
 
         //Valor dos campos
-        fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), dadosCollection[key] || '');
+        if (typeof dadosCollection != 'undefined') {
+          fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), dadosCollection[key] || '');
+        }
+
 
 
         //Resultado Final
@@ -50,16 +53,18 @@ class formGeneretor {
 
     }
     return result;
-  }  
-  
-  getFormData (schema, template) {
+  }
+
+  getFormData (controller, schemaName = 'default', template) {
     let objData = {};
+    let schema = controller.getSchemaJson(schemaName);
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
         objData[key] = template.find('[id="' + key + '"]').value.trim();
       }
 
     }
+
     return objData;
   }
 

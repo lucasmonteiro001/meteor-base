@@ -74,7 +74,7 @@ Template.clienteAdd.events({
     template = Template.instance();
 
     event.preventDefault();
-    const clienteData = formGen.getFormData(clienteController.getSchemaJson('default'), templateInstance);
+    const clienteData = formGen.getFormData(clienteController, 'default', templateInstance);
 
     clienteController.insert(clienteData, (error, data) => {
       if (error) {
@@ -168,6 +168,8 @@ Template.clienteEdit.onRendered(() => {
   document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default', id);
 
   //Jquery Validation - https://jqueryvalidation.org/validate
+  //formGen(clienteController.getSchemaJson('default')).setValidation();
+  
   $('#userForm').validate({
     rules: {
       nome: {
@@ -217,7 +219,8 @@ Template.clienteEdit.events({
   'submit form' (event, template) {
     event.preventDefault();
     const id = FlowRouter.getParam('_id');
-    const clienteData = formGen.getFormData(clienteController.getSchemaJson('default'), template);
+    const clienteData = formGen.getFormData(clienteController, 'default', template);
+
 
     clienteController.update(id, clienteData, (error, data) => {
       if (error) {

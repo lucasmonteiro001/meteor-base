@@ -81,13 +81,9 @@ export class ModelBase {
         throw new Meteor.Error('Acesso Negado',
             'Você não tem permissão para executar essa ação!');
       } else {
+
         collectionBase.getCollection().update(id, {
-          $set: {
-            nome: dataObj.nome,
-            endereco: dataObj.endereco,
-            telefone: dataObj.telefone,
-            Email: dataObj.Email,
-          },
+          $set: dataObj,
         });
       }
     };

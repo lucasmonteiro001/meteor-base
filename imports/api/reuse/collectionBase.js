@@ -40,24 +40,30 @@ export class CollectionBase {
       if (typeof schema[key].formOptions != 'undefined') {
         delete schema[key].formOptions;
       }
+      if (typeof schema[key].formValidation != 'undefined') {
+        delete schema[key].formValidation;
+      }
 
     }
     return new SimpleSchema(schema);
   }
 
   getSchemaExceptFields (schemaName = 'default', fields) {
-    let result = {};
     let schema = this.cloneObj(this.mySchema[schemaName]);
     for (let key in schema) {
       if (fields.indexOf(key) == -1) {
-        result[key] = schema[key];
-        if (typeof result[key].formOptions != 'undefined') {
-          delete result[key].formOptions;
+        if (typeof schema[key].formOptions != 'undefined') {
+          delete schema[key].formOptions;
         }
+        if (typeof schema[key].formValidation != 'undefined') {
+          delete schema[key].formValidation;
+        }
+      } else {
+        delete schema[key]
       }
     }
 
-    return new SimpleSchema(result);
+    return new SimpleSchema(schema);
 
   }
 

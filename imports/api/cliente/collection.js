@@ -6,16 +6,20 @@ collectionCliente.setSchema('default', {
   nome: {
     type: String,
     defaultValue: '',
-    label: 'Informe um nome',
+    label: 'Mome',
     formOptions: {
       FIELD_TAG: 'input',
       FIELD_TYPE: 'text',
     },
+    formValidation: {
+      required: true,
+      message: 'O nome do usúario é obrigatório',
+    },    
   },
   Sala: {
     type: String,
     defaultValue: '',
-    label: 'Sala do Cliente',
+    label: 'Sala',
     formOptions: {
       FIELD_TAG: 'input',
       FIELD_TYPE: 'text',
@@ -24,7 +28,7 @@ collectionCliente.setSchema('default', {
   endereco: {
     type: String,
     defaultValue: '',
-    label: 'Informe o Endereço',
+    label: 'Endereço',
     formOptions: {
       FIELD_TAG: 'textarea',
       FIELD_TYPE: 'text',
@@ -42,7 +46,7 @@ collectionCliente.setSchema('default', {
   Email: {
     type: String,
     defaultValue: '',
-    label: 'Meu Email',
+    label: 'Email',
     formOptions: {
       FIELD_TAG: 'input',
       FIELD_TYPE: 'text',
