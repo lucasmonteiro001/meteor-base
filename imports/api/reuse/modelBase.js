@@ -30,23 +30,28 @@ export class ModelBase {
     //###Inicialização de métodos de validaão###########
     //##################################################
 
-    this.functions['user.can.' + collectionBase.getCollection()._name + '.insert'] = function (userId = this.userId) {
+    this.functions['user.can.' + collectionBase.getCollection()._name + '.insert']
+        = function (userId = this.userId) {
       let objDataToCheck = { _id: 'id_Fake_For_Permit_this_action' };
-      return Security.can(userId).insert(objDataToCheck).for(collectionBase.getCollection()).check();
+      return Security.can(userId).insert(objDataToCheck)
+          .for(collectionBase.getCollection()).check();
     };
 
-    this.functions['user.can.' + collectionBase.getCollection()._name + '.update'] = function (id, userId = this.userId) {
+    this.functions['user.can.' + collectionBase.getCollection()._name + '.update']
+        = function (id, userId = this.userId) {
       check(id, String);
       return Security.can(userId).update(id).for(collectionBase.getCollection()).check();
     };
 
-    this.functions['user.can.' + collectionBase.getCollection()._name + '.remove'] = function (id, userId = this.userId) {
+    this.functions['user.can.' + collectionBase.getCollection()._name + '.remove']
+        = function (id, userId = this.userId) {
       check(id, String);
       return Security.can(userId).remove(id).for(collectionBase.getCollection()).check();
 
     };
 
-    this.functions['user.can.' + collectionBase.getCollection()._name + '.read'] = function (id, userId = this.userId) {
+    this.functions['user.can.' + collectionBase.getCollection()._name + '.read']
+        = function (id, userId = this.userId) {
       check(id, String);
       return Security.can(userId).read(id).for(collectionBase.getCollection()).check();
 
@@ -77,7 +82,8 @@ export class ModelBase {
 
       check(id, String);
       check(dataObj, collectionBase.getSchemaExceptFields('default', ['userId']));
-      if (!Security.can(this.userId).update(id || dataObj).for(collectionBase.getCollection()).check()) {
+      if (!Security.can(this.userId).update(id || dataObj)
+              .for(collectionBase.getCollection()).check()) {
         throw new Meteor.Error('Acesso Negado',
             'Você não tem permissão para executar essa ação!');
       } else {
@@ -94,7 +100,6 @@ export class ModelBase {
         throw new Meteor.Error('Acesso Negado',
             'Você não tem permissão para executar essa ação!');
       } else {
-
         collectionBase.getCollection().remove(id);
       }
     };

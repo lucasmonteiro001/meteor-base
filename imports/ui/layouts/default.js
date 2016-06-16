@@ -12,10 +12,9 @@ import '../globals/footer.html';
 const handleRedirect = (routes, redirect) => {
   let currentRoute = FlowRouter.getRouteName();
 
-  if ( routes.indexOf(currentRoute) > -1 ) {
+  if (routes.indexOf(currentRoute) > -1) {
     FlowRouter.go(redirect);
-  }
-  else
+  } else
     return false;
 };
 
@@ -30,34 +29,34 @@ Template.default.onCreated(() => {
   // $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
 
   // Minimalize menu when screen is less than 768px
-  $(window).bind("resize load", function () {
-    if ( $(this).width() < 769 ) {
-      $('body').addClass('body-small')
+  $(window).bind('resize load', function () {
+    if ($(this).width() < 769) {
+      $('body').addClass('body-small');
     } else {
-      $('body').removeClass('body-small')
+      $('body').removeClass('body-small');
     }
   });
 
   // Fix height of layout when resize, scroll and load
-  $(window).bind("load resize scroll", function () {
-    if ( !$("body").hasClass('body-small') ) {
+  $(window).bind('load resize scroll', function () {
+    if (!$('body').hasClass('body-small')) {
 
       var navbarHeigh = $('nav.navbar-default').height();
       var wrapperHeigh = $('#page-wrapper').height();
 
-      if ( navbarHeigh > wrapperHeigh ) {
-        $('#page-wrapper').css("min-height", navbarHeigh + "px");
+      if (navbarHeigh > wrapperHeigh) {
+        $('#page-wrapper').css('min-height', navbarHeigh + 'px');
       }
 
-      if ( navbarHeigh < wrapperHeigh ) {
-        $('#page-wrapper').css("min-height", $(window).height() + "px");
+      if (navbarHeigh < wrapperHeigh) {
+        $('#page-wrapper').css('min-height', $(window).height() + 'px');
       }
 
-      if ( $('body').hasClass('fixed-nav') ) {
-        if ( navbarHeigh > wrapperHeigh ) {
-          $('#page-wrapper').css("min-height", navbarHeigh - 60 + "px");
+      if ($('body').hasClass('fixed-nav')) {
+        if (navbarHeigh > wrapperHeigh) {
+          $('#page-wrapper').css('min-height', navbarHeigh - 60 + 'px');
         } else {
-          $('#page-wrapper').css("min-height", $(window).height() - 60 + "px");
+          $('#page-wrapper').css('min-height', $(window).height() - 60 + 'px');
         }
       }
     }
@@ -83,52 +82,56 @@ Template.default.onCreated(() => {
 });
 
 Template.default.helpers({
-  'email':function () {
-    return Meteor.user().emails[ 0 ].address;
+  'email': function () {
+    return Meteor.user().emails[0].address;
   },
+
   loggingIn() {
     return Meteor.loggingIn();
   },
+
   authenticated() {
     return !Meteor.loggingIn() && Meteor.user();
   },
+
   redirectAuthenticated() {
     return handleRedirect([
       'login',
       'signup',
       'recover-password',
-      'reset-password'
+      'reset-password',
     ], '/');
   },
+
   redirectPublic() {
     return handleRedirect([
       'index',
       'dashboard',
-      'users'
+      'users',
     ], '/login');
-  }
+  },
+
 });
 
 Template.default.events({
 
   // Toggle left navigation
-  'click .navbar-minimalize':function (event) {
+  'click .navbar-minimalize': function (event) {
 
     event.preventDefault();
 
     // Toggle special class
-    $("body").toggleClass("mini-navbar");
+    $('body').toggleClass('mini-navbar');
 
     // Enable smoothly hide/show menu
-    if ( !$('body').hasClass('mini-navbar') || $('body').hasClass('body-small') ) {
+    if (!$('body').hasClass('mini-navbar') || $('body').hasClass('body-small')) {
       // Hide menu in order to smoothly turn on when maximize menu
-      $('#side-menu').hide();
-      // For smoothly turn on menu
+      $('#side-menu').hide(); // For smoothly turn on menu
       setTimeout(
           function () {
             $('#side-menu').fadeIn(400);
           }, 200);
-    } else if ( $('body').hasClass('fixed-sidebar') ) {
+    } else if ($('body').hasClass('fixed-sidebar')) {
       $('#side-menu').hide();
       setTimeout(
           function () {
@@ -139,11 +142,11 @@ Template.default.events({
       $('#side-menu').removeAttr('style');
     }
   },
-  'click .logout':(e) => {
+
+  'click .logout': (e) => {
     e.preventDefault();
     FlowRouter.go('login');
     Meteor.logout();
-    Bert.alert("Logged out", 'info');
-  }
-
+    Bert.alert('Logged out', 'info');
+  },
 });

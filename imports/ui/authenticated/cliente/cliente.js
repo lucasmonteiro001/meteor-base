@@ -23,7 +23,7 @@ Template.cliente.helpers({
     template = Template.instance();
     clienteController.checkIfCanUserInsert(template.canInsertCliente);
     return template.canInsertCliente.get();
-  }
+  },
 });
 
 Template.clienteAdd.onRendered(() => {
@@ -34,35 +34,34 @@ Template.clienteAdd.onRendered(() => {
   $('#userForm').validate({
     rules: {
       nome: {
-        required: true
+        required: true,
       },
       telefone: {
-        required: true
+        required: true,
       },
       Email: {
         required: true,
-        email: true
+        email: true,
       },
       endereco: {
-        required: true
-      }
-
+        required: true,
+      },
     },
     messages: {
       Email: {
-        required: "É obrigado informar um email.",
-        email: "O email informado não é um email válido."
+        required: 'É obrigado informar um email.',
+        email: 'O email informado não é um email válido.',
       },
       nome: {
-        required: "É obrigado informar um nome."
+        required: 'É obrigado informar um nome.',
       },
       telefone: {
-        required: "É obrigado informar um telefone."
+        required: 'É obrigado informar um telefone.',
       },
       endereco: {
-        required: "É obrigado informar um endereço."
-      }
-    }
+        required: 'É obrigado informar um endereço.',
+      },
+    },
   });
 
 });
@@ -70,7 +69,7 @@ Template.clienteAdd.onRendered(() => {
 Template.clienteAdd.events({
 
   //Eventos do template de inserção
-  'submit form' (event, templateInstance) {
+  'submit form'(event, template) {
     template = Template.instance();
 
     event.preventDefault();
@@ -79,15 +78,14 @@ Template.clienteAdd.events({
     clienteController.insert(clienteData, (error, data) => {
       if (error) {
         Message.showErro(error);
-        //console.log(erro.reason);
+
       } else {
-        Message.showSuccessNotification("Cliente inserido com sucesso!");
+        Message.showSuccessNotification('Cliente inserido com sucesso!');
         FlowRouter.go('/clienteView/' + data);
       }
 
     });
-  }
-
+  },
 });
 
 Template.clienteView.onCreated(() => {
@@ -112,45 +110,45 @@ Template.clienteView.onRendered(() => {
 Template.clienteView.helpers({
   'canUserUpdate': () => {
     clienteController.checkIfCanUserUpdate(template.canUpdateCliente, FlowRouter.getParam('_id'));
-    return template.canUpdateCliente.get()
+    return template.canUpdateCliente.get();
   },
+
   'canUserRemove': () => {
     clienteController.checkIfCanUserRemove(template.canRemoveCliente, FlowRouter.getParam('_id'));
     return template.canRemoveCliente.get();
   },
+
   'canUserAccessActions': () => {
     return template.canRemoveCliente.get() || template.canUpdateCliente.get();
   },
-  'collectionData': () => {
+
+  'dadosDoCliente': () => {
     let idCliente = FlowRouter.getParam('_id');
     return clienteController.get({ _id: idCliente });
-  }
+  },
 });
 
 Template.clienteView.events({
 
   //Eventos do template de inserção
-  'click #linkExcluir' (event, template) {
+  'click #linkExcluir'(event, template) {
     let sel = event.target;
     let id = sel.getAttribute('value');
 
-    Message.showConfirmation("Remover o cliente?", "Não é possível recuperar um cliente removido!", "Sim, remover!", (erro, confirm) => {
+    Message.showConfirmation('Remover o cliente?', 'Não é possível recuperar um cliente removido!', 'Sim, remover!', (erro, confirm) => {
       if (confirm) {
         clienteController.remove(id, (error, data) => {
           if (error) {
             Message.showErro(error);
-            //console.log(erro.reason);
+
           } else {
             FlowRouter.go('cliente');
-            Message.showSuccessNotification("O Cliente foi removido com sucesso!");
+            Message.showSuccessNotification('O Cliente foi removido com sucesso!');
           }
         });
       }
-
     });
-
-  }
-
+  },
 });
 
 Template.clienteEdit.onCreated(() => {
@@ -173,44 +171,43 @@ Template.clienteEdit.onRendered(() => {
   $('#userForm').validate({
     rules: {
       nome: {
-        required: true
+        required: true,
       },
       telefone: {
-        required: true
+        required: true,
       },
       Email: {
         required: true,
-        email: true
+        email: true,
       },
       endereco: {
-        required: true
-      }
-
+        required: true,
+      },
     },
     messages: {
       Email: {
-        required: "É obrigado informar um email.",
-        email: "O email informado não é um email válido."
+        required: 'É obrigado informar um email.',
+        email: 'O email informado não é um email válido.',
       },
       nome: {
-        required: "É obrigado informar um nome."
+        required: 'É obrigado informar um nome.',
       },
       telefone: {
-        required: "É obrigado informar um telefone."
+        required: 'É obrigado informar um telefone.',
       },
       endereco: {
-        required: "É obrigado informar um endereço."
-      }
-    }
+        required: 'É obrigado informar um endereço.',
+      },
+    },
   });
 
 });
 
 Template.clienteEdit.helpers({
-  'collectionData': () => {
+  'dadosDoCliente': () => {
     let idCliente = FlowRouter.getParam('_id');
     return clienteController.get({ _id: idCliente });
-  }
+  },
 });
 
 Template.clienteEdit.events({
@@ -225,9 +222,9 @@ Template.clienteEdit.events({
     clienteController.update(id, clienteData, (error, data) => {
       if (error) {
         Message.showErro(error);
-        //console.log(erro.reason);
+
       } else {
-        Message.showSuccessNotification("O Cliente foi atualizado com sucesso!");
+        Message.showSuccessNotification('O Cliente foi atualizado com sucesso!');
         FlowRouter.go('/clienteView/' + id);
       }
 
@@ -253,9 +250,9 @@ Template.clienteList.helpers({
         { key: 'nome', label: 'Informe um nome', tmpl: Template.clienteTmpl },
         { key: 'endereco', label: 'Informe o Endereço' },
         { key: 'telefone', label: 'Telefone/Cel:' },
-        { key: 'Email', label: 'Meu Email' }
-      ]
+        { key: 'Email', label: 'Meu Email' },
+      ],
     };
-  }
+  },
 });
 
