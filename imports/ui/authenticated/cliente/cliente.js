@@ -29,7 +29,8 @@ Template.cliente.helpers({
 Template.clienteAdd.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
 
-  document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default');
+  document.getElementById('formContext')
+      .innerHTML = formGen.formRender(clienteController, 'default');
 
   $('#userForm').validate({
     rules: {
@@ -73,7 +74,8 @@ Template.clienteAdd.events({
     template = Template.instance();
 
     event.preventDefault();
-    const clienteData = formGen.getFormData(clienteController.getSchemaJson('default'), templateInstance);
+    const clienteData = formGen
+        .getFormData(clienteController.getSchemaJson('default'), templateInstance);
 
     clienteController.insert(clienteData, (error, data) => {
       if (error) {
@@ -135,19 +137,21 @@ Template.clienteView.events({
     let sel = event.target;
     let id = sel.getAttribute('value');
 
-    Message.showConfirmation('Remover o cliente?', 'Não é possível recuperar um cliente removido!', 'Sim, remover!', (erro, confirm) => {
-      if (confirm) {
-        clienteController.remove(id, (error, data) => {
-          if (error) {
-            Message.showErro(error);
+    Message.showConfirmation
+    ('Remover o cliente?', 'Não é possível recuperar um cliente removido!', 'Sim, remover!',
+        (erro, confirm) => {
+          if (confirm) {
+            clienteController.remove(id, (error, data) => {
+              if (error) {
+                Message.showErro(error);
 
-          } else {
-            FlowRouter.go('cliente');
-            Message.showSuccessNotification('O Cliente foi removido com sucesso!');
+              } else {
+                FlowRouter.go('cliente');
+                Message.showSuccessNotification('O Cliente foi removido com sucesso!');
+              }
+            });
           }
         });
-      }
-    });
   },
 });
 
@@ -163,7 +167,8 @@ Template.clienteEdit.onRendered(() => {
   let dadosClientes = clienteController.get({ _id: id });
   Template.instance().collectionData = dadosClientes;
   console.log(Template.instance().collectionData);
-  document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default', id);
+  document.getElementById('formContext').innerHTML = formGen
+      .formRender(clienteController, 'default', id);
 
   //Jquery Validation - https://jqueryvalidation.org/validate
   $('#userForm').validate({
@@ -211,7 +216,7 @@ Template.clienteEdit.helpers({
 Template.clienteEdit.events({
 
   //Eventos do template de inserção
-  'submit form' (event, template) {
+  'submit form'(event, template) {
     event.preventDefault();
     const id = FlowRouter.getParam('_id');
     const clienteData = formGen.getFormData(clienteController.getSchemaJson('default'), template);
@@ -226,7 +231,7 @@ Template.clienteEdit.events({
       }
 
     });
-  }
+  },
 });
 
 Template.clienteList.onCreated(() => {
