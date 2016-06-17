@@ -32,7 +32,7 @@ collectionCliente.setSchema('default', {
       minlength: { value: 2, message: 'Este campo deve ter no mínimo 2 caracteres' },
     },
     tableView: {
-      label: 'Idade'
+      label: 'Idade',
     },
   },
   endereco: {

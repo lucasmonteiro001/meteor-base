@@ -75,7 +75,6 @@ Template.clienteAdd.events({
   //Eventos do template de inserção
   'submit form'(event, templateInstance) {
     event.preventDefault();
-    const clienteData = formGen.getFormData(clienteController, 'default', templateInstance);
     const clienteData = formGen
         .getFormData(clienteController.getSchemaJson('default'), templateInstance);
 
@@ -112,7 +111,8 @@ Template.clienteView.onCreated(() => {
   });
 });
 
-Template.clienteView.onRendered(() => { });
+Template.clienteView.onRendered(() => {
+});
 
 Template.clienteView.helpers({
   'canUserUpdate': () => {

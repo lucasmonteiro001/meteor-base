@@ -40,14 +40,16 @@ export class CollectionBase {
       if (typeof schema[key].formOptions != 'undefined') {
         delete schema[key].formOptions;
       }
+
       if (typeof schema[key].formValidation != 'undefined') {
         delete schema[key].formValidation;
       }
+
       if (typeof schema[key].tableView != 'undefined') {
         delete schema[key].tableView;
       }
-
     }
+
     return new SimpleSchema(schema);
   }
 
@@ -58,14 +60,16 @@ export class CollectionBase {
         if (typeof schema[key].formOptions != 'undefined') {
           delete schema[key].formOptions;
         }
+
         if (typeof schema[key].formValidation != 'undefined') {
           delete schema[key].formValidation;
         }
+        
         if (typeof schema[key].tableView != 'undefined') {
           delete schema[key].tableView;
         }
       } else {
-        delete schema[key]
+        delete schema[key];
       }
     }
 
@@ -90,7 +94,7 @@ export class CollectionBase {
   }
 
   cloneObj (obj) {
-    if (obj === null || typeof(obj) !== 'object' || 'isActiveClone' in obj)
+    if (obj === null || typeof (obj) !== 'object' || 'isActiveClone' in obj)
       return obj;
 
     if (obj instanceof Date)
