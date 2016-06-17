@@ -10,25 +10,27 @@ let template;
 Template.cliente.onCreated(() => {
   template = Template.instance();
   clienteController.applySubscribe(template);
-  template.canInsertCliente = new ReactiveVar(false);
+  template.canInsert = new ReactiveVar(false);
 });
 
 Template.cliente.onRendered(() => {
   template = Template.instance();
-  clienteController.checkIfCanUserInsert(template.canInsertCliente);
+  clienteController.checkIfCanUserInsert(template.canInsert);
 });
 
 Template.cliente.helpers({
   'canUserInsert': () => {
     template = Template.instance();
-    clienteController.checkIfCanUserInsert(template.canInsertCliente);
-    return template.canInsertCliente.get();
+    clienteController.checkIfCanUserInsert(template.canInsert);
+    return template.canInsert.get();
   },
 });
 
 Template.clienteAdd.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
 
+  document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default');
+  formGen.applyJQueryValidation(clienteController, 'default', 'userForm');
   document.getElementById('formContext')
       .innerHTML = formGen.formRender(clienteController, 'default');
 
@@ -70,10 +72,9 @@ Template.clienteAdd.onRendered(() => {
 Template.clienteAdd.events({
 
   //Eventos do template de inserção
-  'submit form'(event, template) {
-    template = Template.instance();
-
+  'submit form'(event, templateInstance) {
     event.preventDefault();
+    const clienteData = formGen.getFormData(clienteController, 'default', templateInstance);
     const clienteData = formGen
         .getFormData(clienteController.getSchemaJson('default'), templateInstance);
 
@@ -82,7 +83,7 @@ Template.clienteAdd.events({
         Message.showErro(error);
 
       } else {
-        Message.showSuccessNotification('Cliente inserido com sucesso!');
+        Message.showSuccessNotification(' inserido com sucesso!');
         FlowRouter.go('/clienteView/' + data);
       }
 
@@ -91,42 +92,51 @@ Template.clienteAdd.events({
 });
 
 Template.clienteView.onCreated(() => {
+  let template = Template.instance();
   let id = FlowRouter.getParam('_id');
-  template = Template.instance();
+  template.canUpdate = new ReactiveVar(false);
+  template.canRemove = new ReactiveVar(false);
   clienteController.applySubscribe(template, id);
-  template.canUpdateCliente = new ReactiveVar(false);
-  template.canRemoveCliente = new ReactiveVar(false);
+
+  const handle = clienteController.applySubscribe(template, id);
+  Tracker.autorun(() => {
+    const isReady = handle.ready();
+    if (isReady) {
+      clienteController.checkIfCanUserUpdate(template.canUpdate, id);
+      clienteController.checkIfCanUserRemove(template.canRemove, id);
+      template.collectionData = clienteController.get({ _id: id });
+      document.getElementById('formContext').innerHTML = formGen.formViewRender(clienteController, 'default', id);
+    }
+  });
 });
 
 Template.clienteView.onRendered(() => {
-  let id = FlowRouter.getParam('_id');
-  template = Template.instance();
-
-  clienteController.checkIfCanUserUpdate(template.canUpdateCliente, id);
-  clienteController.checkIfCanUserRemove(template.canRemoveCliente, id);
-
-  template.collectionData = clienteController.get({ _id: id });
 
 });
 
 Template.clienteView.helpers({
   'canUserUpdate': () => {
-    clienteController.checkIfCanUserUpdate(template.canUpdateCliente, FlowRouter.getParam('_id'));
-    return template.canUpdateCliente.get();
+    let template = Template.instance();
+    clienteController.checkIfCanUserUpdate(template.canUpdate, FlowRouter.getParam('_id'));
+    return template.canUpdate.get();
   },
 
   'canUserRemove': () => {
-    clienteController.checkIfCanUserRemove(template.canRemoveCliente, FlowRouter.getParam('_id'));
-    return template.canRemoveCliente.get();
+    let template = Template.instance();
+    clienteController.checkIfCanUserRemove(template.canRemove, FlowRouter.getParam('_id'));
+    return template.canRemove.get();
   },
 
   'canUserAccessActions': () => {
-    return template.canRemoveCliente.get() || template.canUpdateCliente.get();
+    let template = Template.instance();
+    if (typeof template.canRemove != 'undefined' && template.canUpdate != 'undefined') {
+      return template.canRemove.get() || template.canUpdate.get();
+    }
   },
 
-  'dadosDoCliente': () => {
-    let idCliente = FlowRouter.getParam('_id');
-    return clienteController.get({ _id: idCliente });
+  'collectionData': () => {
+    let id = FlowRouter.getParam('_id');
+    return clienteController.get({ _id: id });
   },
 });
 
@@ -156,11 +166,16 @@ Template.clienteView.events({
 });
 
 Template.clienteEdit.onCreated(() => {
+  let template = Template.instance();
   let id = FlowRouter.getParam('_id');
-  template = Template.instance();
-  clienteController.applySubscribe(template, id);
-});
 
+  const handle = clienteController.applySubscribe(template, id);
+  Tracker.autorun(() => {
+    const isReady = handle.ready();
+    if (isReady) {
+      template.collectionData = clienteController.get({ _id: id });
+      document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default', id);
+    }
 Template.clienteEdit.onRendered(() => {
 
   let id = FlowRouter.getParam('_id');
@@ -170,46 +185,22 @@ Template.clienteEdit.onRendered(() => {
   document.getElementById('formContext').innerHTML = formGen
       .formRender(clienteController, 'default', id);
 
-  //Jquery Validation - https://jqueryvalidation.org/validate
-  $('#userForm').validate({
-    rules: {
-      nome: {
-        required: true,
-      },
-      telefone: {
-        required: true,
-      },
-      Email: {
-        required: true,
-        email: true,
-      },
-      endereco: {
-        required: true,
-      },
-    },
-    messages: {
-      Email: {
-        required: 'É obrigado informar um email.',
-        email: 'O email informado não é um email válido.',
-      },
-      nome: {
-        required: 'É obrigado informar um nome.',
-      },
-      telefone: {
-        required: 'É obrigado informar um telefone.',
-      },
-      endereco: {
-        required: 'É obrigado informar um endereço.',
-      },
-    },
   });
+
+
+});
+
+Template.clienteEdit.onRendered(() => {
+
+  //Aplica a Validação dos Campos
+  formGen.applyJQueryValidation(clienteController, 'default', 'userForm');
 
 });
 
 Template.clienteEdit.helpers({
-  'dadosDoCliente': () => {
-    let idCliente = FlowRouter.getParam('_id');
-    return clienteController.get({ _id: idCliente });
+  'collectionData': () => {
+    let id = FlowRouter.getParam('_id');
+    return clienteController.get({ _id: id });
   },
 });
 
@@ -219,7 +210,7 @@ Template.clienteEdit.events({
   'submit form'(event, template) {
     event.preventDefault();
     const id = FlowRouter.getParam('_id');
-    const clienteData = formGen.getFormData(clienteController.getSchemaJson('default'), template);
+    const clienteData = formGen.getFormData(clienteController, 'default', template);
 
     clienteController.update(id, clienteData, (error, data) => {
       if (error) {
@@ -241,6 +232,7 @@ Template.clienteList.onCreated(() => {
 
 Template.clienteList.helpers({
   'settings': function () {
+    let templates = { tmpl: Template.clienteTmpl }
     return {
       collection: clienteController.getCollection(),
       rowsPerPage: 10,
@@ -248,12 +240,7 @@ Template.clienteList.helpers({
       showRowCount: true,
       showColumnToggles: true,
       multiColumnSort: true,
-      fields: [
-        { key: 'nome', label: 'Informe um nome', tmpl: Template.clienteTmpl },
-        { key: 'endereco', label: 'Informe o Endereço' },
-        { key: 'telefone', label: 'Telefone/Cel:' },
-        { key: 'Email', label: 'Meu Email' },
-      ],
+      fields: formGen.getTableViewData(clienteController, 'default', templates),
     };
   },
 });

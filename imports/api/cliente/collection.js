@@ -6,28 +6,45 @@ collectionCliente.setSchema('default', {
   nome: {
     type: String,
     defaultValue: '',
-    label: 'Informe um nome',
+    label: 'Nome',
     formOptions: {
       FIELD_TAG: 'input',
       FIELD_TYPE: 'text',
     },
+    formValidation: {
+      required: { value: true, message: 'O nome do usuário é obrigatório' },
+    },
+    tableView: {
+      label: 'Nome',
+      template: 'tmpl',
+    },
   },
-  Sala: {
+  idade: {
     type: String,
     defaultValue: '',
-    label: 'Sala do Cliente',
+    label: 'Idade',
     formOptions: {
       FIELD_TAG: 'input',
-      FIELD_TYPE: 'text',
+      FIELD_TYPE: 'number',
+    },
+    formValidation: {
+      required: { value: true, message: 'O nome do usuário é obrigatório' },
+      minlength: { value: 2, message: 'Este campo deve ter no mínimo 2 caracteres' },
+    },
+    tableView: {
+      label: 'Idade'
     },
   },
   endereco: {
     type: String,
     defaultValue: '',
-    label: 'Informe o Endereço',
+    label: 'Endereço',
     formOptions: {
       FIELD_TAG: 'textarea',
       FIELD_TYPE: 'text',
+    },
+    formValidation: {
+      required: { value: true, message: 'O nome do usuário é obrigatório' },
     },
   },
   telefone: {
@@ -38,14 +55,27 @@ collectionCliente.setSchema('default', {
       FIELD_TAG: 'input',
       FIELD_TYPE: 'text',
     },
+    formValidation: {
+      required: { value: true, message: 'O nome do usuário é obrigatório' },
+    },
+    tableView: {
+      label: 'Telefone',
+    },
   },
   Email: {
     type: String,
     defaultValue: '',
-    label: 'Meu Email',
+    label: 'Email',
     formOptions: {
       FIELD_TAG: 'input',
       FIELD_TYPE: 'text',
+    },
+    formValidation: {
+      required: { value: true, message: 'O nome do usuário é obrigatório' },
+      email: { value: true, message: 'O email informado não é válido' },
+    },
+    tableView: {
+      label: 'Email',
     },
   },
   userId: {
