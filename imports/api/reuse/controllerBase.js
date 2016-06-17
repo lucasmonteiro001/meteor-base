@@ -49,7 +49,7 @@ export class ControllerBase {
     return this.myCollection.findOne(id);
   }
 
-  applySubscribe (template, id = '', action = 'default') {
+  applySubscribe (template, id = '', action = 'default', callback) {
     let filterTmp = this.filter;
     if (id != '') {
       filterTmp._id = id;
@@ -57,7 +57,15 @@ export class ControllerBase {
       delete filterTmp._id;
     }
 
-    return template.subscribe(this.getCollectionName(), filterTmp, this.projection[action]);
+    let handle = template.subscribe(this.getCollectionName(), filterTmp, this.projection[action]);
+
+    template.autorun(() => {
+      const isReady = handle.ready();
+      if (isReady) {
+        callback();
+      }
+    });
+    
   }
 
   insert (collectionData, callback) {

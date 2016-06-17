@@ -12,7 +12,7 @@ collectionCliente.setSchema('default', {
       FIELD_TYPE: 'text',
     },
     formValidation: {
-      required: { value: true, message: 'O nome do usuário é obrigatório' },
+      required: { value: true, message: 'O nome é obrigatório' },
     },
     tableView: {
       label: 'Nome',

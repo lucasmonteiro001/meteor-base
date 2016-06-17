@@ -9,7 +9,8 @@ let template;
 
 Template.cliente.onCreated(() => {
   template = Template.instance();
-  clienteController.applySubscribe(template);
+  clienteController.applySubscribe(template, '', 'default', function () {
+  });
   template.canInsert = new ReactiveVar(false);
 });
 
@@ -59,18 +60,14 @@ Template.clienteView.onCreated(() => {
   let id = FlowRouter.getParam('_id');
   template.canUpdate = new ReactiveVar(false);
   template.canRemove = new ReactiveVar(false);
-  clienteController.applySubscribe(template, id);
 
-  const handle = clienteController.applySubscribe(template, id);
-  Tracker.autorun(() => {
-    const isReady = handle.ready();
-    if (isReady) {
-      clienteController.checkIfCanUserUpdate(template.canUpdate, id);
-      clienteController.checkIfCanUserRemove(template.canRemove, id);
-      template.collectionData = clienteController.get({ _id: id });
-      document.getElementById('formContext').innerHTML = formGen.formViewRender(clienteController, 'default', id);
-    }
+  clienteController.applySubscribe(template, id, 'default', ()=> {
+    clienteController.checkIfCanUserUpdate(template.canUpdate, id);
+    clienteController.checkIfCanUserRemove(template.canRemove, id);
+    template.collectionData = clienteController.get({ _id: id });
+    document.getElementById('formContext').innerHTML = formGen.formViewRender(clienteController, 'default', id);
   });
+
 });
 
 Template.clienteView.onRendered(() => {
@@ -130,16 +127,10 @@ Template.clienteEdit.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
 
-  const handle = clienteController.applySubscribe(template, id);
-  Tracker.autorun(() => {
-    const isReady = handle.ready();
-    if (isReady) {
-      template.collectionData = clienteController.get({ _id: id });
-      document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default', id);
-    }
-
+  clienteController.applySubscribe(template, id, 'default', ()=> {
+    template.collectionData = clienteController.get({ _id: id });
+    document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default', id);
   });
-
 
 });
 
@@ -180,7 +171,8 @@ Template.clienteEdit.events({
 
 Template.clienteList.onCreated(() => {
   template = Template.instance();
-  clienteController.applySubscribe(template);
+  clienteController.applySubscribe(template, '', 'default', function () {
+  });
 });
 
 Template.clienteList.helpers({
