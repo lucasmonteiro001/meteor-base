@@ -29,7 +29,8 @@ Template.cliente.helpers({
 Template.clienteAdd.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
 
-  document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default');
+  document.getElementById('formContext').innerHTML
+      = formGen.formRender(clienteController, 'default');
   formGen.applyJQueryValidation(clienteController, 'default', 'userForm');
   document.getElementById('formContext')
       .innerHTML = formGen.formRender(clienteController, 'default');
@@ -105,14 +106,13 @@ Template.clienteView.onCreated(() => {
       clienteController.checkIfCanUserUpdate(template.canUpdate, id);
       clienteController.checkIfCanUserRemove(template.canRemove, id);
       template.collectionData = clienteController.get({ _id: id });
-      document.getElementById('formContext').innerHTML = formGen.formViewRender(clienteController, 'default', id);
+      document.getElementById('formContext').innerHTML
+          = formGen.formViewRender(clienteController, 'default', id);
     }
   });
 });
 
-Template.clienteView.onRendered(() => {
-
-});
+Template.clienteView.onRendered(() => { });
 
 Template.clienteView.helpers({
   'canUserUpdate': () => {
@@ -174,74 +174,75 @@ Template.clienteEdit.onCreated(() => {
     const isReady = handle.ready();
     if (isReady) {
       template.collectionData = clienteController.get({ _id: id });
-      document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default', id);
+      document.getElementById('formContext').innerHTML
+          = formGen.formRender(clienteController, 'default', id);
     }
-Template.clienteEdit.onRendered(() => {
 
-  let id = FlowRouter.getParam('_id');
-  let dadosClientes = clienteController.get({ _id: id });
-  Template.instance().collectionData = dadosClientes;
-  console.log(Template.instance().collectionData);
-  document.getElementById('formContext').innerHTML = formGen
-      .formRender(clienteController, 'default', id);
+    Template.clienteEdit.onRendered(() => {
+
+      let id = FlowRouter.getParam('_id');
+      let dadosClientes = clienteController.get({ _id: id });
+      Template.instance().collectionData = dadosClientes;
+      console.log(Template.instance().collectionData);
+      document.getElementById('formContext').innerHTML = formGen
+          .formRender(clienteController, 'default', id);
+
+    });
 
   });
 
+  Template.clienteEdit.onRendered(() => {
 
+    //Aplica a Validação dos Campos
+    formGen.applyJQueryValidation(clienteController, 'default', 'userForm');
+
+  });
+
+  Template.clienteEdit.helpers({
+    'collectionData': () => {
+      let id = FlowRouter.getParam('_id');
+      return clienteController.get({ _id: id });
+    },
+  });
+
+  Template.clienteEdit.events({
+
+    //Eventos do template de inserção
+    'submit form'(event, template) {
+      event.preventDefault();
+      const id = FlowRouter.getParam('_id');
+      const clienteData = formGen.getFormData(clienteController, 'default', template);
+
+      clienteController.update(id, clienteData, (error, data) => {
+        if (error) {
+          Message.showErro(error);
+
+        } else {
+          Message.showSuccessNotification('O Cliente foi atualizado com sucesso!');
+          FlowRouter.go('/clienteView/' + id);
+        }
+
+      });
+    },
+  });
+
+  Template.clienteList.onCreated(() => {
+    template = Template.instance();
+    clienteController.applySubscribe(template);
+  });
+
+  Template.clienteList.helpers({
+    'settings': function () {
+      let templates = { tmpl: Template.clienteTmpl };
+      return {
+        collection: clienteController.getCollection(),
+        rowsPerPage: 10,
+        showFilter: true,
+        showRowCount: true,
+        showColumnToggles: true,
+        multiColumnSort: true,
+        fields: formGen.getTableViewData(clienteController, 'default', templates),
+      };
+    },
+  });
 });
-
-Template.clienteEdit.onRendered(() => {
-
-  //Aplica a Validação dos Campos
-  formGen.applyJQueryValidation(clienteController, 'default', 'userForm');
-
-});
-
-Template.clienteEdit.helpers({
-  'collectionData': () => {
-    let id = FlowRouter.getParam('_id');
-    return clienteController.get({ _id: id });
-  },
-});
-
-Template.clienteEdit.events({
-
-  //Eventos do template de inserção
-  'submit form'(event, template) {
-    event.preventDefault();
-    const id = FlowRouter.getParam('_id');
-    const clienteData = formGen.getFormData(clienteController, 'default', template);
-
-    clienteController.update(id, clienteData, (error, data) => {
-      if (error) {
-        Message.showErro(error);
-
-      } else {
-        Message.showSuccessNotification('O Cliente foi atualizado com sucesso!');
-        FlowRouter.go('/clienteView/' + id);
-      }
-
-    });
-  },
-});
-
-Template.clienteList.onCreated(() => {
-  template = Template.instance();
-  clienteController.applySubscribe(template);
-});
-
-Template.clienteList.helpers({
-  'settings': function () {
-    let templates = { tmpl: Template.clienteTmpl }
-    return {
-      collection: clienteController.getCollection(),
-      rowsPerPage: 10,
-      showFilter: true,
-      showRowCount: true,
-      showColumnToggles: true,
-      multiColumnSort: true,
-      fields: formGen.getTableViewData(clienteController, 'default', templates),
-    };
-  },
-});
-
