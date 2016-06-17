@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 export class ModelBase {
 
   /**
-   * Construtor
+   * Construtor 
    * @param collectionBase Objeto do tipo CollectionBase.
    */
   constructor (collectionBase) {
