@@ -3,53 +3,54 @@ import { Mongo } from 'meteor/mongo';
 export class ControllerBase {
 
   constructor (collectionBase) {
-    this.myCollection = collectionBase.getCollection();
-    this.myCollectionBase = collectionBase;
+    this.collectionInstance = collectionBase.getCollection();
+    this.collectionInstanceBase = collectionBase;
     this.filter = {};
-    this.projection = { default: {} };
-
   }
 
   setFilter (filter) {
     this.filter = filter;
   }
 
-  setProjection (projectionName, projectionData) {
-    this.projection[projectionName] = projectionData;
+  getProjection (schemaName) {
+    let fields = getSubSchema(schemaName);
+    let projection = { _id: 1 };
+    fields.forEach(function (field) {
+      projection[field] = 1;
+    });
+
+    return projection;
+
   }
 
   getAll () {
-    const resultado = this.myCollection.find();
+    const resultado = this.collectionInstance.find();
     if (resultado)
       return resultado;
   }
 
   getCollection () {
-    return this.myCollection;
+    return this.collectionInstance;
 
   }
 
   getCollectionName () {
-    return this.myCollection._name;
-  }
-
-  getSchemaExceptFields (schemaName = 'default', fields) {
-    return this.myCollectionBase.getSchemaExceptFields(schemaName, fields);
+    return this.collectionInstance._name;
   }
 
   getSchema (schemaName = 'default') {
-    return this.myCollectionBase.getSchema(schemaName);
+    return this.collectionInstanceBase.getSchema(schemaName);
   }
 
   getSchemaJson (schemaName = 'default') {
-    return this.myCollectionBase.getSchemaJson(schemaName);
+    return this.collectionInstanceBase.getSchemaJson(schemaName);
   }
 
   get (id) {
-    return this.myCollection.findOne(id);
+    return this.collectionInstance.findOne(id);
   }
 
-  applySubscribe (template, id = '', action = 'default', callback) {
+  applySubscribe (controller, schemaName, template, id = '', callback) {
     let filterTmp = this.filter;
     if (id != '') {
       filterTmp._id = id;
@@ -57,7 +58,7 @@ export class ControllerBase {
       delete filterTmp._id;
     }
 
-    let handle = template.subscribe(this.getCollectionName(), filterTmp, this.projection[action]);
+    let handle = template.subscribe(this.getCollectionName(), filterTmp, this.getProjection(schemaName));
 
     template.autorun(() => {
       const isReady = handle.ready();
@@ -65,7 +66,7 @@ export class ControllerBase {
         callback();
       }
     });
-    
+
   }
 
   insert (collectionData, callback) {

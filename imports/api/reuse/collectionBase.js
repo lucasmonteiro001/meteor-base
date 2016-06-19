@@ -4,15 +4,16 @@ export class CollectionBase {
 
   constructor (collectionName) {
     this.collecitonName = collectionName;
-    this.myCollection = new Mongo.Collection(collectionName);
+    this.collectionInstance = new Mongo.Collection(collectionName);
 
-    this.mySchema = { default: new SimpleSchema() };
+    this.schemaDefault = new SimpleSchema();
+    this.subSchemas = [];
 
     //###################################fdsfasd###############
     //############# Definições de Segurança ############
     //##################################################
     // Deny all client-side updates on the clienteModel collection
-    this.myCollection.deny({
+    this.collectionInstance.deny({
       insert() {
         return true;
       },
@@ -34,8 +35,14 @@ export class CollectionBase {
    * @returns {SimpleSchema} Retorna um SimpleSchema
    */
   getSchema (schemaName = 'default') {
+    let schema = {};
 
-    let schema = this.cloneObj(this.mySchema[schemaName]);
+    if (schemaName === 'default' || this.subSchemas.indexOf(schemaName) == -1) {
+      schema = this.cloneObj(this.schemaDefault);
+    } else {
+      schema = this.getSubSchema(schemaName);
+    }
+
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
         delete schema[key].formOptions;
@@ -51,8 +58,9 @@ export class CollectionBase {
     return new SimpleSchema(schema);
   }
 
-  getSchemaExceptFields (schemaName = 'default', fields) {
-    let schema = this.cloneObj(this.mySchema[schemaName]);
+  getSubSchema (schemaName = 'default') {
+    let fields = this.subSchemas[schemaName];
+    let schema = this.cloneObj(this.schemaDefault);
     for (let key in schema) {
       if (fields.indexOf(key) == -1) {
         if (typeof schema[key].formOptions != 'undefined') {
@@ -69,24 +77,37 @@ export class CollectionBase {
       }
     }
 
-    return new SimpleSchema(schema);
+    return schema;
 
   }
 
-  setSchema (schemaName = 'default', schema) {
-    this.mySchema[schemaName] = schema;
-    if (schemaName === 'default') {
-      this.myCollection.attachSchema(new SimpleSchema(this.getSchema('default')));
-    }
+  setSchema (schema) {
+    this.schemaDefault = schema;
 
+  }
+
+  addSubSchema (schemaName, arraySchema) {
+    this.subSchemas[schemaName] = arraySchema;
+  }
+
+  getSubSchema (schemaName) {
+    return this.subSchemas[schemaName];
   }
 
   getSchemaJson (schemaName = 'default') {
-    return this.mySchema[schemaName];
+    let schema = {};
+
+    if (schemaName === 'default' || this.subSchemas.indexOf(schemaName) == -1) {
+      schema = this.cloneObj(this.schemaDefault);
+    } else {
+      schema = this.getSubSchema(schemaName);
+    }
+
+    return schema;
   }
 
   getCollection () {
-    return this.myCollection;
+    return this.collectionInstance;
   }
 
   cloneObj (obj) {

@@ -2,7 +2,7 @@ import { CollectionBase } from '../reuse/collectionBase';
 export const collectionCliente = new CollectionBase('cliente');
 
 //Definição dos Schemas
-collectionCliente.setSchema('default', {
+collectionCliente.setSchema({
   nome: {
     type: String,
     defaultValue: '',
@@ -62,7 +62,7 @@ collectionCliente.setSchema('default', {
       label: 'Telefone',
     },
   },
-  Email: {
+  email: {
     type: String,
     defaultValue: '',
     label: 'Email',
@@ -83,4 +83,8 @@ collectionCliente.setSchema('default', {
     label: 'Associated User ID',
   },
 });
+
+collectionCliente.addSubSchema('insert', ['nome', 'idade', 'email', 'userId']);
+collectionCliente.addSubSchema('update', ['nome', 'idade', 'endereco', 'telefone', 'email', 'userId']);
+collectionCliente.addSubSchema('view', ['nome', 'idade', 'endereco', 'telefone', 'email', 'userId']);
 

@@ -9,7 +9,7 @@ let template;
 
 Template.cliente.onCreated(() => {
   template = Template.instance();
-  clienteController.applySubscribe(template, '', 'default', function () {
+  clienteController.applySubscribe( '', function () {
   });
   template.canInsert = new ReactiveVar(false);
 });
@@ -30,8 +30,8 @@ Template.cliente.helpers({
 Template.clienteAdd.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
 
-  document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default');
-  formGen.applyJQueryValidation(clienteController, 'default', 'userForm');
+  document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'insert');
+  formGen.applyJQueryValidation(clienteController, 'insert', 'userForm');
 
 });
 
@@ -40,7 +40,7 @@ Template.clienteAdd.events({
   //Eventos do template de inserção
   'submit form'(event, templateInstance) {
     event.preventDefault();
-    const clienteData = formGen.getFormData(clienteController, 'default', templateInstance);
+    const clienteData = formGen.getFormData(clienteController, 'insert', templateInstance);
 
     clienteController.insert(clienteData, (error, data) => {
       if (error) {
@@ -61,11 +61,11 @@ Template.clienteView.onCreated(() => {
   template.canUpdate = new ReactiveVar(false);
   template.canRemove = new ReactiveVar(false);
 
-  clienteController.applySubscribe(template, id, 'default', ()=> {
+  clienteController.applySubscribe(clienteController,'view',template, id, ()=> {
     clienteController.checkIfCanUserUpdate(template.canUpdate, id);
     clienteController.checkIfCanUserRemove(template.canRemove, id);
     template.collectionData = clienteController.get({ _id: id });
-    document.getElementById('formContext').innerHTML = formGen.formViewRender(clienteController, 'default', id);
+    document.getElementById('formContext').innerHTML = formGen.formViewRender(clienteController, 'view', id);
   });
 
 });
@@ -127,9 +127,9 @@ Template.clienteEdit.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
 
-  clienteController.applySubscribe(template, id, 'default', ()=> {
+  clienteController.applySubscribe(clienteController,'update',template, id, ()=> {
     template.collectionData = clienteController.get({ _id: id });
-    document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'default', id);
+    document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'update', id);
   });
 
 });
@@ -137,7 +137,7 @@ Template.clienteEdit.onCreated(() => {
 Template.clienteEdit.onRendered(() => {
 
   //Aplica a Validação dos Campos
-  formGen.applyJQueryValidation(clienteController, 'default', 'userForm');
+  formGen.applyJQueryValidation(clienteController, 'update', 'userForm');
 
 });
 
@@ -154,7 +154,7 @@ Template.clienteEdit.events({
   'submit form' (event, template) {
     event.preventDefault();
     const id = FlowRouter.getParam('_id');
-    const clienteData = formGen.getFormData(clienteController, 'default', template);
+    const clienteData = formGen.getFormData(clienteController, 'update', template);
 
     clienteController.update(id, clienteData, (error, data) => {
       if (error) {
@@ -171,7 +171,7 @@ Template.clienteEdit.events({
 
 Template.clienteList.onCreated(() => {
   template = Template.instance();
-  clienteController.applySubscribe(template, '', 'default', function () {
+  clienteController.applySubscribe(clienteController,'view',template, '', function () {
   });
 });
 
@@ -185,7 +185,7 @@ Template.clienteList.helpers({
       showRowCount: true,
       showColumnToggles: true,
       multiColumnSort: true,
-      fields: formGen.getTableViewData(clienteController, 'default', templates),
+      fields: formGen.getTableViewData(clienteController, 'view', templates),
     };
   },
 });
