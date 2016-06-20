@@ -125,24 +125,46 @@ export class ModelBase {
     Meteor.methods(this.functions[methodName]);
   }
 
+  /**
+   *
+   * @param methodName
+   * @param functionDeclaration
+   */
   setMethod (methodName, functionDeclaration) {
     this.functions[methodName] = functionDeclaration;
     this.applyMethod(methodName);
   }
 
+  /**
+   *
+   * @param newPublicationsFunction
+   */
   setPublications (newPublicationsFunction) {
     this.publications = newPublicationsFunction;
     this.applyPublications();
   }
 
+  /**
+   *
+   */
   applyPublications () {
     Meteor.publish(this.myCollection._name, this.publications);
   }
 
+  /**
+   *
+   * @param actionsList
+   * @param groups
+   */
   setGroupPermissions (actionsList, groups) {
     this.myCollection.permit(actionsList).ifHasRole(groups);
   }
 
+  /**
+   *
+   * @param actionsList
+   * @param functionName
+   */
   setFunctionPermissions (actionsList, functionName) {
     this.myCollection.permit(actionsList)[functionName]();
   }

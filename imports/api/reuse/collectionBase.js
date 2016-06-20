@@ -9,10 +9,10 @@ export class CollectionBase {
     this.schemaDefault = new SimpleSchema();
     this.subSchemas = [];
 
-    //###################################fdsfasd###############
-    //############# Definições de Segurança ############
-    //##################################################
-    // Deny all client-side updates on the clienteModel collection
+    /**
+     * Definições de segurança
+     * Deny all client-side updates on the clienteModel collection
+     */
     this.collectionInstance.deny({
       insert() {
         return true;
@@ -30,9 +30,10 @@ export class CollectionBase {
   }
 
   /**
-   * Retorna o SimpleSchema desejado
-   * @param schemaName Nome do Schema definido
-   * @returns {SimpleSchema} Retorna um SimpleSchema
+   * Retorna o schema desejado
+   * @param schemaName - Nome do Schema definido
+   * @returns {SimpleSchema} - Retorna o schema passado por parâmetro ou default
+   * caso nenhum seja passado por parâmetro
    */
   getSchema (schemaName = 'default') {
     let schema = {};
@@ -47,17 +48,25 @@ export class CollectionBase {
       if (typeof schema[key].formOptions != 'undefined') {
         delete schema[key].formOptions;
       }
+
       if (typeof schema[key].formValidation != 'undefined') {
         delete schema[key].formValidation;
       }
+
       if (typeof schema[key].tableView != 'undefined') {
         delete schema[key].tableView;
       }
-
     }
+
     return new SimpleSchema(schema);
   }
 
+  /**
+   * Retorna o subSchema desejado
+   * @param schemaName - Nome do subSchema definido
+   * @returns {*} - Retorna o schema passado por parâmetro ou default
+   * caso nenhum seja passado por parâmetro
+   */
   getSubSchema (schemaName = 'default') {
     let fields = this.subSchemas[schemaName];
     let schema = this.cloneObj(this.schemaDefault);
@@ -66,14 +75,16 @@ export class CollectionBase {
         if (typeof schema[key].formOptions != 'undefined') {
           delete schema[key].formOptions;
         }
+
         if (typeof schema[key].formValidation != 'undefined') {
           delete schema[key].formValidation;
         }
+
         if (typeof schema[key].tableView != 'undefined') {
           delete schema[key].tableView;
         }
       } else {
-        delete schema[key]
+        delete schema[key];
       }
     }
 
@@ -81,19 +92,39 @@ export class CollectionBase {
 
   }
 
+  /**
+   * Aplica um schema
+   * @param schema - schema que será aplicado
+   */
   setSchema (schema) {
     this.schemaDefault = schema;
 
+
   }
 
-  addSubSchema (schemaName, arraySchema) {
-    this.subSchemas[schemaName] = arraySchema;
+  /**
+   * Adiciona um subSchmea
+   * @param schemaName -
+   * @param arraySchema -
+   */
+  addSubSchema (schemaName, schemaFields) {
+    this.subSchemas[schemaName] = schemaFields;
   }
 
+  /**
+   * Retorna um subSchema
+   * @param schemaName -
+   * @returns {*}
+   */
   getSubSchema (schemaName) {
     return this.subSchemas[schemaName];
   }
 
+  /**
+   *
+   * @param schemaName
+   * @returns {{}}
+   */
   getSchemaJson (schemaName = 'default') {
     let schema = {};
 
@@ -106,12 +137,21 @@ export class CollectionBase {
     return schema;
   }
 
+  /**
+   * Retorna a coleção
+   * @returns {Mongo.Collection} - Retorna uma coleção
+   */
   getCollection () {
     return this.collectionInstance;
   }
 
+  /**
+   *
+   * @param obj
+   * @returns {*}
+   */
   cloneObj (obj) {
-    if (obj === null || typeof(obj) !== 'object' || 'isActiveClone' in obj)
+    if (obj === null || typeof (obj) !== 'object' || 'isActiveClone' in obj)
       return obj;
 
     if (obj instanceof Date)

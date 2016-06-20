@@ -1,17 +1,19 @@
-class formGeneretor {
+export class FormGeneretor {
   constructor () {
     this.templates = {};
 
     this.templates['input'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
-          <input type="{FIELD_TYPE}" id="{FIELD_NAME}" name="{FIELD_NAME}" class="form-control XXA" value="{VALUE}"> \
+          <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}" class="form-control XXA" value="{VALUE}"> \
           </div> \
           </div>';
     this.templates['textarea'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
-          <textarea class="form-control" rows="7" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</textarea> \
+          <textarea class="form-control" rows="7" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}">{VALUE}</textarea> \
           </div> \
           </div>';
 
@@ -21,7 +23,6 @@ class formGeneretor {
               <span id="{FIELD_NAME}">{VALUE}</span> \
           </div> \
           </div>';
-
   }
 
   formRender (controller, schemaName = 'default', id = '') {
@@ -32,6 +33,7 @@ class formGeneretor {
     if (id != '') {
       dadosCollection = controller.get({ _id: id });
     }
+
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
 
@@ -44,7 +46,8 @@ class formGeneretor {
         fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
 
         for (let fieldOptions in schema[key].formOptions) {
-          fieldTmp = fieldTmp.replace(new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
+          fieldTmp = fieldTmp.replace(
+              new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
         }
 
         //Valor dos campos
@@ -58,6 +61,7 @@ class formGeneretor {
       }
 
     }
+
     return result;
   }
 
@@ -69,6 +73,7 @@ class formGeneretor {
     if (id != '') {
       dadosCollection = controller.get({ _id: id });
     }
+
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
 
@@ -81,7 +86,8 @@ class formGeneretor {
         fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
 
         for (let fieldOptions in schema[key].formOptions) {
-          fieldTmp = fieldTmp.replace(new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
+          fieldTmp = fieldTmp.replace(
+              new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
         }
 
         //Valor dos campos
@@ -91,10 +97,9 @@ class formGeneretor {
 
         //Resultado Final
         result = result + fieldTmp;
-
       }
-
     }
+
     return result;
   }
 
@@ -108,11 +113,13 @@ class formGeneretor {
           if (typeof rules[key] == 'undefined') {
             rules[key] = {};
           }
+
           rules[key][rulesKey] = schema[key].formValidation[rulesKey].value;
 
           if (typeof message[key] == 'undefined') {
             message[key] = {};
           }
+
           message[key][rulesKey] = schema[key].formValidation[rulesKey].message;
         }
       }
@@ -150,7 +157,8 @@ class formGeneretor {
         let objIndex = objData.push({ key: key, label: schema[key].tableView.label }) - 1;
 
         if (typeof schema[key].tableView.template != 'undefined') {
-          objData[objIndex][schema[key].tableView.template] = templates[schema[key].tableView.template];
+          objData[objIndex][schema[key]
+              .tableView.template] = templates[schema[key].tableView.template];
         }
 
       }
@@ -161,4 +169,4 @@ class formGeneretor {
 
 }
 
-export const formGen = new formGeneretor();
+export const formGen = new FormGeneretor();

@@ -31,8 +31,8 @@
   "disallowKeywordsOnNewLine": [
     "else"
   ],
-  "disallowMultipleLineBreaks": true,
-  "disallowMultipleLineStrings": true,
+  "disallowMultipleLineBreaks": false,
+  "disallowMultipleLineStrings": false,
   "disallowMultipleVarDecl": true,
   "disallowSpaceBeforeComma": true,
   "disallowSpaceBeforeSemicolon": true,

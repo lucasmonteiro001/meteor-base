@@ -32,7 +32,7 @@ collectionCliente.setSchema({
       minlength: { value: 2, message: 'Este campo deve ter no mínimo 2 caracteres' },
     },
     tableView: {
-      label: 'Idade'
+      label: 'Idade',
     },
   },
   endereco: {
@@ -85,6 +85,10 @@ collectionCliente.setSchema({
 });
 
 collectionCliente.addSubSchema('insert', ['nome', 'idade', 'email', 'userId']);
-collectionCliente.addSubSchema('update', ['nome', 'idade', 'endereco', 'telefone', 'email', 'userId']);
-collectionCliente.addSubSchema('view', ['nome', 'idade', 'endereco', 'telefone', 'email', 'userId']);
+
+collectionCliente.addSubSchema('update',
+    ['nome', 'idade', 'endereco', 'telefone', 'email', 'userId']);
+
+collectionCliente.addSubSchema('view',
+    ['nome', 'idade', 'endereco', 'telefone', 'email', 'userId']);
 
