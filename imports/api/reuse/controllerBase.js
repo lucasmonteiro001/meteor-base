@@ -45,10 +45,10 @@ export class ControllerBase {
    * 0 não será exibido e 1 será exibido
    */
   getProjection (schemaName) {
-    let fields = getSubSchema(schemaName);
-    let projection = { fields: { _id: 1 } };
+    let fields = this.collectionInstanceBase.getSubSchema(schemaName);
+    let projection = { _id: 1 };
     fields.forEach(function (field) {
-      projection.fields[field] = 1;
+      projection[field] = 1;
     });
 
     return projection;

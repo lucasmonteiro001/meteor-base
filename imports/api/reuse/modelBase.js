@@ -80,7 +80,7 @@ export class ModelBase {
     this.functions[collectionBase.getCollection()._name + '.insert'] = function (dataObj) {
 
       dataObj.userId = this.userId;
-      check(dataObj, collectionBase.getSchema());
+      check(dataObj, collectionBase.getSchema('insert'));
 
       if (!Security.can(this.userId).insert(dataObj).for(collectionBase.getCollection()).check()) {
         throw new Meteor.Error('Acesso Negado',
@@ -97,7 +97,7 @@ export class ModelBase {
     this.functions[collectionBase.getCollection()._name + '.update'] = function (id, dataObj) {
 
       check(id, String);
-      check(dataObj, collectionBase.getSchemaExceptFields('default', ['userId']));
+      check(dataObj, collectionBase.getSchema('update'));
       if (!Security.can(this.userId).update(id || dataObj)
               .for(collectionBase.getCollection()).check()) {
         throw new Meteor.Error('Acesso Negado',

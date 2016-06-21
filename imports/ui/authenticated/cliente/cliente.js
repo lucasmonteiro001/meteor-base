@@ -9,8 +9,9 @@ let template;
 
 Template.cliente.onCreated(() => {
   template = Template.instance();
-  clienteController.applySubscribe( '', function () {
-  });
+  clienteController.applySubscribe(clienteController, 'view', template, '', function () {
+      }
+  );
   template.canInsert = new ReactiveVar(false);
 });
 
@@ -30,7 +31,8 @@ Template.cliente.helpers({
 Template.clienteAdd.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
 
-  document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'insert');
+  document.getElementById('formContext').innerHTML =
+      formGen.formRender(clienteController, 'insert');
   formGen.applyJQueryValidation(clienteController, 'insert', 'userForm');
 
 });
@@ -61,11 +63,12 @@ Template.clienteView.onCreated(() => {
   template.canUpdate = new ReactiveVar(false);
   template.canRemove = new ReactiveVar(false);
 
-  clienteController.applySubscribe(clienteController,'view',template, id, ()=> {
+  clienteController.applySubscribe(clienteController, 'view', template, id, ()=> {
     clienteController.checkIfCanUserUpdate(template.canUpdate, id);
     clienteController.checkIfCanUserRemove(template.canRemove, id);
     template.collectionData = clienteController.get({ _id: id });
-    document.getElementById('formContext').innerHTML = formGen.formViewRender(clienteController, 'view', id);
+    document.getElementById('formContext').innerHTML =
+        formGen.formViewRender(clienteController, 'view', id);
   });
 
 });
@@ -107,19 +110,20 @@ Template.clienteView.events({
     let sel = event.target;
     let id = sel.getAttribute('value');
 
-    Message.showConfirmation('Remover o cliente?', 'Não é possível recuperar um cliente removido!', 'Sim, remover!', (erro, confirm) => {
-      if (confirm) {
-        clienteController.remove(id, (error, data) => {
-          if (error) {
-            Message.showErro(error);
+    Message.showConfirmation('Remover o cliente?', 'Não é possível recuperar um cliente removido!',
+        'Sim, remover!', (erro, confirm) => {
+          if (confirm) {
+            clienteController.remove(id, (error, data) => {
+              if (error) {
+                Message.showErro(error);
 
-          } else {
-            FlowRouter.go('cliente');
-            Message.showSuccessNotification('O Cliente foi removido com sucesso!');
+              } else {
+                FlowRouter.go('cliente');
+                Message.showSuccessNotification('O Cliente foi removido com sucesso!');
+              }
+            });
           }
         });
-      }
-    });
   },
 });
 
@@ -127,9 +131,10 @@ Template.clienteEdit.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
 
-  clienteController.applySubscribe(clienteController,'update',template, id, ()=> {
+  clienteController.applySubscribe(clienteController, 'update', template, id, ()=> {
     template.collectionData = clienteController.get({ _id: id });
-    document.getElementById('formContext').innerHTML = formGen.formRender(clienteController, 'update', id);
+    document.getElementById('formContext').innerHTML =
+        formGen.formRender(clienteController, 'update', id);
   });
 
 });
@@ -151,7 +156,7 @@ Template.clienteEdit.helpers({
 Template.clienteEdit.events({
 
   //Eventos do template de inserção
-  'submit form' (event, template) {
+  'submit form'(event, template) {
     event.preventDefault();
     const id = FlowRouter.getParam('_id');
     const clienteData = formGen.getFormData(clienteController, 'update', template);
@@ -166,18 +171,18 @@ Template.clienteEdit.events({
       }
 
     });
-  }
+  },
 });
 
 Template.clienteList.onCreated(() => {
   template = Template.instance();
-  clienteController.applySubscribe(clienteController,'view',template, '', function () {
+  clienteController.applySubscribe(clienteController, 'view', template, '', function () {
   });
 });
 
 Template.clienteList.helpers({
   'settings': function () {
-    let templates = { tmpl: Template.clienteTmpl }
+    let templates = { tmpl: Template.clienteTmpl };
     return {
       collection: clienteController.getCollection(),
       rowsPerPage: 10,

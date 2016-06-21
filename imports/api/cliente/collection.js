@@ -28,7 +28,7 @@ collectionCliente.setSchema({
       FIELD_TYPE: 'number',
     },
     formValidation: {
-      required: { value: true, message: 'O nome do usuário é obrigatório' },
+      required: { value: true, message: 'A idade é obrigatória' },
       minlength: { value: 2, message: 'Este campo deve ter no mínimo 2 caracteres' },
     },
     tableView: {
@@ -44,7 +44,7 @@ collectionCliente.setSchema({
       FIELD_TYPE: 'text',
     },
     formValidation: {
-      required: { value: true, message: 'O nome do usuário é obrigatório' },
+      required: { value: true, message: 'O endereço é obrigatório' },
     },
   },
   telefone: {
@@ -56,7 +56,7 @@ collectionCliente.setSchema({
       FIELD_TYPE: 'text',
     },
     formValidation: {
-      required: { value: true, message: 'O nome do usuário é obrigatório' },
+      required: { value: true, message: 'O telefone é obrigatório' },
     },
     tableView: {
       label: 'Telefone',
@@ -71,7 +71,7 @@ collectionCliente.setSchema({
       FIELD_TYPE: 'text',
     },
     formValidation: {
-      required: { value: true, message: 'O nome do usuário é obrigatório' },
+      required: { value: true, message: 'O email é obrigatório' },
       email: { value: true, message: 'O email informado não é válido' },
     },
     tableView: {
@@ -87,7 +87,7 @@ collectionCliente.setSchema({
 collectionCliente.addSubSchema('insert', ['nome', 'idade', 'email', 'userId']);
 
 collectionCliente.addSubSchema('update',
-    ['nome', 'idade', 'endereco', 'telefone', 'email', 'userId']);
+    ['nome', 'idade', 'endereco', 'telefone', 'email']);
 
 collectionCliente.addSubSchema('view',
     ['nome', 'idade', 'endereco', 'telefone', 'email', 'userId']);

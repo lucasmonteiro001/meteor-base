@@ -23,7 +23,7 @@ export class CollectionBase {
     this.collectionInstance = new Mongo.Collection(collectionName);
 
     this.schemaDefault = new SimpleSchema();
-    this.subSchemas = [];
+    this.subSchemas = {};
 
     /**
      * Definições de segurança
@@ -53,11 +53,10 @@ export class CollectionBase {
    */
   getSchema (schemaName = 'default') {
     let schema = {};
-
-    if (schemaName === 'default' || this.subSchemas.indexOf(schemaName) == -1) {
+    if (schemaName === 'default' ||  typeof this.subSchemas[schemaName] == undefined) {
       schema = this.cloneObj(this.schemaDefault);
     } else {
-      schema = this.getSubSchema(schemaName);
+      schema = this.getSubSchemaJson(schemaName);
     }
 
     for (let key in schema) {
@@ -83,23 +82,11 @@ export class CollectionBase {
    * @returns {*} - Retorna o schema passado por parâmetro ou default
    * caso nenhum seja passado por parâmetro
    */
-  getSubSchema (schemaName = 'default') {
+  getSubSchemaJson (schemaName = 'default') {
     let fields = this.subSchemas[schemaName];
     let schema = this.cloneObj(this.schemaDefault);
     for (let key in schema) {
       if (fields.indexOf(key) == -1) {
-        if (typeof schema[key].formOptions != 'undefined') {
-          delete schema[key].formOptions;
-        }
-
-        if (typeof schema[key].formValidation != 'undefined') {
-          delete schema[key].formValidation;
-        }
-
-        if (typeof schema[key].tableView != 'undefined') {
-          delete schema[key].tableView;
-        }
-      } else {
         delete schema[key];
       }
     }
@@ -144,12 +131,12 @@ export class CollectionBase {
   getSchemaJson (schemaName = 'default') {
     let schema = {};
 
-    if (schemaName === 'default' || this.subSchemas.indexOf(schemaName) == -1) {
+    if (schemaName === 'default' ||  typeof this.subSchemas[schemaName] == undefined) {
       schema = this.cloneObj(this.schemaDefault);
     } else {
-      schema = this.getSubSchema(schemaName);
+      schema = this.getSubSchemaJson(schemaName);
     }
-
+    
     return schema;
   }
 

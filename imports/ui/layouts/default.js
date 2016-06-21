@@ -26,6 +26,7 @@ Template.default.onCreated(() => {
   // Uncomment this if you want to have fixed top navbar
   // $('body').addClass('fixed-nav');
   $('body').addClass('md-skin');
+
   // $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
 
   // Minimalize menu when screen is less than 768px
