@@ -3,7 +3,8 @@ import { Mongo } from 'meteor/mongo';
 export class ControllerBase {
   /**
    * Cria um controller, para a coleção desejada.
-   * @param collectionBase - Coleção que será instanciada pelo controller.
+   * @param collectionBase - Coleção que será
+   * instanciada pelo controller.
    */
   constructor (collectionBase) {
     this.collectionInstance = collectionBase.getCollection();
@@ -12,7 +13,8 @@ export class ControllerBase {
   }
 
   /**
-   * Define regras de disponibilzação/publicação do conteúdo da collection
+   * Define regras de disponibilzação/publicação
+   * do conteúdo da collection
    * @param filter - Filtro para as reegras de publicação
    */
   setFilter (filter) {
@@ -67,7 +69,8 @@ export class ControllerBase {
   /**
    * Retorna o nome do schema
    * @param schemaName - Nome do schema
-   * @returns {*|SimpleSchema} - Schema passado por parâmetro ou schema default,
+   * @returns {*|SimpleSchema} - Schema passado por
+   * parâmetro ou schema default,
    * caso nenhum esquema seja atribuído.
    */
   getSchema (schemaName = 'default') {
@@ -171,8 +174,10 @@ export class ControllerBase {
   }
 
   /**
-   * Verifica se o usuário tem permissão para remover um domcuento da collection
-   * @param reactVar - Variável que recebe o resultado e atualiza os dados para o cliente e servidor
+   * Verifica se o usuário tem permissão para
+   * remover um domcuento da collection
+   * @param reactVar - Variável que recebe o resultado e
+   * atualiza os dados para o cliente e servidor
    * @param id - Id do usuário
    */
   checkIfCanUserRemove (reactVar, id) {
@@ -194,8 +199,10 @@ export class ControllerBase {
   }
 
   /**
-   * Verifica se o usuário tem permissão para inserir um domcuento da collection
-   * @param reactVar - Variável que recebe o resultado e atualiza os dados para o cliente e servidor
+   * Verifica se o usuário tem permissão para
+   * inserir um domcuento da collection
+   * @param reactVar - Variável que recebe o
+   * resultado e atualiza os dados para o cliente e servidor
    */
   checkIfCanUserInsert (reactVar) {
     Meteor.call('user.can.' + this.getCollectionName() + '.insert', (error, result) => {
@@ -208,8 +215,10 @@ export class ControllerBase {
   }
 
   /**
-   * Verifica se o usuário tem permissão para remover um domcuento da collection
-   * @param reactVar  - Variável que recebe o resultado e atualiza os dados para o cliente e servidor
+   * Verifica se o usuário tem permissão
+   * para remover um domcuento da collection
+   * @param reactVar  - Variável que recebe
+   * o resultado e atualiza os dados para o cliente e servidor
    * @param id - Id do usuário
    */
   checkIfCanUserUpdate (reactVar, id) {
@@ -230,8 +239,10 @@ export class ControllerBase {
   }
 
   /**
-   * Verifica se o usuário tem permissão para visualizar um domcuento da collection
-   * @param reactVar - Variável que recebe o resultado e atualiza os dados para o cliente e servidor
+   * Verifica se o usuário tem permissão para visualizar
+   * um domcuento da collection
+   * @param reactVar - Variável que recebe o resultado e
+   * atualiza os dados para o cliente e servidor
    * @param id - Id do usuário
    */
   checkIfCanUserView (reactVar, id) {
