@@ -1,3 +1,19 @@
+/**
+ * <p>
+ * Finalidade da Classe: Aplicar os métodos para a
+ * manipulação de uma collection, baseado nos
+ * métodos definidos pelo framework Synergia Meteor.
+ * </p>
+ *
+ * <p>
+ * Copyright: Copyright (c) Synergia - DCC - UFMG
+ * </p>
+ *
+ * @author mfpinheiro
+ * @author Última modificação realizada por : mfpinheiro $.
+ * @version :: 21/06/2016#$.
+ *
+ */
 import { Mongo } from 'meteor/mongo';
 
 export class ControllerBase {
@@ -149,12 +165,12 @@ export class ControllerBase {
   update (id, collectionData, callback) {
     Meteor.call(
         this.getCollectionName() + '.update', id, collectionData, (error) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        callback(null, 'ok');
-      }
-    });
+          if (error) {
+            callback(error, null);
+          } else {
+            callback(null, 'ok');
+          }
+        });
   }
 
   /**
@@ -263,4 +279,5 @@ export class ControllerBase {
   }
 }
 ;
+
 

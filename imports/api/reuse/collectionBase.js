@@ -1,3 +1,19 @@
+/**
+ * <p>
+ * Finalidade da Classe: Aplicar os métodos para a
+ * manipulação de uma collection,
+ * baseado nos métodos definidos pelo framework Synergia Meteor.
+ * </p>
+ *
+ * <p>
+ * Copyright: Copyright (c) Synergia - DCC - UFMG
+ * </p>
+ *
+ * @author mfpinheiro
+ * @author Última modificação realizada por : mfpinheiro $.
+ * @version :: 21/06/2016#$.
+ *
+ */
 import { Meteor } from 'meteor/meteor';
 
 export class CollectionBase {
@@ -121,7 +137,7 @@ export class CollectionBase {
   }
 
   /**
-   *
+   *  Retorna o schmema, em formato json, definido no modelo
    * @param schemaName
    * @returns {{}}
    */
@@ -146,9 +162,9 @@ export class CollectionBase {
   }
 
   /**
-   *
-   * @param obj
-   * @returns {*}
+   * Clona um objeto.
+   * @param obj - Objeto que será clonado
+   * @returns {*} - Objeto clonado.
    */
   cloneObj (obj) {
     if (obj === null || typeof (obj) !== 'object' || 'isActiveClone' in obj)
@@ -171,3 +187,4 @@ export class CollectionBase {
   }
 
 }
+

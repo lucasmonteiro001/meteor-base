@@ -1,10 +1,26 @@
+/**
+ * <p>
+ * Finalidade da Classe: Aplicar os métodos para a
+ * manipulação de uma collection, baseado nos
+ * métodos definidos pelo framework Synergia Meteor.
+ * </p>
+ *
+ * <p>
+ * Copyright: Copyright (c) Synergia - DCC - UFMG
+ * </p>
+ *
+ * @author mfpinheiro
+ * @author Última modificação realizada por : mfpinheiro $.
+ * @version :: 21/06/2016#$.
+ *
+ */
 import { Meteor } from 'meteor/meteor';
 
 export class ModelBase {
 
   /**
    * Construtor
-   * @param collectionBase Objeto do tipo CollectionBase.
+   * @param collectionBase - Collection que será passada para o construtor
    */
   constructor (collectionBase) {
     this.myCollection = collectionBase.getCollection();
@@ -106,10 +122,6 @@ export class ModelBase {
 
   }
 
-  //##################################################
-  //################métodos da classe ModelBase#######
-  //##################################################
-
   /**
    * Inicializa todos os métodos que são executados no servidor, referente ao modelo.
    */
@@ -126,7 +138,7 @@ export class ModelBase {
   }
 
   /**
-   *
+   * Aplica os métodos que serão executados no servidor
    * @param methodName
    * @param functionDeclaration
    */
@@ -136,7 +148,7 @@ export class ModelBase {
   }
 
   /**
-   *
+   * Aplica as publicações para a collection
    * @param newPublicationsFunction
    */
   setPublications (newPublicationsFunction) {
@@ -145,14 +157,14 @@ export class ModelBase {
   }
 
   /**
-   *
+   * Faz a publicação da collection
    */
   applyPublications () {
     Meteor.publish(this.myCollection._name, this.publications);
   }
 
   /**
-   *
+   * Aplica as permissões de grupo para a collection
    * @param actionsList
    * @param groups
    */
@@ -161,7 +173,7 @@ export class ModelBase {
   }
 
   /**
-   *
+   * Aplica as permissões de ações para a collection, por usuário.
    * @param actionsList
    * @param functionName
    */
