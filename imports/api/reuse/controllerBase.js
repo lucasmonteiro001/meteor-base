@@ -38,6 +38,15 @@ export class ControllerBase {
   }
 
   /**
+   * Retorna o filtro de regras de disponibilização/publicação
+   * do conteúdo da collection
+   * @returns {*} - Filtro definido na collection
+   */
+  getFilter () {
+    return this.filter;
+  }
+
+  /**
    * Retorna os campos de uma collection que serão exibidos
    * @param schemaName - Nome do schema que será aplicado
    * as regras de projection
@@ -71,7 +80,6 @@ export class ControllerBase {
    */
   getCollection () {
     return this.collectionInstance;
-
   }
 
   /**
