@@ -15,6 +15,7 @@
  *
  */
 import { Meteor } from 'meteor/meteor';
+import { Utils } from './utils';
 
 export class CollectionBase {
 
@@ -54,7 +55,7 @@ export class CollectionBase {
   getSchema (schemaName = 'default') {
     let schema = {};
     if (schemaName === 'default' ||  typeof this.subSchemas[schemaName] == undefined) {
-      schema = this.cloneObj(this.schemaDefault);
+      schema = Utils.cloneObj(this.schemaDefault);
     } else {
       schema = this.getSubSchemaJson(schemaName);
     }
@@ -84,7 +85,7 @@ export class CollectionBase {
    */
   getSubSchemaJson (schemaName = 'default') {
     let fields = this.subSchemas[schemaName];
-    let schema = this.cloneObj(this.schemaDefault);
+    let schema = Utils.cloneObj(this.schemaDefault);
     for (let key in schema) {
       if (fields.indexOf(key) == -1) {
         delete schema[key];
@@ -132,7 +133,7 @@ export class CollectionBase {
     let schema = {};
 
     if (schemaName === 'default' ||  typeof this.subSchemas[schemaName] == undefined) {
-      schema = this.cloneObj(this.schemaDefault);
+      schema = Utils.cloneObj(this.schemaDefault);
     } else {
       schema = this.getSubSchemaJson(schemaName);
     }
@@ -148,30 +149,7 @@ export class CollectionBase {
     return this.collectionInstance;
   }
 
-  /**
-   * Clona um objeto.
-   * @param obj - Objeto que será clonado
-   * @returns {*} - Objeto clonado.
-   */
-  cloneObj (obj) {
-    if (obj === null || typeof (obj) !== 'object' || 'isActiveClone' in obj)
-      return obj;
 
-    if (obj instanceof Date)
-      var temp = new obj.constructor(); //or new Date(obj);
-    else
-      var temp = obj.constructor();
-
-    for (var key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        obj['isActiveClone'] = null;
-        temp[key] = this.cloneObj(obj[key]);
-        delete obj['isActiveClone'];
-      }
-    }
-
-    return temp;
-  }
 
 }
 
