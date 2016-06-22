@@ -24,8 +24,6 @@ Meteor.methods({
   'test.resetDatabase': () => resetDatabase(),
 });
 
-console.log('Entrou 1');
-
 var usuarioDeTeste = {
   nome: 'Jon Snow',
   endereco: 'Winterfell',
@@ -34,21 +32,13 @@ var usuarioDeTeste = {
   userId: '123456',
 };
 
-console.log('Entrou 2');
-
 describe('Validar métodos Get e Set do controller base', function (done) {
-
   beforeEach(function (done) {
-    console.log('Entrou 3');
     Meteor.call('test.resetDatabase', done);
   });
 
-  console.log('Entrou 4');
-
-  it(' setFilter () deve inserir um filtro', function () {
-
-    console.log('Entrou 5');
-
+  it('setFilter() deve inserir um filtro e getFilter(), deve retornar o filtro inserido', function () {
+    clienteController.setFilter('Filtro de Teste');
     chai.assert.equal('Filtro de Teste', clienteController.getFilter());
   });
 
