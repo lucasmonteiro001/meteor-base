@@ -157,8 +157,7 @@ export class FormGeneretor {
         let objIndex = objData.push({ key: key, label: schema[key].tableView.label }) - 1;
 
         if (typeof schema[key].tableView.template != 'undefined') {
-          objData[objIndex][schema[key]
-              .tableView.template] = templates[schema[key].tableView.template];
+          objData[objIndex].tmpl = templates[schema[key].tableView.template];
         }
 
       }

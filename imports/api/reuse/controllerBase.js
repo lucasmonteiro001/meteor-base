@@ -54,7 +54,16 @@ export class ControllerBase {
    * 0 não será exibido e 1 será exibido
    */
   getProjection (schemaName) {
-    let fields = this.collectionInstanceBase.getSubSchema(schemaName);
+    let fields = [];
+    if (this.collectionInstanceBase.getSubSchema(schemaName) != undefined) {
+      fields = this.collectionInstanceBase.getSubSchema(schemaName);
+    } else {
+      for (let key in this.collectionInstanceBase.getSchemaJson()) {
+        fields.push(key);
+      }
+    }
+
+
     let projection = { _id: 1 };
     fields.forEach(function (field) {
       projection[field] = 1;

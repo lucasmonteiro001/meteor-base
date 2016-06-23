@@ -23,7 +23,7 @@ export class CollectionBase {
     this.collecitonName = collectionName;
     this.collectionInstance = new Mongo.Collection(collectionName);
 
-    this.schemaDefault = new SimpleSchema();
+    this.schemaDefault = {};
     this.subSchemas = {};
 
     /**
@@ -102,7 +102,7 @@ export class CollectionBase {
    */
   setSchema (schema) {
     this.schemaDefault = schema;
-
+    this.collectionInstance.attachSchema(this.getSchema())
 
   }
 

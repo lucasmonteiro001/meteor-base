@@ -2,53 +2,38 @@
  * Created by lucas on 5/5/16.
  */
 import { Template } from 'meteor/templating';
-import { Users } from '../../../api/users/users';
+import { FlowRouter } from 'meteor/kadira:flow-router';
+import { usersController } from '../../../api/users/controller.js';
+import { Message } from '../../utils/message';
+import { formGen } from '../../utils/formGenerator';
 import './users.html';
 let template;
 
 Template.users.onCreated(() => {
 
   template = Template.instance();
-
-  let currentPage = new ReactiveVar(Session.get('current-page') || 0);
-
-  template.subscribe('Users');
-  template.subscribe('UsersTable');
-
-  template.users = () => {
-    return Users.find();
-  };
-
-  template.currentPage = currentPage;
-  template.autorun(function () {
-    Session.set('current-page', currentPage.get());
-  });
+  usersController.applySubscribe(usersController, 'default', template, '', function () {
+      }
+  );
+  //let currentPage = new ReactiveVar(Session.get('current-page') || 0);
 
 });
 
 Template.users.helpers({
-  'users': () => {
-    return template.users();
-  },
-
   'settings': () => {
+    let templates = {
+      emailUsersTmp: Template.emailUsersTmp,
+      profileUsersTmp: Template.profileUsersTmp,
+      selectRoles: Template.selectRoles,
+    };
     return {
-      collection: template.users(),
-      currentPage: template.currentPage,
+      collection: usersController.getCollection(),
       rowsPerPage: 10,
       showFilter: true,
       showRowCount: true,
       showColumnToggles: true,
       multiColumnSort: true,
-      fields: [
-        {
-          key: 'emails', label: 'Emails',
-          fn: function (value, object, key) {
-            return value[0].address;
-          },
-        },
-        { key: 'roles', label: 'Grupo' },
-      ],
+      fields: formGen.getTableViewData(usersController, 'default', templates),
     };
   },
 });
@@ -59,13 +44,39 @@ Template.users.events({
 
     let role = $(event.target).find('option:selected').val();
 
-    Meteor.call('users.setRoleOnUser', {
-      user: this._id,
-      role: role,
-    }, (error, response) => {
+    usersController.setRoleOnUser(this._id, role, (error, data) => {
       if (error) {
-        Bert.alert(error.reason, 'warning');
+        Message.showErro(error);
+
+      } else {
+        Message.showSuccessNotification('A regra foi definida com sucesso!');
       }
+
     });
+
   },
+  'click [id="actionUserView"]': function (event) {
+
+    let idUser = this.value;
+
+    BlazeLayout.render('default', { userView: 'userViewDetails' }, { idUser: idUser });
+
+  },
+
+
+});
+
+Template.userViewDetails.onCreated(() => {
+
+  template = Template.instance();
+  usersController.applySubscribe(usersController, 'default', template, '', function () {
+      }
+  );
+  //let currentPage = new ReactiveVar(Session.get('current-page') || 0);
+
+  console.log(this);
+  // var id = this.idUser;
+
+  //console.log("ID é: "+id);
+
 });

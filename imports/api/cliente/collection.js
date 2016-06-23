@@ -16,7 +16,7 @@ collectionCliente.setSchema({
     },
     tableView: {
       label: 'Nome',
-      template: 'tmpl',
+      template: 'emailUsersTmp',
     },
   },
   idade: {
