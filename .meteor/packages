@@ -37,7 +37,6 @@ anti:i18n
 
 themeteorchef:bert
 xolvio:cleaner
-practicalmeteor:mocha
 xolvio:backdoor
 mdg:validated-method
 dburles:factory
@@ -53,5 +52,5 @@ arillo:flow-router-helpers
 themeteorchef:jquery-validation
 ongoworks:security
 practicalmeteor:chai
-practicalmeteor:sinon
 ejson
+practicalmeteor:mocha

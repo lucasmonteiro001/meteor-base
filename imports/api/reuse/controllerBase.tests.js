@@ -18,6 +18,8 @@ import { chai } from 'meteor/practicalmeteor:chai';
 import { collectionCliente } from '../cliente/collection.js';
 import { ControllerBase } from './controllerBase.js';
 
+var expect = require(chai).expect;
+
 const clienteController = new ControllerBase(collectionCliente);
 
 Meteor.methods({
@@ -32,15 +34,24 @@ var usuarioDeTeste = {
   userId: '123456',
 };
 
-describe('Validar métodos Get e Set do controller base', function (done) {
+describe('Controller Base', function (done) {
   beforeEach(function (done) {
     Meteor.call('test.resetDatabase', done);
   });
 
-  it('setFilter() deve inserir um filtro e getFilter(), deve retornar o filtro inserido', function () {
-    clienteController.setFilter('Filtro de Teste');
+  it('Deve retornar um filtro adicionado ao controller', function () {
+    clienteController.setFilter({ filtroTeste: 'Filtro de Teste' });
+    expect(clienteController.getFilter()).to.be.a(String);
+    expect(clienteController.getFilter()).to.be.equal('Filtro de Teste');
     chai.assert.equal('Filtro de Teste', clienteController.getFilter());
   });
+
+  //
+  it('Deve retornar a collection vinculada ao controller', function () {
+    expect(clienteController.getCollection()).to.be.a(Collection);
+    expect(clienteController.getCollectionName()).to.be.equal('cliente');
+  });
+
 
 });
 
