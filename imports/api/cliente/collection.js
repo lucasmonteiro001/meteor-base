@@ -1,8 +1,8 @@
 import { CollectionBase } from '../reuse/collectionBase';
-export const collectionCliente = new CollectionBase('cliente');
+export const CollectionClientes = new CollectionBase('Clientes');
 
 //Definição dos Schemas
-collectionCliente.setSchema({
+CollectionClientes.setSchema({
   nome: {
     type: String,
     defaultValue: '',
@@ -84,11 +84,11 @@ collectionCliente.setSchema({
   },
 });
 
-collectionCliente.addSubSchema('insert', ['nome', 'idade', 'email', 'userId']);
+CollectionClientes.addSubSchema('insert', ['nome', 'idade', 'email', 'userId']);
 
-collectionCliente.addSubSchema('update',
+CollectionClientes.addSubSchema('update',
     ['nome', 'idade', 'endereco', 'telefone', 'email']);
 
-collectionCliente.addSubSchema('view',
+CollectionClientes.addSubSchema('view',
     ['nome', 'idade', 'endereco', 'telefone', 'email', 'userId']);
 

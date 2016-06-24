@@ -1,11 +1,11 @@
-import { collectionContato } from './collection';
+import { CollectionContatos } from './collection';
 import { ControllerBase } from '../reuse/controllerBase';
 
-class ControllerContato extends ControllerBase {
+class ControllerContatos extends ControllerBase {
 
 }
 
-export const contatoController = new ControllerContato(collectionContato);
+export const CtrlContatos = new ControllerContatos(CollectionContatos);
 
 //É possível definir neste local as regras de
 // dispobinilizaçao/publicação do conteúdo da collection

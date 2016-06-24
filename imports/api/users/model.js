@@ -1,4 +1,4 @@
-import { usersCollection } from './collection.js';
+import { CollectionUsers } from './collection.js';
 import { ModelBase } from '../reuse/modelBase';
 
 class ModelUsers extends ModelBase {
@@ -45,14 +45,14 @@ class ModelUsers extends ModelBase {
   }
 }
 
-export const usersModel = new ModelUsers(usersCollection);
+export const MdlUsers = new ModelUsers(CollectionUsers);
 
 //Aplicar os métodos que serão utilizados no Client através do "Meteor.Call"
-usersModel.applyAllMethods();
+MdlUsers.applyAllMethods();
 
 //Aplicar as publicações que serão consideradas quando no Client for executado
 // o "Template.subscribe"
-usersModel.applyPublications();
+MdlUsers.applyPublications();
 
 //################################################
 //############ RESTRIÇÃO POR FUNCIONALIDADE ######
@@ -62,7 +62,7 @@ usersModel.applyPublications();
 
 //Grupos que podem realizar operações no banco de dados
 let groups = ['administrador'];
-usersModel.setGroupPermissions(['insert', 'update', 'remove', 'read'], groups);
+MdlUsers.setGroupPermissions(['insert', 'update', 'remove', 'read'], groups);
 
 //################################################
 //############ RESTRIÇÃO POR DADos ###############
@@ -81,5 +81,5 @@ Security.defineMethod('ownsUsers', {
     return userId === doc[field] || Roles.userIsInRole(userId, groups);
   },
 });
-usersModel.setFunctionPermissions(['update', 'read'], 'ownsDocument');
+MdlUsers.setFunctionPermissions(['update', 'read'], 'ownsDocument');
 

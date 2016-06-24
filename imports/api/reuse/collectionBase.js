@@ -28,7 +28,7 @@ export class CollectionBase {
 
     /**
      * Definições de segurança
-     * Deny all client-side updates on the clienteModel collection
+     * Deny all client-side updates on the MdlClientes collection
      */
     this.collectionInstance.deny({
       insert() {

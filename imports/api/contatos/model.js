@@ -1,18 +1,18 @@
-import { collectionContato } from './collection.js';
+import { CollectionContatos } from './collection.js';
 import { ModelBase } from '../reuse/modelBase';
 
-class ModelContato extends ModelBase {
+class ModelContatos extends ModelBase {
 
 }
 
-export const contatoModel = new ModelContato(collectionContato);
+export const MdlContatos = new ModelContatos(CollectionContatos);
 
 //Aplicar os métodos que serão utilizados no Client através do "Meteor.Call"
-contatoModel.applyAllMethods();
+MdlContatos.applyAllMethods();
 
 //Aplicar as publicações que serão consideradas
 // quando no Client for executado o "Template.subscribe"
-contatoModel.applyPublications();
+MdlContatos.applyPublications();
 
 //################################################
 //############ RESTRIÇÃO POR FUNCIONALIDADE ######
@@ -22,7 +22,7 @@ contatoModel.applyPublications();
 
 //Grupos que podem realizar operações no banco de dados
 let groups = ['administrador'];
-contatoModel.setGroupPermissions(['insert', 'update', 'remove', 'read'], groups);
+MdlContatos.setGroupPermissions(['insert', 'update', 'remove', 'read'], groups);
 
 //################################################
 //############ RESTRIÇÃO POR DADos ###############
@@ -41,5 +41,5 @@ Security.defineMethod('youDocument', {
     return userId === doc[field] || Roles.userIsInRole(userId, groups);
   },
 });
-contatoModel.setFunctionPermissions(['update', 'remove', 'read'], 'youDocument');
+MdlContatos.setFunctionPermissions(['update', 'remove', 'read'], 'youDocument');
 

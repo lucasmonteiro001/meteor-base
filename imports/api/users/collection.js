@@ -4,7 +4,7 @@ class CollectionUsers extends CollectionBase {
   constructor () {
 
     super(null);
-    this.collecitonName = 'users';
+    this.collecitonName = 'Users';
     this.collectionInstance = Meteor.users;
 
     this.schemaDefault = new SimpleSchema();
@@ -12,7 +12,7 @@ class CollectionUsers extends CollectionBase {
 
     /**
      * Definições de segurança
-     * Deny all client-side updates on the clienteModel collection
+     * Deny all client-side updates on the MdlClientes collection
      */
     this.collectionInstance.deny({
       insert() {
@@ -29,23 +29,13 @@ class CollectionUsers extends CollectionBase {
     });
 
   }
-
-  /**
-   * Define um schema sem aplica-lo à collection Users
-   * @param schema - schema que será aplicado
-   */
-  setSchema (schema) {
-    this.schemaDefault = schema;
-    //this.collectionInstance.attachSchema(this.getSchema() )
-
-  }
-
 }
 
-export const usersCollection = new CollectionUsers();
+//Objeto Duplicado
+export const CollectionUsers = new CollectionBase();
 
 //Definição dos Schemas
-usersCollection.setSchema({
+CollectionUsers.setSchema({
   profile: {
     type: String,
     label: 'Nome',

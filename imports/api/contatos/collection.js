@@ -1,7 +1,7 @@
 import { CollectionBase } from '../reuse/collectionBase';
-export const collectionContato = new CollectionBase('contatos');
+export const CollectionContatos = new CollectionBase('Contatos');
 
-collectionContato.setSchema({
+CollectionContatos.setSchema({
   'nome': {
     type: String,
     defaultValue: '',

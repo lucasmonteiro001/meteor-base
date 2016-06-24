@@ -1,11 +1,11 @@
-import { collectionCliente } from './collection';
+import { CollectionClientes } from './collection';
 import { ControllerBase } from '../reuse/controllerBase';
 
-class ControllerCliente extends ControllerBase {
+class ControllerClientes extends ControllerBase {
 
 }
 
-export const clienteController = new ControllerCliente(collectionCliente);
+export const CtrlClientes = new ControllerClientes(CollectionClientes);
 
 // É possível definir neste local as regras de dispobinilizaçao/publicação do conteúdo da collection
 // Por exemplo, só exibe os clientes que torcem para o glorioso Atlético-MG:

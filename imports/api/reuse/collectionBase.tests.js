@@ -18,15 +18,3 @@ import { chai } from 'meteor/practicalmeteor:chai';
 import { collectionCliente } from '../cliente/collection.js';
 import { ModelBase } from './modelBase.js';
 
-const clienteModel = new ModelBase(collectionCliente);
-
-// describe('Verificar os métodos da classe Collection Base', function (done) {
-//   beforeEach(function (done) {
-//     Meteor.call('test.resetDatabase', done);
-//   });
-//
-//   it('Dois inteiros são iguais', function () {
-//     chai.assert.equal(3, 3);
-//   });
-//
-// });

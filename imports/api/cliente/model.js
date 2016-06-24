@@ -1,18 +1,18 @@
-import { collectionCliente } from './collection.js';
+import { CollectionClientes } from './collection.js';
 import { ModelBase } from '../reuse/modelBase';
 
-class ModelCliente extends ModelBase {
+class ModelClientes extends ModelBase {
 
 }
 
-export const clienteModel = new ModelCliente(collectionCliente);
+export const MdlClientes = new ModelClientes(CollectionClientes);
 
 //Aplicar os métodos que serão utilizados no Client através do "Meteor.Call"
-clienteModel.applyAllMethods();
+MdlClientes.applyAllMethods();
 
 //Aplicar as publicações que serão consideradas quando no Client for executado
 // o "Template.subscribe"
-clienteModel.applyPublications();
+MdlClientes.applyPublications();
 
 //################################################
 //############ RESTRIÇÃO POR FUNCIONALIDADE ######
@@ -22,7 +22,7 @@ clienteModel.applyPublications();
 
 //Grupos que podem realizar operações no banco de dados
 let groups = ['administrador'];
-clienteModel.setGroupPermissions(['insert', 'update', 'remove', 'read'], groups);
+MdlClientes.setGroupPermissions(['insert', 'update', 'remove', 'read'], groups);
 
 //################################################
 //############ RESTRIÇÃO POR DADos ###############
@@ -41,5 +41,5 @@ Security.defineMethod('ownsDocument', {
     return userId === doc[field] || Roles.userIsInRole(userId, groups);
   },
 });
-clienteModel.setFunctionPermissions(['update', 'remove', 'read'], 'ownsDocument');
+MdlClientes.setFunctionPermissions(['update', 'remove', 'read'], 'ownsDocument');
 
