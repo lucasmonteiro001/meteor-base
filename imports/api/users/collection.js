@@ -29,13 +29,24 @@ class CollectionUsers extends CollectionBase {
     });
 
   }
+
+  /**
+   * Define um schema sem aplica-lo à collection Users
+   * @param schema - schema que será aplicado
+   */
+  setSchema (schema) {
+    this.schemaDefault = schema;
+    //this.collectionInstance.attachSchema(this.getSchema() )
+
+  }
+
 }
 
 //Objeto Duplicado
-export const CollectionUsers = new CollectionBase();
+export const CltUsers = new CollectionUsers();
 
 //Definição dos Schemas
-CollectionUsers.setSchema({
+CltUsers.setSchema({
   profile: {
     type: String,
     label: 'Nome',

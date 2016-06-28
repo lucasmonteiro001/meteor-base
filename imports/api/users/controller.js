@@ -1,4 +1,4 @@
-import { CollectionUsers } from './collection';
+import { CltUsers } from './collection';
 import { ControllerBase } from '../reuse/controllerBase';
 
 class ControllerUsers extends ControllerBase {
@@ -23,7 +23,7 @@ class ControllerUsers extends ControllerBase {
   }
 }
 
-export const CtrlUsers = new ControllerUsers(CollectionUsers);
+export const CtrlUsers = new ControllerUsers(CltUsers);
 
 // É possível definir neste local as regras de dispobinilizaçao/publicação do conteúdo da collection
 // Por exemplo, só exibe os clientes que torcem para o glorioso Atlético-MG:

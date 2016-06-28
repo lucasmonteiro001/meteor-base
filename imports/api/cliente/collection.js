@@ -1,4 +1,5 @@
 import { CollectionBase } from '../reuse/collectionBase';
+
 export const CollectionClientes = new CollectionBase('Clientes');
 
 //Definição dos Schemas

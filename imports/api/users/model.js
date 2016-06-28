@@ -1,4 +1,4 @@
-import { CollectionUsers } from './collection.js';
+import { CltUsers } from './collection.js';
 import { ModelBase } from '../reuse/modelBase';
 
 class ModelUsers extends ModelBase {
@@ -45,7 +45,7 @@ class ModelUsers extends ModelBase {
   }
 }
 
-export const MdlUsers = new ModelUsers(CollectionUsers);
+export const MdlUsers = new ModelUsers(CltUsers);
 
 //Aplicar os métodos que serão utilizados no Client através do "Meteor.Call"
 MdlUsers.applyAllMethods();
