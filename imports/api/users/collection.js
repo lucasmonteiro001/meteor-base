@@ -36,6 +36,7 @@ class CollectionUsers extends CollectionBase {
    */
   setSchema (schema) {
     this.schemaDefault = schema;
+
     //this.collectionInstance.attachSchema(this.getSchema() )
 
   }

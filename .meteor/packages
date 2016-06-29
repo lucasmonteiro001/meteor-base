@@ -53,4 +53,4 @@ themeteorchef:jquery-validation
 ongoworks:security
 practicalmeteor:chai
 ejson
-practicalmeteor:mocha
+practicalmeteor:mocha@=2.4.5-rc5.5

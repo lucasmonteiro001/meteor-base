@@ -14,13 +14,11 @@
  *
  */
 import { resetDatabase } from 'meteor/xolvio:cleaner';
-import { chai } from 'meteor/practicalmeteor:chai';
-import { collectionCliente } from '../cliente/collection.js';
+import { expect } from 'meteor/practicalmeteor:chai';
+import { CollectionClientes } from '../cliente/collection.js';
 import { ControllerBase } from './controllerBase.js';
 
-var expect = require(chai).expect;
-
-const clienteController = new ControllerBase(collectionCliente);
+const CtrlCliente = new ControllerBase(CollectionClientes);
 
 Meteor.methods({
   'test.resetDatabase': () => resetDatabase(),
@@ -40,19 +38,14 @@ describe('Controller Base', function (done) {
   });
 
   it('Deve retornar um filtro adicionado ao controller', function () {
-    clienteController.setFilter({ filtroTeste: 'Filtro de Teste' });
-    expect(clienteController.getFilter()).to.be.a(String);
-    expect(clienteController.getFilter()).to.be.equal('Filtro de Teste');
-    chai.assert.equal('Filtro de Teste', clienteController.getFilter());
+    CtrlCliente.setFilter('Filtro de Teste');
+    expect(CtrlCliente.getFilter()).to.have.string('Filtro de Teste');
+    expect(CtrlCliente.getFilter()).to.be.equal('Filtro de Teste');
+    chai.assert.equal('Filtro de Teste', CtrlCliente.getFilter());
   });
 
-  //
   it('Deve retornar a collection vinculada ao controller', function () {
-    expect(clienteController.getCollection()).to.be.a(Collection);
-    expect(clienteController.getCollectionName()).to.be.equal('cliente');
+    expect(CtrlCliente.getCollectionName()).to.be.equal('Clientes');
   });
-
 
 });
-
-
