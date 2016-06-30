@@ -5,7 +5,7 @@ class ControllerClientes extends ControllerBase {
 
 }
 
-export const CtrlClientes = new ControllerClientes(CollectionClientes);
+export const clienteController = new ControllerClientes(CollectionClientes);
 
 // É possível definir neste local as regras de dispobinilizaçao/publicação do conteúdo da collection
 // Por exemplo, só exibe os clientes que torcem para o glorioso Atlético-MG:

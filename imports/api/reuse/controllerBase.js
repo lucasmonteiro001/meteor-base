@@ -15,6 +15,7 @@
  *
  */
 import { Mongo } from 'meteor/mongo';
+import { Utils } from '../reuse/utils';
 
 export class ControllerBase {
   /**
@@ -124,8 +125,8 @@ export class ControllerBase {
    * @param id- Id do documento
    * @returns {any|*} - Documento da collection
    */
-  get (id) {
-    return this.collectionInstance.findOne(id);
+  get (searchFor) {
+    return this.collectionInstance.findOne(searchFor);
   }
 
   /**
@@ -136,17 +137,20 @@ export class ControllerBase {
    * @param id - Filtro por id
    * @param callback - Função de callack para tratar o retorno da função
    */
-  applySubscribe (controller, schemaName, template, id = '', callback) {
-    let filterTmp = this.filter;
-    if (id != '') {
-      filterTmp._id = id;
+  applySubscribe (schemaName, template, searchFor = '', callback) {
+    let newFilter;
+
+    if (searchFor != '' && typeof searchFor == 'string') {
+      newFilter = Utils.mergeObj(this.filter, { '_id': searchFor });
+    } else if (searchFor != '' && typeof searchFor == 'object') {
+      newFilter = Utils.mergeObj(this.filter, searchFor);
     } else {
-      delete filterTmp._id;
+      newFilter = this.filter;
     }
 
     let handle = template
         .subscribe(this.getCollectionName(),
-            filterTmp, this.getProjection(schemaName));
+            newFilter, this.getProjection(schemaName));
 
     template.autorun(() => {
       const isReady = handle.ready();

@@ -1,10 +1,8 @@
 import '../../../ui/authenticated/cliente/cliente';
-import '../../../ui/authenticated/contatos/contatos';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import '../../../ui/authenticated/index';
 import '../../../ui/authenticated/users/users';
 import { clienteController } from '../../../api/cliente/controller';
-import { contatoController } from '../../../api/contatos/controller';
 import { Message } from '../../../ui/utils/message';
 
 const CanViewFunction = function (renderFunction) {
@@ -93,40 +91,3 @@ authenticatedRoutes.route('/clienteView/:_id', {
   },
 });
 
-authenticatedRoutes.route('/contato', {
-  name: 'contato',
-  action() {
-    BlazeLayout.render('default', { yield: 'contato' });
-  },
-});
-
-authenticatedRoutes.route('/contatoAdd', {
-  name: 'contatoAdd',
-  action() {
-    BlazeLayout.render('default', { yield: 'contatoAdd' });
-  },
-});
-
-authenticatedRoutes.route('/contatoEdit/:_id', {
-  name: 'contatoEdit',
-  action() {
-    cvFunction = new CanViewFunction(function () {
-      BlazeLayout.render('default', { yield: 'contatoEdit' });
-    });
-
-    const id = FlowRouter.getParam('_id');
-    contatoController.checkIfCanUserUpdate(cvFunction, id);
-  },
-});
-
-authenticatedRoutes.route('/contatoView/:_id', {
-  name: 'contatoView',
-  action() {
-    cvFunction = new CanViewFunction(function () {
-      BlazeLayout.render('default', { yield: 'contatoView' });
-    });
-
-    const id = FlowRouter.getParam('_id');
-    contatoController.checkIfCanUserView(cvFunction, id);
-  },
-});

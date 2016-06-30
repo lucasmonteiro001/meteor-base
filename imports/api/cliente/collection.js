@@ -17,7 +17,7 @@ CollectionClientes.setSchema({
     },
     tableView: {
       label: 'Nome',
-      template: 'emailUsersTmp',
+      template: 'tmpl',
     },
   },
   idade: {
@@ -36,16 +36,16 @@ CollectionClientes.setSchema({
       label: 'Idade',
     },
   },
-  endereco: {
+  rua: {
     type: String,
     defaultValue: '',
-    label: 'Endereço',
+    label: 'Rua',
     formOptions: {
       FIELD_TAG: 'textarea',
       FIELD_TYPE: 'text',
     },
     formValidation: {
-      required: { value: true, message: 'O endereço é obrigatório' },
+      required: { value: true, message: 'Pô, preenchei ai né!!' },
     },
   },
   telefone: {
@@ -88,8 +88,8 @@ CollectionClientes.setSchema({
 CollectionClientes.addSubSchema('insert', ['nome', 'idade', 'email', 'userId']);
 
 CollectionClientes.addSubSchema('update',
-    ['nome', 'idade', 'endereco', 'telefone', 'email']);
+    ['nome', 'idade', 'rua', 'telefone', 'email']);
 
 CollectionClientes.addSubSchema('view',
-    ['nome', 'idade', 'endereco', 'telefone', 'email', 'userId']);
+    ['nome', 'idade', 'rua', 'telefone', 'email', 'userId']);
 

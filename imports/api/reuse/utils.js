@@ -33,6 +33,31 @@ class Util {
     return temp;
   }
 
+  mergeObj (source1, source2) {
+    /*
+     * Properties from the Souce1 object will be copied to Source2 Object.
+     * Note: This method will return a new merged object, Source1 and Source2 original values will not be replaced.
+     * */
+    var mergedObj = this.cloneObj(source2);// Copying Source2 to a new Object
+
+    for (let attrname in source1) {
+      if (mergedObj.hasOwnProperty(attrname)) {
+        if (source1[attrname] != null && source1[attrname].constructor == Object) {
+          /*
+           * Recursive call if the property is an object,
+           * Iterate the object and set all properties of the inner object.
+           */
+          mergedObj[attrname] = mergedObj(source1[attrname], mergedObj[attrname]);
+        }
+
+      } else {//else copy the property from source1
+        mergedObj[attrname] = source1[attrname];
+
+      }
+    }
+
+    return mergedObj;
+  }
 }
 
 export const Utils = new Util();

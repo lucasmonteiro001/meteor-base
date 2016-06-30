@@ -51,6 +51,13 @@ CltUsers.setSchema({
   profile: {
     type: String,
     label: 'Nome',
+    formOptions: {
+      FIELD_TAG: 'input',
+      FIELD_TYPE: 'text',
+    },
+    formValidation: {
+      required: { value: true, message: 'O profile é obrigatório' },
+    },
     tableView: {
       label: 'Nome',
       template: 'profileUsersTmp',
@@ -58,7 +65,7 @@ CltUsers.setSchema({
 
   },
   roles: {
-    type: String,
+    type: Object,
     label: 'Roles',
     tableView: {
       label: 'Grupo',
@@ -66,8 +73,15 @@ CltUsers.setSchema({
     },
   },
   emails: {
-    type: String,
+    type: Object,
     label: 'Email',
+    formOptions: {
+      FIELD_TAG: 'input',
+      FIELD_TYPE: 'text',
+    },
+    formValidation: {
+      required: { value: true, message: 'O Email é obrigatório' },
+    },
     tableView: {
       label: 'Email',
       template: 'emailUsersTmp',

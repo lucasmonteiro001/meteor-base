@@ -55,3 +55,4 @@ practicalmeteor:chai
 ejson
 practicalmeteor:mocha@=2.4.5-rc5.5
 dispatch:mocha-phantomjs
+practicalmeteor:mocha-console-runner

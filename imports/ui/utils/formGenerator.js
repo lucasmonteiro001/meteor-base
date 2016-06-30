@@ -25,13 +25,16 @@ export class FormGeneretor {
           </div>';
   }
 
-  formRender (controller, schemaName = 'default', id = '') {
+  formRender (controller, schemaName = 'default', searchFor = '') {
     let result = '';
     let fieldTmp = '';
     let dadosCollection = {};
     let schema = controller.getSchemaJson(schemaName);
-    if (id != '') {
-      dadosCollection = controller.get({ _id: id });
+
+    if (searchFor != '' && typeof searchFor == 'string') {
+      dadosCollection = controller.get({ _id: searchFor });
+    } else if (searchFor != '' && typeof searchFor == 'object') {
+      dadosCollection = controller.get(searchFor);
     }
 
     for (let key in schema) {
@@ -65,14 +68,19 @@ export class FormGeneretor {
     return result;
   }
 
-  formViewRender (controller, schemaName = 'default', id = '') {
+  formViewRender (controller, schemaName = 'default', searchFor = '') {
     let result = '';
     let fieldTmp = '';
     let dadosCollection = {};
     let schema = controller.getSchemaJson(schemaName);
-    if (id != '') {
-      dadosCollection = controller.get({ _id: id });
+
+    if (searchFor != '' && typeof searchFor == 'string') {
+      dadosCollection = controller.get({ _id: searchFor });
+    } else if (searchFor != '' && typeof searchFor == 'object') {
+      dadosCollection = controller.get(searchFor);
     }
+
+
 
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {

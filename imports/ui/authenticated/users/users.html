@@ -20,8 +20,8 @@
                 <div class="col-xs-8">
                     {{> reactiveTable settings=settings}}
                 </div>
-                <div class="col-xs-4">
-                    {{> Template.dynamic template=userView}}
+                <div class="col-xs-4" id="userDetailsPanel">
+
                 </div>
 
 
@@ -36,7 +36,7 @@
 
 <template name="emailUsersTmp">
     {{#each emails}}
-        <ul><a id="actionUserView" value="{{_id}}">  {{address}} </a></ul>
+        <ul><a id="actionUserView" name="{{address}}" value="{{address}}">  {{address}} </a></ul>
     {{/each}}
 </template>
 
@@ -56,16 +56,11 @@
 </template>
 
 <template name="userViewDetails">
-    <div class="profile-info">
-
-        <h2 class="no-margins">
-            Alex Smith
-        </h2>
-        <h4>{{roles}}</h4>
-        <small>
-            Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-        </small>
-
+    <h2>{{this.emailuser}} </h2>
+    <div class="panel-body" id="viewUserDetailsForm">
 
     </div>
+
+
 </template>
+

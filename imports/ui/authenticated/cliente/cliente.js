@@ -9,7 +9,7 @@ let template;
 
 Template.cliente.onCreated(() => {
   template = Template.instance();
-  clienteController.applySubscribe(clienteController, 'view', template, '', function () {
+  clienteController.applySubscribe('view', template, '', function () {
       }
   );
   template.canInsert = new ReactiveVar(false);
@@ -63,7 +63,7 @@ Template.clienteView.onCreated(() => {
   template.canUpdate = new ReactiveVar(false);
   template.canRemove = new ReactiveVar(false);
 
-  clienteController.applySubscribe(clienteController, 'view', template, id, ()=> {
+  clienteController.applySubscribe('view', template, id, ()=> {
     clienteController.checkIfCanUserUpdate(template.canUpdate, id);
     clienteController.checkIfCanUserRemove(template.canRemove, id);
     template.collectionData = clienteController.get({ _id: id });
@@ -131,7 +131,7 @@ Template.clienteEdit.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
 
-  clienteController.applySubscribe(clienteController, 'update', template, id, ()=> {
+  clienteController.applySubscribe('update', template, id, ()=> {
     template.collectionData = clienteController.get({ _id: id });
     document.getElementById('formContext').innerHTML =
         formGen.formRender(clienteController, 'update', id);
@@ -176,7 +176,7 @@ Template.clienteEdit.events({
 
 Template.clienteList.onCreated(() => {
   template = Template.instance();
-  clienteController.applySubscribe(clienteController, 'view', template, '', function () {
+  clienteController.applySubscribe('view', template, '', function () {
   });
 });
 
