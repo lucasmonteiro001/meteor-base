@@ -127,6 +127,7 @@ export class ModelBase {
    */
   applyAllMethods () {
     Meteor.methods(this.functions);
+    return true;
   }
 
   /**

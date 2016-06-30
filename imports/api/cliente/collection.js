@@ -21,7 +21,7 @@ CollectionClientes.setSchema({
     },
   },
   idade: {
-    type: String,
+    type: Number,
     defaultValue: '',
     label: 'Idade',
     formOptions: {
@@ -36,16 +36,16 @@ CollectionClientes.setSchema({
       label: 'Idade',
     },
   },
-  rua: {
-    type: String,
+  DataNascimento: {
+    type: Date,
     defaultValue: '',
-    label: 'Rua',
+    label: 'Data de Nascimento',
     formOptions: {
-      FIELD_TAG: 'textarea',
-      FIELD_TYPE: 'text',
+      FIELD_TAG: 'inputdate',
+      FIELD_TYPE: 'date',
     },
     formValidation: {
-      required: { value: true, message: 'Pô, preenchei ai né!!' },
+      required: { value: true, message: 'A Data de Nascimento é obrigatória' },
     },
   },
   telefone: {
@@ -88,8 +88,8 @@ CollectionClientes.setSchema({
 CollectionClientes.addSubSchema('insert', ['nome', 'idade', 'email', 'userId']);
 
 CollectionClientes.addSubSchema('update',
-    ['nome', 'idade', 'rua', 'telefone', 'email']);
+    ['nome', 'idade', 'DataNascimento', 'telefone', 'email']);
 
 CollectionClientes.addSubSchema('view',
-    ['nome', 'idade', 'rua', 'telefone', 'email', 'userId']);
+    ['nome', 'idade', 'DataNascimento', 'telefone', 'email', 'userId']);
 

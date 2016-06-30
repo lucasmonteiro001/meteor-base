@@ -149,7 +149,5 @@ export class CollectionBase {
     return this.collectionInstance;
   }
 
-
-
 }
 

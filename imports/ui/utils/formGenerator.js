@@ -9,6 +9,16 @@ export class FormGeneretor {
           name="{FIELD_NAME}" class="form-control XXA" value="{VALUE}"> \
           </div> \
           </div>';
+
+    this.templates['inputdate'] = '<div class="form-group" id="data_1"> \
+        <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+        <div class="col-md-10 input-group date"> \
+        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>\
+        <input type="text" class="form-control" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}" value="{VALUE}"> \
+        </div> \
+        </div>'
+
     this.templates['textarea'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
@@ -25,7 +35,8 @@ export class FormGeneretor {
           </div>';
   }
 
-  formRender (controller, schemaName = 'default', searchFor = '') {
+  formRender (idOfElement, applyValidation = true, controller, schemaName = 'default', searchFor = '', idOfForm = '') {
+    let existsDataType = false;
     let result = '';
     let fieldTmp = '';
     let dadosCollection = {};
@@ -42,6 +53,10 @@ export class FormGeneretor {
 
         fieldTmp = this.templates[schema[key].formOptions.FIELD_TAG];
 
+        if (schema[key].formOptions.FIELD_TAG == 'inputdate') {
+          existsDataType = true;
+        }
+
         //FIELD_NAME = key
         fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
 
@@ -55,7 +70,12 @@ export class FormGeneretor {
 
         //Valor dos campos
         if (typeof dadosCollection != 'undefined') {
-          fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), dadosCollection[key] || '');
+          let valor = dadosCollection[key];
+          if (schema[key].type == Date) {
+            let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+            valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+          }
+          fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
         }
 
         //Resultado Final
@@ -65,10 +85,29 @@ export class FormGeneretor {
 
     }
 
-    return result;
+    document.getElementById(idOfElement).innerHTML = result;
+
+    if (applyValidation) {
+      if (idOfForm != '') {
+        idOfElement = idOfForm;
+      }
+      this.applyJQueryValidation(controller, schemaName, idOfElement);
+    }
+
+    if (existsDataType) {
+      $('#data_1 .input-group.date').datepicker({
+        startView: 1,
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        autoclose: true,
+        format: "dd/mm/yyyy"
+      });
+    }
+
   }
 
-  formViewRender (controller, schemaName = 'default', searchFor = '') {
+  formViewRender (idOfElement, controller, schemaName = 'default', searchFor = '') {
     let result = '';
     let fieldTmp = '';
     let dadosCollection = {};
@@ -79,8 +118,6 @@ export class FormGeneretor {
     } else if (searchFor != '' && typeof searchFor == 'object') {
       dadosCollection = controller.get(searchFor);
     }
-
-
 
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
@@ -100,7 +137,12 @@ export class FormGeneretor {
 
         //Valor dos campos
         if (typeof dadosCollection != 'undefined') {
-          fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), dadosCollection[key] || '');
+          let valor = dadosCollection[key];
+          if (schema[key].type == Date) {
+            let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+            valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+          }
+          fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
         }
 
         //Resultado Final
@@ -108,10 +150,10 @@ export class FormGeneretor {
       }
     }
 
-    return result;
+    document.getElementById(idOfElement).innerHTML = result;
   }
 
-  applyJQueryValidation (controller, schemaName = 'default', formId) {
+  applyJQueryValidation (controller, schemaName = 'default', elementId) {
     let rules = {};
     let message = {};
     let schema = controller.getSchemaJson(schemaName);
@@ -135,7 +177,7 @@ export class FormGeneretor {
     }
 
     //Jquery Validation - https://jqueryvalidation.org/validate
-    $('#' + formId).validate({
+    $('#' + elementId).validate({
       rules: rules,
       messages: message,
     });
@@ -147,7 +189,42 @@ export class FormGeneretor {
     let schema = controller.getSchemaJson(schemaName);
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
-        objData[key] = template.find('[id="' + key + '"]').value.trim();
+        let value = template.find('[id="' + key + '"]').value.trim();
+
+        switch (schema[key].type) {
+          case String:
+            objData[key] = value;
+            break;
+          case [String]:
+            objData[key] = JSON.parse(value).keys(obj).map(function (k) {
+              return obj[k]
+            });
+            break;
+          case Number:
+            objData[key] = Number(value);
+            break;
+          case Date:
+            var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+            objData[key] = new Date(value.replace(pattern, '$3-$2-$1'));
+            break;
+          case Array:
+            objData[key] = value.split(",");
+            break;
+          case Object:
+            objData[key] = JSON.parse(value);
+            break;
+          case [Object]:
+            objData[key] = JSON.parse(value).keys(obj).map(function (k) {
+              return obj[k]
+            });
+            break;
+          case Boolean:
+            objData[key] = Boolean(value);
+            break;
+          default:
+            objData[key] = value;
+        }
+
       }
 
     }

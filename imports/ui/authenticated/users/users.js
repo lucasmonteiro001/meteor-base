@@ -74,8 +74,7 @@ Template.userViewDetails.onCreated(() => {
 
   template = Template.instance();
   usersController.applySubscribe('default', template, { 'emails.0.address': template.data.emailuser }, function () {
-    document.getElementById('viewUserDetailsForm').innerHTML =
-        formGen.formViewRender(usersController, 'default', { 'emails.0.address': template.data.emailuser });
+    formGen.formViewRender('viewUserDetailsForm', usersController, 'default', { 'emails.0.address': template.data.emailuser });
   });
 });
 

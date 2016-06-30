@@ -31,9 +31,8 @@ Template.cliente.helpers({
 Template.clienteAdd.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
 
-  document.getElementById('formContext').innerHTML =
-      formGen.formRender(clienteController, 'insert');
-  formGen.applyJQueryValidation(clienteController, 'insert', 'userForm');
+  formGen.formRender('formContext', true, clienteController, 'insert', '', 'formTag');
+
 
 });
 
@@ -67,8 +66,7 @@ Template.clienteView.onCreated(() => {
     clienteController.checkIfCanUserUpdate(template.canUpdate, id);
     clienteController.checkIfCanUserRemove(template.canRemove, id);
     template.collectionData = clienteController.get({ _id: id });
-    document.getElementById('formContext').innerHTML =
-        formGen.formViewRender(clienteController, 'view', id);
+    formGen.formViewRender('formContext', clienteController, 'view', id);
   });
 
 });
@@ -133,16 +131,12 @@ Template.clienteEdit.onCreated(() => {
 
   clienteController.applySubscribe('update', template, id, ()=> {
     template.collectionData = clienteController.get({ _id: id });
-    document.getElementById('formContext').innerHTML =
-        formGen.formRender(clienteController, 'update', id);
+    formGen.formRender('formContext', true, clienteController, 'update', id, 'formTag');
   });
 
 });
 
 Template.clienteEdit.onRendered(() => {
-
-  //Aplica a Validação dos Campos
-  formGen.applyJQueryValidation(clienteController, 'update', 'userForm');
 
 });
 
