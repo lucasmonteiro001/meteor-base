@@ -1,7 +1,7 @@
 /**
  * <p>
- * Finalidade da Classe: Finalidade da classe.
- * item de processo em autorização de fornecimento.
+ * Finalidade da Classe: Realizar testes unitáios
+ * da classe controllerBase.
  * </p>
  *
  * <p>
@@ -15,10 +15,11 @@
  */
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { expect } from 'meteor/practicalmeteor:chai';
-import { CollectionClientes } from '../cliente/collection.js';
+import { CollectionBase } from './collectionBase.js';
 import { ControllerBase } from './controllerBase.js';
 
-const CtrlCliente = new ControllerBase(CollectionClientes);
+const CollectionTestes = new CollectionBase('CtrlTestes');
+const CtrlCliente = new ControllerBase(CollectionTestes);
 
 Meteor.methods({
   'test.resetDatabase': () => resetDatabase(),
@@ -39,13 +40,35 @@ describe('Controller Base', function (done) {
 
   it('Deve retornar um filtro adicionado ao controller', function () {
     CtrlCliente.setFilter('Filtro de Teste');
-    expect(CtrlCliente.getFilter()).to.have.string('Filtro de Teste');
     expect(CtrlCliente.getFilter()).to.be.equal('Filtro de Teste');
-    chai.assert.equal('Filtro de Teste', CtrlCliente.getFilter());
+  });
+
+  it('Deve retornar um objeto de schema default, vinculado ao de nome default', function () {
+    expect(CtrlCliente.getProjection('default')).to.be.an('object');
+  });
+
+  it('Deve retornar o objeto collection vinculada ao controller', function () {
+    expect(CtrlCliente.getAll()).to.be.an('object');
   });
 
   it('Deve retornar a collection vinculada ao controller', function () {
-    expect(CtrlCliente.getCollectionName()).to.be.equal('Clientes');
+    expect(CtrlCliente.getCollection()).to.be.an('object');
+  });
+
+  it('Deve retornar o nome da collection vinculada ao controller', function () {
+    expect(CtrlCliente.getCollectionName()).to.be.equal('CtrlTestes');
+  });
+
+  it('Deve retornar um objeto de schema vinculado ao controller', function () {
+    expect(CtrlCliente.getSchema('default')).to.be.an('object');
+  });
+
+  it('Deve retornar um objeto json de schema vinculado ao controller', function () {
+    expect(CtrlCliente.getSchemaJson('default')).to.be.an('object');
+  });
+
+  it('Deve retornar um documento da collection', function () {
+    expect(CtrlCliente.get('123456')).to.be.undefined;
   });
 
 });
