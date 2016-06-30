@@ -20,22 +20,6 @@ CollectionClientes.setSchema({
       template: 'tmpl',
     },
   },
-  idade: {
-    type: Number,
-    defaultValue: '',
-    label: 'Idade',
-    formOptions: {
-      FIELD_TAG: 'input',
-      FIELD_TYPE: 'number',
-    },
-    formValidation: {
-      required: { value: true, message: 'A idade é obrigatória' },
-      minlength: { value: 2, message: 'Este campo deve ter no mínimo 2 caracteres' },
-    },
-    tableView: {
-      label: 'Idade',
-    },
-  },
   DataNascimento: {
     type: Date,
     defaultValue: '',
@@ -85,11 +69,11 @@ CollectionClientes.setSchema({
   },
 });
 
-CollectionClientes.addSubSchema('insert', ['nome', 'idade', 'email', 'userId']);
+CollectionClientes.addSubSchema('insert', ['nome', 'DataNascimento', 'email', 'userId']);
 
 CollectionClientes.addSubSchema('update',
-    ['nome', 'idade', 'DataNascimento', 'telefone', 'email']);
+    ['nome', 'DataNascimento', 'telefone', 'email']);
 
 CollectionClientes.addSubSchema('view',
-    ['nome', 'idade', 'DataNascimento', 'telefone', 'email', 'userId']);
+    ['nome', 'DataNascimento', 'telefone', 'email', 'userId']);
 

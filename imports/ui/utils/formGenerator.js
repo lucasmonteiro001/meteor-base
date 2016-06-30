@@ -71,7 +71,7 @@ export class FormGeneretor {
         //Valor dos campos
         if (typeof dadosCollection != 'undefined') {
           let valor = dadosCollection[key];
-          if (schema[key].type == Date) {
+          if (schema[key].type == Date && valor) {
             let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
             valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
           }
@@ -138,7 +138,7 @@ export class FormGeneretor {
         //Valor dos campos
         if (typeof dadosCollection != 'undefined') {
           let valor = dadosCollection[key];
-          if (schema[key].type == Date) {
+          if (schema[key].type == Date && valor) {
             let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
             valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
           }
