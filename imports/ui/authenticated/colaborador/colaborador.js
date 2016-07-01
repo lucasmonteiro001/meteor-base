@@ -110,7 +110,7 @@ Template.colaboradorView.events({
 
               } else {
                 FlowRouter.go('colaborador');
-                Message.showSuccessNotification('O Cliente foi removido com sucesso!');
+                Message.showSuccessNotification('O colaborador foi removido com sucesso!');
               }
             });
           }
@@ -168,11 +168,15 @@ Template.colaboradorList.helpers({
     let templates = { tmpl: Template.colaboradorTmpl };
     return {
       collection: colaboradoresController.getCollection(),
-      rowsPerPage: 10,
-      showFilter: true,
-      showRowCount: true,
-      showColumnToggles: true,
-      multiColumnSort: true,
+      rowsPerPage: false,
+      showFilter: false,
+      showRowCount: false,
+      showColumnToggles: false,
+      multiColumnSort: false,
+      showNavigationRowsPerPage: false,
+      showNavigation: true,
+      currentPage: false,
+      sortable: false,
       fields: formGen.getTableViewData(colaboradoresController, 'view', templates),
     };
   },

@@ -89,7 +89,7 @@ CollectionColaboradores.setSchema({
   },
 });
 
-CollectionColaboradores.addSubSchema('insert', ['nome', 'DataNascimento', 'email', 'userId']);
+CollectionColaboradores.addSubSchema('insert', ['nome', 'DataNascimento', 'telefone', 'email', 'QuantidadeDeDependentes', 'userId']);
 
 CollectionColaboradores.addSubSchema('update',
     ['nome', 'DataNascimento', 'telefone', 'email', 'QuantidadeDeDependentes']);

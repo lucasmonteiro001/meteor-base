@@ -25,14 +25,7 @@ export class FormGenerator {
     inputString = inputString + '</div> </div>';
     this.templates['input3H'] = inputString;
 
-    this.templates['inputdate'] = '<div class="form-group" id="data_1"> \
-        <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-        <div class="col-md-10 input-group date"> \
-        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>\
-        <input type="text" class="form-control" id="{FIELD_NAME}" \
-          name="{FIELD_NAME}" value="{VALUE}"> \
-        </div> \
-        </div>'
+    this.templates['inputdate'] = '<div class="form-group" id="data_1"> <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label><div class="col-md-10"> <div class="input-group date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" id="{FIELD_NAME}" name="{FIELD_NAME}" value="{VALUE}"> </div></div> </div>';
 
     this.templates['textareaH'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
