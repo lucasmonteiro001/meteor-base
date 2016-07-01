@@ -1,18 +1,18 @@
-import { CollectionClientes } from './collection.js';
+import { CollectionColaboradores } from './collection.js';
 import { ModelBase } from '../reuse/modelBase';
 
-class ModelClientes extends ModelBase {
+class ModelColaboradores extends ModelBase {
 
 }
 
-export const MdlClientes = new ModelClientes(CollectionClientes);
+export const MdlColaboradores = new ModelColaboradores(CollectionColaboradores);
 
 //Aplicar os métodos que serão utilizados no Client através do "Meteor.Call"
-MdlClientes.applyAllMethods();
+MdlColaboradores.applyAllMethods();
 
 //Aplicar as publicações que serão consideradas quando no Client for executado
 // o "Template.subscribe"
-MdlClientes.applyPublications();
+MdlColaboradores.applyPublications();
 
 //################################################
 //############ RESTRIÇÃO POR FUNCIONALIDADE ######
@@ -22,10 +22,10 @@ MdlClientes.applyPublications();
 
 //Grupos que podem realizar operações no banco de dados
 let groups = ['administrador'];
-MdlClientes.setGroupPermissions(['insert', 'update', 'remove', 'read'], groups);
+MdlColaboradores.setGroupPermissions(['insert', 'update', 'remove', 'read'], groups);
 
 //################################################
-//############ RESTRIÇÃO POR DADos ###############
+//############ RESTRIÇÃO POR DADOS ###############
 //################################################
 
 //Aqui deve sevem ser inseridas as regras referentes às restrições por dados.
@@ -41,5 +41,5 @@ Security.defineMethod('ownsDocument', {
     return userId === doc[field] || Roles.userIsInRole(userId, groups);
   },
 });
-MdlClientes.setFunctionPermissions(['update', 'remove', 'read'], 'ownsDocument');
+MdlColaboradores.setFunctionPermissions(['update', 'remove', 'read'], 'ownsDocument');
 

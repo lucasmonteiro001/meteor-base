@@ -1,13 +1,13 @@
-<template name="cliente">
+<template name="colaborador">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-8">
-            <h2> Lista de clientes </h2>
+            <h2> Lista de Colaboradores </h2>
             <ol class="breadcrumb">
                 <li>
                     <a href="{{pathFor route='index'}}">Página Principal</a>
                 </li>
                 <li class="active">
-                    <strong> Lista de Clientes </strong>
+                    <strong> Lista de Colaboradores </strong>
                 </li>
             </ol>
         </div>
@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="pull-right btAdd">
-                        <a href="{{pathFor 'clienteAdd'}}" id="insert" class="btn btn-success" name="insert">
+                        <a href="{{pathFor 'colaboradorAdd'}}" id="insert" class="btn btn-success" name="insert">
                             <i class="fa fa-plus-circle" aria-hidden="true"></i> Novo</a>
                     </div>
                 </div>
@@ -28,15 +28,13 @@
 
         <div class="row">
             <div class="col-lg-12">
-                {{> clienteList}}
+                {{> colaboradorList}}
             </div>
         </div>
-
     </div>
-
 </template>
 
-<template name="clienteAdd">
+<template name="colaboradorAdd">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-8">
             <h2> Cadastrar Cliente </h2>
@@ -56,27 +54,22 @@
         <form class="form-horizontal row-border" id="formTag" data-toggle="validator" role="form">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel-body" id="formContext">
-
-
-                    </div>
+                    <div class="panel-body" id="formContext"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="pull-right btAdd">
                         <button type="submit" class="btn btn-primary">Salvar</button>
-                        <a href="{{pathFor 'cliente'}}" class="btn">Voltar</a>
+                        <a href="{{pathFor 'colaborador'}}" class="btn">Voltar</a>
                     </div>
                 </div>
             </div>
         </form>
     </div>
-
-
 </template>
 
-<template name="clienteEdit">
+<template name="colaboradorEdit">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-12">
             <h2> {{ collectionData.nome }}</h2>
@@ -85,7 +78,7 @@
                     <a href="{{pathFor route='index'}}">Página Principal</a>
                 </li>
                 <li>
-                    <a href="{{pathFor route='cliente'}}">Lista de clientes</a>
+                    <a href="{{pathFor route='colaborador'}}">Lista de colaboradores</a>
                 </li>
 
                 <li class="active">
@@ -100,27 +93,22 @@
         <form class="form-horizontal row-border" id="formTag" data-toggle="validator" role="form">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel-body" id="formContext">
-
-
-                    </div>
+                    <div class="panel-body" id="formContext"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="pull-right btAdd">
                         <button type="submit" class="btn btn-primary">Salvar</button>
-                        <a href="{{pathFor 'clienteView'}}/{{collectionData._id}}" class="btn">Voltar</a>
+                        <a href="{{pathFor 'colaboradorView'}}/{{collectionData._id}}" class="btn">Voltar</a>
                     </div>
                 </div>
             </div>
         </form>
     </div>
-
-
 </template>
 
-<template name="clienteView">
+<template name="colaboradorView">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-8">
             <h2> {{ collectionData.nome }}</h2>
@@ -129,7 +117,7 @@
                     <a href="{{pathFor route='index'}}">Página Principal</a>
                 </li>
                 <li>
-                    <a href="{{pathFor route='cliente'}}">Lista de clientes</a>
+                    <a href="{{pathFor route='colaborador'}}">Lista de clientes</a>
                 </li>
 
                 <li class="active">
@@ -139,7 +127,7 @@
         </div>
         <div class="col-lg-4">
             <div class="pull-right">
-                <a id="btn-criar-chamado-voltar" class="btn btn-default" href="{{pathFor 'cliente'}}">
+                <a id="btn-criar-chamado-voltar" class="btn btn-default" href="{{pathFor 'colaborador'}}">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     Voltar
                 </a>
@@ -153,16 +141,16 @@
                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
 
                             {{#if canUserUpdate}}
-                                <li><a id="linkEdit" href="{{pathFor 'clienteEdit'}}/{{collectionData._id}}"
+                                <li><a id="linkEdit" href="{{pathFor 'colaboradorEdit'}}/{{collectionData._id}}"
                                        name="update"><i
                                         class="icon icon-pencil"></i>
-                                    Editar...</a></li>
+                                    Editar</a></li>
                             {{/if}}
                             <li class="divider"></li>
                             {{#if canUserRemove}}
                                 <li><a id="linkExcluir" href="#!" value="{{collectionData._id}}" name="remove"><i
                                         class="icon icon-pencil"></i>
-                                    Excluir...</a>
+                                    Excluir</a>
                                 </li>
                             {{/if}}
                         </ul>
@@ -176,19 +164,16 @@
     <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
         <div class="row form-horizontal row-border">
             <div class="col-lg-12">
-                <div class="panel-body" id="formContext">
-
-
-                </div>
+                <div class="panel-body" id="formContext"></div>
             </div>
         </div>
     </div>
 </template>
 
-<template name="clienteList">
+<template name="colaboradorList">
     {{> reactiveTable settings=settings}}
 </template>
 
-<template name="clienteTmpl">
-    <a href="{{pathFor 'clienteView'}}/{{_id}}">  {{nome}} </a>
+<template name="colaboradorTmpl">
+    <a href="{{pathFor 'colaboradorView'}}/{{_id}}">  {{nome}} </a>
 </template>

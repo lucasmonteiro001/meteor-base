@@ -1,49 +1,45 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import { clienteController } from '../../../api/cliente/controller.js';
+import { colaboradoresController } from '../../../api/colaborador/controller.js';
 import { Message } from '../../utils/message';
 import { formGen } from '../../utils/formGenerator';
-import './cliente.html';
+import './colaborador.html';
 
 let template;
 
-Template.cliente.onCreated(() => {
+Template.colaborador.onCreated(() => {
   template = Template.instance();
-  clienteController.applySubscribe('view', template, '', function () {
+  colaboradoresController.applySubscribe('view', template, '', function () {
       }
   );
   template.canInsert = new ReactiveVar(false);
 });
-
-Template.cliente.onRendered(() => {
+Template.colaborador.onRendered(() => {
   template = Template.instance();
-  clienteController.checkIfCanUserInsert(template.canInsert);
+  colaboradoresController.checkIfCanUserInsert(template.canInsert);
 });
-
-Template.cliente.helpers({
+Template.colaborador.helpers({
   'canUserInsert': () => {
     template = Template.instance();
-    clienteController.checkIfCanUserInsert(template.canInsert);
+    colaboradoresController.checkIfCanUserInsert(template.canInsert);
     return template.canInsert.get();
   },
 });
 
-Template.clienteAdd.onRendered(() => {
+Template.colaboradorAdd.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
 
-  formGen.formRender('formContext', true, clienteController, 'insert', '', 'formTag');
-
+  formGen.formRender('formContext', true, colaboradoresController, 'insert', '', 'formTag');
 
 });
-
-Template.clienteAdd.events({
+Template.colaboradorAdd.events({
 
   //Eventos do template de inserção
   'submit form'(event, templateInstance) {
     event.preventDefault();
-    const clienteData = formGen.getFormData(clienteController, 'insert', templateInstance);
+    const colaboradorData = formGen.getFormData(colaboradoresController, 'insert', templateInstance);
 
-    clienteController.insert(clienteData, (error, data) => {
+    colaboradoresController.insert(colaboradorData, (error, data) => {
       if (error) {
         Message.showErro(error);
 
@@ -56,35 +52,33 @@ Template.clienteAdd.events({
   },
 });
 
-Template.clienteView.onCreated(() => {
+Template.colaboradorView.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
   template.canUpdate = new ReactiveVar(false);
   template.canRemove = new ReactiveVar(false);
 
-  clienteController.applySubscribe('view', template, id, ()=> {
-    clienteController.checkIfCanUserUpdate(template.canUpdate, id);
-    clienteController.checkIfCanUserRemove(template.canRemove, id);
-    template.collectionData = clienteController.get({ _id: id });
-    formGen.formViewRender('formContext', clienteController, 'view', id);
+  colaboradoresController.applySubscribe('view', template, id, ()=> {
+    colaboradoresController.checkIfCanUserUpdate(template.canUpdate, id);
+    colaboradoresController.checkIfCanUserRemove(template.canRemove, id);
+    template.collectionData = colaboradoresController.get({ _id: id });
+    formGen.formViewRender('formContext', colaboradoresController, 'view', id);
   });
 
 });
-
-Template.clienteView.onRendered(() => {
+Template.colaboradorView.onRendered(() => {
 
 });
-
-Template.clienteView.helpers({
+Template.colaboradorView.helpers({
   'canUserUpdate': () => {
     let template = Template.instance();
-    clienteController.checkIfCanUserUpdate(template.canUpdate, FlowRouter.getParam('_id'));
+    colaboradoresController.checkIfCanUserUpdate(template.canUpdate, FlowRouter.getParam('_id'));
     return template.canUpdate.get();
   },
 
   'canUserRemove': () => {
     let template = Template.instance();
-    clienteController.checkIfCanUserRemove(template.canRemove, FlowRouter.getParam('_id'));
+    colaboradoresController.checkIfCanUserRemove(template.canRemove, FlowRouter.getParam('_id'));
     return template.canRemove.get();
   },
 
@@ -97,26 +91,25 @@ Template.clienteView.helpers({
 
   'collectionData': () => {
     let id = FlowRouter.getParam('_id');
-    return clienteController.get({ _id: id });
+    return colaboradoresController.get({ _id: id });
   },
 });
-
-Template.clienteView.events({
+Template.colaboradorView.events({
 
   //Eventos do template de inserção
   'click #linkExcluir'(event, template) {
     let sel = event.target;
     let id = sel.getAttribute('value');
 
-    Message.showConfirmation('Remover o cliente?', 'Não é possível recuperar um cliente removido!',
+    Message.showConfirmation('Remover o colaborador?', 'Não é possível recuperar um colaborador removido!',
         'Sim, remover!', (erro, confirm) => {
           if (confirm) {
-            clienteController.remove(id, (error, data) => {
+            colaboradoresController.remove(id, (error, data) => {
               if (error) {
                 Message.showErro(error);
 
               } else {
-                FlowRouter.go('cliente');
+                FlowRouter.go('colaborador');
                 Message.showSuccessNotification('O Cliente foi removido com sucesso!');
               }
             });
@@ -125,37 +118,34 @@ Template.clienteView.events({
   },
 });
 
-Template.clienteEdit.onCreated(() => {
+Template.colaboradorEdit.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
 
-  clienteController.applySubscribe('update', template, id, ()=> {
-    template.collectionData = clienteController.get({ _id: id });
-    formGen.formRender('formContext', true, clienteController, 'update', id, 'formTag');
+  colaboradoresController.applySubscribe('update', template, id, ()=> {
+    template.collectionData = colaboradoresController.get({ _id: id });
+    formGen.formRender('formContext', true, colaboradoresController, 'update', id, 'formTag');
   });
 
 });
-
-Template.clienteEdit.onRendered(() => {
+Template.colaboradorEdit.onRendered(() => {
 
 });
-
-Template.clienteEdit.helpers({
+Template.colaboradorEdit.helpers({
   'collectionData': () => {
     let id = FlowRouter.getParam('_id');
-    return clienteController.get({ _id: id });
+    return colaboradoresController.get({ _id: id });
   },
 });
-
-Template.clienteEdit.events({
+Template.colaboradorEdit.events({
 
   //Eventos do template de inserção
   'submit form'(event, template) {
     event.preventDefault();
     const id = FlowRouter.getParam('_id');
-    const clienteData = formGen.getFormData(clienteController, 'update', template);
+    const colaboradorData = formGen.getFormData(colaboradoresController, 'update', template);
 
-    clienteController.update(id, clienteData, (error, data) => {
+    colaboradoresController.update(id, colaboradorData, (error, data) => {
       if (error) {
         Message.showErro(error);
 
@@ -168,23 +158,22 @@ Template.clienteEdit.events({
   },
 });
 
-Template.clienteList.onCreated(() => {
+Template.colaboradorList.onCreated(() => {
   template = Template.instance();
-  clienteController.applySubscribe('view', template, '', function () {
+  colaboradoresController.applySubscribe('view', template, '', function () {
   });
 });
-
-Template.clienteList.helpers({
+Template.colaboradorList.helpers({
   'settings': function () {
-    let templates = { tmpl: Template.clienteTmpl };
+    let templates = { tmpl: Template.colaboradorTmpl };
     return {
-      collection: clienteController.getCollection(),
+      collection: colaboradoresController.getCollection(),
       rowsPerPage: 10,
       showFilter: true,
       showRowCount: true,
       showColumnToggles: true,
       multiColumnSort: true,
-      fields: formGen.getTableViewData(clienteController, 'view', templates),
+      fields: formGen.getTableViewData(colaboradoresController, 'view', templates),
     };
   },
 });

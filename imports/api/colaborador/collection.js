@@ -1,16 +1,17 @@
 import { CollectionBase } from '../reuse/collectionBase';
 
-export const CollectionClientes = new CollectionBase('Clientes');
+export const CollectionColaboradores = new CollectionBase('Colaboradores');
 
 //Definição dos Schemas
-CollectionClientes.setSchema({
+CollectionColaboradores.setSchema({
   nome: {
     type: String,
     defaultValue: '',
     label: 'Nome',
     formOptions: {
-      FIELD_TAG: 'input',
+      FIELD_TAG: 'inputH',
       FIELD_TYPE: 'text',
+      PLACEHOLDER: 'Nome'
     },
     formValidation: {
       required: { value: true, message: 'O nome é obrigatório' },
@@ -26,8 +27,9 @@ CollectionClientes.setSchema({
     optional: true,
     label: 'Quantidade de Dependentes',
     formOptions: {
-      FIELD_TAG: 'input',
+      FIELD_TAG: 'inputH',
       FIELD_TYPE: 'number',
+      PLACEHOLDER: 'Quantidade de dependentes'
     },
     tableView: {
       label: 'Qtd. Dependentes',
@@ -51,8 +53,9 @@ CollectionClientes.setSchema({
     defaultValue: '',
     label: 'Telefone/Cel:',
     formOptions: {
-      FIELD_TAG: 'input',
+      FIELD_TAG: 'inputH',
       FIELD_TYPE: 'text',
+      PLACEHOLDER: 'Telefone'
     },
     formValidation: {
       required: { value: true, message: 'O telefone é obrigatório' },
@@ -67,8 +70,10 @@ CollectionClientes.setSchema({
     optional: true,
     label: 'Email',
     formOptions: {
-      FIELD_TAG: 'input',
+      FIELD_TAG: 'inputH',
       FIELD_TYPE: 'text',
+      PLACEHOLDER: 'Email'
+
     },
     formValidation: {
       required: { value: true, message: 'O email é obrigatório' },
@@ -84,11 +89,11 @@ CollectionClientes.setSchema({
   },
 });
 
-CollectionClientes.addSubSchema('insert', ['nome', 'DataNascimento', 'email', 'userId']);
+CollectionColaboradores.addSubSchema('insert', ['nome', 'DataNascimento', 'email', 'userId']);
 
-CollectionClientes.addSubSchema('update',
+CollectionColaboradores.addSubSchema('update',
     ['nome', 'DataNascimento', 'telefone', 'email', 'QuantidadeDeDependentes']);
 
-CollectionClientes.addSubSchema('view',
+CollectionColaboradores.addSubSchema('view',
     ['nome', 'DataNascimento', 'telefone', 'email', 'QuantidadeDeDependentes', 'userId']);
 

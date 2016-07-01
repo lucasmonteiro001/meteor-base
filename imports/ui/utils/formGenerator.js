@@ -1,14 +1,29 @@
-export class FormGeneretor {
+export class FormGenerator {
   constructor () {
     this.templates = {};
 
-    this.templates['input'] = '<div class="form-group"> \
+    this.templates['inputH'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
-          <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
-          name="{FIELD_NAME}" class="form-control XXA" value="{VALUE}"> \
+               <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}"> \
           </div> \
-          </div>';
+        </div>';
+
+    this.templates['inputV'] = '<div class="form-group"> \
+          <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+               <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}"> \
+        </div>';
+
+    let inputString = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="div{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div id="div{FIELD_NAME}" class="col-md-10"> \ ';
+    for (i = 0; i<3; i++) {
+      inputString = inputString + '<input type="{FIELD_TYPE}" id="{FIELD_NAME}[' + i + ']" name="{FIELD_NAME}" class="form-control m-b" value="{VALUE}"> \ '
+    }
+    inputString = inputString + '</div> </div>';
+    this.templates['input3H'] = inputString;
 
     this.templates['inputdate'] = '<div class="form-group" id="data_1"> \
         <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
@@ -19,20 +34,54 @@ export class FormGeneretor {
         </div> \
         </div>'
 
-    this.templates['textarea'] = '<div class="form-group"> \
+    this.templates['textareaH'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
-          <textarea class="form-control" rows="7" id="{FIELD_NAME}" \
+          <textarea class="form-control" rows="{ROWS}" id="{FIELD_NAME}" \
           name="{FIELD_NAME}">{VALUE}</textarea> \
           </div> \
           </div>';
 
-    this.templates['span'] = '<div class="form-group"> \
+    this.templates['textareaV'] = '<div class="form-group"> \
+          <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <textarea class="form-control" rows="{ROWS}" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}">{VALUE}</textarea> \
+          </div>';
+
+    this.templates['spanH'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
               <span id="{FIELD_NAME}">{VALUE}</span> \
-          </div> \
+          </div>\
           </div>';
+
+    this.templates['spanV'] = '<div class="form-group"> \
+          <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+              <span id="{FIELD_NAME}">{VALUE}</span> \
+          </div>';
+
+    this.templates['selectH'] = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-10"> \
+        <select class="form-control" id="{FIELD_NAME}" name="{FIELD_NAME}">\
+           <option value="{OPTION1}">{OPTION1}</option>\
+           <option value="{OPTION2}">{OPTION2}</option>\
+           <option value="{OPTION3}">{OPTION3}</option>\
+           <option value="{OPTION4}">{OPTION4}</option>\
+        </select>\
+         </div>\
+    </div>';
+
+    this.templates['selectV'] = '<div class="form-group"> \
+        <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+      <select class="form-control" id="{FIELD_NAME}" name="{FIELD_NAME}">\
+       <option value="{OPTION1}">{OPTION1}</option>\
+       <option value="{OPTION2}">{OPTION2}</option>\
+       <option value="{OPTION3}">{OPTION3}</option>\
+       <option value="{OPTION4}">{OPTION4}</option>\
+       <option value="{OPTION5}">{OPTION5}</option>\
+      </select>\
+    </div>';
   }
 
   formRender (idOfElement, applyValidation = true, controller, schemaName = 'default', searchFor = '', idOfForm = '') {
@@ -253,4 +302,4 @@ export class FormGeneretor {
 
 }
 
-export const formGen = new FormGeneretor();
+export const formGen = new FormGenerator();

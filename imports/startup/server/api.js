@@ -1,3 +1,3 @@
-import '../../api/cliente/model';
+import '../../api/colaborador/model';
 import '../../api/users/model';
 import '../../api/reuse/modelBase';

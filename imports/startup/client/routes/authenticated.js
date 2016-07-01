@@ -1,8 +1,8 @@
-import '../../../ui/authenticated/cliente/cliente';
+import '../../../ui/authenticated/colaborador/colaborador';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import '../../../ui/authenticated/index';
 import '../../../ui/authenticated/users/users';
-import { clienteController } from '../../../api/cliente/controller';
+import { colaboradoresController } from '../../../api/colaborador/controller';
 import { Message } from '../../../ui/utils/message';
 
 const CanViewFunction = function (renderFunction) {
@@ -53,41 +53,38 @@ authenticatedRoutes.route('/users', {
   },
 });
 
-authenticatedRoutes.route('/cliente', {
-  name: 'cliente',
+authenticatedRoutes.route('/colaborador', {
+  name: 'colaborador',
   action() {
-    BlazeLayout.render('default', { yield: 'cliente' });
+    BlazeLayout.render('default', { yield: 'colaborador' });
   },
 });
-
-authenticatedRoutes.route('/clienteAdd', {
-  name: 'clienteAdd',
+authenticatedRoutes.route('/colaboradorAdd', {
+  name: 'colaboradorAdd',
   action() {
-    BlazeLayout.render('default', { yield: 'clienteAdd' });
+    BlazeLayout.render('default', { yield: 'colaboradorAdd' });
   },
 });
-
-authenticatedRoutes.route('/clienteEdit/:_id', {
-  name: 'clienteEdit',
+authenticatedRoutes.route('/colaboradorEdit/:_id', {
+  name: 'colaboradorEdit',
   action() {
     cvFunction = new CanViewFunction(function () {
-      BlazeLayout.render('default', { yield: 'clienteEdit' });
+      BlazeLayout.render('default', { yield: 'colaboradorEdit' });
     });
 
     const id = FlowRouter.getParam('_id');
-    clienteController.checkIfCanUserUpdate(cvFunction, id);
+    colaboradoresController.checkIfCanUserUpdate(cvFunction, id);
   },
 });
-
-authenticatedRoutes.route('/clienteView/:_id', {
-  name: 'clienteView',
+authenticatedRoutes.route('/colaboradorView/:_id', {
+  name: 'colaboradorView',
   action() {
     cvFunction = new CanViewFunction(function () {
-      BlazeLayout.render('default', { yield: 'clienteView' });
+      BlazeLayout.render('default', { yield: 'colaboradorView' });
     });
 
     const id = FlowRouter.getParam('_id');
-    clienteController.checkIfCanUserView(cvFunction, id);
+    colaboradoresController.checkIfCanUserView(cvFunction, id);
   },
 });
 

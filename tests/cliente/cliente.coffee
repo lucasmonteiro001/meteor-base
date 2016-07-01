@@ -1,6 +1,6 @@
 { Mongo } = require("meteor/mongo")
 
-TestCollection = new Mongo.Collection('cliente')
+TestCollection = new Mongo.Collection('colaborador')
 module.exports = TestCollection
 
 #if Meteor.isClient
