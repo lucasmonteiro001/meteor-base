@@ -49,8 +49,8 @@ export class FormGenerator {
           </div>';
 
     this.templates['spanH'] = '<div class="form-group"> \
-          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-          <div class="col-md-10"> \
+          <label class="col-md-3 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-9"> \
               <span id="{FIELD_NAME}">{VALUE}</span> \
           </div>\
           </div>';
@@ -171,7 +171,7 @@ export class FormGenerator {
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
 
-        fieldTmp = this.templates['span'];
+        fieldTmp = this.templates['spanH'];
 
         //FIELD_NAME = key
         fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);

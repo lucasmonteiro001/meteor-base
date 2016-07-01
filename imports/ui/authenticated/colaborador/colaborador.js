@@ -45,7 +45,7 @@ Template.colaboradorAdd.events({
 
       } else {
         Message.showSuccessNotification(' inserido com sucesso!');
-        FlowRouter.go('/clienteView/' + data);
+        FlowRouter.go('/colaboradorView/' + data);
       }
 
     });
@@ -151,7 +151,7 @@ Template.colaboradorEdit.events({
 
       } else {
         Message.showSuccessNotification('O Cliente foi atualizado com sucesso!');
-        FlowRouter.go('/clienteView/' + id);
+        FlowRouter.go('/colaboradorView/' + id);
       }
 
     });

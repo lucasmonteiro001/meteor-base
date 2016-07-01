@@ -9,6 +9,7 @@ import '../globals/loading.html';
 import '../globals/authenticated-navigation';
 import '../globals/footer.html';
 import '../globals/sidebar.html';
+import '../globals/sidebar';
 
 const handleRedirect = (routes, redirect) => {
       let currentRoute = FlowRouter.getRouteName();

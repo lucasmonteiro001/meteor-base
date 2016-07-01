@@ -36,10 +36,18 @@ class message {
         });
   }
 
+  /**
+   * Testando a documentação
+   * @param msg
+   */
   showSuccessNotification (msg) {
     Bert.alert(msg, 'success', 'fixed-top', 'fa-check');
   };
 
+  /**
+   * Teste 2
+   * @param msg
+   */
   showInfoNotification (msg) {
     Bert.alert(msg, 'info', 'fixed-top', 'fa-info');
   };
