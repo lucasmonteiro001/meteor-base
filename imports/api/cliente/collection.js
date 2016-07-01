@@ -20,9 +20,23 @@ CollectionClientes.setSchema({
       template: 'tmpl',
     },
   },
+  QuantidadeDeDependentes: {
+    type: Number,
+    defaultValue: 0,
+    optional: true,
+    label: 'Quantidade de Dependentes',
+    formOptions: {
+      FIELD_TAG: 'input',
+      FIELD_TYPE: 'number',
+    },
+    tableView: {
+      label: 'Qtd. Dependentes',
+    },
+  },
   DataNascimento: {
     type: Date,
     defaultValue: '',
+    optional: true,
     label: 'Data de Nascimento',
     formOptions: {
       FIELD_TAG: 'inputdate',
@@ -50,6 +64,7 @@ CollectionClientes.setSchema({
   email: {
     type: String,
     defaultValue: '',
+    optional: true,
     label: 'Email',
     formOptions: {
       FIELD_TAG: 'input',
@@ -72,8 +87,8 @@ CollectionClientes.setSchema({
 CollectionClientes.addSubSchema('insert', ['nome', 'DataNascimento', 'email', 'userId']);
 
 CollectionClientes.addSubSchema('update',
-    ['nome', 'DataNascimento', 'telefone', 'email']);
+    ['nome', 'DataNascimento', 'telefone', 'email', 'QuantidadeDeDependentes']);
 
 CollectionClientes.addSubSchema('view',
-    ['nome', 'DataNascimento', 'telefone', 'email', 'userId']);
+    ['nome', 'DataNascimento', 'telefone', 'email', 'QuantidadeDeDependentes', 'userId']);
 
