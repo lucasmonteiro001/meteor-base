@@ -102,14 +102,14 @@ export class CollectionBase {
    */
   setSchema (schema) {
     this.schemaDefault = schema;
-    this.collectionInstance.attachSchema(this.getSchema())
+    this.collectionInstance.attachSchema(this.getSchema());
 
   }
 
   /**
    * Adiciona um subSchmea
    * @param schemaName -
-   * @param arraySchema -
+   * @param schemaFields -
    */
   addSubSchema (schemaName, schemaFields) {
     this.subSchemas[schemaName] = schemaFields;

@@ -20,7 +20,7 @@ import { CollectionBase } from './collectionBase.js';
 
 const CollectionTestes = new CollectionBase('MdlTestes');
 
-const MdlClientes = new ModelBase(CollectionTestes);
+const MdlBase = new ModelBase(CollectionTestes);
 
 describe('Model Base', function (done) {
   beforeEach(function (done) {
@@ -28,7 +28,7 @@ describe('Model Base', function (done) {
   });
 
   it('Deve retornar true se aplicar para todos os Métodos', function () {
-    expect(MdlClientes.applyAllMethods()).to.be.true;
+    expect(MdlBase.applyAllMethods()).to.be.true;
   });
 
 });

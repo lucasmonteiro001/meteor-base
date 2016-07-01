@@ -17,7 +17,7 @@ import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { chai } from 'meteor/practicalmeteor:chai';
 import { CollectionBase } from './collectionBase.js';
 
-const CtlClientes = new CollectionBase('CtlTestes');
+const CtlBase = new CollectionBase('CtlTestes');
 
 describe('Collection Base', function (done) {
   beforeEach(function (done) {
@@ -25,23 +25,23 @@ describe('Collection Base', function (done) {
   });
 
   it('Deve retornar um objeto de schema vinculado a collection', function () {
-    expect(CtlClientes.getSchema('default')).to.be.an('object');
+    expect(CtlBase.getSchema('default')).to.be.an('object');
   });
 
   it('Deve retornar um objeto de sub schema json vinculado a collection', function () {
-    expect(CtlClientes.getSubSchemaJson('default')).to.be.an('object');
+    expect(CtlBase.getSubSchemaJson('default')).to.be.an('object');
   });
 
   it('Deve retornar undefined ao retornar um subSchema vinculado a collection', function () {
-    expect(CtlClientes.getSubSchema('default')).to.be.undefined;
+    expect(CtlBase.getSubSchema('default')).to.be.undefined;
   });
 
   it('Deve retornar um objeto json de schema vinculado a collection', function () {
-    expect(CtlClientes.getSchemaJson('default')).to.be.an('object');
+    expect(CtlBase.getSchemaJson('default')).to.be.an('object');
   });
 
   it('Deve retornar a collection vinculada a collection', function () {
-    expect(CtlClientes.getCollection()).to.be.an('object');
+    expect(CtlBase.getCollection()).to.be.an('object');
   });
 
 });

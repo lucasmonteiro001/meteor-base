@@ -122,7 +122,7 @@ export class ControllerBase {
 
   /**.
    * Retorna um documento da collection
-   * @param id- Id do documento
+   * @param searchFor - Id do documento
    * @returns {any|*} - Documento da collection
    */
   get (searchFor) {
@@ -131,10 +131,9 @@ export class ControllerBase {
 
   /**
    * Aplica um subsbcribe para o modelo
-   * @param controller - Controller relacionado ao modelo
    * @param schemaName - Nome do schema do modelo
    * @param template - template para o subscribe
-   * @param id - Filtro por id
+   * @param searchFor - Filtro por id
    * @param callback - Função de callack para tratar o retorno da função
    */
   applySubscribe (schemaName, template, searchFor = '', callback) {
@@ -300,5 +299,3 @@ export class ControllerBase {
   }
 }
 ;
-
-
