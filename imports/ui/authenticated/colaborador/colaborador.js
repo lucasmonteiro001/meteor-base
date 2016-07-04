@@ -9,7 +9,7 @@ let template;
 
 Template.colaborador.onCreated(() => {
   template = Template.instance();
-  colaboradoresController.applySubscribe('view', template, '', function () {
+  Utils.applySubscribe(colaboradoresController, 'view', template, '', function () {
       }
   );
   template.canInsert = new ReactiveVar(false);
@@ -58,7 +58,7 @@ Template.colaboradorView.onCreated(() => {
   template.canUpdate = new ReactiveVar(false);
   template.canRemove = new ReactiveVar(false);
 
-  colaboradoresController.applySubscribe('view', template, id, ()=> {
+  Utils.applySubscribe(colaboradoresController, 'view', template, id, ()=> {
     colaboradoresController.checkIfCanUserUpdate(template.canUpdate, id);
     colaboradoresController.checkIfCanUserRemove(template.canRemove, id);
     template.collectionData = colaboradoresController.get({ _id: id });
@@ -122,7 +122,7 @@ Template.colaboradorEdit.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
 
-  colaboradoresController.applySubscribe('update', template, id, ()=> {
+  Utils.applySubscribe(colaboradoresController, 'update', template, id, ()=> {
     template.collectionData = colaboradoresController.get({ _id: id });
     formGen.formRender('formContext', true, colaboradoresController, 'update', id, 'formTag');
   });
@@ -160,7 +160,7 @@ Template.colaboradorEdit.events({
 
 Template.colaboradorList.onCreated(() => {
   template = Template.instance();
-  colaboradoresController.applySubscribe('view', template, '', function () {
+  Utils.applySubscribe(colaboradoresController, 'view', template, '', function () {
   });
 });
 Template.colaboradorList.helpers({
