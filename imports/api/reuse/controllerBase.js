@@ -63,7 +63,6 @@ export class ControllerBase {
       }
     }
 
-
     let projection = { _id: 1 };
     fields.forEach(function (field) {
       projection[field] = 1;
