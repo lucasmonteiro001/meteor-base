@@ -16,6 +16,7 @@
  */
 import { Mongo } from 'meteor/mongo';
 
+
 export class ControllerBase {
   /**
    * Cria um controller, para a coleção desejada.
@@ -62,6 +63,7 @@ export class ControllerBase {
         fields.push(key);
       }
     }
+
 
     let projection = { _id: 1 };
     fields.forEach(function (field) {
