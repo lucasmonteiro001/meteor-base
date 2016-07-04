@@ -153,11 +153,11 @@ export class ControllerBase {
    */
   update (id, collectionData, callback) {
     Meteor.call(
-        this.getCollectionName() + '.update', id, collectionData, (error) => {
+        this.getCollectionName() + '.update', id, collectionData, (error, result) => {
           if (error) {
             callback(error, null);
           } else {
-            callback(null, 'ok');
+            callback(null, result);
           }
         });
   }

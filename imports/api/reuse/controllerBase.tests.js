@@ -36,7 +36,11 @@ CltBase.setSchema({
 
 CltBase.addSubSchema('insert', ['nome', 'userId']);
 
-const MdlBase = new ModelBase(CltBase);
+CltBase.addSubSchema('update', ['nome', 'userId']);
+
+CltBase.addSubSchema('remove', ['nome', 'userId']);
+
+const MdlBase = new ModelBase(CltBase, true);
 
 let groups = ['administrador'];
 
@@ -55,70 +59,100 @@ Meteor.methods({
 if (Meteor.isServer) {
   describe('Controller Base', () => {
 
-    beforeEach((done) => {
-
+    before((done) => {
       Meteor.call('test.resetDatabase', done);
+    });
 
-      const usuarioId = Random.id();
+    it('Deve retornar um filtro adicionado ao controller', () => {
+      CtrlBase.setFilter('Filtro de Teste');
+      expect(CtrlBase.getFilter()).to.be.equal('Filtro de Teste');
+    });
 
-      idUsuario = usuarioId;
+    it('Deve retornar um objeto de schema default, vinculado ao de nome default', () => {
+      expect(CtrlBase.getProjection('default')).to.be.an('object');
+    });
+
+    it('Deve retornar o objeto collection vinculada ao controller', () => {
+      expect(CtrlBase.getAll()).to.be.an('object');
+    });
+
+    it('Deve retornar a collection vinculada ao controller', () => {
+      expect(CtrlBase.getCollection()).to.be.an('object');
+    });
+
+    it('Deve retornar o nome da collection vinculada ao controller', () => {
+      expect(CtrlBase.getCollectionName()).to.be.equal('CtrlTestes');
+    });
+
+    it('Deve retornar um objeto de schema vinculado ao controller', () => {
+      expect(CtrlBase.getSchema('default')).to.be.an('object');
+    });
+
+    it('Deve retornar um objeto json de schema vinculado ao controller', () => {
+      expect(CtrlBase.getSchemaJson('default')).to.be.an('object');
+    });
+
+    it('Deve retornar um documento da collection', () => {
+      expect(CtrlBase.get('123456')).to.be.undefined;
+    });
+
+    it('Deve inserir o usuário na collection', (done) => {
 
       let usuarioDeTeste = {
         nome: 'Arya Stark',
-        userId: this.userId,
+        userId: '123456',
       };
 
       CtrlBase.insert(usuarioDeTeste, (error, result) => {
         if (error) {
-          console.log('ERRO ' + error);
+          console.log(error);
         } else {
-          console.log('Resposta ' + result._id);
+          console.log(result);
+          idUsuario = result;
         }
       });
+
+      let usuario = CtrlBase.get(idUsuario);
+
+      expect(usuario.nome).to.be.equal('Arya Stark');
+      expect(usuario).to.be.an('object');
+      done();
     });
 
-    // it('Deve retornar um filtro adicionado ao controller', function () {
-    //   CtrlBase.setFilter('Filtro de Teste');
-    //   expect(CtrlBase.getFilter()).to.be.equal('Filtro de Teste');
-    // });
-    //
-    // it('Deve retornar um objeto de schema default, vinculado ao de nome default', function () {
-    //   expect(CtrlBase.getProjection('default')).to.be.an('object');
-    // });
-    //
-    // it('Deve retornar o objeto collection vinculada ao controller', function () {
-    //   expect(CtrlBase.getAll()).to.be.an('object');
-    // });
-    //
-    // it('Deve retornar a collection vinculada ao controller', function () {
-    //   expect(CtrlBase.getCollection()).to.be.an('object');
-    // });
-    //
-    // it('Deve retornar o nome da collection vinculada ao controller', function () {
-    //   expect(CtrlBase.getCollectionName()).to.be.equal('CtrlTestes');
-    // });
-    //
-    // it('Deve retornar um objeto de schema vinculado ao controller', function () {
-    //   expect(CtrlBase.getSchema('default')).to.be.an('object');
-    // });
-    //
-    // it('Deve retornar um objeto json de schema vinculado ao controller', function () {
-    //   expect(CtrlBase.getSchemaJson('default')).to.be.an('object');
-    // });
-    //
-    // it('Deve retornar um documento da collection', function () {
-    //   expect(CtrlBase.get('123456')).to.be.undefined;
-    // });
+    it('Deve alterar os dados de um usuário na collection', (done) => {
 
-    it('Deve inserir um usuário na collection', function () {
-      const invocation = { userId: usuarioId };
+      const nome = 'Arya of Winterfell';
 
-      console.log('ENTRO NO TESTE');
-      console.log('Usuario Cadastrado ' + CtrlBase.get(idUsuario));
-      expect(CtrlBase.get('123456')).to.be.undefined;
+      CtrlBase.update(idUsuario, { "nome": nome }, (error, result) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(result);
+
+        }
+      });
+
+      let usuario = CtrlBase.get(idUsuario);
+
+      expect(usuario.nome).to.be.equal('Arya of Winterfell');
+      done();
     });
 
+    it('Deve remover um usuário da collection', (done) => {
+
+      CtrlBase.remove(idUsuario, (error, result) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(result);
+        }
+      });
+
+      expect(CtrlBase.get(idUsuario)).to.be.undefined;
+      done();
+    });
   });
+
 }
 ;
 
