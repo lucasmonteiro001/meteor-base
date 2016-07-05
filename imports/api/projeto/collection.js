@@ -44,7 +44,7 @@ CollectionProjetos.setSchema({
     optional: true,
     label: 'Data de Início',
     formOptions: {
-      FIELD_TAG: 'inputdate',
+      FIELD_TAG: 'inputDateH',
       FIELD_TYPE: 'date'
     },
     formValidation: {
@@ -61,7 +61,7 @@ CollectionProjetos.setSchema({
     optional: true,
     label: 'Data de Fim',
     formOptions: {
-      FIELD_TAG: 'inputdate',
+      FIELD_TAG: 'inputDateH',
       FIELD_TYPE: 'date'
     },
     formValidation: {

@@ -7,7 +7,7 @@ import { UtilsView } from '../../utils/ViewUtils';
 import './colaborador.html';
 
 let template;
-
+let viewUsersDetails;
 Template.colaborador.onCreated(() => {
   template = Template.instance();
   UtilsView.applySubscribe(colaboradoresController, 'view', template, '', function () {
