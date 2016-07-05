@@ -3,13 +3,14 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { projetosController } from '../../../api/projeto/controller.js';
 import { Message } from '../../utils/message';
 import { formGen } from '../../utils/formGenerator';
+import { UtilsView } from '../../utils/ViewUtils';
 import './projeto.html';
 
 let template;
 
 Template.projeto.onCreated(() => {
   template = Template.instance();
-  projetosController.applySubscribe('view', template, '', function () {
+  UtilsView.applySubscribe(projetosController, 'view', template, '', function () {
       }
   );
   template.canInsert = new ReactiveVar(false);
@@ -58,7 +59,7 @@ Template.projetoView.onCreated(() => {
   template.canUpdate = new ReactiveVar(false);
   template.canRemove = new ReactiveVar(false);
 
-  projetosController.applySubscribe('view', template, id, ()=> {
+  UtilsView.applySubscribe(projetosController, 'view', template, id, ()=> {
     projetosController.checkIfCanUserUpdate(template.canUpdate, id);
     projetosController.checkIfCanUserRemove(template.canRemove, id);
     template.collectionData = projetosController.get({ _id: id });
@@ -122,7 +123,7 @@ Template.projetoEdit.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
 
-  projetosController.applySubscribe('update', template, id, ()=> {
+  UtilsView.applySubscribe(projetosController, 'update', template, id, ()=> {
     template.collectionData = projetosController.get({ _id: id });
     formGen.formRender('formContext', true, projetosController, 'update', id, 'formTag');
   });
@@ -160,7 +161,7 @@ Template.projetoEdit.events({
 
 Template.projetoList.onCreated(() => {
   template = Template.instance();
-  projetosController.applySubscribe('view', template, '', function () {
+  UtilsView.applySubscribe(projetosController, 'view', template, '', function () {
   });
 });
 Template.projetoList.helpers({
