@@ -1,8 +1,10 @@
 import '../../../ui/authenticated/colaborador/colaborador';
+import '../../../ui/authenticated/projeto/projeto';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import '../../../ui/authenticated/index';
 import '../../../ui/authenticated/users/users';
 import { colaboradoresController } from '../../../api/colaborador/controller';
+import { projetosController } from '../../../api/projeto/controller';
 import { Message } from '../../../ui/utils/message';
 
 const CanViewFunction = function (renderFunction) {
@@ -88,3 +90,37 @@ authenticatedRoutes.route('/colaboradorView/:_id', {
   },
 });
 
+authenticatedRoutes.route('/projeto', {
+  name: 'projeto',
+  action() {
+    BlazeLayout.render('default', { yield: 'projeto' });
+  },
+});
+authenticatedRoutes.route('/projetoAdd', {
+  name: 'projetoAdd',
+  action() {
+    BlazeLayout.render('default', { yield: 'projetoAdd' });
+  },
+});
+authenticatedRoutes.route('/projetoEdit/:_id', {
+  name: 'projetoEdit',
+  action() {
+    cvFunction = new CanViewFunction(function () {
+      BlazeLayout.render('default', { yield: 'projetoEdit' });
+    });
+
+    const id = FlowRouter.getParam('_id');
+    projetosController.checkIfCanUserUpdate(cvFunction, id);
+  },
+});
+authenticatedRoutes.route('/projetoView/:_id', {
+  name: 'projetoView',
+  action() {
+    cvFunction = new CanViewFunction(function () {
+      BlazeLayout.render('default', { yield: 'projetoView' });
+    });
+
+    const id = FlowRouter.getParam('_id');
+    projetosController.checkIfCanUserView(cvFunction, id);
+  },
+});

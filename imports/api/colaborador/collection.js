@@ -21,7 +21,7 @@ CollectionColaboradores.setSchema({
       template: 'tmpl',
     },
   },
-  QuantidadeDeDependentes: {
+  valor: {
     type: Number,
     defaultValue: 0,
     optional: true,
@@ -35,7 +35,7 @@ CollectionColaboradores.setSchema({
       label: 'Qtd. Dependentes',
     },
   },
-  DataNascimento: {
+  dataInicio: {
     type: Date,
     defaultValue: '',
     optional: true,
@@ -89,11 +89,11 @@ CollectionColaboradores.setSchema({
   },
 });
 
-CollectionColaboradores.addSubSchema('insert', ['nome', 'DataNascimento', 'telefone', 'email', 'QuantidadeDeDependentes', 'userId']);
+CollectionColaboradores.addSubSchema('insert', ['nome', 'dataInicio', 'telefone', 'email', 'valor', 'userId']);
 
 CollectionColaboradores.addSubSchema('update',
-    ['nome', 'DataNascimento', 'telefone', 'email', 'QuantidadeDeDependentes']);
+    ['nome', 'dataInicio', 'telefone', 'email', 'valor']);
 
 CollectionColaboradores.addSubSchema('view',
-    ['nome', 'DataNascimento', 'telefone', 'email', 'QuantidadeDeDependentes', 'userId']);
+    ['nome', 'dataInicio', 'telefone', 'email', 'valor', 'userId']);
 
