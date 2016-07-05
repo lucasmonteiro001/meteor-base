@@ -52,7 +52,7 @@ export class ModelBase {
       if (isTest) {
         dataObj.userId = Random.id();
       } else {
-        dataObj.userId = this.userId;
+        dataObj.userId = Meteor.userId();
       }
     };
 
