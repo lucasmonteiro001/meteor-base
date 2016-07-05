@@ -113,7 +113,7 @@ export class ModelBase {
 
     this.functions[collectionBase.getCollection()._name + '.update'] = function (id, dataObj) {
 
-      checkIfisTestMode(dataObj);
+      //checkIfisTestMode(dataObj);
 
       check(id, String);
       check(dataObj, collectionBase.getSchema('update'));

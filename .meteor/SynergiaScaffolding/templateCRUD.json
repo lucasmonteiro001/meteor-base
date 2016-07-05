@@ -1,0 +1,83 @@
+{
+  "imports": {
+    "api": {
+      "{COLLECTION_NAME}": {
+        "collection.js": {
+          "type": "newfile",
+          "append": "",
+          "prepend": "",
+          "setTemplateFile": "",
+          "setTemplate": "collection.js",
+          "extra-tags": {
+          }
+        },
+        "controller.js": {
+          "type": "newfile",
+          "append": "",
+          "prepend": "",
+          "setTemplateFile": "",
+          "setTemplate": "controller.js"
+        },
+        "model.js": {
+          "type": "newfile",
+          "append": "",
+          "prepend": "",
+          "setTemplateFile": "",
+          "setTemplate": "model.js"
+        }
+      }
+    },
+    "startup": {
+      "client": {
+        "routes": {
+          "authenticated.js": {
+            "type": "file",
+            "append": "",
+            "prepend": " import '../../../ui/authenticated/{COLLECTION_NAME}/{COLLECTION_NAME}'; \n import { {COLLECTION_NAME}Controller } from '../../../api/{COLLECTION_NAME}/controller';",
+            "setTemplateFile": "",
+            "setTemplate": "authenticated-routes-crud"
+          }
+        }
+      },
+      "server": {
+        "api.js": {
+          "type": "file",
+          "append": "",
+          "prepend": "import '../../api/{COLLECTION_NAME}/model';",
+          "setTemplateFile": "",
+          "setTemplate": ""
+        }
+      }
+    },
+    "ui": {
+      "authenticated": {
+        "{COLLECTION_NAME}": {
+          "{COLLECTION_NAME}.html": {
+            "type": "newfile",
+            "append": "",
+            "prepend": "",
+            "setTemplateFile": "",
+            "setTemplate": "template.html"
+          },
+          "{COLLECTION_NAME}.js": {
+            "type": "newfile",
+            "append": "",
+            "prepend": "",
+            "setTemplateFile": "",
+            "setTemplate": "template.js"
+          }
+        }
+      },
+      "globals": {
+        "authenticated-menu.html": {
+          "type": "file",
+          "append": "",
+          "prepend": "",
+          "setTemplateFile": "",
+          "setTemplate": "Item-Menu",
+          "insertBeforeLine": "</template>"
+        }
+      }
+    }
+  }
+}
