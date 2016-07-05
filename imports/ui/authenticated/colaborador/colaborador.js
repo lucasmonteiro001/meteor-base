@@ -3,13 +3,14 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { colaboradoresController } from '../../../api/colaborador/controller.js';
 import { Message } from '../../utils/message';
 import { formGen } from '../../utils/formGenerator';
+import { UtilsView } from '../../utils/ViewUtils';
 import './colaborador.html';
 
 let template;
 
 Template.colaborador.onCreated(() => {
   template = Template.instance();
-  colaboradoresController.applySubscribe('view', template, '', function () {
+  UtilsView.applySubscribe(colaboradoresController, 'view', template, '', function () {
       }
   );
   template.canInsert = new ReactiveVar(false);
@@ -58,7 +59,7 @@ Template.colaboradorView.onCreated(() => {
   template.canUpdate = new ReactiveVar(false);
   template.canRemove = new ReactiveVar(false);
 
-  colaboradoresController.applySubscribe('view', template, id, ()=> {
+  UtilsView.applySubscribe(colaboradoresController, 'view', template, id, ()=> {
     colaboradoresController.checkIfCanUserUpdate(template.canUpdate, id);
     colaboradoresController.checkIfCanUserRemove(template.canRemove, id);
     template.collectionData = colaboradoresController.get({ _id: id });
@@ -122,7 +123,7 @@ Template.colaboradorEdit.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
 
-  colaboradoresController.applySubscribe('update', template, id, ()=> {
+  UtilsView.applySubscribe(colaboradoresController, 'update', template, id, ()=> {
     template.collectionData = colaboradoresController.get({ _id: id });
     formGen.formRender('formContext', true, colaboradoresController, 'update', id, 'formTag');
   });
@@ -160,7 +161,7 @@ Template.colaboradorEdit.events({
 
 Template.colaboradorList.onCreated(() => {
   template = Template.instance();
-  colaboradoresController.applySubscribe('view', template, '', function () {
+  UtilsView.applySubscribe(colaboradoresController, 'view', template, '', function () {
   });
 });
 Template.colaboradorList.helpers({

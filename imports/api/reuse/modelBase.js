@@ -15,14 +15,16 @@
  *
  */
 import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
 
 export class ModelBase {
 
   /**
    * Construtor
    * @param collectionBase - Collection que será passada para o construtor
+   * @param isTest - Modo de teste
    */
-  constructor (collectionBase) {
+  constructor (collectionBase, isTest = false) {
     this.myCollection = collectionBase.getCollection();
 
     this.functions = {};
@@ -40,6 +42,18 @@ export class ModelBase {
         return this.ready();
       }
 
+    };
+
+    /**
+     * Verifica se o método está no modo teste
+     * @param dataObj - Dados que serão alterados
+     */
+    function checkIfisTestMode (dataObj) {
+      if (isTest) {
+        dataObj.userId = Random.id();
+      } else {
+        dataObj.userId = this.userId;
+      }
     };
 
     //##################################################
@@ -77,12 +91,15 @@ export class ModelBase {
     //###Inicialização de métodos que alteram o banco###
     //##################################################
 
-    this.functions[collectionBase.getCollection()._name + '.insert'] = function (dataObj) {
+    this.functions[collectionBase.getCollection()._name + '.insert']
+        = function (dataObj) {
 
-      dataObj.userId = this.userId;
+      checkIfisTestMode(dataObj);
+
       check(dataObj, collectionBase.getSchema('insert'));
 
-      if (!Security.can(this.userId).insert(dataObj).for(collectionBase.getCollection()).check()) {
+      if ((!Security.can(this.userId).insert(dataObj).for(collectionBase.getCollection()).check())
+          && isTest === false) {
         throw new Meteor.Error('Acesso Negado',
             'Você não tem permissão para executar essa ação!');
       } else {
@@ -96,10 +113,13 @@ export class ModelBase {
 
     this.functions[collectionBase.getCollection()._name + '.update'] = function (id, dataObj) {
 
+      checkIfisTestMode(dataObj);
+
       check(id, String);
       check(dataObj, collectionBase.getSchema('update'));
+
       if (!Security.can(this.userId).update(id || dataObj)
-              .for(collectionBase.getCollection()).check()) {
+              .for(collectionBase.getCollection()).check() && isTest === false) {
         throw new Meteor.Error('Acesso Negado',
             'Você não tem permissão para executar essa ação!');
       } else {
@@ -112,7 +132,8 @@ export class ModelBase {
 
     this.functions[collectionBase.getCollection()._name + '.remove'] = function (id) {
       check(id, String);
-      if (!Security.can(this.userId).remove(id).for(collectionBase.getCollection()).check()) {
+      if (!Security.can(this.userId).remove(id).for(collectionBase.getCollection()).check()
+          && isTeste === false) {
         throw new Meteor.Error('Acesso Negado',
             'Você não tem permissão para executar essa ação!');
       } else {
@@ -179,6 +200,7 @@ export class ModelBase {
    * @param functionName
    */
   setFunctionPermissions (actionsList, functionName) {
+
     this.myCollection.permit(actionsList)[functionName]();
   }
 

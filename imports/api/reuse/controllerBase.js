@@ -15,7 +15,7 @@
  *
  */
 import { Mongo } from 'meteor/mongo';
-import { Utils } from '../reuse/utils';
+
 
 export class ControllerBase {
   /**
@@ -130,37 +130,6 @@ export class ControllerBase {
   }
 
   /**
-   * Aplica um subsbcribe para o modelo
-   * @param schemaName - Nome do schema do modelo
-   * @param template - template para o subscribe
-   * @param searchFor - Filtro por id
-   * @param callback - Função de callack para tratar o retorno da função
-   */
-  applySubscribe (schemaName, template, searchFor = '', callback) {
-    let newFilter;
-
-    if (searchFor != '' && typeof searchFor == 'string') {
-      newFilter = Utils.mergeObj(this.filter, { '_id': searchFor });
-    } else if (searchFor != '' && typeof searchFor == 'object') {
-      newFilter = Utils.mergeObj(this.filter, searchFor);
-    } else {
-      newFilter = this.filter;
-    }
-
-    let handle = template
-        .subscribe(this.getCollectionName(),
-            newFilter, this.getProjection(schemaName));
-
-    template.autorun(() => {
-      const isReady = handle.ready();
-      if (isReady) {
-        callback();
-      }
-    });
-
-  }
-
-  /**
    * Insere um documento na collection
    * @param collectionData - Dados que serão inseridos
    * @param callback - Função de callack para tratar o retorno da função
@@ -184,11 +153,11 @@ export class ControllerBase {
    */
   update (id, collectionData, callback) {
     Meteor.call(
-        this.getCollectionName() + '.update', id, collectionData, (error) => {
+        this.getCollectionName() + '.update', id, collectionData, (error, result) => {
           if (error) {
             callback(error, null);
           } else {
-            callback(null, 'ok');
+            callback(null, result);
           }
         });
   }

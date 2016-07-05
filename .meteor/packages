@@ -5,6 +5,7 @@
 # but you can also edit it by hand.
 
 # meteor libraries
+
 meteor-base             # Packages every Meteor app needs to have
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 ecmascript              # Enable ECMAScript2015+ syntax in app code
@@ -13,6 +14,7 @@ mdg:validated-method
 anti:i18n
 
 # data
+
 mongo                   # The database Meteor supports right now
 reactive-var            # Reactive variable for tracker
 session
@@ -24,17 +26,21 @@ check
 audit-argument-checks
 
 # production
+
 standard-minifier-css   # CSS minifier run for production mode
 standard-minifier-js    # JS minifier run for production mode
 
 # stantard libraries
+
 jquery
 less
 
 # mobile
+
 mobile-experience       # Packages for a great mobile UX
 
 # ui
+
 blaze
 blaze-html-templates
 twbs:bootstrap
@@ -45,18 +51,21 @@ themeteorchef:jquery-validation
 aslagle:reactive-table
 
 # routing
+
 kadira:flow-router
 kadira:blaze-layout
 cottz:flow-router-auth
 arillo:flow-router-helpers
 
 # accounts
+
 accounts-password
 accounts-base
 accounts-ui
 alanning:roles
 
 # testing
+
 practicalmeteor:mocha@=2.4.5-rc5.5
 #practicalmeteor:mocha-xunit-reporter
 xolvio:cleaner
@@ -65,8 +74,10 @@ practicalmeteor:chai
 random
 practicalmeteor:sinon
 dburles:factory
+dispatch:mocha-phantomjs@0.1.6
 
 # security
+
 browser-policy
 ongoworks:security
 

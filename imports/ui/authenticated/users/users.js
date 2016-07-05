@@ -6,7 +6,7 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { usersController } from '../../../api/users/controller.js';
 import { Message } from '../../utils/message';
-import { TemplRender } from '../../utils/templateRender';
+import { UtilsView } from '../../utils/ViewUtils';
 import { formGen } from '../../utils/formGenerator';
 import './users.html';
 let template;
@@ -15,7 +15,7 @@ Template.users.onCreated(() => {
 
   template = Template.instance();
   template.selectedUserEmail = new ReactiveVar("");
-  usersController.applySubscribe('default', template, '', function () {
+  UtilsView.applySubscribe(usersController, 'default', template, '', function () {
 
   });
 });
@@ -64,7 +64,7 @@ Template.users.events({
   },
   'click [id="actionUserView"]': function (event) {
     let emailUser = event.currentTarget.name;
-    TemplRender.render('userViewDetails', 'userDetailsPanel', { 'emailuser': emailUser });
+    UtilsView.templateRender('userViewDetails', 'userDetailsPanel', { 'emailuser': emailUser });
 
   },
 
@@ -73,7 +73,7 @@ Template.users.events({
 Template.userViewDetails.onCreated(() => {
 
   template = Template.instance();
-  usersController.applySubscribe('default', template, { 'emails.0.address': template.data.emailuser }, function () {
+  UtilsView.applySubscribe(usersController, 'default', template, { 'emails.0.address': template.data.emailuser }, function () {
     formGen.formViewRender('viewUserDetailsForm', usersController, 'default', { 'emails.0.address': template.data.emailuser });
   });
 });
