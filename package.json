@@ -1,68 +1,12 @@
 {
   "name": "i9",
   "version": "1.0.0",
-  "description": "Aplicativo de pesquisa",
+  "description": "Synergiaa-MeteorBase",
   "scripts": {
     "start": "meteor --settings settings-development.json",
-    "test2": "meteor test --driver-package practicalmeteor:mocha --port 5000",
-    "test": "mocha ./tests/cliente --compilers js:babel-register",
-    "chimp-watch": "chimp --ddp=http://localhost:3000 --watch --mocha --path=tests",
-    "chimp-test": "chimp --ddp=http://localhost:3000 --mocha --path=tests",
-    "staging": "meteor deploy staging.meteor.com --settings settings-development.json",
-    "production": "meteor deploy production.meteor.com --settings settings-production.json"
-  },
-  "ecmascriptOptions": {
-    "classProperties": true
-  },
-  "devDependencies": {
-    "babel-core": "^6.8.0",
-    "babel-preset-es2015": "^6.6.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "babel-preset-stage-2": "^6.5.0",
-    "chai": "^3.5.0",
-    "chai-datetime": "^1.4.1",
-    "testdouble": "^1.4.2",
-    "babel-preset-meteor": "^6.8.1",
-    "babel-root-slash-import": "^1.0.0",
-    "babel-runtime": "^6.9.2",
-    "chimp": "^0.33.1",
-    "faker": "^3.1.0",
-    "mocha": "^2.5.1",
-    "sinon": "^1.17.4",
-    "sinon-chai": "^2.8.0"
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true
-      }
-    },
-    "plugins": [
-      "meteor"
-    ],
-    "extends": [
-      "plugin:meteor/guide"
-    ],
-    "globals": {
-      "$": false,
-      "Accounts": false,
-      "Bert": false,
-      "browser": false,
-      "expect": false,
-      "Factory": false,
-      "Meteor": false,
-      "Roles": false,
-      "server": false,
-      "SimpleSchema": false,
-      "ValidatedMethod": false
-    },
-    "rules": {}
+    "test": "meteor test --driver-package practicalmeteor:mocha --port 5000"
   },
   "dependencies": {
-    "bootstrap": "^3.3.6",
-    "jquery": "^2.2.4",
-    "jquery-validation": "^1.15.0",
-    "meteor-node-stubs": "^0.2.3",
-    "synergia-scaffolding": "1.0.4"
+    "jquery": "^2.2.4"
   }
 }

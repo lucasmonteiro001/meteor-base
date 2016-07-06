@@ -5,7 +5,7 @@
 Template.sidebar.rendered = function () {
   let user = Meteor.user();
   Template.sidebar.emailUser = user && user.emails && user.emails[0].address
-  console.log(user.emails[0].address);
+  //console.log(user.emails[0].address);
 
 };
 
