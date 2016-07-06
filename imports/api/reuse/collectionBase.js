@@ -54,7 +54,7 @@ export class CollectionBase {
    */
   getSchema (schemaName = 'default') {
     let schema = {};
-    if (schemaName === 'default' ||  typeof this.subSchemas[schemaName] == undefined) {
+    if (schemaName === 'default' || typeof this.subSchemas[schemaName] == undefined) {
       schema = Utils.cloneObj(this.schemaDefault);
     } else {
       schema = this.getSubSchemaJson(schemaName);
@@ -132,12 +132,12 @@ export class CollectionBase {
   getSchemaJson (schemaName = 'default') {
     let schema = {};
 
-    if (schemaName === 'default' ||  typeof this.subSchemas[schemaName] == undefined) {
+    if (schemaName === 'default' || typeof this.subSchemas[schemaName] == undefined) {
       schema = Utils.cloneObj(this.schemaDefault);
     } else {
       schema = this.getSubSchemaJson(schemaName);
     }
-    
+
     return schema;
   }
 
@@ -150,4 +150,4 @@ export class CollectionBase {
   }
 
 }
-
+;

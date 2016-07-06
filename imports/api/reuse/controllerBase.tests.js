@@ -56,46 +56,45 @@ Meteor.methods({
   'test.resetDatabase': () => resetDatabase(),
 });
 
-if (Meteor.isServer) {
-  describe('Controller Base', () => {
+describe('Controller Base', () => {
 
-    before((done) => {
-      Meteor.call('test.resetDatabase', done);
-    });
+  before((done) => {
+    Meteor.call('test.resetDatabase', done);
+  });
 
-    it('Deve retornar um filtro adicionado ao controller', () => {
-      CtrlBase.setFilter('Filtro de Teste');
-      expect(CtrlBase.getFilter()).to.be.equal('Filtro de Teste');
-    });
+  it('Deve retornar um filtro adicionado ao controller', () => {
+    CtrlBase.setFilter('Filtro de Teste');
+    expect(CtrlBase.getFilter()).to.be.equal('Filtro de Teste');
+  });
 
-    it('Deve retornar um objeto de schema default, vinculado ao de nome default', () => {
-      expect(CtrlBase.getProjection('default')).to.be.an('object');
-    });
+  it('Deve retornar um objeto de schema default, vinculado ao de nome default', () => {
+    expect(CtrlBase.getProjection('default')).to.be.an('object');
+  });
 
-    it('Deve retornar o objeto collection vinculada ao controller', () => {
-      expect(CtrlBase.getAll()).to.be.an('object');
-    });
+  it('Deve retornar o objeto collection vinculada ao controller', () => {
+    expect(CtrlBase.getAll()).to.be.an('object');
+  });
 
-    it('Deve retornar a collection vinculada ao controller', () => {
-      expect(CtrlBase.getCollection()).to.be.an('object');
-    });
+  it('Deve retornar a collection vinculada ao controller', () => {
+    expect(CtrlBase.getCollection()).to.be.an('object');
+  });
 
-    it('Deve retornar o nome da collection vinculada ao controller', () => {
-      expect(CtrlBase.getCollectionName()).to.be.equal('CtrlTestes');
-    });
+  it('Deve retornar o nome da collection vinculada ao controller', () => {
+    expect(CtrlBase.getCollectionName()).to.be.equal('CtrlTestes');
+  });
 
-    it('Deve retornar um objeto de schema vinculado ao controller', () => {
-      expect(CtrlBase.getSchema('default')).to.be.an('object');
-    });
+  it('Deve retornar um objeto de schema vinculado ao controller', () => {
+    expect(CtrlBase.getSchema('default')).to.be.an('object');
+  });
 
-    it('Deve retornar um objeto json de schema vinculado ao controller', () => {
-      expect(CtrlBase.getSchemaJson('default')).to.be.an('object');
-    });
+  it('Deve retornar um objeto json de schema vinculado ao controller', () => {
+    expect(CtrlBase.getSchemaJson('default')).to.be.an('object');
+  });
 
-    it('Deve retornar um documento da collection', () => {
-      expect(CtrlBase.get('123456')).to.be.undefined;
-    });
-
+  it('Deve retornar um documento da collection', () => {
+    expect(CtrlBase.get('123456')).to.be.undefined;
+  });
+  if (Meteor.isServer) {
     it('Deve inserir o usuário na collection', (done) => {
 
       let usuarioDeTeste = {
@@ -104,11 +103,11 @@ if (Meteor.isServer) {
       };
 
       CtrlBase.insert(usuarioDeTeste, (error, result) => {
+        idUsuario = result;
         if (error) {
           console.log(error);
         } else {
-          console.log(result);
-          idUsuario = result;
+          done();
         }
       });
 
@@ -116,43 +115,33 @@ if (Meteor.isServer) {
 
       expect(usuario.nome).to.be.equal('Arya Stark');
       expect(usuario).to.be.an('object');
-      done();
     });
 
     it('Deve alterar os dados de um usuário na collection', (done) => {
 
       const nome = 'Arya of Winterfell';
 
-      CtrlBase.update(idUsuario, { "nome": nome }, (error, result) => {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log(result);
-
-        }
+      CtrlBase.update(idUsuario, { 'nome': nome }, () => {
+        done()
       });
 
       let usuario = CtrlBase.get(idUsuario);
 
       expect(usuario.nome).to.be.equal('Arya of Winterfell');
-      done();
     });
 
     it('Deve remover um usuário da collection', (done) => {
 
-      CtrlBase.remove(idUsuario, (error, result) => {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log(result);
-        }
+      CtrlBase.remove(idUsuario, () => {
+        done();
       });
 
-      expect(CtrlBase.get(idUsuario)).to.be.undefined;
-      done();
+      let usuario = CtrlBase.get(idUsuario);
+
+      expect(usuario).to.be.undefined;
+
     });
-  });
+  }
+  ;
 
-}
-;
-
+});

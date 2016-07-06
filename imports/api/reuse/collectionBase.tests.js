@@ -16,32 +16,105 @@
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { chai } from 'meteor/practicalmeteor:chai';
 import { CollectionBase } from './collectionBase.js';
+import { ModelBase } from './modelBase.js';
 
-const CtlBase = new CollectionBase('CtlTestes');
+const CltBase = new CollectionBase('CtlTestes');
 
-describe('Collection Base', function (done) {
-  beforeEach(function (done) {
+CltBase.setSchema({
+  nome: {
+    type: String,
+    defaultValue: '',
+  },
+  cpf: {
+    type: String,
+    defaultValue: '',
+  },
+  telefone: {
+    type: String,
+    defaultValue: '',
+  },
+  endereco: {
+    type: String,
+    defaultValue: '',
+  },
+});
+
+CltBase.addSubSchema('insert', ['nome', 'cpf', 'telefone', 'endereco']);
+
+CltBase.addSubSchema('update', ['nome', 'telefone', 'endereco']);
+
+CltBase.addSubSchema('remove', ['nome', 'cpf', 'telefone', 'endereco']);
+
+describe('Collection Base', (done) => {
+  beforeEach((done) => {
     Meteor.call('test.resetDatabase', done);
   });
 
-  it('Deve retornar um objeto de schema vinculado a collection', function () {
-    expect(CtlBase.getSchema('default')).to.be.an('object');
+  it('Deve retornar a diferença entre o Schema e o SubSchema', () => {
+    let schema = JSON.stringify(CltBase.getSchema());
+    let subSchema = JSON.stringify(CltBase.getSubSchema('insert'));
+
+    expect(schema).to.not.equal(subSchema);
   });
 
-  it('Deve retornar um objeto de sub schema json vinculado a collection', function () {
-    expect(CtlBase.getSubSchemaJson('default')).to.be.an('object');
+  it('Deve retornar um SubSchemaJSOn vinculado a collection', () => {
+    let subSchemaJson = {
+      nome: {
+        type: String,
+        defaultValue: '',
+      },
+      cpf: {
+        type: String,
+        defaultValue: '',
+      },
+      telefone: {
+        type: String,
+        defaultValue: '',
+      },
+      endereco: {
+        type: String,
+        defaultValue: '',
+      },
+    };
+    let subSchemaVinculado = JSON.stringify(CltBase.getSubSchemaJson('insert'));
+    subSchemaJson = JSON.stringify(subSchemaJson);
+    expect(subSchemaVinculado).to.equal(subSchemaJson);
   });
 
-  it('Deve retornar undefined ao retornar um subSchema vinculado a collection', function () {
-    expect(CtlBase.getSubSchema('default')).to.be.undefined;
+  it('Deve retornar um SubSchema vinculado a collection', () => {
+    let subSchema = ['nome', 'telefone', 'endereco'];
+    subSchemaVinculado = JSON.stringify(CltBase.getSubSchema('update'));
+    subSchema = JSON.stringify(subSchema);
+    expect(subSchemaVinculado).to.equal(subSchema);
   });
 
-  it('Deve retornar um objeto json de schema vinculado a collection', function () {
-    expect(CtlBase.getSchemaJson('default')).to.be.an('object');
+  it('Deve retornar SchemaJson vinculado a collection', () => {
+    let schemaJson = {
+      nome: {
+        type: String,
+        defaultValue: '',
+      },
+      cpf: {
+        type: String,
+        defaultValue: '',
+      },
+      telefone: {
+        type: String,
+        defaultValue: '',
+      },
+      endereco: {
+        type: String,
+        defaultValue: '',
+      },
+    };
+    let schemaJsonVinculado = JSON.stringify(CltBase.getSchemaJson('remove'));
+    schemaJson = JSON.stringify(schemaJson);
+    expect(schemaJsonVinculado).to.equal(schemaJson);
   });
 
-  it('Deve retornar a collection vinculada a collection', function () {
-    expect(CtlBase.getCollection()).to.be.an('object');
+  it('Deve retornar a collection CtlTestes que está vinculada', () => {
+    let collection = CltBase.getCollection();
+    expect(collection._name).to.equal('CtlTestes');
   });
 
 });

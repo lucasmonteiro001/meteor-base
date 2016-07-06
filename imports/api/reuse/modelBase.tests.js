@@ -27,8 +27,4 @@ describe('Model Base', function (done) {
     Meteor.call('test.resetDatabase', done);
   });
 
-  it('Deve retornar true se aplicar para todos os Métodos', function () {
-    expect(MdlBase.applyAllMethods()).to.be.true;
-  });
-
 });

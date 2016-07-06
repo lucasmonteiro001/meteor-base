@@ -25,6 +25,7 @@ export class ModelBase {
    * @param isTest - Modo de teste
    */
   constructor (collectionBase, isTest = false) {
+
     this.myCollection = collectionBase.getCollection();
 
     this.functions = {};
@@ -94,7 +95,10 @@ export class ModelBase {
     this.functions[collectionBase.getCollection()._name + '.insert']
         = function (dataObj) {
 
-      checkIfisTestMode(dataObj);
+      /**
+       * DESCOMENTE PARA EXECUTAR OS TESTES
+       */
+      //checkIfisTestMode(dataObj);
 
       check(dataObj, collectionBase.getSchema('insert'));
 
@@ -112,7 +116,9 @@ export class ModelBase {
     };
 
     this.functions[collectionBase.getCollection()._name + '.update'] = function (id, dataObj) {
-
+      /**
+       * DESCOMENTE PARA EXECUTAR OS TESTES
+       */
       //checkIfisTestMode(dataObj);
 
       check(id, String);
@@ -149,6 +155,10 @@ export class ModelBase {
   applyAllMethods () {
     Meteor.methods(this.functions);
     return true;
+  }
+
+  getAllApplyMethods () {
+    return Meteor.methods(this.functions);
   }
 
   /**
