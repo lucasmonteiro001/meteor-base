@@ -6,7 +6,7 @@ export class FormGenerator {
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
                <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
-          name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}" data-mask="{DATA_MASK}"> \
+          name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}"> \
           </div> \
         </div>';
 
@@ -14,6 +14,20 @@ export class FormGenerator {
           <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
                <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
           name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}"> \
+        </div>';
+
+    this.templates['inputMaskH'] = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-10"> \
+               <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}"  data-mask="{DATA_MASK}"> \
+          </div> \
+        </div>';
+
+    this.templates['inputMaskV'] = '<div class="form-group"> \
+          <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+               <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}"  data-mask="{DATA_MASK}"> \
         </div>';
 
     let inputStringH = '<div class="form-group"> \
@@ -124,18 +138,14 @@ export class FormGenerator {
     this.templates['selectH'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
-        <select class="form-control" id="{FIELD_NAME}" name="{FIELD_NAME}">\
-           <option value="{OPTION1}">{OPTION1}</option>\
-           <option value="{OPTION2}">{OPTION2}</option>\
-           <option value="{OPTION3}">{OPTION3}</option>\
-           <option value="{OPTION4}">{OPTION4}</option>\
-           <option value="{OPTION5}">{OPTION5}</option>\
-           <option value="{OPTION6}">{OPTION6}</option>\
-           <option value="{OPTION7}">{OPTION7}</option>\
-           <option value="{OPTION8}">{OPTION8}</option>\
-           <option value="{OPTION9}">{OPTION9}</option>\
-        </select>\
-         </div>\
+        <select class="form-control js-example-placeholder-single" style="width: 100%" tabindex="-1" aria-hidden="true" id="{FIELD_NAME}" name="{FIELD_NAME}">\
+          <option></option>\
+        <optgroup label="{OPTIONS_LABEL}">\
+        <option value="{OPTION1}">{OPTION1}</option>\
+        <option value="{OPTION2}">{OPTION2}</option>\
+        </optgroup>\
+        </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr">\
+        </div>\
     </div>';
 
     this.templates['selectV'] = '<div class="form-group"> \
@@ -152,7 +162,7 @@ export class FormGenerator {
     this.templates['multipleH'] = '<div class="form-group"> \
         <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
-        <select class="select2_demo_2 form-control" multiple="multiple" id="{FIELD_NAME}" name="{FIELD_NAME}">\
+        <select class="select2_demo_2 form-control" style="width: 100%" multiple="multiple" id="{FIELD_NAME}" name="{FIELD_NAME}">\
            <option value="{OPTION1}">{OPTION1}</option>\
            <option value="{OPTION2}">{OPTION2}</option>\
            <option value="{OPTION3}">{OPTION3}</option>\
@@ -183,6 +193,7 @@ export class FormGenerator {
   formRender (idOfElement, applyValidation = true, controller, schemaName = 'default', searchFor = '', idOfForm = '') {
     let existsDataType = false;
     let existsSelectType = false;
+    let existsMultipleType = false;
     let existsHourType = false;
     let result = '';
     let fieldTmp = '';
@@ -200,14 +211,18 @@ export class FormGenerator {
 
         fieldTmp = this.templates[schema[key].formOptions.FIELD_TAG];
 
-        if (schema[key].formOptions.FIELD_TAG == 'inputDate') {
+        if (schema[key].formOptions.FIELD_TAG == 'inputDateH' || 'inputDateV') {
           existsDataType = true;
         }
-        if (schema[key].formOptions.FIELD_TAG == 'inputHour') {
+        if (schema[key].formOptions.FIELD_TAG == 'inputHourH' || 'inputHourH') {
           existsHourType = true;
         }
 
-        if (schema[key].formOptions.FIELD_TAG == 'multipleH') {
+        if (schema[key].formOptions.FIELD_TAG == 'multipleH' || 'multipleV') {
+          existsMultipleType = true;
+        }
+
+        if (schema[key].formOptions.FIELD_TAG == 'selectH' || 'selectV') {
           existsSelectType = true;
         }
 
@@ -281,8 +296,14 @@ export class FormGenerator {
       $('.clockpicker').clockpicker();
     }
 
-    if (existsSelectType) {
+    if (existsMultipleType) {
       $('.select2_demo_2').select2();
+    }
+
+    if (existsSelectType) {
+      $(".js-example-placeholder-single").select2({
+        placeholder: "Selecione uma opção"
+      });
     }
   }
 

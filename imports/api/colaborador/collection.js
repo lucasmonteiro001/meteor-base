@@ -11,7 +11,6 @@ CollectionColaboradores.setSchema({
       FIELD_TAG: 'inputH',
       FIELD_TYPE: 'text',
       PLACEHOLDER: 'Nome',
-      DATA_MASK: ''
     },
     formValidation: {
       required: { value: true, message: 'O nome é obrigatório' },
@@ -21,7 +20,7 @@ CollectionColaboradores.setSchema({
       template: 'tmpl',
     },
   },
-  DataNascimento: {
+  dataNascimento: {
     type: Date,
     defaultValue: '',
     optional: true,
@@ -39,7 +38,7 @@ CollectionColaboradores.setSchema({
     defaultValue: '',
     label: 'CPF',
     formOptions: {
-      FIELD_TAG: 'inputH',
+      FIELD_TAG: 'inputMaskH',
       FIELD_TYPE: 'text',
       PLACEHOLDER: 'CPF',
       DATA_MASK: '999.999.999-99'
@@ -56,7 +55,6 @@ CollectionColaboradores.setSchema({
       FIELD_TAG: 'inputH',
       FIELD_TYPE: 'text',
       PLACEHOLDER: 'Login',
-      DATA_MASK: ''
     },
     formValidation: {
       required: { value: true, message: 'O login é obrigatório' },
@@ -72,6 +70,7 @@ CollectionColaboradores.setSchema({
     formOptions: {
       FIELD_TAG: 'selectH',
       FIELD_TYPE: 'text',
+      OPTIONS_LABEL: 'Setores',
       OPTION1: 'Administrativo Financeiro',
       OPTION2: 'Recursos Computacionais',
       OPTION3: 'Marketing',
@@ -89,13 +88,14 @@ CollectionColaboradores.setSchema({
       label: 'Setor',
     },
   },
-  Funcao: {
+  funcao: {
     type: String,
     defaultValue: '',
     label: 'Funcao',
     formOptions: {
       FIELD_TAG: 'selectH',
       FIELD_TYPE: 'text',
+      OPTIONS_LABEL: 'Funções',
       OPTION1: 'Colaborador do Setor',
       OPTION2: 'Líder Técnico',
       OPTION3: 'Gerente de Projetos',
@@ -109,7 +109,23 @@ CollectionColaboradores.setSchema({
       label: 'Funcao',
     },
   },
-  QuantidadeDeDependentes: {
+  diasTrabalhados: {
+    type: String,
+    defaultValue: ['', '', '', '', '', '', ''],
+    label: 'Dias trabalhados',
+    formOptions: {
+      FIELD_TAG: 'multipleH',
+      FIELD_TYPE: 'text',
+      OPTION1: 'Segunda',
+      OPTION2: 'Terça',
+      OPTION3: 'Quarta',
+      OPTION4: 'Quinta',
+      OPTION5: 'Sexta',
+      OPTION6: 'Sabado',
+      OPTION7: 'Domingo',
+    },
+  },
+  quantidadeDeDependentes: {
     type: Number,
     defaultValue: 0,
     optional: true,
@@ -141,7 +157,7 @@ CollectionColaboradores.setSchema({
     defaultValue: '',
     label: 'Telefone:',
     formOptions: {
-      FIELD_TAG: 'inputH',
+      FIELD_TAG: 'inputMaskH',
       FIELD_TYPE: 'text',
       PLACEHOLDER: 'Telefone',
       DATA_MASK: '(99) 9999-9999'
@@ -158,7 +174,7 @@ CollectionColaboradores.setSchema({
     defaultValue: '',
     label: 'Celular:',
     formOptions: {
-      FIELD_TAG: 'inputH',
+      FIELD_TAG: 'inputMaskH',
       FIELD_TYPE: 'text',
       PLACEHOLDER: 'Celular',
       DATA_MASK: '(99) 99999-9999'
@@ -179,7 +195,6 @@ CollectionColaboradores.setSchema({
       FIELD_TAG: 'inputH',
       FIELD_TYPE: 'text',
       PLACEHOLDER: 'Email',
-      DATA_MASK: ''
 
     },
     formValidation: {
@@ -210,7 +225,7 @@ CollectionColaboradores.setSchema({
       label: 'TESTE'
     },
   },
-  HoraEntrada: {
+  horaEntrada: {
     type: Date,
     defaultValue: '',
     optional: true,
@@ -223,7 +238,7 @@ CollectionColaboradores.setSchema({
       required: { value: true, message: 'A hora de entrada é obrigatória' },
     }
   },
-  HoraSaida: {
+  horaSaida: {
     type: Date,
     defaultValue: '',
     optional: true,
@@ -235,22 +250,6 @@ CollectionColaboradores.setSchema({
     formValidation: {
       required: { value: true, message: 'A hora de saida é obrigatória' },
     }
-  },
-  diasTrabalhados: {
-    type: String,
-    defaultValue: ['', '', '', '', '', '', ''],
-    label: 'Dias trabalhados',
-    formOptions: {
-      FIELD_TAG: 'multipleH',
-      FIELD_TYPE: 'text',
-      OPTION1: 'Segunda',
-      OPTION2: 'Terça',
-      OPTION3: 'Quarta',
-      OPTION4: 'Quinta',
-      OPTION5: 'Sexta',
-      OPTION6: 'Sabado',
-      OPTION7: 'Domingo',
-    },
   },
   inputDisabled: {
     type: [''],
@@ -269,10 +268,13 @@ CollectionColaboradores.setSchema({
 });
 
 CollectionColaboradores.addSubSchema('insert',
-    ['nome', 'diasTrabalhados', 'inputDisabled', 'DataNascimento', 'cpf', 'login', 'setor', 'Funcao', 'DataEntrada', 'telefone', 'celular', 'email', 'QuantidadeDeDependentes', 'helptext', 'HoraEntrada', 'HoraSaida', 'userId']);
+    ['nome', 'diasTrabalhados', 'inputDisabled', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao',
+      'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida', 'userId']);
 
 CollectionColaboradores.addSubSchema('update',
-    ['nome', 'diasTrabalhados', 'inputDisabled', 'DataNascimento', 'cpf', 'login', 'setor', 'Funcao', 'DataEntrada', 'telefone', 'celular', 'email', 'QuantidadeDeDependentes', 'helptext', 'HoraEntrada', 'HoraSaida']);
+    ['nome', 'diasTrabalhados', 'inputDisabled', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao',
+      'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida', 'userId']);
 
 CollectionColaboradores.addSubSchema('view',
-    ['nome', 'diasTrabalhados', 'inputDisabled', 'DataNascimento', 'cpf', 'login', 'setor', 'Funcao', 'DataEntrada', 'telefone', 'celular', 'email', 'QuantidadeDeDependentes', 'helptext', 'HoraEntrada', 'HoraSaida', 'userId']);
+    ['nome', 'diasTrabalhados', 'inputDisabled', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao',
+      'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida', 'userId']);
