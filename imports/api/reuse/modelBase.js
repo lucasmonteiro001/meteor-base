@@ -100,6 +100,8 @@ export class ModelBase {
        */
       //checkIfisTestMode(dataObj);
 
+      dataObj.userId = Meteor.userId();
+
       check(dataObj, collectionBase.getSchema('insert'));
 
       if ((!Security.can(this.userId).insert(dataObj).for(collectionBase.getCollection()).check())

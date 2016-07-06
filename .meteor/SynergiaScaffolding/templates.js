@@ -37,7 +37,7 @@ templates['collection.js'] = M(function () {
     optional: true,
     label: 'Data de Nascimento',
     formOptions: {
-      FIELD_TAG: 'inputdate',
+      FIELD_TAG: 'inputDateH',
       FIELD_TYPE: 'date',
     },
     formValidation: {

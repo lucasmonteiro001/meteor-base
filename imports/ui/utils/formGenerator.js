@@ -33,7 +33,7 @@ export class FormGenerator {
     let inputStringH = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="div{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div id="div{FIELD_NAME}" class="col-md-10"> \ ';
-    for (i = 0; i<3; i++) {
+    for (i = 0; i < 3; i++) {
       inputStringH = inputStringH + '<input type="{FIELD_TYPE}" id="{FIELD_NAME}[' + i + ']" name="{FIELD_NAME}" class="form-control m-b" value="{VALUE}"> \ '
     }
     inputStringH = inputStringH + '</div> </div>';
@@ -41,7 +41,7 @@ export class FormGenerator {
 
     let inputStringV = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="div{FIELD_NAME}">{FIELD_LABEL}</label> ';
-    for (i = 0; i<3; i++) {
+    for (i = 0; i < 3; i++) {
       inputStringV = inputStringV + '<input type="{FIELD_TYPE}" id="{FIELD_NAME}[' + i + ']" name="{FIELD_NAME}" class="form-control m-b" value="{VALUE}"> \ '
     }
     inputStringV = inputStringV + '</div> </div>';
@@ -188,6 +188,16 @@ export class FormGenerator {
         </div>';
   }
 
+  getTemplate (templateKey) {
+    let template = "";
+    if (typeof this.templates[templateKey] != 'undefined') {
+      template = this.templates[templateKey];
+    } else {
+      console.log("O template " + templateKey + " NÃO existe!");
+    }
+    return template
+  }
+
   // formView agora considera elementos do tipo vetor
   //todo Melhorar a escrita do código, há muita repetição
   formRender (idOfElement, applyValidation = true, controller, schemaName = 'default', searchFor = '', idOfForm = '') {
@@ -209,7 +219,7 @@ export class FormGenerator {
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
 
-        fieldTmp = this.templates[schema[key].formOptions.FIELD_TAG];
+        fieldTmp = this.getTemplate(schema[key].formOptions.FIELD_TAG);
 
         if (schema[key].formOptions.FIELD_TAG == 'inputDateH' || schema[key].formOptions.FIELD_TAG == 'inputDateV') {
           existsDataType = true;
@@ -240,7 +250,7 @@ export class FormGenerator {
         //Valor dos campos
         if (typeof dadosCollection != 'undefined') {
           if (Array.isArray(dadosCollection[key])) {
-            for (let i = 0; i<dadosCollection[key].length; i++) {
+            for (let i = 0; i < dadosCollection[key].length; i++) {
               let valor = dadosCollection[key][i];
               if (schema[key].type == Date && valor) {
                 let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
@@ -258,7 +268,7 @@ export class FormGenerator {
             if (schema[key].formOptions.FIELD_TAG != 'input3H') {
               fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
             } else {
-              for (let i = 0; i<3; i++) {
+              for (let i = 0; i < 3; i++) {
                 fieldTmp = fieldTmp.replace(new RegExp('{VALUE' + i + '}', 'g'), valor || '');
               }
             }
@@ -326,7 +336,7 @@ export class FormGenerator {
 
         if (Array.isArray(dadosCollection[key])) {
 
-          fieldTmp = this.templates['span3H'];
+          fieldTmp = this.getTemplate('span3H');
 
           //FIELD_NAME = key
           fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
@@ -341,7 +351,7 @@ export class FormGenerator {
 
           //Valor dos campos
           if (typeof dadosCollection != 'undefined') {
-            for (let i = 0; i<dadosCollection[key].length; i++) {
+            for (let i = 0; i < dadosCollection[key].length; i++) {
               let valor = dadosCollection[key][i];
               if (schema[key].type == Date && valor) {
                 let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
@@ -352,7 +362,7 @@ export class FormGenerator {
           }
         }
         else {
-          fieldTmp = this.templates['spanH'];
+          fieldTmp = this.getTemplate('spanH');
 
           //FIELD_NAME = key
           fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
@@ -430,7 +440,7 @@ export class FormGenerator {
         }
         else {
           objAux = template.findAll('[name="' + key + '"]');
-          for (i = 0; i<objAux.length; i++) {
+          for (i = 0; i < objAux.length; i++) {
             objAux[i] = objAux[i].value.trim();
           }
           value = objAux;

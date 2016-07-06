@@ -6,8 +6,8 @@
           "type": "newfile",
           "append": "",
           "prepend": "",
-          "setTemplateFile": "collectionjsTemplate.js",
-          "setTemplate": ""
+          "setTemplateFile": "",
+          "setTemplate": "collection.js"
         },
         "controller.js": {
           "type": "newfile",
