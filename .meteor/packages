@@ -66,17 +66,18 @@ alanning:roles
 
 # testing
 
-practicalmeteor:mocha-console-runner
-lmieulet:meteor-coverage
-meteorhacks:picker
-practicalmeteor:mocha@=2.4.5_5
-practicalmeteor:mocha-xunit-reporter
-xolvio:cleaner
-xolvio:backdoor
-practicalmeteor:chai
-random
-practicalmeteor:sinon
-dburles:factory
+
+# practicalmeteor:mocha-console-runner
+# lmieulet:meteor-coverage
+# meteorhacks:picker
+# practicalmeteor:mocha@=2.4.5_5
+# practicalmeteor:mocha-xunit-reporter
+# xolvio:cleaner
+# xolvio:backdoor
+# practicalmeteor:chai
+# random
+# practicalmeteor:sinon
+# dburles:factory
 #dispatch:mocha-phantomjs@0.1.6
 
 # security

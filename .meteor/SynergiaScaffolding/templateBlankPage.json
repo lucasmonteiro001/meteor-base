@@ -1,0 +1,47 @@
+{
+  "imports": {
+    "startup": {
+      "client": {
+        "routes": {
+          "authenticated.js": {
+            "type": "file",
+            "append": "",
+            "prepend": " import '../../../ui/authenticated/{COLLECTION_NAME}/{COLLECTION_NAME}';",
+            "setTemplateFile": "",
+            "setTemplate": "authenticated-routes-simple"
+          }
+        }
+      }
+    },
+    "ui": {
+      "authenticated": {
+        "{COLLECTION_NAME}": {
+          "{COLLECTION_NAME}.html": {
+            "type": "newfile",
+            "append": "",
+            "prepend": "",
+            "setTemplateFile": "",
+            "setTemplate": "uiTemplateSimple.html"
+          },
+          "{COLLECTION_NAME}.js": {
+            "type": "newfile",
+            "append": "",
+            "prepend": "",
+            "setTemplateFile": "",
+            "setTemplate": "uiTemplateSimple.js"
+          }
+        }
+      },
+      "globals": {
+        "authenticated-menu.html": {
+          "type": "file",
+          "append": "",
+          "prepend": "",
+          "setTemplateFile": "",
+          "setTemplate": "Item-Menu",
+          "insertBeforeLine": "</template>"
+        }
+      }
+    }
+  }
+}
