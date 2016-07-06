@@ -214,15 +214,15 @@ export class FormGenerator {
         if (schema[key].formOptions.FIELD_TAG == 'inputDateH' || schema[key].formOptions.FIELD_TAG == 'inputDateV') {
           existsDataType = true;
         }
-        if (schema[key].formOptions.FIELD_TAG == 'inputHourH' || 'inputHourH') {
+        if (schema[key].formOptions.FIELD_TAG == 'inputHourH' || schema[key].formOptions.FIELD_TAG == 'inputHourH') {
           existsHourType = true;
         }
 
-        if (schema[key].formOptions.FIELD_TAG == 'multipleH' || 'multipleV') {
+        if (schema[key].formOptions.FIELD_TAG == 'multipleH' || schema[key].formOptions.FIELD_TAG == 'multipleV') {
           existsMultipleType = true;
         }
 
-        if (schema[key].formOptions.FIELD_TAG == 'selectH' || 'selectV') {
+        if (schema[key].formOptions.FIELD_TAG == 'selectH' || schema[key].formOptions.FIELD_TAG == 'selectV') {
           existsSelectType = true;
         }
 
