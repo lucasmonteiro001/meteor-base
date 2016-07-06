@@ -208,6 +208,9 @@ CollectionColaboradores.setSchema({
   userId: {
     type: String,
     label: 'Associated User ID',
+    autoValue: function () {
+      return this.userId
+    }    
   },
   helptext: {
     type: String,
