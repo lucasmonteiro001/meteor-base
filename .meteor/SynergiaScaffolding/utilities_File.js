@@ -23,7 +23,7 @@ var readFile = function (file) {
 var append = function (file, content) {
 
   try {
-    console.log('caminho:' + file);
+
     contentExistisIntheFile(file, content, function (err, data) {
 
       if (data === false) {
@@ -147,30 +147,75 @@ var setTemplateFile = function (filePath, templateFilePath, tags) {
       }, 1000);
 
     });
+  } else {
+    console.log('ERRO: O arquivo ' + templateFilePath + ' NÃO existe!');
+  }
+}
+
+var replaceTagInFileFromTemplateFile = function (filePath, templateFilePath, tags, tag) {
+
+  if (fileExists(templateFilePath)) {
+    fs.readFile(templateFilePath, 'utf8', function (err, data) {
+      if (err) {
+        return console.log(err);
+      }
+
+      for (var key in tags) {
+        data = data.replace(
+            new RegExp(key, 'g'), tags[key]);
+      }
+
+      setTimeout(function () {
+
+        fs.readFile(filePath, 'utf8', function (err, data2) {
+          if (err) {
+            return console.log(err);
+          }
+
+          data2 = data2.replace(
+              new RegExp(tag, 'g'), data);
+
+          //Clean Original File
+          createFile(filePath);
+
+          //Insere os novos dados
+          setTimeout(function () {
+
+            append(filePath, data2);
+
+          }, 1000);
+
+        });
+
+      }, 1000);
+
+    });
   }
 }
 
 var setTemplate = function (filePath, template, tags, insertBeforeLine) {
-  var tmpTemplate = template.replace("#$%", "");
-  console.log("tags:" + tags);
-  for (var key in tags) {
-    console.log("tag:" + key);
-    tmpTemplate = tmpTemplate.replace(
-        new RegExp(key, 'g'), tags[key]);
-  }
-
-  setTimeout(function () {
-    if (typeof insertBeforeLine != 'undefined' && insertBeforeLine != "") {
-      insertLineInFileIfNotExists(filePath, tmpTemplate, insertBeforeLine);
-    } else {
-      append(filePath, tmpTemplate);
+  if (typeof template != 'undefined') {
+    var tmpTemplate = template.replace("#$%", "");
+    console.log("tags:" + tags);
+    for (var key in tags) {
+      console.log("tag:" + key);
+      tmpTemplate = tmpTemplate.replace(
+          new RegExp(key, 'g'), tags[key]);
     }
-  }, 1000);
 
+    setTimeout(function () {
+      if (typeof insertBeforeLine != 'undefined' && insertBeforeLine != "") {
+        insertLineInFileIfNotExists(filePath, tmpTemplate, insertBeforeLine);
+      } else {
+        append(filePath, tmpTemplate);
+      }
+    }, 1000);
+  } else {
+    console.log('O template especificado para o arquivo ' + filePath + ' NÃO existe!!');
+  }
 }
 
 var insertLineInFileIfNotExists = function (filePath, newLine, beforeLine) {
-  console.log('#######################ENTROU - insertLineInFileIfNotExists');
   var newFile = "";
   var existis = false;
 
@@ -247,6 +292,7 @@ module.exports = {
   readFile: readFile,
   exists: exists,
   setTemplateFile: setTemplateFile,
+  replaceTagInFileFromTemplateFile: replaceTagInFileFromTemplateFile,
   setTemplate: setTemplate,
   fileExists: fileExists
 }

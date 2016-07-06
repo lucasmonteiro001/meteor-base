@@ -211,7 +211,7 @@ export class FormGenerator {
 
         fieldTmp = this.templates[schema[key].formOptions.FIELD_TAG];
 
-        if (schema[key].formOptions.FIELD_TAG == 'inputDateH' || 'inputDateV') {
+        if (schema[key].formOptions.FIELD_TAG == 'inputDateH' || schema[key].formOptions.FIELD_TAG == 'inputDateV') {
           existsDataType = true;
         }
         if (schema[key].formOptions.FIELD_TAG == 'inputHourH' || 'inputHourH') {

@@ -112,7 +112,7 @@ templates['model.js'] = M(function () {
    ***/
 });
 
-templates['template.html'] = M(function () {
+templates['uiTemplateCRUD.html'] = M(function () {
   /***
    <template name="{COLLECTION_NAME}">
    <div class="row wrapper border-bottom white-bg page-heading">
@@ -296,7 +296,7 @@ templates['template.html'] = M(function () {
    ***/
 });
 
-templates['template.js'] = M(function () {
+templates['uiTemplateCRUD.js'] = M(function () {
   /***
    import { Template } from 'meteor/templating';
    import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -484,6 +484,76 @@ templates['template.js'] = M(function () {
 });
 
 
+   ***/
+});
+
+templates['uiTemplateSimple.js'] = M(function () {
+  /***
+   import { Template } from 'meteor/templating';
+   import './{COLLECTION_NAME}.html';
+
+   let template;
+
+   Template.{COLLECTION_NAME}.onCreated(() => {
+  template = Template.instance();
+});
+
+   Template.{COLLECTION_NAME}.helpers({});
+   ***/
+});
+
+templates['uiTemplateSimple.html'] = M(function () {
+  /***
+   <template name="{COLLECTION_NAME}">
+   <div class="row wrapper border-bottom white-bg page-heading">
+   <div class="col-lg-8">
+   <h2> Lista de {COLLECTION_NAME} </h2>
+   <ol class="breadcrumb">
+   <li>
+   <a href="{{pathFor route='index'}}">Página Principal</a>
+   </li>
+   <li class="active">
+   <strong> {COLLECTION_NAME} </strong>
+   </li>
+   </ol>
+   </div>
+   </div>
+
+   <div class="wrapper wrapper-content white-bg animated fadeIn">
+   <div class="row">
+   <div class="col-lg-12">
+   <div class="text-center m-t-lg">
+
+   <h1>
+   {COLLECTION_NAME}
+   </h1>
+   </div>
+
+   </div>
+   <br>
+   <div>
+
+
+   </div>
+   </div>
+   </div>
+
+
+
+   </template>
+
+   ***/
+});
+
+templates['authenticated-routes-simple'] = M(function () {
+  /***
+   authenticatedRoutes.route('/{COLLECTION_NAME}', {
+  name: '{COLLECTION_NAME}',
+  triggersEnter: [blockUnauthorizedAdmin],
+  action() {
+    BlazeLayout.render('default', { yield: '{COLLECTION_NAME}' });
+  },
+});
    ***/
 });
 

@@ -6,10 +6,8 @@
           "type": "newfile",
           "append": "",
           "prepend": "",
-          "setTemplateFile": "",
-          "setTemplate": "collection.js",
-          "extra-tags": {
-          }
+          "setTemplateFile": "collectionjsTemplate.js",
+          "setTemplate": ""
         },
         "controller.js": {
           "type": "newfile",
@@ -57,14 +55,14 @@
             "append": "",
             "prepend": "",
             "setTemplateFile": "",
-            "setTemplate": "template.html"
+            "setTemplate": "uiTemplateCRUD.html"
           },
           "{COLLECTION_NAME}.js": {
             "type": "newfile",
             "append": "",
             "prepend": "",
             "setTemplateFile": "",
-            "setTemplate": "template.js"
+            "setTemplate": "uiTemplateCRUD.js"
           }
         }
       },
