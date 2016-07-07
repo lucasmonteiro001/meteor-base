@@ -177,7 +177,7 @@ export class FormGenerator {
     this.templates['multipleV'] = '<div class="form-group"> \
         <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
         <select class="select2_demo_2 form-control" multiple="multiple" id="{FIELD_NAME}" name="{FIELD_NAME}">\
-           <option value="{OPTION1}">{OPTION1}</option>\
+           <option value="{OPTION1}" selected>{OPTION1}</option>\
            <option value="{OPTION2}">{OPTION2}</option>\
            <option value="{OPTION3}">{OPTION3}</option>\
            <option value="{OPTION4}">{OPTION4}</option>\

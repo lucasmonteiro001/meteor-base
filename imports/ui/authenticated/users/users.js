@@ -64,7 +64,8 @@ Template.users.events({
   },
   'click [id="actionUserView"]': function (event) {
     let emailUser = event.currentTarget.name;
-    UtilsView.templateRender('userViewDetails', 'userDetailsPanel', { 'emailuser': emailUser });
+    //UtilsView.templateRender('userViewDetails', 'userDetailsPanel', { 'emailuser': emailUser });
+    UtilsView.showModalWithTemplate('userViewDetails', { 'emailuser': emailUser }, 'Dados do Usuário');
 
   },
 
