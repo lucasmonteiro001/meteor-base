@@ -66,12 +66,12 @@ class Util {
    */
   toObject(arr) {
   var rv = {};
-    if (arr !== undefined) {
+    if (arr !== undefined && arr != null) {
       for (var i = 0; i < arr.length; ++i)
         if (arr[i] !== undefined) rv[i] = arr[i];
       return rv;
     } else {
-      console.log('Valor indefinido:' + arr);
+      console.log('Valor indefinido');
     }
 
 }

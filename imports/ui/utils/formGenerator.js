@@ -496,14 +496,7 @@ export class FormGenerator {
         let objAux = template.find('[id="' + key + '"]');
         if (objAux != null) {
 
-          if (schema[key].type == Object) {
-            value = $(objAux).find(":selected").data("value");
-            console.log('Valor-X:');
-            console.log(value);
-          } else {
             value = $(objAux).val();
-          }
-
 
 
         }
@@ -537,7 +530,8 @@ export class FormGenerator {
           case Object:
             console.log("Valor que será convertido em Objeto:");
             console.log(value);
-                objData[key] = Utils.toObject(value);
+            console.log('Campo:' + key);
+            objData[key] = Utils.toObject(value = value);
 
             break;
           case [Object]:
