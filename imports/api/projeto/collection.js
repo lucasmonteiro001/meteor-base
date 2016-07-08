@@ -1,9 +1,6 @@
 import { CollectionBase } from '../reuse/collectionBase';
-import { CollectionColaboradores } from '../colaborador/collection';
 
 export const CollectionProjetos = new CollectionBase('Projetos');
-
-const colaboradorSchema = CollectionColaboradores.getSchemaJson();
 
 //Definição dos Schemas
 CollectionProjetos.setSchema({
@@ -87,14 +84,18 @@ CollectionProjetos.setSchema({
     }
   },
   colaboradores: {
-    type: [colaboradorSchema],
-    defaultValue: [''],
+    type: Object,
+    blackbox: true,
+    defaultValue: {},
     optional: true,
     label: 'Colaboradores',
     formOptions: {
-      FIELD_TAG: 'input3H',
-      FIELD_TYPE: 'text'
-
+      FIELD_TAG: 'multipleH',
+      OPTIONS: [{LABEL:'VALOR1',VALUE:'VALOR01'},{LABEL:'VALOR2',VALUE:{campo1:'valueCampo1',campo2:'valorcampo2'} },{LABEL:'VALOR3',VALUE:'VALOR03'}],
+      OPTIONSCOLLECTION: {
+        COLLECTION: "colaborador",
+        COLLECTION_SCHEMA: "inserir"
+      }
     },
     formValidation: {
 
@@ -105,16 +106,19 @@ CollectionProjetos.setSchema({
   },
   userId: {
     type: String,
-    label: 'Associated User ID'
+    label: 'Associated User ID',
+    autoValue: function () {
+      return this.userId
+    }
   }
 });
 
 CollectionProjetos.addSubSchema('insert',
-    ['nome', 'dataInicio', 'descricao','colaboradores', 'userId']);
+    ['nome', 'dataInicio', 'descricao', 'colaboradores']);
 
 CollectionProjetos.addSubSchema('update',
     ['nome', 'valor', 'dataInicio', 'dataFim', 'descricao','colaboradores']);
 
 CollectionProjetos.addSubSchema('view',
-    ['nome', 'descricao', 'dataInicio', 'dataFim', 'colaboradores', 'valor', 'userId']);
+    ['nome', 'descricao', 'dataInicio', 'dataFim', 'colaboradores', 'valor']);
 

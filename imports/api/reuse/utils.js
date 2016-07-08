@@ -58,6 +58,19 @@ class Util {
 
     return mergedObj;
   }
+
+  /**
+   * Converte Array em Object
+   * @param arr Array que será convertido em um objeto
+   * @returns Object 
+   */
+  toObject(arr) {
+  var rv = {};
+  for (var i = 0; i < arr.length; ++i)
+    if (arr[i] !== undefined) rv[i] = arr[i];
+  return rv;
+}
+
 }
 
 export const Utils = new Util();

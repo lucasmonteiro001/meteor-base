@@ -1,3 +1,6 @@
+import {Utils} from '.././../api/reuse/utils'
+import { Template } from 'meteor/templating';
+
 export class FormGenerator {
   constructor () {
     this.templates = {};
@@ -135,6 +138,18 @@ export class FormGenerator {
               <span id="{FIELD_NAME}">{VALUE}</span> \
           </div>';
 
+    let spanString = '<div class="form-group"> \
+          <label class="col-md-3 control-label" for="div{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div id="div{FIELD_NAME}" class="col-md-9"> \ ';
+    for (i = 0; i<3; i++) {
+      spanString = spanString + '<span id="{FIELD_NAME}[' + i + ']" \
+          name="{FIELD_NAME}">{VALUE' + i + '}</span> \ ';
+    }
+
+    spanString = spanString + '</div> </div>';
+
+    this.templates['span3H'] = spanString;
+
     this.templates['selectH'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
@@ -163,13 +178,7 @@ export class FormGenerator {
         <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
         <select class="select2_demo_2 form-control" style="width: 100%" multiple="multiple" id="{FIELD_NAME}" name="{FIELD_NAME}">\
-           <option value="{OPTION1}">{OPTION1}</option>\
-           <option value="{OPTION2}">{OPTION2}</option>\
-           <option value="{OPTION3}">{OPTION3}</option>\
-           <option value="{OPTION4}">{OPTION4}</option>\
-           <option value="{OPTION5}">{OPTION5}</option>\
-           <option value="{OPTION6}">{OPTION6}</option>\
-           <option value="{OPTION7}">{OPTION7}</option>\
+           {FIELD_OPTIONS} \
         </select>\
          </div>\
         </div>';
@@ -216,6 +225,8 @@ export class FormGenerator {
       dadosCollection = controller.get(searchFor);
     }
 
+
+
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
 
@@ -230,6 +241,14 @@ export class FormGenerator {
 
         if (schema[key].formOptions.FIELD_TAG == 'multipleH' || schema[key].formOptions.FIELD_TAG == 'multipleV') {
           existsMultipleType = true;
+          let optionsTmp = '';
+          let options = schema[key].formOptions.OPTIONS;
+          for (let oKey in options) {
+            optionsTmp = optionsTmp+'<option value="'+options[oKey].VALUE+'">'+ options[oKey].LABEL +'</option>';
+          }
+
+          fieldTmp = fieldTmp.replace(
+              new RegExp('{FIELD_OPTIONS}', 'g'), optionsTmp);
         }
 
         if (schema[key].formOptions.FIELD_TAG == 'selectH' || schema[key].formOptions.FIELD_TAG == 'selectV') {
@@ -334,7 +353,8 @@ export class FormGenerator {
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
 
-        if (Array.isArray(dadosCollection[key])) {
+
+        /*if (Array.isArray(dadosCollection[key])) {
 
           fieldTmp = this.getTemplate('span3H');
 
@@ -361,7 +381,7 @@ export class FormGenerator {
             }
           }
         }
-        else {
+        else {*/
           fieldTmp = this.getTemplate('spanH');
 
           //FIELD_NAME = key
@@ -387,7 +407,7 @@ export class FormGenerator {
 
           //Resultado Final
           result = result + fieldTmp;
-        }
+        //}
       }
 
       document.getElementById(idOfElement).innerHTML = result;
@@ -436,7 +456,7 @@ export class FormGenerator {
         //Necessário para preencher collections que possuem vetor
         let objAux = template.find('[id="' + key + '"]');
         if (objAux != null) {
-          value = objAux.value.trim();
+          value = $(objAux).val();
         }
         else {
           objAux = template.findAll('[name="' + key + '"]');
@@ -466,12 +486,11 @@ export class FormGenerator {
             objData[key] = value.split(",");
             break;
           case Object:
-            objData[key] = JSON.parse(value);
+                objData[key] = Utils.toObject(value);
+
             break;
           case [Object]:
-            objData[key] = JSON.parse(value).keys(obj).map(function (k) {
-              return obj[k]
-            });
+            objData[key] = Utils.toObject(value);
             break;
           case Boolean:
             objData[key] = Boolean(value);
