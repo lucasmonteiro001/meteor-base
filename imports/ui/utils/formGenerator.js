@@ -1,4 +1,4 @@
-import {Utils} from '.././../api/reuse/utils'
+import { Utils } from '.././../api/reuse/utils';
 import './formGeneratorTemplates.html';
 
 export class FormGenerator {
@@ -32,23 +32,6 @@ export class FormGenerator {
                <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
           name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}"  data-mask="{DATA_MASK}"> \
         </div>';
-
-    let inputStringH = '<div class="form-group"> \
-          <label class="col-md-2 control-label" for="div{FIELD_NAME}">{FIELD_LABEL}</label> \
-          <div id="div{FIELD_NAME}" class="col-md-10"> \ ';
-    for (i = 0; i < 3; i++) {
-      inputStringH = inputStringH + '<input type="{FIELD_TYPE}" id="{FIELD_NAME}[' + i + ']" name="{FIELD_NAME}" class="form-control m-b" value="{VALUE}"> \ '
-    }
-    inputStringH = inputStringH + '</div> </div>';
-    this.templates['input3H'] = inputStringH;
-
-    let inputStringV = '<div class="form-group"> \
-          <label class="col-md-2 control-label" for="div{FIELD_NAME}">{FIELD_LABEL}</label> ';
-    for (i = 0; i < 3; i++) {
-      inputStringV = inputStringV + '<input type="{FIELD_TYPE}" id="{FIELD_NAME}[' + i + ']" name="{FIELD_NAME}" class="form-control m-b" value="{VALUE}"> \ '
-    }
-    inputStringV = inputStringV + '</div> </div>';
-    this.templates['input3V'] = inputStringV;
 
     this.templates['inputDateH'] = '<div class="form-group" id="data_1"> \
          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
@@ -138,18 +121,6 @@ export class FormGenerator {
               <span id="{FIELD_NAME}">{VALUE}</span> \
           </div>';
 
-    let spanString = '<div class="form-group"> \
-          <label class="col-md-3 control-label" for="div{FIELD_NAME}">{FIELD_LABEL}</label> \
-          <div id="div{FIELD_NAME}" class="col-md-9"> \ ';
-    for (i = 0; i<3; i++) {
-      spanString = spanString + '<span id="{FIELD_NAME}[' + i + ']" \
-          name="{FIELD_NAME}">{VALUE' + i + '}</span> \ ';
-    }
-
-    spanString = spanString + '</div> </div>';
-
-    this.templates['span3H'] = spanString;
-
     this.templates['selectH'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
@@ -181,6 +152,102 @@ export class FormGenerator {
            {FIELD_OPTIONS} \
         </select>\
         </div>';
+
+    this.templates['checkboxH'] = '<div class="form-group"> \
+        <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+         <div class="col-md-10"> \
+        <input type="{FIELD_TYPE}" id="{FIELD_NAME}" name="{FIELD_NAME}" />\
+                 </div>\
+        </div>';
+
+    this.templates['checkboxV'] = '<div class="form-group"> \
+        <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+        <input type="{FIELD_TYPE}" id="{FIELD_NAME}" name="{FIELD_NAME}" />\
+        </div>';
+
+    this.templates['radioButtonH'] = '<div class="form-group"> \
+        <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+         <div class="col-md-10"> \
+        <input type="{FIELD_TYPE}" disabled id="{FIELD_NAME}" name="{FIELD_NAME}" />\
+                 </div>\
+        </div>';
+
+    this.templates['radioButtonV'] = '<div class="form-group"> \
+        <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+        <input type="{FIELD_TYPE}" disabled id="{FIELD_NAME}" name="{FIELD_NAME}" />\
+        </div>';
+
+    this.templates['checkboxDisabledH'] = '<div class="form-group"> \
+        <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+         <div class="col-md-10"> \
+        <input type="{FIELD_TYPE}" disabled id="{FIELD_NAME}" name="{FIELD_NAME}" />\
+                 </div>\
+        </div>';
+
+    this.templates['checkboxDisabledV'] = '<div class="form-group"> \
+        <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+        <input type="{FIELD_TYPE}" disabled id="{FIELD_NAME}" name="{FIELD_NAME}" />\
+        </div>';
+
+    this.templates['radioButtonDisabledH'] = '<div class="form-group"> \
+        <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+         <div class="col-md-10"> \
+        <input type="{FIELD_TYPE}" disabled id="{FIELD_NAME}" name="{FIELD_NAME}" />\
+                 </div>\
+        </div>';
+
+    this.templates['radioButtonDisabledV'] = '<div class="form-group"> \
+        <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+        <input type="{FIELD_TYPE}" disabled id="{FIELD_NAME}" name="{FIELD_NAME}" />\
+        </div>';
+
+    this.templates['checkboxNH'] = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-10" id="{FIELD_NAME}">\
+          {LABEL_OPTIONS} \
+          </div> </div>';
+
+    this.templates['checkboxNV'] = '<div class="form-group"> \
+          <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div id="{FIELD_NAME}">\
+          {LABEL_OPTIONS} \
+          </div> </div>';
+
+    this.templates['radioNH'] = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-10" id="{FIELD_NAME}">\
+          {LABEL_OPTIONS} \
+          </div> </div>';
+
+    this.templates['radioNV'] = '<div class="form-group"> \
+          <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div id="{FIELD_NAME}">\
+          {LABEL_OPTIONS} \
+          </div> </div>';
+
+    this.templates['spanNH'] = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div id="{FIELD_NAME}" class="col-md-10"> \
+          {SPANS}\
+          </div> </div>';
+
+    this.templates['spanNV'] = '<div class="form-group"> \
+          <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div id="{FIELD_NAME}"> \
+          {SPANS} \
+          </div> </div>';
+
+    this.templates['inputNV'] = '<div class="form-group"> \
+          <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div id="{FIELD_NAME}"> \
+          {INPUTS} \
+          </div> </div>';
+
+    this.templates['inputNH'] = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="div{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div id="div{FIELD_NAME}" class="col-md-10"> \
+          {INPUTS} \
+          </div> </div>';
   }
 
   getTemplate (templateKey) {
@@ -211,8 +278,6 @@ export class FormGenerator {
       dadosCollection = controller.get(searchFor);
     }
 
-
-
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
 
@@ -221,6 +286,7 @@ export class FormGenerator {
         if (schema[key].formOptions.FIELD_TAG == 'inputDateH' || schema[key].formOptions.FIELD_TAG == 'inputDateV') {
           existsDataType = true;
         }
+
         if (schema[key].formOptions.FIELD_TAG == 'inputHourH' || schema[key].formOptions.FIELD_TAG == 'inputHourH') {
           existsHourType = true;
         }
@@ -263,6 +329,55 @@ export class FormGenerator {
               new RegExp('{FIELD_OPTIONS}', 'g'), optionsTmp);
         }
 
+        if (schema[key].formOptions.FIELD_TAG == 'checkboxNH' || schema[key].formOptions.FIELD_TAG == 'checkboxNV') {
+          existsMultipleType = true;
+          let labelsTmp = '';
+          let labels = schema[key].formOptions.LABELS;
+          for (let oKey in labels) {
+            labelsTmp = labelsTmp + '<input type="checkbox" name="' + labels[oKey].NAME + '  " value="' + labels[oKey].VALUE + '"> \
+                                 <label class="control-label" for="' + labels[oKey].FOR + '">' + labels[oKey].LABEL + ' </label><br>';
+          }
+
+          fieldTmp = fieldTmp.replace(
+              new RegExp('{LABEL_OPTIONS}', 'g'), labelsTmp);
+        }
+
+        if (schema[key].formOptions.FIELD_TAG == 'radioNH' || schema[key].formOptions.FIELD_TAG == 'radioNV') {
+          existsMultipleType = true;
+          let labelsTmp = '';
+          let labels = schema[key].formOptions.LABELS;
+          for (let oKey in labels) {
+            labelsTmp = labelsTmp + '<input type="radio" name="' + labels[oKey].NAME + '  " value="' + labels[oKey].VALUE + '"> \
+                                 <label class="control-label" for="' + labels[oKey].FOR + '">' + labels[oKey].LABEL + ' </label><br>';
+          }
+
+          fieldTmp = fieldTmp.replace(
+              new RegExp('{LABEL_OPTIONS}', 'g'), labelsTmp);
+        }
+
+        if (schema[key].formOptions.FIELD_TAG == 'spanNH' || schema[key].formOptions.FIELD_TAG == 'spanNV') {
+          existsMultipleType = true;
+          let spansTmp = '';
+          let spans = schema[key].formOptions.SPANS;
+          for (let oKey in spans) {
+            spansTmp = spansTmp + '<span id="' + spans[oKey].ID + '">' + spans[oKey].VALUE + '</span> <br><br>';
+          }
+
+          fieldTmp = fieldTmp.replace(
+              new RegExp('{SPANS}', 'g'), spansTmp);
+        }
+
+        if (schema[key].formOptions.FIELD_TAG == 'inputNH' || schema[key].formOptions.FIELD_TAG == 'inputNV') {
+          existsMultipleType = true;
+          let inputsTmp = '';
+          let inputs = schema[key].formOptions.INPUTS;
+          for (let oKey in inputs) {
+            inputsTmp = inputsTmp + '<input type="{FIELD_TYPE}" id="' + inputs[oKey].ID + '" name="' + inputs[oKey].NAME + '" class="form-control" value="" placeholder="' + inputs[oKey].PLACEHOLDER + '"> <br>';
+          }
+
+          fieldTmp = fieldTmp.replace(
+              new RegExp('{INPUTS}', 'g'), inputsTmp);
+        }
 
         //FIELD_NAME = key
         fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
@@ -278,7 +393,7 @@ export class FormGenerator {
         //Valor dos campos
         if (typeof dadosCollection != 'undefined') {
           if (Array.isArray(dadosCollection[key])) {
-            for (let i = 0; i < dadosCollection[key].length; i++) {
+            for (let i = 0; i<dadosCollection[key].length; i++) {
               let valor = dadosCollection[key][i];
               if (schema[key].type == Date && valor) {
                 let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
@@ -296,7 +411,7 @@ export class FormGenerator {
             if (schema[key].formOptions.FIELD_TAG != 'input3H') {
               fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
             } else {
-              for (let i = 0; i < 3; i++) {
+              for (let i = 0; i<3; i++) {
                 fieldTmp = fieldTmp.replace(new RegExp('{VALUE' + i + '}', 'g'), valor || '');
               }
             }
@@ -319,7 +434,6 @@ export class FormGenerator {
       this.applyJQueryValidation(controller, schemaName, idOfElement);
     }
 
-
     if (Meteor.isCordova) {
       console.log("Printed only in mobile Cordova apps");
     } else {
@@ -338,7 +452,6 @@ export class FormGenerator {
         $('.clockpicker').clockpicker();
       }
     }
-
 
     if (existsMultipleType) {
       $('.select2_demo_2').select2();
@@ -368,36 +481,35 @@ export class FormGenerator {
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
 
-          fieldTmp = this.getTemplate('spanH');
+        fieldTmp = this.getTemplate('spanH');
 
-          //FIELD_NAME = key
-          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
+        //FIELD_NAME = key
+        fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
 
-          //FIELD_LABEÇ = schema[key].label
-          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
+        //FIELD_LABEÇ = schema[key].label
+        fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
 
-          for (let fieldOptions in schema[key].formOptions) {
-            fieldTmp = fieldTmp.replace(
-                new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
-          }
-
+        for (let fieldOptions in schema[key].formOptions) {
+          fieldTmp = fieldTmp.replace(
+              new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
+        }
 
         //Valor dos campos
-          if (typeof dadosCollection != 'undefined') {
-            let valor = dadosCollection[key];
+        if (typeof dadosCollection != 'undefined') {
+          let valor = dadosCollection[key];
 
-            if (schema[key].type == Date && valor) {
-              let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
-              valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
-            } else if (schema[key].type == Object && typeof schema[key].formOptions["FIELD_SCHEMA"] != 'undefined' && valor) {
-              console.log('TODo - Campo = Objeto');
-              valor = this.getFormViewFromSchema(getFieldSchemaJson(key), valor)
-            }
-            fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
+          if (schema[key].type == Date && valor) {
+            let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+            valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+          } else if (schema[key].type == Object && typeof schema[key].formOptions["FIELD_SCHEMA"] != 'undefined' && valor) {
+            console.log('TODo - Campo = Objeto');
+            valor = this.getFormViewFromSchema(getFieldSchemaJson(key), valor)
           }
+          fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
+        }
 
-          //Resultado Final
-          result = result + fieldTmp;
+        //Resultado Final
+        result = result + fieldTmp;
 
       }
 
@@ -405,7 +517,7 @@ export class FormGenerator {
     document.getElementById(idOfElement).innerHTML = result;
   }
 
-  getFormViewFromSchema(schema, listOfObjects) {
+  getFormViewFromSchema (schema, listOfObjects) {
     let fieldTmp = '';
     let result = '';
 
@@ -426,7 +538,6 @@ export class FormGenerator {
             fieldTmp = fieldTmp.replace(
                 new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
           }
-
 
           //Valor dos campos
           if (typeof object != 'undefined') {
@@ -496,13 +607,12 @@ export class FormGenerator {
         let objAux = template.find('[id="' + key + '"]');
         if (objAux != null) {
 
-            value = $(objAux).val();
-
+          value = $(objAux).val();
 
         }
         else {
           objAux = template.findAll('[name="' + key + '"]');
-          for (i = 0; i < objAux.length; i++) {
+          for (i = 0; i<objAux.length; i++) {
             objAux[i] = objAux[i].value.trim();
           }
           value = objAux;
