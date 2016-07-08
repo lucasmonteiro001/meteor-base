@@ -154,11 +154,7 @@ export class FormGenerator {
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
         <select class="form-control js-example-placeholder-single" style="width: 100%" tabindex="-1" aria-hidden="true" id="{FIELD_NAME}" name="{FIELD_NAME}">\
-          <option></option>\
-        <optgroup label="{OPTIONS_LABEL}">\
-        <option value="{OPTION1}">{OPTION1}</option>\
-        <option value="{OPTION2}">{OPTION2}</option>\
-        </optgroup>\
+           {FIELD_OPTIONS} \
         </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr">\
         </div>\
     </div>';
@@ -166,11 +162,7 @@ export class FormGenerator {
     this.templates['selectV'] = '<div class="form-group"> \
         <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
       <select class="form-control" id="{FIELD_NAME}" name="{FIELD_NAME}">\
-       <option value="{OPTION1}">{OPTION1}</option>\
-       <option value="{OPTION2}">{OPTION2}</option>\
-       <option value="{OPTION3}">{OPTION3}</option>\
-       <option value="{OPTION4}">{OPTION4}</option>\
-       <option value="{OPTION5}">{OPTION5}</option>\
+           {FIELD_OPTIONS} \
       </select>\
     </div>';
 
@@ -186,13 +178,7 @@ export class FormGenerator {
     this.templates['multipleV'] = '<div class="form-group"> \
         <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
         <select class="select2_demo_2 form-control" multiple="multiple" id="{FIELD_NAME}" name="{FIELD_NAME}">\
-           <option value="{OPTION1}" selected>{OPTION1}</option>\
-           <option value="{OPTION2}">{OPTION2}</option>\
-           <option value="{OPTION3}">{OPTION3}</option>\
-           <option value="{OPTION4}">{OPTION4}</option>\
-           <option value="{OPTION5}">{OPTION5}</option>\
-           <option value="{OPTION6}">{OPTION6}</option>\
-           <option value="{OPTION7}">{OPTION7}</option>\
+           {FIELD_OPTIONS} \
         </select>\
         </div>';
   }
@@ -253,7 +239,16 @@ export class FormGenerator {
 
         if (schema[key].formOptions.FIELD_TAG == 'selectH' || schema[key].formOptions.FIELD_TAG == 'selectV') {
           existsSelectType = true;
+          let optionsTmp = '';
+          let options = schema[key].formOptions.OPTIONS;
+          for (let oKey in options) {
+            optionsTmp = optionsTmp+'<option value="'+options[oKey].VALUE+'">'+ options[oKey].LABEL +'</option>';
+          }
+
+          fieldTmp = fieldTmp.replace(
+              new RegExp('{FIELD_OPTIONS}', 'g'), optionsTmp);
         }
+
 
         //FIELD_NAME = key
         fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);

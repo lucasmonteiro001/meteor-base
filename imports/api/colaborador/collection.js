@@ -1,283 +1,290 @@
-import { CollectionBase } from '../reuse/collectionBase';
+import {CollectionBase} from '../reuse/collectionBase';
 
 export const CollectionColaboradores = new CollectionBase('Colaboradores');
 
 CollectionColaboradores.setSchema({
-  nome: {
-    type: String,
-    defaultValue: '',
-    label: 'Nome',
-    formOptions: {
-      FIELD_TAG: 'inputH',
-      FIELD_TYPE: 'text',
-      PLACEHOLDER: 'Nome',
+    nome: {
+        type: String,
+        defaultValue: '',
+        label: 'Nome',
+        formOptions: {
+            FIELD_TAG: 'inputH',
+            FIELD_TYPE: 'text',
+            PLACEHOLDER: 'Nome',
+        },
+        formValidation: {
+            required: {value: true, message: 'O nome é obrigatório'},
+        },
+        tableView: {
+            label: 'Nome',
+            template: 'tmpl',
+        },
     },
-    formValidation: {
-      required: { value: true, message: 'O nome é obrigatório' },
+    dataNascimento: {
+        type: Date,
+        defaultValue: '',
+        optional: true,
+        label: 'Data de Nascimento',
+        formOptions: {
+            FIELD_TAG: 'inputDateH',
+            FIELD_TYPE: 'date',
+        },
+        formValidation: {
+            required: {value: true, message: 'A Data de Nascimento é obrigatória'},
+        },
     },
-    tableView: {
-      label: 'Nome',
-      template: 'tmpl',
+    cpf: {
+        type: String,
+        defaultValue: '',
+        label: 'CPF',
+        formOptions: {
+            FIELD_TAG: 'inputMaskH',
+            FIELD_TYPE: 'text',
+            PLACEHOLDER: 'CPF',
+            DATA_MASK: '999.999.999-99'
+        },
+        formValidation: {
+            required: {value: true, message: 'O CPF é obrigatório'},
+        }
     },
-  },
-  dataNascimento: {
-    type: Date,
-    defaultValue: '',
-    optional: true,
-    label: 'Data de Nascimento',
-    formOptions: {
-      FIELD_TAG: 'inputDateH',
-      FIELD_TYPE: 'date',
+    login: {
+        type: String,
+        defaultValue: '',
+        label: 'Login',
+        formOptions: {
+            FIELD_TAG: 'inputH',
+            FIELD_TYPE: 'text',
+            PLACEHOLDER: 'Login',
+        },
+        formValidation: {
+            required: {value: true, message: 'O login é obrigatório'},
+        },
+        tableView: {
+            label: 'Login',
+        },
     },
-    formValidation: {
-      required: { value: true, message: 'A Data de Nascimento é obrigatória' },
+    setor: {
+        type: String,
+        defaultValue: '',
+        label: 'Setor',
+        formOptions: {
+            FIELD_TAG: 'selectH',
+            FIELD_TYPE: 'text',
+            OPTIONS_LABEL: 'Setores',
+            OPTIONS: [
+                {VALUE:"Administrativo Financeiro",LABEL:"Administrativo Financeiro"},
+                {VALUE:"Recursos Computacionais",LABEL:"Recursos Computacionais"},
+                {VALUE:"Marketing",LABEL:"Marketing"},
+                {VALUE:"Processos",LABEL:"Processos"},
+                {VALUE:"Desenho e Implementação",LABEL:"Desenho e Implementação"},
+                {VALUE:"Gerência de Projetos",LABEL:"Gerência de Projetos"},
+                {VALUE:"Requisitos e Análise",LABEL:"Requisitos e Análise"},
+                {VALUE:"Teste",LABEL:"Teste"},
+                {VALUE:"Usabilidade",LABEL:"Usabilidade"},
+            ],
+        },
+        formValidation: {
+            required: {value: true, message: 'O setor é obrigatório'},
+        },
+        tableView: {
+            label: 'Setor',
+        },
     },
-  },
-  cpf: {
-    type: String,
-    defaultValue: '',
-    label: 'CPF',
-    formOptions: {
-      FIELD_TAG: 'inputMaskH',
-      FIELD_TYPE: 'text',
-      PLACEHOLDER: 'CPF',
-      DATA_MASK: '999.999.999-99'
+    funcao: {
+        type: String,
+        defaultValue: '',
+        label: 'Funcao',
+        formOptions: {
+            FIELD_TAG: 'selectH',
+            FIELD_TYPE: 'text',
+            OPTIONS_LABEL: 'Funções',
+            OPTIONS: [
+                {VALUE:"Colaborador do Setor",LABEL:"Colaborador do Setor"},
+                {VALUE:"Líder Técnico",LABEL:"Líder Técnico"},
+                {VALUE:"Gerente de Projetos",LABEL:"Gerente de Projetos"},
+                {VALUE:"Gerente de Setor",LABEL:"Gerente de Setor"},
+                {VALUE:"Diretor de Setor",LABEL:"Diretor de Setor"} ,
+            ],
+        },
+        formValidation: {
+            required: {value: true, message: 'A funcao é obrigatória'},
+        },
+        tableView: {
+            label: 'Funcao',
+        },
     },
-    formValidation: {
-      required: { value: true, message: 'O CPF é obrigatório' },
-    }
-  },
-  login: {
-    type: String,
-    defaultValue: '',
-    label: 'Login',
-    formOptions: {
-      FIELD_TAG: 'inputH',
-      FIELD_TYPE: 'text',
-      PLACEHOLDER: 'Login',
+    diasTrabalhados: {
+        type: Object,
+        blackbox: true,
+        defaultValue: {},
+        label: 'Dias trabalhados',
+        formOptions: {
+            FIELD_TAG: 'multipleH',
+            FIELD_TYPE: 'text',
+            OPTIONS: [
+                {VALUE: 'Segunda-Feira', LABEL: 'Segunda-feira'},
+                {VALUE: "Terça-Feira", LABEL: "Terça-feira"},
+                {VALUE: "Quarta-Feira", LABEL: "Quarta-feira"},
+                {VALUE: "Quinta-Feira", LABEL: "Quinta-feira"},
+                {VALUE: "Sexta-Feira", LABEL: "Sexta-feira"},
+                {VALUE: "Sabado", LABEL: "Sabado"},
+                {VALUE: "Domingo", LABEL: "Domingo"},
+            ],
+        },
     },
-    formValidation: {
-      required: { value: true, message: 'O login é obrigatório' },
+    quantidadeDeDependentes: {
+        type: Number,
+        defaultValue: 0,
+        optional: true,
+        label: 'Quantidade de Dependentes',
+        formOptions: {
+            FIELD_TAG: 'inputH',
+            FIELD_TYPE: 'number',
+            PLACEHOLDER: 'Quantidade de dependentes'
+        },
+        tableView: {
+            label: 'Qtd. Dependentes',
+        },
     },
-    tableView: {
-      label: 'Login',
+    dataEntrada: {
+        type: Date,
+        defaultValue: '',
+        optional: true,
+        label: 'Data de entrada no Synergia',
+        formOptions: {
+            FIELD_TAG: 'inputDateH',
+            FIELD_TYPE: 'date',
+        },
+        formValidation: {
+            required: {value: true, message: 'A Data de entrada é obrigatória'},
+        },
     },
-  },
-  setor: {
-    type: String,
-    defaultValue: '',
-    label: 'Setor',
-    formOptions: {
-      FIELD_TAG: 'selectH',
-      FIELD_TYPE: 'text',
-      OPTIONS_LABEL: 'Setores',
-      OPTION1: 'Administrativo Financeiro',
-      OPTION2: 'Recursos Computacionais',
-      OPTION3: 'Marketing',
-      OPTION4: 'Processos',
-      OPTION5: 'Desenho e Implementação',
-      OPTION6: 'Gerência de Projetos',
-      OPTION7: 'Requisitos e Análise',
-      OPTION8: 'Teste',
-      OPTION9: 'Usabilidade'
+    telefone: {
+        type: String,
+        defaultValue: '',
+        label: 'Telefone:',
+        formOptions: {
+            FIELD_TAG: 'inputMaskH',
+            FIELD_TYPE: 'text',
+            PLACEHOLDER: 'Telefone',
+            DATA_MASK: '(99) 9999-9999'
+        },
+        formValidation: {
+            required: {value: true, message: 'O telefone é obrigatório'},
+        },
+        tableView: {
+            label: 'Telefone',
+        },
     },
-    formValidation: {
-      required: { value: true, message: 'O setor é obrigatório' },
+    celular: {
+        type: String,
+        defaultValue: '',
+        label: 'Celular:',
+        formOptions: {
+            FIELD_TAG: 'inputMaskH',
+            FIELD_TYPE: 'text',
+            PLACEHOLDER: 'Celular',
+            DATA_MASK: '(99) 99999-9999'
+        },
+        formValidation: {
+            required: {value: true, message: 'O celular é obrigatório'},
+        },
+        tableView: {
+            label: 'Celular',
+        },
     },
-    tableView: {
-      label: 'Setor',
-    },
-  },
-  funcao: {
-    type: String,
-    defaultValue: '',
-    label: 'Funcao',
-    formOptions: {
-      FIELD_TAG: 'selectH',
-      FIELD_TYPE: 'text',
-      OPTIONS_LABEL: 'Funções',
-      OPTION1: 'Colaborador do Setor',
-      OPTION2: 'Líder Técnico',
-      OPTION3: 'Gerente de Projetos',
-      OPTION4: 'Gerente de Setor',
-      OPTION5: 'Diretor de Setor',
-    },
-    formValidation: {
-      required: { value: true, message: 'A funcao é obrigatória' },
-    },
-    tableView: {
-      label: 'Funcao',
-    },
-  },
-  diasTrabalhados: {
-    type: String,
-    defaultValue: ['', '', '', '', '', '', ''],
-    label: 'Dias trabalhados',
-    formOptions: {
-      FIELD_TAG: 'multipleH',
-      FIELD_TYPE: 'text',
-      OPTION1: 'Segunda',
-      OPTION2: 'Terça',
-      OPTION3: 'Quarta',
-      OPTION4: 'Quinta',
-      OPTION5: 'Sexta',
-      OPTION6: 'Sabado',
-      OPTION7: 'Domingo',
-    },
-  },
-  quantidadeDeDependentes: {
-    type: Number,
-    defaultValue: 0,
-    optional: true,
-    label: 'Quantidade de Dependentes',
-    formOptions: {
-      FIELD_TAG: 'inputH',
-      FIELD_TYPE: 'number',
-      PLACEHOLDER: 'Quantidade de dependentes'
-    },
-    tableView: {
-      label: 'Qtd. Dependentes',
-    },
-  },
-  DataEntrada: {
-    type: Date,
-    defaultValue: '',
-    optional: true,
-    label: 'Data de entrada no Synergia',
-    formOptions: {
-      FIELD_TAG: 'inputDateH',
-      FIELD_TYPE: 'date',
-    },
-    formValidation: {
-      required: { value: true, message: 'A Data de entrada é obrigatória' },
-    },
-  },
-  telefone: {
-    type: String,
-    defaultValue: '',
-    label: 'Telefone:',
-    formOptions: {
-      FIELD_TAG: 'inputMaskH',
-      FIELD_TYPE: 'text',
-      PLACEHOLDER: 'Telefone',
-      DATA_MASK: '(99) 9999-9999'
-    },
-    formValidation: {
-      required: { value: true, message: 'O telefone é obrigatório' },
-    },
-    tableView: {
-      label: 'Telefone',
-    },
-  },
-  celular: {
-    type: String,
-    defaultValue: '',
-    label: 'Celular:',
-    formOptions: {
-      FIELD_TAG: 'inputMaskH',
-      FIELD_TYPE: 'text',
-      PLACEHOLDER: 'Celular',
-      DATA_MASK: '(99) 99999-9999'
-    },
-    formValidation: {
-      required: { value: true, message: 'O celular é obrigatório' },
-    },
-    tableView: {
-      label: 'Celular',
-    },
-  },
-  email: {
-    type: String,
-    defaultValue: '',
-    optional: true,
-    label: 'Email',
-    formOptions: {
-      FIELD_TAG: 'inputH',
-      FIELD_TYPE: 'text',
-      PLACEHOLDER: 'Email',
+    email: {
+        type: String,
+        defaultValue: '',
+        optional: true,
+        label: 'Email',
+        formOptions: {
+            FIELD_TAG: 'inputH',
+            FIELD_TYPE: 'text',
+            PLACEHOLDER: 'Email',
 
+        },
+        formValidation: {
+            required: {value: true, message: 'O email é obrigatório'},
+            email: {value: true, message: 'O email informado não é válido'},
+        },
+        tableView: {
+            label: 'Email',
+        },
     },
-    formValidation: {
-      required: { value: true, message: 'O email é obrigatório' },
-      email: { value: true, message: 'O email informado não é válido' },
+    userId: {
+        type: String,
+        label: 'Associated User ID',
+        autoValue: function () {
+            return this.userId
+        }
     },
-    tableView: {
-      label: 'Email',
+    helptext: {
+        type: String,
+        defaultValue: '',
+        label: 'Teste helptext',
+        formOptions: {
+            FIELD_TAG: 'inputHelpH',
+            FIELD_TYPE: 'text',
+            HELP_TEXT: 'TESTE'
+        },
+        formValidation: {
+            required: {value: true, message: 'O nome é obrigatório'},
+        },
+        tableView: {
+            label: 'TESTE'
+        },
     },
-  },
-  userId: {
-    type: String,
-    label: 'Associated User ID',
-    autoValue: function () {
-      return this.userId
-    }    
-  },
-  helptext: {
-    type: String,
-    defaultValue: '',
-    label: 'Teste helptext',
-    formOptions: {
-      FIELD_TAG: 'inputHelpH',
-      FIELD_TYPE: 'text',
-      HELP_TEXT: 'TESTE'
+    horaEntrada: {
+        type: Date,
+        defaultValue: '',
+        optional: true,
+        label: 'Hora de entrada',
+        formOptions: {
+            FIELD_TAG: 'inputHourH',
+            FIELD_TYPE: 'time',
+        },
+        formValidation: {
+            required: {value: true, message: 'A hora de entrada é obrigatória'},
+        }
     },
-    formValidation: {
-      required: { value: true, message: 'O nome é obrigatório' },
+    horaSaida: {
+        type: Date,
+        defaultValue: '',
+        optional: true,
+        label: 'Hora de saida',
+        formOptions: {
+            FIELD_TAG: 'inputHourH',
+            FIELD_TYPE: 'time',
+        },
+        formValidation: {
+            required: {value: true, message: 'A hora de saida é obrigatória'},
+        }
     },
-    tableView: {
-      label: 'TESTE'
+    inputDisabled: {
+        type: [''],
+        defaultValue: '',
+        label: 'Teste disabled',
+        formOptions: {
+            FIELD_TAG: 'inputDisabledH',
+            FIELD_TYPE: 'text',
+            VALUE: 'TESTE DISABLED',
+            PLACEHOLDER: 'DISABLED'
+        },
+        formValidation: {
+            required: {value: true, message: 'O nome é obrigatório'},
+        }
     },
-  },
-  horaEntrada: {
-    type: Date,
-    defaultValue: '',
-    optional: true,
-    label: 'Hora de entrada',
-    formOptions: {
-      FIELD_TAG: 'inputHourH',
-      FIELD_TYPE: 'time',
-    },
-    formValidation: {
-      required: { value: true, message: 'A hora de entrada é obrigatória' },
-    }
-  },
-  horaSaida: {
-    type: Date,
-    defaultValue: '',
-    optional: true,
-    label: 'Hora de saida',
-    formOptions: {
-      FIELD_TAG: 'inputHourH',
-      FIELD_TYPE: 'time',
-    },
-    formValidation: {
-      required: { value: true, message: 'A hora de saida é obrigatória' },
-    }
-  },
-  inputDisabled: {
-    type: [''],
-    defaultValue: '',
-    label: 'Teste disabled',
-    formOptions: {
-      FIELD_TAG: 'inputDisabledH',
-      FIELD_TYPE: 'text',
-      VALUE: 'TESTE DISABLED',
-      PLACEHOLDER: 'DISABLED'
-    },
-    formValidation: {
-      required: { value: true, message: 'O nome é obrigatório' },
-    }
-  },
 });
 
 CollectionColaboradores.addSubSchema('insert',
     ['nome', 'diasTrabalhados', 'inputDisabled', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao',
-      'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida', 'userId']);
+        'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida']);
 
 CollectionColaboradores.addSubSchema('update',
     ['nome', 'diasTrabalhados', 'inputDisabled', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao',
-      'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida', 'userId']);
+        'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida']);
 
 CollectionColaboradores.addSubSchema('view',
     ['nome', 'diasTrabalhados', 'inputDisabled', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao',
-      'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida', 'userId']);
+        'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida']);
