@@ -20,6 +20,53 @@ CollectionColaboradores.setSchema({
             template: 'tmpl',
         },
     },
+    testeObj: {
+        type: Object,
+        defaultValue: '',
+        label: 'teste',
+        formOptions: {
+            FIELD_TAG: 'multipleH',
+            FIELD_TYPE: 'text',
+            OPTIONS: [
+                {VALUE: {campo1: 'valueCampo1', campo2: 'valueCampo2'}, LABEL: "Administrativo Financeiro"},
+                {VALUE: {campo1: 'valueCampo1X', campo2: 'valueCampo2X'}, LABEL: "Recursos Computacionais"},
+            ],
+            FIELD_SCHEMA: {
+                campo1: {
+                    type: String,
+                    defaultValue: '',
+                    optional: true,
+                    label: 'Campo01',
+                    formOptions: {
+                        FIELD_TAG: 'inputH',
+                        FIELD_TYPE: 'text',
+                    },
+                    formValidation: {
+                        required: {value: true, message: 'Esse campo é obrigatória'},
+                    },
+                },
+                campo2: {
+                    type: String,
+                    defaultValue: '',
+                    optional: true,
+                    label: 'Campo02',
+                    formOptions: {
+                        FIELD_TAG: 'inputH',
+                        FIELD_TYPE: 'text',
+                    },
+                    formValidation: {
+                        required: {value: true, message: 'Esse campo é obrigatória'},
+                    },
+                },
+            }
+        },
+        formValidation: {
+            required: {value: true, message: 'O Teste é obrigatório'},
+        },
+        tableView: {
+            label: 'Teste',
+        },
+    },
     dataNascimento: {
         type: Date,
         defaultValue: '',
@@ -278,13 +325,13 @@ CollectionColaboradores.setSchema({
 });
 
 CollectionColaboradores.addSubSchema('insert',
-    ['nome', 'diasTrabalhados', 'inputDisabled', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao',
+    ['nome', 'testeObj', 'diasTrabalhados', 'inputDisabled', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao',
         'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida']);
 
 CollectionColaboradores.addSubSchema('update',
-    ['nome', 'diasTrabalhados', 'inputDisabled', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao',
+    ['nome', 'testeObj', 'diasTrabalhados', 'inputDisabled', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao',
         'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida']);
 
 CollectionColaboradores.addSubSchema('view',
-    ['nome', 'diasTrabalhados', 'inputDisabled', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao',
+    ['nome', 'testeObj', 'diasTrabalhados', 'inputDisabled', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao',
         'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida']);

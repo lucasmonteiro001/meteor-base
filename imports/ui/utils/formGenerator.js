@@ -1,5 +1,5 @@
 import {Utils} from '.././../api/reuse/utils'
-import { Template } from 'meteor/templating';
+import './formGeneratorTemplates.html';
 
 export class FormGenerator {
   constructor () {
@@ -230,7 +230,14 @@ export class FormGenerator {
           let optionsTmp = '';
           let options = schema[key].formOptions.OPTIONS;
           for (let oKey in options) {
-            optionsTmp = optionsTmp+'<option value="'+options[oKey].VALUE+'">'+ options[oKey].LABEL +'</option>';
+            console.log(typeof options[oKey].VALUE);
+            if (typeof options[oKey].VALUE == 'object') {
+              console.log('Entrou');
+              optionsTmp = optionsTmp + "<option value='" + JSON.stringify(options[oKey].VALUE) + "'>" + options[oKey].LABEL + '</option>';
+            } else {
+              optionsTmp = optionsTmp + '<option value="' + options[oKey].VALUE + '">' + options[oKey].LABEL + '</option>';
+            }
+
           }
 
           fieldTmp = fieldTmp.replace(
@@ -242,7 +249,14 @@ export class FormGenerator {
           let optionsTmp = '';
           let options = schema[key].formOptions.OPTIONS;
           for (let oKey in options) {
-            optionsTmp = optionsTmp+'<option value="'+options[oKey].VALUE+'">'+ options[oKey].LABEL +'</option>';
+
+            if (typeof options[oKey].VALUE == 'object') {
+
+              console.log(options[oKey].VALUE);
+              optionsTmp = optionsTmp + '<option value=' + options[oKey].VALUE + '>' + options[oKey].LABEL + '</option>';
+            } else {
+              optionsTmp = optionsTmp + '<option value="' + options[oKey].VALUE + '">' + options[oKey].LABEL + '</option>';
+            }
           }
 
           fieldTmp = fieldTmp.replace(
@@ -305,20 +319,26 @@ export class FormGenerator {
       this.applyJQueryValidation(controller, schemaName, idOfElement);
     }
 
-    if (existsDataType) {
-      $('#data_1 .input-group.date').datepicker({
-        startView: 1,
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        autoclose: true,
-        format: "dd/mm/yyyy"
-      });
+
+    if (Meteor.isCordova) {
+      console.log("Printed only in mobile Cordova apps");
+    } else {
+      if (existsDataType) {
+        $('#data_1 .input-group.date').datepicker({
+          startView: 1,
+          todayBtn: "linked",
+          keyboardNavigation: false,
+          forceParse: false,
+          autoclose: true,
+          format: "dd/mm/yyyy"
+        });
+      }
+
+      if (existsHourType) {
+        $('.clockpicker').clockpicker();
+      }
     }
 
-    if (existsHourType) {
-      $('.clockpicker').clockpicker();
-    }
 
     if (existsMultipleType) {
       $('.select2_demo_2').select2();
@@ -348,35 +368,6 @@ export class FormGenerator {
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
 
-
-        /*if (Array.isArray(dadosCollection[key])) {
-
-          fieldTmp = this.getTemplate('span3H');
-
-          //FIELD_NAME = key
-          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
-
-          //FIELD_LABEL = schema[key].label
-          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
-
-          for (let fieldOptions in schema[key].formOptions) {
-            fieldTmp = fieldTmp.replace(
-                new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
-          }
-
-          //Valor dos campos
-          if (typeof dadosCollection != 'undefined') {
-            for (let i = 0; i < dadosCollection[key].length; i++) {
-              let valor = dadosCollection[key][i];
-              if (schema[key].type == Date && valor) {
-                let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
-                valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
-              }
-              fieldTmp = fieldTmp.replace(new RegExp('{VALUE' + i + '}', 'g'), valor || '');
-            }
-          }
-        }
-        else {*/
           fieldTmp = this.getTemplate('spanH');
 
           //FIELD_NAME = key
@@ -390,23 +381,76 @@ export class FormGenerator {
                 new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
           }
 
-          //Valor dos campos
+
+        //Valor dos campos
           if (typeof dadosCollection != 'undefined') {
             let valor = dadosCollection[key];
+
             if (schema[key].type == Date && valor) {
               let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
               valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+            } else if (schema[key].type == Object && typeof schema[key].formOptions["FIELD_SCHEMA"] != 'undefined' && valor) {
+              console.log('TODo - Campo = Objeto');
+              valor = this.getFormViewFromSchema(getFieldSchemaJson(key), valor)
             }
             fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
           }
 
           //Resultado Final
           result = result + fieldTmp;
-        //}
+
       }
 
-      document.getElementById(idOfElement).innerHTML = result;
     }
+    document.getElementById(idOfElement).innerHTML = result;
+  }
+
+  getFormViewFromSchema(schema, listOfObjects) {
+    let fieldTmp = '';
+    let result = '';
+
+    for (let object in listOfObjects) {
+
+      for (let key in schema) {
+        if (typeof schema[key].formOptions != 'undefined') {
+
+          fieldTmp = this.getTemplate('spanH');
+
+          //FIELD_NAME = key
+          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
+
+          //FIELD_LABEÇ = schema[key].label
+          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
+
+          for (let fieldOptions in schema[key].formOptions) {
+            fieldTmp = fieldTmp.replace(
+                new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
+          }
+
+
+          //Valor dos campos
+          if (typeof object != 'undefined') {
+            let valor = object[key];
+
+            if (schema[key].type == Date && valor) {
+              let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+              valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+            } else if (schema[key].type == Object && typeof schema[key].formOptions["FIELD_SCHEMA"] != 'undefined' && valor) {
+              console.log('TODo - Campo = Objeto');
+
+            }
+            fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
+          }
+
+          //Resultado Final
+          result = result + fieldTmp;
+
+        }
+
+      }
+    }
+
+    return result;
   }
 
   applyJQueryValidation (controller, schemaName = 'default', elementId) {
@@ -451,7 +495,17 @@ export class FormGenerator {
         //Necessário para preencher collections que possuem vetor
         let objAux = template.find('[id="' + key + '"]');
         if (objAux != null) {
-          value = $(objAux).val();
+
+          if (schema[key].type == Object) {
+            value = $(objAux).find(":selected").data("value");
+            console.log('Valor-X:');
+            console.log(value);
+          } else {
+            value = $(objAux).val();
+          }
+
+
+
         }
         else {
           objAux = template.findAll('[name="' + key + '"]');
@@ -481,6 +535,8 @@ export class FormGenerator {
             objData[key] = value.split(",");
             break;
           case Object:
+            console.log("Valor que será convertido em Objeto:");
+            console.log(value);
                 objData[key] = Utils.toObject(value);
 
             break;

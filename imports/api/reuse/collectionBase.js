@@ -142,6 +142,25 @@ export class CollectionBase {
   }
 
   /**
+   *  Retorna o schmema, em formato json para um determinado campo do documento
+   * @param schemaName
+   * @returns {{}}
+   */
+  getFieldSchemaJson(fieldName) {
+    let schema = {};
+    let fieldJson = {};
+
+    schema = Utils.cloneObj(this.schemaDefault);
+
+    if (schema[fieldName] && schema[fieldName].formOptions && schema[fieldName].formOptions.FIELD_SCHEMA) {
+      fieldJson = schema[fieldName].formOptions.FIELD_SCHEMA;
+    }
+
+    return fieldJson;
+  }  
+  
+  
+  /**
    * Retorna a coleção
    * @returns {Mongo.Collection} - Retorna uma coleção
    */
