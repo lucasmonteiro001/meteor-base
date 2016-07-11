@@ -1,7 +1,7 @@
 //import 'bootstrap/dist/css/bootstrap.min.css';
 //import 'bootstrap/dist/js/bootstrap.min.js';
 import { colaboradoresController } from '../../api/colaborador/controller';
-import { projetosController } from '../../api/colaborador/controller';
+import { projetosController } from '../../api/projeto/controller';
 
 import './routes/';
 
