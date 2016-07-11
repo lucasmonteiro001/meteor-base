@@ -1,7 +1,7 @@
 import { Utils } from '.././../api/reuse/utils';
 import './formGeneratorTemplates.html';
 import { UtilsView } from './ViewUtils';
-import './formGeneratorTemplates'
+import './formGeneratorTemplates';
 
 export class FormGenerator {
   constructor () {
@@ -134,7 +134,7 @@ export class FormGenerator {
 
     this.templates['selectV'] = '<div class="form-group"> \
         <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-      <select class="form-control" id="{FIELD_NAME}" name="{FIELD_NAME}">\
+      <select class="form-control js-example-placeholder-single" id="{FIELD_NAME}" name="{FIELD_NAME}">\
            {FIELD_OPTIONS} \
       </select>\
     </div>';
@@ -256,6 +256,9 @@ export class FormGenerator {
           <div id="div{FIELD_NAME}" class="col-md-10"> \
           {INPUTS} \
           </div> </div>';
+
+    // AINDA NAO FUNCIONA.
+    this.templates['imageCropper'] = '<div class="col-lg-12"><div class="ibox float-e-margins"><div class="ibox-content"><p></p><div class="row"><div class="col-md-6"><div class="image-crop"><img src="../../../public/img/userDefault.png"></div></div><div class="col-md-6"><h4>Preview image</h4><div class="img-preview img-preview-lg"></div><h4>Comon method</h4><p>You can upload new image to crop container and easy download new croppedimage.</p><div class="btn-group"><label title="Upload image file" for="inputImage" class="btn btn-primary"><input type="file" accept="image/*" name="file" id="inputImage"class="hide">Upload new image</label><label title="Donload image" id="download"class="btn btn-primary">Download</label></div><h4>Other method</h4><p>You may set cropper options with <code>$({image}).cropper(options)</code></p><div class="btn-group"><button class="btn btn-white" id="zoomIn" type="button">Zoom In</button><button class="btn btn-white" id="zoomOut" type="button">Zoom Out</button><button class="btn btn-white" id="rotateLeft" type="button">Rotate Left</button><button class="btn btn-white" id="rotateRight" type="button">Rotate Right</button><button class="btn btn-warning" id="setDrag" type="button">New crop</button></div></div></div></div></div></div>';
   }
 
   getTemplate (templateKey) {
@@ -272,6 +275,7 @@ export class FormGenerator {
   //todo Melhorar a escrita do código, há muita repetição
   formRender (idOfElement, applyValidation = true, controller, schemaName = 'default', searchFor = '', idOfForm = '') {
     let existsDataType = false;
+    let existsCropperType = false;
     let existsSelectType = false;
     let existsMultipleType = false;
     let existsHourType = false;
@@ -395,6 +399,11 @@ export class FormGenerator {
               new RegExp('{INPUTS}', 'g'), inputsTmp);
         }
 
+        if (schema[key].formOptions.FIELD_TAG == 'imageCropper') {
+          existsCropperType = true;
+
+        }
+
         //FIELD_NAME = key
         fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
 
@@ -479,14 +488,75 @@ export class FormGenerator {
       });
     }
 
+    if (existsCropperType) {
+
+      var $image = $(".image-crop > img")
+      $($image).cropper({
+        aspectRatio: 1.1,
+        preview: ".img-preview",
+        done: function (data) {
+          // Output the result data for cropping image.
+        }
+      });
+
+      var $inputImage = $("#inputImage");
+      if (window.FileReader) {
+        $inputImage.change(function () {
+          var fileReader = new FileReader(),
+              files = this.files,
+              file;
+
+          if (!files.length) {
+            return;
+          }
+
+          file = files[0];
+
+          if (/^image\/\w+$/.test(file.type)) {
+            fileReader.readAsDataURL(file);
+            fileReader.onload = function () {
+              $inputImage.val("");
+              $image.cropper("reset", true).cropper("replace", this.result);
+            };
+          } else {
+            showMessage("Please choose an image file.");
+          }
+        });
+      } else {
+        $inputImage.addClass("hide");
+      }
+
+      $("#download").click(function () {
+        window.open($image.cropper("getDataURL"));
+      });
+
+      $("#zoomIn").click(function () {
+        $image.cropper("zoom", 0.1);
+      });
+
+      $("#zoomOut").click(function () {
+        $image.cropper("zoom", -0.1);
+      });
+
+      $("#rotateLeft").click(function () {
+        $image.cropper("rotate", 45);
+      });
+
+      $("#rotateRight").click(function () {
+        $image.cropper("rotate", -45);
+      });
+
+      $("#setDrag").click(function () {
+        $image.cropper("setDragMode", "crop");
+      });
+    }
+
     for (let fieldKey in collectionsFields) {
       let data = schema[collectionsFields[fieldKey]].formOptions.OPTIONSCOLLECTION;
       data['FIELD_NAME'] = collectionsFields[fieldKey];
 
       UtilsView.templateRender('select2Collection', 'template-' + collectionsFields[fieldKey], data);
     }
-
-
 
   }
 

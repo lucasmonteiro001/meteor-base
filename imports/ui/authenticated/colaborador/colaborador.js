@@ -36,8 +36,9 @@ Template.colaboradorAdd.onRendered(() => {
 
   var $image = $(".image-crop > img")
   $($image).cropper({
-    aspectRatio: 1.618,
+    aspectRatio: 1.1,
     preview: ".img-preview",
+    background: true,
     done: function (data) {
       // Output the result data for cropping image.
     }

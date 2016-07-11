@@ -125,6 +125,7 @@ CollectionColaboradores.setSchema({
       FIELD_TYPE: 'text',
       OPTIONS_LABEL: 'Setores',
       OPTIONS: [
+        { VALUE: "", LABEL: "" },
         { VALUE: "Administrativo Financeiro", LABEL: "Administrativo Financeiro" },
         { VALUE: "Recursos Computacionais", LABEL: "Recursos Computacionais" },
         { VALUE: "Marketing", LABEL: "Marketing" },
@@ -152,6 +153,7 @@ CollectionColaboradores.setSchema({
       FIELD_TYPE: 'text',
       OPTIONS_LABEL: 'Funções',
       OPTIONS: [
+        { VALUE: "", LABEL: "" },
         { VALUE: "Colaborador do Setor", LABEL: "Colaborador do Setor" },
         { VALUE: "Líder Técnico", LABEL: "Líder Técnico" },
         { VALUE: "Gerente de Projetos", LABEL: "Gerente de Projetos" },
@@ -432,10 +434,18 @@ CollectionColaboradores.setSchema({
       required: { value: true, message: 'O nome é obrigatório' },
     }
   },
+  // cropper: {
+  //   type: String,
+  //   defaultValue: '',
+  //   label: 'Imagem:',
+  //   formOptions: {
+  //     FIELD_TAG: 'imageCropper'
+  //   }
+  // }
 });
 
 CollectionColaboradores.addSubSchema('insert',
-    ['nome', 'testeObj', 'inputs', 'spans', 'inputDisabled', 'descricao', 'radios', 'checks', 'radio', 'filhos', 'diasTrabalhados', 'dataNascimento', 'cpf', 'login', 'setor',
+    ['nome', 'cropper', 'testeObj', 'inputs', 'spans', 'inputDisabled', 'descricao', 'radios', 'checks', 'radio', 'filhos', 'diasTrabalhados', 'dataNascimento', 'cpf', 'login', 'setor',
       'funcao', 'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida']);
 
 CollectionColaboradores.addSubSchema('update',
