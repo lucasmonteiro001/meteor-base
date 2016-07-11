@@ -35,6 +35,14 @@
             "setTemplateFile": "",
             "setTemplate": "authenticated-routes-crud"
           }
+        },
+        "index.js": {
+          "type": "file",
+          "append": "",
+          "prepend": "import { {COLLECTION_NAME}Controller } from '../../api/{COLLECTION_NAME}/controller';",
+          "setTemplateFile": "",
+          "setTemplate": "template-getController",
+          "insertBeforeLine": "default:"
         }
       },
       "server": {

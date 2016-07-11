@@ -605,6 +605,15 @@ templates['Item-Menu'] = M(function () {
    ***/
 });
 
+
+templates['template-getController'] = M(function () {
+  /***
+   case '{COLLECTION_NAME}':
+   return {COLLECTION_NAME}Controller;
+   break;
+   ***/
+});
+
 templates['template_model'] = M(function () {
   /***
 
