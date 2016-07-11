@@ -62,7 +62,7 @@ var prepend = function (file, content) {
 
       if (data === false) {
 
-        prependFile.sync(file, content);
+        prependFile.sync(file, content + "\n");
 
       } else {
         console.log(file + ": O conteúdo já foi inserido");
@@ -196,9 +196,8 @@ var replaceTagInFileFromTemplateFile = function (filePath, templateFilePath, tag
 var setTemplate = function (filePath, template, tags, insertBeforeLine) {
   if (typeof template != 'undefined') {
     var tmpTemplate = template.replace("#$%", "");
-    console.log("tags:" + tags);
+
     for (var key in tags) {
-      console.log("tag:" + key);
       tmpTemplate = tmpTemplate.replace(
           new RegExp(key, 'g'), tags[key]);
     }
@@ -235,7 +234,8 @@ var insertLineInFileIfNotExists = function (filePath, newLine, beforeLine) {
   });
 
   rd.on('line', function (line) {
-    if (beforeLine == line) {
+    if (line.length > 0 && line.search(new RegExp(beforeLine, 'g')) > -1) {
+      console.log('Arquivo ' + filePath + ' atualizado. Conteúdo inserido antes da linha que contém o texto: ' + beforeLine);
       newFile = newFile + newLine + "\n";
       newFile = newFile + line + "\n";
     }
