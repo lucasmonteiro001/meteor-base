@@ -93,7 +93,7 @@ CollectionProjetos.setSchema({
       FIELD_TAG: 'multipleH',
       OPTIONS: [{LABEL:'VALOR1',VALUE:'VALOR01'},{LABEL:'VALOR2',VALUE:{campo1:'valueCampo1',campo2:'valorcampo2'} },{LABEL:'VALOR3',VALUE:'VALOR03'}],
       OPTIONSCOLLECTION: {
-        COLLECTION: "colaborador",
+        COLLECTION: "colaboradores",
         COLLECTION_SCHEMA: "inserir"
       }
     },

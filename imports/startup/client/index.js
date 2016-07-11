@@ -23,15 +23,26 @@ i18n.setDefaultLanguage('pt-br');
 Template.registerHelper('getController', (controllerName) => {
 
   switch (controllerName) {
-    case 'colaborador':
+    case 'colaboradores':
       return colaboradoresController;
       break;
-    case 'projeto':
+    case 'projetos':
       return projetosController;
       break;
       //Se não existir return null
     default:
+      console.log('Controller ' + controllerName + ' NÃO encontrado!')
       return null;
+  }
+
+});
+
+Template.registerHelper('json', function (a) {
+  try {
+    return JSON.stringify(a);
+
+  } catch (e) {
+    return a;
   }
 
 });

@@ -19,11 +19,6 @@ Template.projeto.onRendered(() => {
   template = Template.instance();
   projetosController.checkIfCanUserInsert(template.canInsert);
 
-  let umController = Blaze._globalHelpers.getController('colaborador');
-  let listaOpcoes = umController.getAll();
-  console.log(umController);
-  console.log(listaOpcoes);
-
 });
 Template.projeto.helpers({
   'canUserInsert': () => {
@@ -35,9 +30,9 @@ Template.projeto.helpers({
 
 Template.projetoAdd.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
-
+  template = Template.instance();
   formGen.formRender('formContext', true, projetosController, 'insert', '', 'formTag');
-
+  
 });
 Template.projetoAdd.events({
 

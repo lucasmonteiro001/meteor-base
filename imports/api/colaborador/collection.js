@@ -445,3 +445,6 @@ CollectionColaboradores.addSubSchema('update',
 CollectionColaboradores.addSubSchema('view',
     ['nome', 'testeObj', 'inputDisabled', 'descricao', 'radios', 'checks', 'radio', 'filhos', 'diasTrabalhados', 'dataNascimento', 'cpf', 'login', 'setor',
       'funcao', 'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida', 'userId']);
+
+CollectionColaboradores.addSubSchema('selection',
+    ['nome', 'horaSaida']);

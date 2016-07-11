@@ -14,8 +14,17 @@ class ViewUtils {
    * @param searchFor - Filtro por id
    * @param callback - Função de callack para tratar o retorno da função
    */
-  applySubscribe (controller, schemaName, template, searchFor = '', callback) {
+  applySubscribe (controllerVar, schemaName, template, searchFor = '', callback) {
     let newFilter;
+    let controller;
+    if (typeof controllerVar == 'string') {
+      controller = Blaze._globalHelpers.getController(controllerVar);
+      console.log('Controller:' + controller);
+    } else {
+      controller = controllerVar;
+    }
+
+
 
     if (searchFor != '' && typeof searchFor == 'string') {
       newFilter = Utils.mergeObj(controller.getFilter(), { '_id': searchFor });
@@ -60,7 +69,7 @@ class ViewUtils {
     classTamanho: '500px'
   }) {
 
-    // Your existing code unmodified...
+    //region Your existing code unmodified...
     let modalDiv = document.createElement('div');
     modalDiv.id = 'openTemplateModal';
     modalDiv.className = 'modalDialog col-xs-12';
@@ -114,6 +123,7 @@ class ViewUtils {
     window.location.hash = '#openTemplateModal';
 
     console.log('showModalWithTemplate:OK');
+    //endregion
   }
 
 }

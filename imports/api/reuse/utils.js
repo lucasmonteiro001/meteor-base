@@ -62,19 +62,20 @@ class Util {
   /**
    * Converte Array em Object
    * @param arr Array que será convertido em um objeto
-   * @returns Object 
+   * @returns Object
    */
-  toObject(arr) {
-  var rv = {};
+  toObject (arr) {
+
+    var rv = {};
     if (arr !== undefined && arr != null) {
-      for (var i = 0; i < arr.length; ++i)
-        if (arr[i] !== undefined) rv[i] = arr[i];
+      for (var i = 0; i<arr.length; ++i)
+        if (arr[i] !== undefined) rv[i] = JSON.parse(arr[i]);
       return rv;
     } else {
       console.log('Valor indefinido');
     }
 
-}
+  }
 
 }
 

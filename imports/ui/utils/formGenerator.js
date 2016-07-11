@@ -1,5 +1,7 @@
 import { Utils } from '.././../api/reuse/utils';
 import './formGeneratorTemplates.html';
+import { UtilsView } from './ViewUtils';
+import './formGeneratorTemplates'
 
 export class FormGenerator {
   constructor () {
@@ -137,6 +139,12 @@ export class FormGenerator {
       </select>\
     </div>';
 
+    this.templates['fieldWithDataFromCollection'] = '<div class="form-group"> \
+        <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-10" id="template-{FIELD_NAME}"> \
+         </div>\
+        </div>';
+
     this.templates['multipleH'] = '<div class="form-group"> \
         <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
@@ -267,6 +275,7 @@ export class FormGenerator {
     let existsSelectType = false;
     let existsMultipleType = false;
     let existsHourType = false;
+    let collectionsFields = [];
     let result = '';
     let fieldTmp = '';
     let dadosCollection = {};
@@ -294,20 +303,27 @@ export class FormGenerator {
         if (schema[key].formOptions.FIELD_TAG == 'multipleH' || schema[key].formOptions.FIELD_TAG == 'multipleV') {
           existsMultipleType = true;
           let optionsTmp = '';
-          let options = schema[key].formOptions.OPTIONS;
-          for (let oKey in options) {
-            console.log(typeof options[oKey].VALUE);
-            if (typeof options[oKey].VALUE == 'object') {
-              console.log('Entrou');
-              optionsTmp = optionsTmp + "<option value='" + JSON.stringify(options[oKey].VALUE) + "'>" + options[oKey].LABEL + '</option>';
-            } else {
-              optionsTmp = optionsTmp + '<option value="' + options[oKey].VALUE + '">' + options[oKey].LABEL + '</option>';
+          let optionsCollections = schema[key].formOptions.OPTIONSCOLLECTION;
+          if (optionsCollections) {
+            fieldTmp = this.getTemplate('fieldWithDataFromCollection');
+            collectionsFields.push(key);
+          } else {
+            let options = schema[key].formOptions.OPTIONS;
+            for (let oKey in options) {
+              console.log(typeof options[oKey].VALUE);
+              if (typeof options[oKey].VALUE == 'object') {
+                console.log('Entrou');
+                optionsTmp = optionsTmp + "<option value='" + JSON.stringify(options[oKey].VALUE) + "'>" + options[oKey].LABEL + '</option>';
+              } else {
+                optionsTmp = optionsTmp + '<option value="' + options[oKey].VALUE + '">' + options[oKey].LABEL + '</option>';
+              }
+
             }
 
+            fieldTmp = fieldTmp.replace(
+                new RegExp('{FIELD_OPTIONS}', 'g'), optionsTmp);
           }
 
-          fieldTmp = fieldTmp.replace(
-              new RegExp('{FIELD_OPTIONS}', 'g'), optionsTmp);
         }
 
         if (schema[key].formOptions.FIELD_TAG == 'selectH' || schema[key].formOptions.FIELD_TAG == 'selectV') {
@@ -462,6 +478,16 @@ export class FormGenerator {
         placeholder: "Selecione uma opção"
       });
     }
+
+    for (let fieldKey in collectionsFields) {
+      let data = schema[collectionsFields[fieldKey]].formOptions.OPTIONSCOLLECTION;
+      data['FIELD_NAME'] = collectionsFields[fieldKey];
+
+      UtilsView.templateRender('select2Collection', 'template-' + collectionsFields[fieldKey], data);
+    }
+
+
+
   }
 
   // formViewRender agora considera elementos do tipo vetor
@@ -641,7 +667,7 @@ export class FormGenerator {
             console.log("Valor que será convertido em Objeto:");
             console.log(value);
             console.log('Campo:' + key);
-            objData[key] = Utils.toObject(value = value);
+            objData[key] = Utils.toObject(value);
 
             break;
           case [Object]:
@@ -683,3 +709,7 @@ export class FormGenerator {
 }
 
 export const formGen = new FormGenerator();
+
+
+
+
