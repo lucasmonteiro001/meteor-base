@@ -275,6 +275,7 @@ export class FormGenerator {
   // formView agora considera elementos do tipo vetor
   //todo Melhorar a escrita do código, há muita repetição
   formRender (idOfElement, applyValidation = true, controller, schemaName = 'default', searchFor = '', idOfForm = '') {
+    let collectionFieldValues = [];
     let existsDataType = false;
     let existsCropperType = false;
     let existsSelectType = false;
@@ -315,9 +316,7 @@ export class FormGenerator {
           } else {
             let options = schema[key].formOptions.OPTIONS;
             for (let oKey in options) {
-              console.log(typeof options[oKey].VALUE);
               if (typeof options[oKey].VALUE == 'object') {
-                console.log('Entrou');
                 optionsTmp = optionsTmp + "<option value='" + JSON.stringify(options[oKey].VALUE) + "'>" + options[oKey].LABEL + '</option>';
               } else {
                 optionsTmp = optionsTmp + '<option value="' + options[oKey].VALUE + '">' + options[oKey].LABEL + '</option>';
@@ -416,19 +415,9 @@ export class FormGenerator {
               new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
         }
 
-        //Valor dos campos
+        //INICIO Valor dos campos
         if (typeof dadosCollection != 'undefined') {
-          if (Array.isArray(dadosCollection[key])) {
-            for (let i = 0; i<dadosCollection[key].length; i++) {
-              let valor = dadosCollection[key][i];
-              if (schema[key].type == Date && valor) {
-                let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
-                valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
-              }
-              fieldTmp = fieldTmp.replace(new RegExp('{VALUE' + i + '}', 'g'), valor || '');
-            }
-          }
-          else {
+
             let valor = dadosCollection[key];
             if (schema[key].type == Date && valor) {
               let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
@@ -441,7 +430,13 @@ export class FormGenerator {
             } else {
             fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
             }
+
+          if (schema[key].formOptions && schema[key].formOptions.OPTIONSCOLLECTION) {
+            collectionFieldValues[key] = valor;
           }
+
+          //FIM Valor dos Campos
+
         }
 
         //Resultado Final
@@ -555,6 +550,7 @@ export class FormGenerator {
     for (let fieldKey in collectionsFields) {
       let data = schema[collectionsFields[fieldKey]].formOptions.OPTIONSCOLLECTION;
       data['FIELD_NAME'] = collectionsFields[fieldKey];
+      data['FIELD_VALUES'] = collectionFieldValues;
 
       UtilsView.templateRender('select2Collection', 'template-' + collectionsFields[fieldKey], data);
     }

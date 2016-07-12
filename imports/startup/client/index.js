@@ -50,3 +50,19 @@ Template.registerHelper('json', function (a) {
   }
 
 });
+
+Template.registerHelper('containsValueInList', function (field, key, item, list) {
+  let result = false;
+  try {
+    let fieldValues = list[field];
+    for (let index in fieldValues) {
+      if (fieldValues[index][key] == item)
+        result = true;
+    }
+
+  } catch (e) {
+    return false;
+  }
+  return result;
+
+});

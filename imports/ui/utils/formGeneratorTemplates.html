@@ -8,7 +8,14 @@
             id="{{FIELD_NAME}}"
             name="{{FIELD_NAME}}">
         {{#each item in collectionData}}
-            <option value={{json item}} selected="selected">{{item.nome}} </option>
+
+            {{#if containsValueInList FIELD_NAME "nome" item.nome FIELD_VALUES}}
+                <option value={{json item}} selected="selected">{{item.nome}} </option>
+            {{else}}
+                <option value={{json item}}>{{item.nome}} </option>
+
+            {{/if}}
+
         {{/each}}
     </select>
 </template>

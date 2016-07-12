@@ -5,6 +5,7 @@ import { UtilsView } from './ViewUtils';
 
 let template;
 
+
 Template.select2Collection.onCreated(() => {
   template = Template.instance();
   template.controller = Blaze._globalHelpers.getController(template.data.COLLECTION);
@@ -21,7 +22,26 @@ Template.select2Collection.onCreated(() => {
 
 Template.select2Collection.onRendered(() => {
   template = Template.instance();
+  let fieldValues = template.data.FIELD_VALUES[template.data.FIELD_NAME];
+  console.log(fieldValues);
+
+  let selectedItems = $('#' + template.data.FIELD_NAME).val();
+  console.log("Campo");
+  console.log('#' + template.data.FIELD_NAME);
+  console.log($('#' + template.data.FIELD_NAME));
+  console.log("Itens Selecionados");
+  console.log(selectedItems);
   $('.select2_demo_2').select2();
+  //$('.select2_demo_2').select2('val',selectedItems );
+
+  for (let index in fieldValues) {
+    //console.log(fieldValues[index]);
+    //console.log(fieldValues[index].nome);
+  }
+
+
+
+
 
 });
 Template.select2Collection.helpers({
