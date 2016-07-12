@@ -9,6 +9,7 @@ class ViewUtils {
 
   /**
    * Aplica um subsbcribe para o modelo
+   * @param controllerVar - Controller ou nome da Collection
    * @param schemaName - Nome do schema do modelo
    * @param template - template para o subscribe
    * @param searchFor - Filtro por id
@@ -19,7 +20,6 @@ class ViewUtils {
     let controller;
     if (typeof controllerVar == 'string') {
       controller = Blaze._globalHelpers.getController(controllerVar);
-      console.log('Controller:' + controller);
     } else {
       controller = controllerVar;
     }
