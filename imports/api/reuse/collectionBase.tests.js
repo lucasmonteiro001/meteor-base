@@ -17,6 +17,7 @@ import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { chai } from 'meteor/practicalmeteor:chai';
 import { CollectionBase } from './collectionBase.js';
 import { ModelBase } from './modelBase.js';
+import { expect } from 'meteor/practicalmeteor:chai';
 
 const CltBase = new CollectionBase('CtlTestes');
 
