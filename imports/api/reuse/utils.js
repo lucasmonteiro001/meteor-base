@@ -68,8 +68,18 @@ class Util {
 
     var rv = {};
     if (arr !== undefined && arr != null) {
-      for (var i = 0; i<arr.length; ++i)
-        if (arr[i] !== undefined) rv[i] = JSON.parse(arr[i]);
+      for (var i = 0; i < arr.length; ++i) {
+        try {
+          if (arr[i] !== undefined)
+            rv[i] = JSON.parse(arr[i]);
+        }
+        catch (err) {
+          if (arr[i] !== undefined)
+            rv[i] = arr[i];
+        }
+
+      }
+
       return rv;
     } else {
       console.log('Valor indefinido');

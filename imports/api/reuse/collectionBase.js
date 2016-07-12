@@ -84,7 +84,11 @@ export class CollectionBase {
    * caso nenhum seja passado por parâmetro
    */
   getSubSchemaJson (schemaName = 'default') {
-    let fields = this.subSchemas[schemaName];
+    let fields = [];
+    if (typeof this.subSchemas[schemaName] != 'undefined')
+      fields = this.subSchemas[schemaName];
+    else
+      console.log('O SubSchema ' + schemaName + ' NÃO existe!!!')
     let schema = Utils.cloneObj(this.schemaDefault);
     for (let key in schema) {
       if (fields.indexOf(key) == -1) {
@@ -142,7 +146,7 @@ export class CollectionBase {
   }
 
   /**
-   *  Retorna o schmema, em formato json para um determinado campo do documento
+   *  Retorna o schema, em formato json para um determinado campo do documento
    * @param schemaName
    * @returns {{}}
    */
