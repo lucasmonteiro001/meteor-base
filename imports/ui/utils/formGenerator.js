@@ -2,7 +2,6 @@ import { Utils } from '.././../api/reuse/utils';
 import './formGeneratorTemplates.html';
 import { UtilsView } from './ViewUtils';
 import './formGeneratorTemplates';
-import { Blaze } from 'meteor/blaze';
 
 export class FormGenerator {
   constructor () {
@@ -114,12 +113,12 @@ export class FormGenerator {
 
     this.templates['spanH'] = '<div class="form-group"> \
           <label class="col-md-3 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-          <div class="col-md-9"  style="overflow-x:auto;"> \
+          <div class="col-md-9"> \
               <span id="{FIELD_NAME}">{VALUE}</span> \
           </div>\
           </div>';
 
-    this.templates['spanV'] = '<div class="form-group"  style="overflow-x:auto;"> \
+    this.templates['spanV'] = '<div class="form-group"> \
           <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
               <span id="{FIELD_NAME}">{VALUE}</span> \
           </div>';
@@ -418,19 +417,32 @@ export class FormGenerator {
 
         //Valor dos campos
         if (typeof dadosCollection != 'undefined') {
+          if (Array.isArray(dadosCollection[key])) {
+            for (let i = 0; i<dadosCollection[key].length; i++) {
+              let valor = dadosCollection[key][i];
+              if (schema[key].type == Date && valor) {
+                let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+                valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+              }
+              fieldTmp = fieldTmp.replace(new RegExp('{VALUE' + i + '}', 'g'), valor || '');
+            }
+          }
+          else {
             let valor = dadosCollection[key];
             if (schema[key].type == Date && valor) {
               let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
               valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
             }
-          if (schema[key].formOptions.FIELD_TAG == 'input3H') {
-            for (let i = 0; i < 3; i++) {
-              fieldTmp = fieldTmp.replace(new RegExp('{VALUE' + i + '}', 'g'), valor || '');
-            }
+            if (schema[key].formOptions.FIELD_TAG != 'input3H') {
+              fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
             } else {
-            fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
+              for (let i = 0; i<3; i++) {
+                fieldTmp = fieldTmp.replace(new RegExp('{VALUE' + i + '}', 'g'), valor || '');
+              }
             }
           }
+        }
+
         //Resultado Final
         result = result + fieldTmp;
 
@@ -585,17 +597,9 @@ export class FormGenerator {
           if (schema[key].type == Date && valor) {
             let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
             valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
-          } else if (schema[key].type == Object) {
-
-            if (schema[key].formOptions && typeof schema[key].formOptions.OPTIONSCOLLECTION != 'undefined') {
-              let controllerTmp = Blaze._globalHelpers.getController(schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION);
-              let collectionSchema = schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION_SCHEMA;
-              valor = this.getTableViewFromFieldSchema(controllerTmp.getSubSchemaJson(collectionSchema), valor)
-            } else {
-              valor = this.getTableViewFromFieldSchema(controller.getFieldSchemaJson(key), valor)
-            }
-
-
+          } else if (schema[key].type == Object && typeof schema[key].formOptions["FIELD_SCHEMA"] != 'undefined' && valor) {
+            console.log('TODo - Campo = Objeto');
+            valor = this.getFormViewFromSchema(getFieldSchemaJson(key), valor)
           }
           fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
         }
@@ -609,28 +613,32 @@ export class FormGenerator {
     document.getElementById(idOfElement).innerHTML = result;
   }
 
-  getTableViewFromFieldSchema (schema, listOfObjects) {
+  getFormViewFromSchema (schema, listOfObjects) {
+    let fieldTmp = '';
+    let result = '';
 
-    let fieldTmp = '<table class="table"> \
-        <thead><tr> ';
+    for (let object in listOfObjects) {
 
-    for (let key in schema) {
-      if (typeof schema[key].label != 'undefined') {
-        fieldTmp = fieldTmp + '<th>' + schema[key].label + '</th>';
-      }
-    }
-    fieldTmp = fieldTmp + '</tr></thead>';
-
-    fieldTmp = fieldTmp + '<tbody>';
-
-    for (let keyObject in listOfObjects) {
-      fieldTmp = fieldTmp + '<tr>';
       for (let key in schema) {
-        if (typeof schema[key].label != 'undefined') {
+        if (typeof schema[key].formOptions != 'undefined') {
 
-          if (typeof listOfObjects[keyObject] != 'undefined') {
-            let valor = listOfObjects[keyObject][key];
-            console.log("ValorDoObjeto:" + valor);
+          fieldTmp = this.getTemplate('spanH');
+
+          //FIELD_NAME = key
+          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
+
+          //FIELD_LABEÇ = schema[key].label
+          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
+
+          for (let fieldOptions in schema[key].formOptions) {
+            fieldTmp = fieldTmp.replace(
+                new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
+          }
+
+          //Valor dos campos
+          if (typeof object != 'undefined') {
+            let valor = object[key];
+
             if (schema[key].type == Date && valor) {
               let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
               valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
@@ -638,16 +646,18 @@ export class FormGenerator {
               console.log('TODo - Campo = Objeto');
 
             }
-            fieldTmp = fieldTmp + '<td>' + valor + '</td>';
+            fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
           }
 
-        }
-      }
-      fieldTmp = fieldTmp + '</tr>';
-    }
-    fieldTmp = fieldTmp + '</tbody></table>';
+          //Resultado Final
+          result = result + fieldTmp;
 
-    return fieldTmp;
+        }
+
+      }
+    }
+
+    return result;
   }
 
   applyJQueryValidation (controller, schemaName = 'default', elementId) {
@@ -698,7 +708,7 @@ export class FormGenerator {
         }
         else {
           objAux = template.findAll('[name="' + key + '"]');
-          for (i = 0; i < objAux.length; i++) {
+          for (i = 0; i<objAux.length; i++) {
             objAux[i] = objAux[i].value.trim();
           }
           value = objAux;
@@ -724,6 +734,9 @@ export class FormGenerator {
             objData[key] = value.split(",");
             break;
           case Object:
+            console.log("Valor que será convertido em Objeto:");
+            console.log(value);
+            console.log('Campo:' + key);
             objData[key] = Utils.toObject(value);
 
             break;

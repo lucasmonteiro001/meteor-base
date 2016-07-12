@@ -15,6 +15,7 @@
  *
  */
 import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
 
 export class ModelBase {
 
@@ -42,6 +43,18 @@ export class ModelBase {
         return this.ready();
       }
 
+    };
+
+    /**
+     * Verifica se o método está no modo teste
+     * @param dataObj - Dados que serão alterados
+     */
+    function checkIfisTestMode (dataObj) {
+      if (isTest) {
+        dataObj.userId = Random.id();
+      } else {
+        dataObj.userId = Meteor.userId();
+      }
     };
 
     //##################################################
@@ -82,6 +95,13 @@ export class ModelBase {
     this.functions[collectionBase.getCollection()._name + '.insert']
         = function (dataObj) {
 
+      /**
+       * DESCOMENTE PARA EXECUTAR OS TESTES
+       */
+      //checkIfisTestMode(dataObj);
+
+      //dataObj.userId = Meteor.userId();
+
       check(dataObj, collectionBase.getSchema('insert'));
 
       if ((!Security.can(this.userId).insert(dataObj).for(collectionBase.getCollection()).check())
@@ -98,6 +118,10 @@ export class ModelBase {
     };
 
     this.functions[collectionBase.getCollection()._name + '.update'] = function (id, dataObj) {
+      /**
+       * DESCOMENTE PARA EXECUTAR OS TESTES
+       */
+      //checkIfisTestMode(dataObj);
 
       check(id, String);
       check(dataObj, collectionBase.getSchema('update'));
@@ -132,10 +156,11 @@ export class ModelBase {
    */
   applyAllMethods () {
     Meteor.methods(this.functions);
+    return true;
   }
 
   getAllApplyMethods () {
-    return this.functions;
+    return Meteor.methods(this.functions);
   }
 
   /**

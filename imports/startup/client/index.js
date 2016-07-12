@@ -20,10 +20,6 @@ i18n.map('pt-br', {
 
 i18n.setDefaultLanguage('pt-br');
 
-//######################################################################
-//#################### GLOBAL TEMPLATE HELPERS #########################
-//######################################################################
-
 Template.registerHelper('getController', (controllerName) => {
 
   switch (controllerName) {

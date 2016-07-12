@@ -21,51 +21,6 @@ CollectionProjetos.setSchema({
       template: 'tmpl'
     }
   },
-  diasdetrabalho: {
-    type: Object,
-    blackbox: true,
-    defaultValue: {},
-    label: 'Dias de Trabalho',
-    formOptions: {
-      FIELD_TAG: 'multipleH',
-      FIELD_TYPE: 'text',
-      OPTIONS: [
-        { VALUE: { campo1: "valorCampo01", campo2: "valorCampo02" }, LABEL: 'Segunda-feira' },
-        { VALUE: "Terça-Feira", LABEL: "Terça-feira" },
-        { VALUE: "Quarta-Feira", LABEL: "Quarta-feira" },
-        { VALUE: "Quinta-Feira", LABEL: "Quinta-feira" },
-        { VALUE: "Sexta-Feira", LABEL: "Sexta-feira" },
-        { VALUE: "Sabado", LABEL: "Sabado" },
-        { VALUE: "Domingo", LABEL: "Domingo" },
-      ],
-      FIELD_SCHEMA: {
-        campo1: {
-          type: String,
-          defaultValue: '',
-          label: 'Campo01',
-          formOptions: {
-            FIELD_TAG: 'inputH',
-            FIELD_TYPE: 'text',
-            PLACEHOLDER: 'Nome'
-          },
-        },
-        campo2: {
-          type: String,
-          defaultValue: '',
-          label: 'Campo02',
-          formOptions: {
-            FIELD_TAG: 'inputH',
-            FIELD_TYPE: 'text',
-            PLACEHOLDER: 'Nome'
-          },
-        },
-
-      }
-    },
-    tableView: {
-      label: 'Dias de Trabalho',
-    }
-  },
   valor: {
     type: Number,
     defaultValue: 0,
@@ -139,7 +94,7 @@ CollectionProjetos.setSchema({
       OPTIONS: [{LABEL:'VALOR1',VALUE:'VALOR01'},{LABEL:'VALOR2',VALUE:{campo1:'valueCampo1',campo2:'valorcampo2'} },{LABEL:'VALOR3',VALUE:'VALOR03'}],
       OPTIONSCOLLECTION: {
         COLLECTION: "colaboradores",
-        COLLECTION_SCHEMA: "insert"
+        COLLECTION_SCHEMA: "inserir"
       }
     },
     formValidation: {
@@ -159,11 +114,11 @@ CollectionProjetos.setSchema({
 });
 
 CollectionProjetos.addSubSchema('insert',
-    ['nome', 'dataInicio', 'diasdetrabalho', 'colaboradores']);
+    ['nome', 'dataInicio', 'descricao', 'colaboradores']);
 
 CollectionProjetos.addSubSchema('update',
-    ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores']);
+    ['nome', 'valor', 'dataInicio', 'dataFim', 'descricao','colaboradores']);
 
 CollectionProjetos.addSubSchema('view',
-    ['nome', 'descricao', 'dataInicio', 'dataFim', 'colaboradores', 'diasdetrabalho']);
+    ['nome', 'descricao', 'dataInicio', 'dataFim', 'colaboradores', 'valor']);
 

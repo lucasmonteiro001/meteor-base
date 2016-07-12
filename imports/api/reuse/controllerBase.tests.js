@@ -13,7 +13,6 @@
  * @version :: 22/06/2016#$.
  *
  */
-'use strict';
 import { Meteor } from 'meteor/meteor';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { expect } from 'meteor/practicalmeteor:chai';
@@ -123,7 +122,7 @@ describe('Controller Base', () => {
       const nome = 'Arya of Winterfell';
 
       CtrlBase.update(idUsuario, { 'nome': nome }, () => {
-        done();
+        done()
       });
 
       let usuario = CtrlBase.get(idUsuario);

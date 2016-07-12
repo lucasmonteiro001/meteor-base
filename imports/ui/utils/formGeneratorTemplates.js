@@ -14,6 +14,8 @@ Template.select2Collection.onCreated(() => {
 
   UtilsView.applySubscribe(collectionData.COLLECTION, collectionData.COLLECTION_SCHEMA, template, '', function () {
 
+        console.log('DeuCerto!!!');
+
       }
   );
 

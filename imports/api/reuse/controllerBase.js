@@ -16,6 +16,7 @@
  */
 import { Mongo } from 'meteor/mongo';
 
+
 export class ControllerBase {
   /**
    * Cria um controller, para a coleção desejada.
@@ -62,6 +63,7 @@ export class ControllerBase {
         fields.push(key);
       }
     }
+
 
     let projection = { _id: 1 };
     fields.forEach(function (field) {
@@ -116,27 +118,6 @@ export class ControllerBase {
    */
   getSchemaJson (schemaName = 'default') {
     return this.collectionInstanceBase.getSchemaJson(schemaName);
-  }
-
-  /**
-   * Retorna o schema em formato json
-   * @param subSchemaName - Nome do Sub Schema
-   * @returns {*} - Schema em Json ou o schema deafault
-   */
-  getSubSchemaJson (subSchemaName = 'default') {
-    return this.collectionInstanceBase.getSubSchemaJson(subSchemaName);
-  }
-
-  /**
-   * Retorna o schema em formato json
-   * @param fieldName - Nome do Campos
-   * @returns {*} - Schema em Json ou o schema deafault
-   */
-  getFieldSchemaJson (fieldName) {
-    if (fieldName)
-      return this.collectionInstanceBase.getFieldSchemaJson(fieldName);
-    else
-      return {};
   }
 
   /**.

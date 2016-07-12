@@ -5,10 +5,10 @@
 
 <template name="select2Collection">
     <select class="select2_demo_2 form-control" style="width: 100%" multiple="multiple"
-            id="{{FIELD_NAME}}"
+            id="fieldCollection-{{COLLECTION}}"
             name="{{FIELD_NAME}}">
         {{#each item in collectionData}}
-            <option value={{json item}} selected="selected">{{item.nome}} </option>
+            <option value={{json item}}>{{item.nome}} </option>
         {{/each}}
     </select>
 </template>

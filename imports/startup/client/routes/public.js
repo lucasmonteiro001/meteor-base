@@ -4,7 +4,6 @@ import '../../../ui/public/recover-password';
 import '../../../ui/public/reset-password';
 import '../../../ui/public/signup';
 import '../../../ui/layouts/default';
-import '../../../ui/public/tests';
 
 const publicRedirect = (context, redirect) => {
   if (Meteor.userId()) {
@@ -14,11 +13,6 @@ const publicRedirect = (context, redirect) => {
 
 const publicRoutes = FlowRouter.group({
   name: 'public',
-  triggersEnter: [publicRedirect],
-});
-
-const tests = FlowRouter.group({
-  name: 'xunit',
   triggersEnter: [publicRedirect],
 });
 
@@ -49,9 +43,3 @@ publicRoutes.route('/reset-password/:token', {
     BlazeLayout.render('default', { yield: 'resetPassword' });
   },
 });
-
-tests.route('/xunit', {
-  name: 'xunit',
-  triggersEnter: [publicRedirect],
-});
-

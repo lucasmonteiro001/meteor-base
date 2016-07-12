@@ -124,10 +124,3 @@ authenticatedRoutes.route('/projetoView/:_id', {
     projetosController.checkIfCanUserView(cvFunction, id);
   },
 });
-
-authenticatedRoutes.route('/xunit', {
-  name: 'xunit',
-  action () {
-    console.log("XUnit reporter");
-  },
-});
