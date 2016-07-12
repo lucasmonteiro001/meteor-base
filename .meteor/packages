@@ -52,10 +52,10 @@ aslagle:reactive-table
 
 # routing
 
-kadira:flow-router
-kadira:blaze-layout
-cottz:flow-router-auth
-arillo:flow-router-helpers
+#kadira:flow-router
+#kadira:blaze-layout
+#cottz:flow-router-auth
+#arillo:flow-router-helpers
 
 # accounts
 
@@ -70,15 +70,16 @@ alanning:roles
 # practicalmeteor:mocha-console-runner
 # lmieulet:meteor-coverage
 # meteorhacks:picker
-# practicalmeteor:mocha@=2.4.5_5
-# practicalmeteor:mocha-xunit-reporter
-# xolvio:cleaner
-# xolvio:backdoor
-# practicalmeteor:chai
-# random
+ practicalmeteor:mocha
+ practicalmeteor:loglevel
+ practicalmeteor:mocha-xunit-reporter
+ xolvio:cleaner
+ xolvio:backdoor
+ practicalmeteor:chai
+ random
 # practicalmeteor:sinon
 # dburles:factory
-#dispatch:mocha-phantomjs@0.1.6
+# dispatch:mocha-phantomjs@0.1.6
 
 # security
 

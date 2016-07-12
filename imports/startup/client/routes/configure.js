@@ -6,3 +6,10 @@ FlowRouter.notFound = {
     BlazeLayout.render('default', { yield: 'notFound' });
   },
 };
+
+FlowRouter.route('/xunit', {
+  name: 'xunit',
+  action () {
+    console.log("XUnit reporter");
+  },
+});
