@@ -7,7 +7,7 @@ import { UtilsView } from '../../utils/ViewUtils';
 import './colaborador.html';
 
 let template;
-let viewUsersDetails;
+
 Template.colaborador.onCreated(() => {
   template = Template.instance();
   UtilsView.applySubscribe(colaboradoresController, 'view', template, '', function () {
@@ -71,7 +71,7 @@ Template.colaboradorAdd.onRendered(() => {
     $inputImage.addClass("hide");
   }
 
-  $("#download").click(function () {
+  $("#salvar").click(function () {
     window.open($image.cropper("getDataURL"));
   });
 
@@ -95,11 +95,27 @@ Template.colaboradorAdd.onRendered(() => {
     $image.cropper("setDragMode", "crop");
   });
 
+  $("#moveUp").click(function () {
+    $image.cropper("move", 0, -10);
+  });
+
+  $("#moveDown").click(function () {
+    $image.cropper("move", 0, 10);
+  });
+
+  $("#moveLeft").click(function () {
+    $image.cropper("move", -10, 0);
+  });
+
+  $("#moveRight").click(function () {
+    $image.cropper("move", 10, 0);
+  });
+
 });
 Template.colaboradorAdd.events({
 
   //Eventos do template de inserção
-  'submit form'(event, templateInstance) {
+  'submit form'(event, templateInstance){
     event.preventDefault();
     const colaboradorData = formGen.getFormData(colaboradoresController, 'insert', templateInstance);
 
@@ -113,7 +129,7 @@ Template.colaboradorAdd.events({
       }
 
     });
-  },
+  }
 });
 
 Template.colaboradorView.onCreated(() => {

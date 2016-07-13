@@ -20,59 +20,6 @@ CollectionColaboradores.setSchema({
       template: 'tmpl',
     },
   },
-  testeObj: {
-    type: Object,
-    defaultValue: '',
-    label: 'teste',
-    formOptions: {
-      FIELD_TAG: 'multipleH',
-      FIELD_TYPE: 'text',
-      OPTIONS: [
-        {
-          VALUE: { campo1: 'valueCampo1', campo2: 'valueCampo2' },
-          LABEL: "Administrativo Financeiro"
-        },
-        {
-          VALUE: { campo1: 'valueCampo1X', campo2: 'valueCampo2X' },
-          LABEL: "Recursos Computacionais"
-        },
-      ],
-      FIELD_SCHEMA: {
-        campo1: {
-          type: String,
-          defaultValue: '',
-          optional: true,
-          label: 'Campo01',
-          formOptions: {
-            FIELD_TAG: 'inputH',
-            FIELD_TYPE: 'text',
-          },
-          formValidation: {
-            required: { value: true, message: 'Esse campo é obrigatória' },
-          },
-        },
-        campo2: {
-          type: String,
-          defaultValue: '',
-          optional: true,
-          label: 'Campo02',
-          formOptions: {
-            FIELD_TAG: 'inputH',
-            FIELD_TYPE: 'text',
-          },
-          formValidation: {
-            required: { value: true, message: 'Esse campo é obrigatória' },
-          },
-        },
-      }
-    },
-    formValidation: {
-      required: { value: true, message: 'O Teste é obrigatório' },
-    },
-    tableView: {
-      label: 'Teste',
-    },
-  },
   dataNascimento: {
     type: Date,
     defaultValue: '',
@@ -281,7 +228,7 @@ CollectionColaboradores.setSchema({
     formOptions: {
       FIELD_TAG: 'inputHelpH',
       FIELD_TYPE: 'text',
-      HELP_TEXT: 'TESTE'
+      HELP_TEXT: 'Digite exatamente assim! :)'
     },
     formValidation: {
       required: { value: true, message: 'O nome é obrigatório' },
@@ -346,7 +293,7 @@ CollectionColaboradores.setSchema({
   filhos: {
     type: String,
     defaultValue: '',
-    label: 'Possui filhos:',
+    label: 'Possui filhos: filho',
     formOptions: {
       FIELD_TAG: 'checkboxH',
       FIELD_TYPE: 'checkbox',
@@ -358,7 +305,7 @@ CollectionColaboradores.setSchema({
   radio: {
     type: String,
     defaultValue: '',
-    label: 'Aceita os termos:',
+    label: 'Aceita os termos: radio',
     formOptions: {
       FIELD_TAG: 'radioButtonH',
       FIELD_TYPE: 'radio',
@@ -370,7 +317,7 @@ CollectionColaboradores.setSchema({
   checks: {
     type: String,
     defaultValue: '',
-    label: 'Possui filhos:',
+    label: 'Possui filhos: cheks',
     formOptions: {
       FIELD_TAG: 'checkboxNH',
       FIELD_TYPE: 'checkbox',
@@ -387,7 +334,7 @@ CollectionColaboradores.setSchema({
   radios: {
     type: String,
     defaultValue: '',
-    label: 'Possui filhos:',
+    label: 'Possui filhos: radios',
     formOptions: {
       FIELD_TAG: 'radioNH',
       FIELD_TYPE: 'checkbox',
@@ -404,7 +351,7 @@ CollectionColaboradores.setSchema({
   spans: {
     type: String,
     defaultValue: '',
-    label: 'Possui filhos:',
+    label: 'Possui filhos: spans',
     formOptions: {
       FIELD_TAG: 'spanNH',
       FIELD_TYPE: 'text',
@@ -419,8 +366,8 @@ CollectionColaboradores.setSchema({
   },
   inputs: {
     type: String,
-    defaultValue: '',
-    label: 'Possui filhos:',
+    defaultValue: ['', ''],
+    label: 'Possui filhos: inputs',
     formOptions: {
       FIELD_TAG: 'inputNH',
       FIELD_TYPE: 'text',
@@ -434,14 +381,22 @@ CollectionColaboradores.setSchema({
       required: { value: true, message: 'O nome é obrigatório' },
     }
   },
-  // cropper: {
-  //   type: String,
-  //   defaultValue: '',
-  //   label: 'Imagem:',
-  //   formOptions: {
-  //     FIELD_TAG: 'imageCropper'
-  //   }
-  // }
+  cropper: {
+    type: String,
+    defaultValue: '',
+    label: 'cropper',
+    formOptions: {
+      FIELD_TAG: 'imageCropper',
+      FIELD_TYPE: 'text',
+      BUTTONS: [{}],
+    },
+    formValidation: {
+      required: { value: true, message: 'A funcao é obrigatória' },
+    },
+    tableView: {
+      label: 'Funcao',
+    },
+  },
 });
 
 CollectionColaboradores.addSubSchema('insert',
