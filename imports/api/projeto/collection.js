@@ -16,9 +16,12 @@ CollectionProjetos.setSchema({
     formValidation: {
       required: { value: true, message: 'O nome é obrigatório' }
     },
-    tableView: {
-      label: 'Nome',
-      template: 'tmpl'
+    dataTableConfig: {
+      title: 'Novo_Nome',
+      link: {
+        router: 'projetoView',
+        field: '_id',
+      }
     }
   },
   diasdetrabalho: {
@@ -31,12 +34,12 @@ CollectionProjetos.setSchema({
       FIELD_TYPE: 'text',
       OPTIONS: [
         { VALUE: { campo1: "valorCampo01", campo2: "valorCampo02" }, LABEL: 'Segunda-feira' },
-        { VALUE: "Terça-Feira", LABEL: "Terça-feira" },
-        { VALUE: "Quarta-Feira", LABEL: "Quarta-feira" },
-        { VALUE: "Quinta-Feira", LABEL: "Quinta-feira" },
-        { VALUE: "Sexta-Feira", LABEL: "Sexta-feira" },
-        { VALUE: "Sabado", LABEL: "Sabado" },
-        { VALUE: "Domingo", LABEL: "Domingo" },
+        { VALUE: { campo1: "A", campo2: "G" }, LABEL: "Terça-feira" },
+        { VALUE: { campo1: "B", campo2: "H" }, LABEL: "Quarta-feira" },
+        { VALUE: { campo1: "C", campo2: "I" }, LABEL: "Quinta-feira" },
+        { VALUE: { campo1: "D", campo2: "J" }, LABEL: "Sexta-feira" },
+        { VALUE: { campo1: "E", campo2: "K" }, LABEL: "Sabado" },
+        { VALUE: { campo1: "F", campo2: "L" }, LABEL: "Domingo" },
       ],
       FIELD_SCHEMA: {
         campo1: {
@@ -62,8 +65,9 @@ CollectionProjetos.setSchema({
 
       }
     },
-    tableView: {
-      label: 'Dias de Trabalho',
+    dataTableConfig: {
+      orderable: false,
+      RenderObjects: "OnTable",
     }
   },
   valor: {
@@ -76,7 +80,7 @@ CollectionProjetos.setSchema({
       FIELD_TYPE: 'number',
       PLACEHOLDER: 'Valor'
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Valor'
     }
   },
@@ -93,7 +97,7 @@ CollectionProjetos.setSchema({
       required: { value: true, message: 'A data de início é obrigatória' },
       date: {value:true, message: 'O valor informado não é uma data válida'}
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Data de Início'
     }
   },
@@ -109,9 +113,6 @@ CollectionProjetos.setSchema({
     formValidation: {
       //date: {value:true, message: 'O valor informado não é uma data válida'}
     },
-    tableView: {
-      label: 'Data de Fim'
-    }
   },
   descricao: {
     type: String,
@@ -124,7 +125,7 @@ CollectionProjetos.setSchema({
     formValidation: {
 
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Descrição'
     }
   },
@@ -145,9 +146,6 @@ CollectionProjetos.setSchema({
     formValidation: {
 
     },
-    tableView: {
-      label: 'Colaboradores'
-    }
   },
   userId: {
     type: String,

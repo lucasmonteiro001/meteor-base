@@ -58,7 +58,7 @@ CltUsers.setSchema({
     formValidation: {
       required: { value: true, message: 'O profile é obrigatório' },
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Nome',
       template: 'profileUsersTmp',
     },
@@ -67,7 +67,7 @@ CltUsers.setSchema({
   roles: {
     type: Object,
     label: 'Roles',
-    tableView: {
+    dataTableConfig: {
       label: 'Grupo',
       template: 'selectRoles',
     },
@@ -82,7 +82,7 @@ CltUsers.setSchema({
     formValidation: {
       required: { value: true, message: 'O Email é obrigatório' },
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Email',
       template: 'emailUsersTmp',
     },

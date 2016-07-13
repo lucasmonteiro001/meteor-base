@@ -2,6 +2,7 @@
 //import 'bootstrap/dist/js/bootstrap.min.js';
 import { colaboradoresController } from '../../api/colaborador/controller';
 import { projetosController } from '../../api/projeto/controller';
+import { Blaze } from 'meteor/blaze';
 
 import './routes/';
 

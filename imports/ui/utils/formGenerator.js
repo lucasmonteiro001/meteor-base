@@ -757,13 +757,13 @@ export class FormGenerator {
     let objData = [];
     let schema = controller.getSchemaJson(schemaName);
     for (let key in schema) {
-      if (typeof schema[key].tableView != 'undefined') {
+      if (typeof schema[key].dataTableConfig != 'undefined') {
 
         //insere o item e pega o wiltimeo
-        let objIndex = objData.push({ key: key, label: schema[key].tableView.label }) - 1;
+        let objIndex = objData.push({ key: key, label: schema[key].dataTableConfig.label }) - 1;
 
-        if (typeof schema[key].tableView.template != 'undefined') {
-          objData[objIndex].tmpl = templates[schema[key].tableView.template];
+        if (typeof schema[key].dataTableConfig.template != 'undefined') {
+          objData[objIndex].tmpl = templates[schema[key].dataTableConfig.template];
         }
 
       }

@@ -15,7 +15,7 @@ CollectionColaboradores.setSchema({
     formValidation: {
       required: { value: true, message: 'O nome é obrigatório' },
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Nome',
       template: 'tmpl',
     },
@@ -69,7 +69,7 @@ CollectionColaboradores.setSchema({
     formValidation: {
       required: { value: true, message: 'O Teste é obrigatório' },
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Teste',
     },
   },
@@ -112,7 +112,7 @@ CollectionColaboradores.setSchema({
     formValidation: {
       required: { value: true, message: 'O login é obrigatório' },
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Login',
     },
   },
@@ -140,7 +140,7 @@ CollectionColaboradores.setSchema({
     formValidation: {
       required: { value: true, message: 'O setor é obrigatório' },
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Setor',
     },
   },
@@ -164,7 +164,7 @@ CollectionColaboradores.setSchema({
     formValidation: {
       required: { value: true, message: 'A funcao é obrigatória' },
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Funcao',
     },
   },
@@ -197,7 +197,7 @@ CollectionColaboradores.setSchema({
       FIELD_TYPE: 'number',
       PLACEHOLDER: 'Quantidade de dependentes'
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Qtd. Dependentes',
     },
   },
@@ -227,7 +227,7 @@ CollectionColaboradores.setSchema({
     formValidation: {
       required: { value: true, message: 'O telefone é obrigatório' },
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Telefone',
     },
   },
@@ -244,7 +244,7 @@ CollectionColaboradores.setSchema({
     formValidation: {
       required: { value: true, message: 'O celular é obrigatório' },
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Celular',
     },
   },
@@ -263,7 +263,7 @@ CollectionColaboradores.setSchema({
       required: { value: true, message: 'O email é obrigatório' },
       email: { value: true, message: 'O email informado não é válido' },
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Email',
     },
   },
@@ -286,7 +286,7 @@ CollectionColaboradores.setSchema({
     formValidation: {
       required: { value: true, message: 'O nome é obrigatório' },
     },
-    tableView: {
+    dataTableConfig: {
       label: 'TESTE'
     },
   },
@@ -339,7 +339,7 @@ CollectionColaboradores.setSchema({
       ROWS: 4
     },
     formValidation: {},
-    tableView: {
+    dataTableConfig: {
       label: 'Descrição'
     }
   },

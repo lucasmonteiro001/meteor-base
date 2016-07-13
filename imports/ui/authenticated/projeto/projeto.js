@@ -165,22 +165,35 @@ Template.projetoList.onCreated(() => {
   UtilsView.applySubscribe(projetosController, 'view', template, '', function () {
   });
 });
+
+let dataTableData = function () {
+
+  return projetosController.getAll().fetch();
+
+};
+
+let optionsObject = UtilsView.getDataTableConfig(projetosController, 'view');
+
 Template.projetoList.helpers({
-  'settings': function () {
-    let templates = { tmpl: Template.projetoTmpl };
-    return {
-      collection: projetosController.getCollection(),
-      rowsPerPage: false,
-      showFilter: false,
-      showRowCount: false,
-      showColumnToggles: false,
-      multiColumnSort: false,
-      showNavigationRowsPerPage: false,
-      showNavigation: true,
-      currentPage: false,
-      sortable: false,
-      fields: formGen.getTableViewData(projetosController, 'view', templates),
-    };
+  reactiveDataFunction: function () {
+
+    return dataTableData;
   },
+  optionsObject: optionsObject,
 });
 
+Template.projetoList.events({
+  'click [id="actionUserView"]': function (event) {
+    let emailUser = event.currentTarget.name;
+    //UtilsView.templateRender('userViewDetails', 'userDetailsPanel', { 'emailuser': emailUser });
+    UtilsView.showModalWithTemplate('ReactiveDatatable', {
+      'tableData': dataTableData,
+      options: optionsObject
+    }, 'Dados do Usuário', {
+      animation: 'flipInY',
+      screenSize: 'auto'
+    });
+
+  },
+
+});

@@ -30,6 +30,8 @@ export class ModelBase {
 
     this.functions = {};
 
+    this.isTest = isTest;
+
     this.publications = function (filter, projection) {
       var data = null;
       projection || (projection = {});
@@ -45,17 +47,6 @@ export class ModelBase {
 
     };
 
-    /**
-     * Verifica se o método está no modo teste
-     * @param dataObj - Dados que serão alterados
-     */
-    function checkIfisTestMode (dataObj) {
-      if (isTest) {
-        dataObj.userId = Random.id();
-      } else {
-        dataObj.userId = Meteor.userId();
-      }
-    };
 
     //##################################################
     //###Inicialização de métodos de validaão###########
@@ -105,7 +96,7 @@ export class ModelBase {
       check(dataObj, collectionBase.getSchema('insert'));
 
       if ((!Security.can(this.userId).insert(dataObj).for(collectionBase.getCollection()).check())
-          && isTest === false) {
+          && this.isTest === false) {
         throw new Meteor.Error('Acesso Negado',
             'Você não tem permissão para executar essa ação!');
       } else {
@@ -118,16 +109,12 @@ export class ModelBase {
     };
 
     this.functions[collectionBase.getCollection()._name + '.update'] = function (id, dataObj) {
-      /**
-       * DESCOMENTE PARA EXECUTAR OS TESTES
-       */
-      //checkIfisTestMode(dataObj);
 
       check(id, String);
       check(dataObj, collectionBase.getSchema('update'));
 
       if (!Security.can(this.userId).update(id || dataObj)
-              .for(collectionBase.getCollection()).check() && isTest === false) {
+              .for(collectionBase.getCollection()).check() && this.isTest === false) {
         throw new Meteor.Error('Acesso Negado',
             'Você não tem permissão para executar essa ação!');
       } else {
@@ -141,7 +128,7 @@ export class ModelBase {
     this.functions[collectionBase.getCollection()._name + '.remove'] = function (id) {
       check(id, String);
       if (!Security.can(this.userId).remove(id).for(collectionBase.getCollection()).check()
-          && isTeste === false) {
+          && this.isTest === false) {
         throw new Meteor.Error('Acesso Negado',
             'Você não tem permissão para executar essa ação!');
       } else {

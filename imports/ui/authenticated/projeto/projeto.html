@@ -171,9 +171,7 @@
 </template>
 
 <template name="projetoList">
-    {{> reactiveTable settings=settings}}
+    {{> ReactiveDatatable tableData=reactiveDataFunction options=optionsObject}}
+    <a id="actionUserView"> Teste ShowModal </a>
 </template>
 
-<template name="projetoTmpl">
-    <a href="{{pathFor 'projetoView'}}/{{_id}}">  {{nome}} </a>
-</template>

@@ -69,8 +69,8 @@ export class CollectionBase {
         delete schema[key].formValidation;
       }
 
-      if (typeof schema[key].tableView != 'undefined') {
-        delete schema[key].tableView;
+      if (typeof schema[key].dataTableConfig != 'undefined') {
+        delete schema[key].dataTableConfig;
       }
     }
 
