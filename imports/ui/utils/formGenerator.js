@@ -259,7 +259,16 @@ export class FormGenerator {
           </div> </div>';
 
     // AINDA NAO FUNCIONA.
-    this.templates['imageCropper'] = '<div class="col-lg-12"><div class="ibox float-e-margins"><div class="ibox-content"><p></p><div class="row"><div class="col-md-6"><div class="image-crop"><img src="../../../public/img/userDefault.png"></div></div><div class="col-md-6"><h4>Preview image</h4><div class="img-preview img-preview-lg"></div><h4>Comon method</h4><p>You can upload new image to crop container and easy download new croppedimage.</p><div class="btn-group"><label title="Upload image file" for="inputImage" class="btn btn-primary"><input type="file" accept="image/*" name="file" id="inputImage"class="hide">Upload new image</label><label title="Donload image" id="download"class="btn btn-primary">Download</label></div><h4>Other method</h4><p>You may set cropper options with <code>$({image}).cropper(options)</code></p><div class="btn-group"><button class="btn btn-white" id="zoomIn" type="button">Zoom In</button><button class="btn btn-white" id="zoomOut" type="button">Zoom Out</button><button class="btn btn-white" id="rotateLeft" type="button">Rotate Left</button><button class="btn btn-white" id="rotateRight" type="button">Rotate Right</button><button class="btn btn-warning" id="setDrag" type="button">New crop</button></div></div></div></div></div></div>';
+    this.templates['imageCropper'] = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="div{FIELD_NAME}">{FIELD_LABEL}</label> \
+        <div class=""> \
+        <div class="col-md-6"><h4>Image</h4><div class="image-crop"><img src="img/userDefault.png"></div></div>\
+        <div class="col-md-6"><h4>Preview image</h4><div style="width: 150px; height: 150px;" class="img-preview img-preview-xs"></div></div>\
+        <div class="row btn-group">\
+        <label title="Upload image file" for="inputImage" class="btn btn-primary">\
+        <input type="file" accept="image/*" name="file" id="inputImage" class="hide">Upload new image</label>\
+        {BUTTONS}\
+        </div></div></div>';
   }
 
   getTemplate (templateKey) {
@@ -282,6 +291,7 @@ export class FormGenerator {
     let existsMultipleType = false;
     let existsHourType = false;
     let collectionsFields = [];
+    let buttons = false;
     let result = '';
     let fieldTmp = '';
     let dadosCollection = {};
@@ -401,6 +411,24 @@ export class FormGenerator {
 
         if (schema[key].formOptions.FIELD_TAG == 'imageCropper') {
           existsCropperType = true;
+          buttons = true;
+          let buttonsTmp = '';
+          let buttons = schema[key].formOptions.BUTTONS;
+          for (let oKey in buttons) {
+            buttonsTmp = buttonsTmp + '<button class="btn btn-white" id="download" type="button">Download</button>\
+                                       <button class="btn btn-white" id="zoomIn" type="button">Zoom In</button>\
+                                       <button class="btn btn-white" id="zoomOut" type="button">Zoom Out</button>\
+                                       <button class="btn btn-white" id="rotateLeft" type="button">Rotate Left</button>\
+                                       <button class="btn btn-white" id="rotateRight" type="button">Rotate Right</button>\
+                                       <button class="btn btn-white" id="setDrag" type="button">New crop</button>\
+                                       <button class="btn btn-white" id="moveUp" type="button">Move up</button>\
+                                       <button class="btn btn-white" id="moveDown" type="button">Move down</button>\
+                                       <button class="btn btn-white" id="moveRight" type="button">Move Rigth</button>\
+                                       <button class="btn btn-white" id="moveLeft" type="button">Move Down</button>\ <br>';
+          }
+
+          fieldTmp = fieldTmp.replace(
+              new RegExp('{BUTTONS}', 'g'), buttonsTmp);
 
         }
 
@@ -418,18 +446,18 @@ export class FormGenerator {
         //INICIO Valor dos campos
         if (typeof dadosCollection != 'undefined') {
 
-            let valor = dadosCollection[key];
-            if (schema[key].type == Date && valor) {
-              let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
-              valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
-            }
+          let valor = dadosCollection[key];
+          if (schema[key].type == Date && valor) {
+            let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+            valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+          }
           if (schema[key].formOptions.FIELD_TAG == 'input3H') {
             for (let i = 0; i < 3; i++) {
               fieldTmp = fieldTmp.replace(new RegExp('{VALUE' + i + '}', 'g'), valor || '');
             }
-            } else {
+          } else {
             fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
-            }
+          }
 
           if (schema[key].formOptions && schema[key].formOptions.OPTIONSCOLLECTION) {
             collectionFieldValues[key] = valor;
@@ -545,6 +573,23 @@ export class FormGenerator {
       $("#setDrag").click(function () {
         $image.cropper("setDragMode", "crop");
       });
+
+      $("#moveUp").click(function () {
+        $image.cropper("move", 0, -10);
+      });
+
+      $("#moveDown").click(function () {
+        $image.cropper("move", 0, 10);
+      });
+
+      $("#moveLeft").click(function () {
+        $image.cropper("move", -10, 0);
+      });
+
+      $("#moveRight").click(function () {
+        $image.cropper("move", 10, 0);
+      });
+
     }
 
     for (let fieldKey in collectionsFields) {
@@ -603,7 +648,6 @@ export class FormGenerator {
             } else {
               valor = this.getTableViewFromFieldSchema(controller.getFieldSchemaJson(key), valor)
             }
-
 
           }
           fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
