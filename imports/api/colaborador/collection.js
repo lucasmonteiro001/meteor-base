@@ -22,62 +22,8 @@ CollectionColaboradores.setSchema({
       }
     }
   },
-  testeObj: {
-    type: Object,
-    defaultValue: '',
-    label: 'teste',
-    formOptions: {
-      FIELD_TAG: 'multipleH',
-      FIELD_TYPE: 'text',
-      OPTIONS: [
-        {
-          VALUE: { campo1: 'valueCampo1', campo2: 'valueCampo2' },
-          LABEL: "Administrativo Financeiro"
-        },
-        {
-          VALUE: { campo1: 'valueCampo1X', campo2: 'valueCampo2X' },
-          LABEL: "Recursos Computacionais"
-        },
-      ],
-      FIELD_SCHEMA: {
-        campo1: {
-          type: String,
-          defaultValue: '',
-          optional: true,
-          label: 'Campo01',
-          formOptions: {
-            FIELD_TAG: 'inputH',
-            FIELD_TYPE: 'text',
-          },
-          formValidation: {
-            required: { value: true, message: 'Esse campo é obrigatória' },
-          },
-        },
-        campo2: {
-          type: String,
-          defaultValue: '',
-          optional: true,
-          label: 'Campo02',
-          formOptions: {
-            FIELD_TAG: 'inputH',
-            FIELD_TYPE: 'text',
-          },
-          formValidation: {
-            required: { value: true, message: 'Esse campo é obrigatória' },
-          },
-        },
-      }
-    },
-    formValidation: {
-      required: { value: true, message: 'O Teste é obrigatório' },
-    },
-    dataTableConfig: {
-      label: 'Teste',
-    },
-  },
   dataNascimento: {
     type: Date,
-    defaultValue: '',
     optional: true,
     label: 'Data de Nascimento',
     formOptions: {
@@ -205,7 +151,6 @@ CollectionColaboradores.setSchema({
   },
   dataEntrada: {
     type: Date,
-    defaultValue: '',
     optional: true,
     label: 'Data de entrada no Synergia',
     formOptions: {
@@ -299,7 +244,6 @@ CollectionColaboradores.setSchema({
   },
   horaEntrada: {
     type: Date,
-    defaultValue: '',
     optional: true,
     label: 'Hora de entrada',
     formOptions: {
@@ -312,7 +256,6 @@ CollectionColaboradores.setSchema({
   },
   horaSaida: {
     type: Date,
-    defaultValue: '',
     optional: true,
     label: 'Hora de saida',
     formOptions: {
@@ -324,7 +267,7 @@ CollectionColaboradores.setSchema({
     }
   },
   inputDisabled: {
-    type: [''],
+    type: String,
     defaultValue: '',
     label: 'Teste disabled',
     formOptions: {
@@ -452,8 +395,7 @@ CollectionColaboradores.setSchema({
 });
 
 CollectionColaboradores.addSubSchema('insert',
-    ['nome', 'cropper', 'testeObj', 'inputs', 'spans', 'inputDisabled', 'descricao', 'radios', 'checks', 'radio', 'filhos', 'diasTrabalhados', 'dataNascimento', 'cpf', 'login', 'setor',
-      'funcao', 'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida']);
+    ['nome', 'email']);
 
 CollectionColaboradores.addSubSchema('update',
     ['nome', 'testeObj', 'inputDisabled', 'descricao', 'radios', 'checks', 'radio', 'filhos', 'diasTrabalhados', 'dataNascimento', 'cpf', 'login', 'setor',
