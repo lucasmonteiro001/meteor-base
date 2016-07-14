@@ -16,9 +16,11 @@ CollectionColaboradores.setSchema({
       required: { value: true, message: 'O nome é obrigatório' },
     },
     dataTableConfig: {
-      label: 'Nome',
-      template: 'tmpl',
-    },
+      link: {
+        router: 'colaboradorView',
+        field: '_id',
+      }
+    }
   },
   testeObj: {
     type: Object,

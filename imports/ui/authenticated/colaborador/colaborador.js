@@ -243,22 +243,26 @@ Template.colaboradorList.onCreated(() => {
   UtilsView.applySubscribe(colaboradoresController, 'view', template, '', function () {
   });
 });
+
+
+let dataTableData = function () {
+
+  return colaboradoresController.getAll().fetch();
+
+};
+
+let optionsObject = UtilsView.getDataTableConfig(colaboradoresController, 'view');
+
 Template.colaboradorList.helpers({
-  'settings': function () {
-    let templates = { tmpl: Template.colaboradorTmpl };
-    return {
-      collection: colaboradoresController.getCollection(),
-      rowsPerPage: false,
-      showFilter: false,
-      showRowCount: false,
-      showColumnToggles: false,
-      multiColumnSort: false,
-      showNavigationRowsPerPage: false,
-      showNavigation: true,
-      currentPage: false,
-      sortable: false,
-      fields: formGen.getTableViewData(colaboradoresController, 'view', templates),
-    };
+  reactiveDataFunction: function () {
+
+    return dataTableData;
   },
+  optionsObject: optionsObject,
 });
 
+Template.colaboradorList.onRendered(() => {
+
+});
+
+Template.colaboradorList.events({});

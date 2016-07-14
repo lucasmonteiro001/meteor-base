@@ -1,0 +1,8 @@
+.nameColumn table {
+    max-width: 100%;
+}
+
+.fixedSWidthDiv {
+    overflow-y: auto;
+    max-width: 100%;
+}

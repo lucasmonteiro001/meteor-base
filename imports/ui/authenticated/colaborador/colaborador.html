@@ -27,7 +27,7 @@
         {{/if}}
 
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 fixedSWidthDiv">
                 {{> colaboradorList}}
             </div>
         </div>
@@ -200,10 +200,7 @@
     </div>
 </template>
 
-<template name="colaboradorList">
-    {{> reactiveTable settings=settings}}
-</template>
 
-<template name="colaboradorTmpl">
-    <a href="{{pathFor 'colaboradorView'}}/{{_id}}">  {{nome}} </a>
+<template name="colaboradorList">
+    {{> ReactiveDatatable tableData=reactiveDataFunction options=optionsObject}}
 </template>

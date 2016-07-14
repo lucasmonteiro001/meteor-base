@@ -27,7 +27,7 @@
         {{/if}}
 
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 fixedSWidthDiv">
                 {{> projetoList}}
             </div>
         </div>
@@ -172,6 +172,5 @@
 
 <template name="projetoList">
     {{> ReactiveDatatable tableData=reactiveDataFunction options=optionsObject}}
-    <a id="actionUserView"> Teste ShowModal </a>
 </template>
 

@@ -182,18 +182,10 @@ Template.projetoList.helpers({
   optionsObject: optionsObject,
 });
 
-Template.projetoList.events({
-  'click [id="actionUserView"]': function (event) {
-    let emailUser = event.currentTarget.name;
-    //UtilsView.templateRender('userViewDetails', 'userDetailsPanel', { 'emailuser': emailUser });
-    UtilsView.showModalWithTemplate('ReactiveDatatable', {
-      'tableData': dataTableData,
-      options: optionsObject
-    }, 'Dados do Usuário', {
-      animation: 'flipInY',
-      screenSize: 'auto'
-    });
+Template.projetoList.onRendered(() => {
 
-  },
+});
+
+Template.projetoList.events({
 
 });

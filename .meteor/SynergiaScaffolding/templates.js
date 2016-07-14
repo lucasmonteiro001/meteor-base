@@ -26,7 +26,7 @@ templates['collection.js'] = M(function () {
     formValidation: {
       required: { value: true, message: 'O nome é obrigatório' },
     },
-    tableView: {
+    dataTableConfig: {
       label: 'Nome',
       template: 'tmpl',
     },

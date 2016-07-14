@@ -101,7 +101,7 @@ class ViewUtils {
 
     let modalBody = document.createElement('div');
     modalBody.id = 'modalBody';
-    modalBody.className = 'modal-body';
+    modalBody.className = 'modal-body fixedSWidthDiv';
     modalContent.appendChild(modalBody);
 
     let modalFooter = document.createElement('div');
@@ -141,7 +141,12 @@ class ViewUtils {
     let tableRenderFunction = this.getTableViewFromSchemaAndListOfObjects;
     let listRenderFunction = this.getListViewFromSchemaAndListOfObjects;
     let optionsObject = {
-      columns: []
+      columns: [],
+      "initComplete": function (settings, json) {
+        setTimeout(function () {
+          $('.footable').footable();
+        }, 100);
+      }
     };
 
     if (otherConfigurations != {}) {
@@ -219,7 +224,7 @@ class ViewUtils {
    */
   getTableViewFromSchemaAndListOfObjects (schema, listOfObjects) {
 
-    let fieldTmp = '<table class="footable table table-stripped toggle-arrow-tiny" data-page-size="4"> \
+    let fieldTmp = '<table class="footable metro-synergiaMeteorBase" data-page-size="5"> \
         <thead><tr> ';
     let firstLine = true;
     for (let key in schema) {
@@ -230,7 +235,7 @@ class ViewUtils {
           firstLine = false;
         }
         else
-          fieldTmp = fieldTmp + '<th data-hide="all">' + schema[key].label + '</th>';
+          fieldTmp = fieldTmp + '<th data-hide="phone">' + schema[key].label + '</th>';
       }
 
     }
@@ -243,7 +248,7 @@ class ViewUtils {
       for (let key in schema) {
         if (typeof schema[key].label != 'undefined') {
 
-          if (typeof listOfObjects[keyObject] != 'undefined') {
+          if (typeof listOfObjects[keyObject] != 'undefined' && listOfObjects[keyObject] != null) {
             let valor = listOfObjects[keyObject][key];
 
             if (schema[key].type == Date && valor) {

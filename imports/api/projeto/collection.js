@@ -146,6 +146,10 @@ CollectionProjetos.setSchema({
     formValidation: {
 
     },
+    dataTableConfig: {
+      orderable: false,
+      RenderObjects: "OnTable",
+    }
   },
   userId: {
     type: String,
@@ -163,5 +167,5 @@ CollectionProjetos.addSubSchema('update',
     ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores']);
 
 CollectionProjetos.addSubSchema('view',
-    ['nome', 'descricao', 'dataInicio', 'dataFim', 'colaboradores', 'diasdetrabalho']);
+    ['nome', 'colaboradores', 'diasdetrabalho']);
 

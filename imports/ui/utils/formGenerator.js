@@ -644,9 +644,9 @@ export class FormGenerator {
             if (schema[key].formOptions && typeof schema[key].formOptions.OPTIONSCOLLECTION != 'undefined') {
               let controllerTmp = Blaze._globalHelpers.getController(schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION);
               let collectionSchema = schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION_SCHEMA;
-              valor = this.getTableViewFromFieldSchema(controllerTmp.getSubSchemaJson(collectionSchema), valor)
+              valor = UtilsView.getTableViewFromSchemaAndListOfObjects(controllerTmp.getSubSchemaJson(collectionSchema), valor)
             } else {
-              valor = this.getTableViewFromFieldSchema(controller.getFieldSchemaJson(key), valor)
+              valor = UtilsView.getTableViewFromSchemaAndListOfObjects(controller.getFieldSchemaJson(key), valor)
             }
 
           }
@@ -660,48 +660,17 @@ export class FormGenerator {
 
     }
     document.getElementById(idOfElement).innerHTML = result;
+
+
+    //Inicializa as tabelas do tipo foottable
+    $('.footable').footable();
   }
 
-  getTableViewFromFieldSchema (schema, listOfObjects) {
 
-    let fieldTmp = '<table class="table"> \
-        <thead><tr> ';
 
-    for (let key in schema) {
-      if (typeof schema[key].label != 'undefined') {
-        fieldTmp = fieldTmp + '<th>' + schema[key].label + '</th>';
-      }
-    }
-    fieldTmp = fieldTmp + '</tr></thead>';
 
-    fieldTmp = fieldTmp + '<tbody>';
 
-    for (let keyObject in listOfObjects) {
-      fieldTmp = fieldTmp + '<tr>';
-      for (let key in schema) {
-        if (typeof schema[key].label != 'undefined') {
 
-          if (typeof listOfObjects[keyObject] != 'undefined') {
-            let valor = listOfObjects[keyObject][key];
-            console.log("ValorDoObjeto:" + valor);
-            if (schema[key].type == Date && valor) {
-              let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
-              valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
-            } else if (schema[key].type == Object && typeof schema[key].formOptions["FIELD_SCHEMA"] != 'undefined' && valor) {
-              console.log('TODo - Campo = Objeto');
-
-            }
-            fieldTmp = fieldTmp + '<td>' + valor + '</td>';
-          }
-
-        }
-      }
-      fieldTmp = fieldTmp + '</tr>';
-    }
-    fieldTmp = fieldTmp + '</tbody></table>';
-
-    return fieldTmp;
-  }
 
   applyJQueryValidation (controller, schemaName = 'default', elementId) {
     let rules = {};
