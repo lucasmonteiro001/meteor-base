@@ -274,7 +274,12 @@ CollectionColaboradores.setSchema({
     label: 'Associated User ID',
     autoValue: function () {
       return this.userId
-    }
+    },
+    dataTableConfig: {
+      visible: false,
+      orderable: false,
+      searchable: false,
+    },
   },
   helptext: {
     type: String,
@@ -457,6 +462,9 @@ CollectionColaboradores.addSubSchema('update',
 CollectionColaboradores.addSubSchema('view',
     ['nome', 'testeObj', 'inputDisabled', 'descricao', 'radios', 'checks', 'radio', 'filhos', 'diasTrabalhados', 'dataNascimento', 'cpf', 'login', 'setor',
       'funcao', 'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida', 'userId']);
+
+CollectionColaboradores.addSubSchema('tableview',
+    ['nome', 'email', 'userId']);
 
 CollectionColaboradores.addSubSchema('selection',
     ['nome', 'horaSaida']);

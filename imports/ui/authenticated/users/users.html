@@ -1,4 +1,5 @@
 <template name="users">
+
     {{#if isInRole 'administrador'}}
 
         <div class="row wrapper border-bottom white-bg page-heading">
@@ -14,9 +15,14 @@
                 </ol>
             </div>
         </div>
+        <div class="wrapper wrapper-content white-bg animated fadeIn">
+            <div class="row">
+                <div class="col-xs-8">
 
-
-
+                    {{> reactiveTable settings=settings}}
+                </div>
+            </div>
+        </div>
 
     {{/if}}
 

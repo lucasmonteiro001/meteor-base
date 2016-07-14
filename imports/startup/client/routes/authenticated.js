@@ -51,7 +51,6 @@ authenticatedRoutes.route('/users', {
   triggersEnter: [blockUnauthorizedAdmin],
   action() {
     BlazeLayout.render('default', { yield: 'users' });
-    console.log('rota: users');
   },
 });
 

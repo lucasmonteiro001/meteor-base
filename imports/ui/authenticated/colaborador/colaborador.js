@@ -240,7 +240,7 @@ Template.colaboradorEdit.events({
 
 Template.colaboradorList.onCreated(() => {
   template = Template.instance();
-  UtilsView.applySubscribe(colaboradoresController, 'view', template, '', function () {
+  UtilsView.applySubscribe(colaboradoresController, 'tableview', template, '', function () {
   });
 });
 
@@ -251,7 +251,7 @@ let dataTableData = function () {
 
 };
 
-let optionsObject = UtilsView.getDataTableConfig(colaboradoresController, 'view');
+let optionsObject = UtilsView.getDataTableConfig(colaboradoresController, 'tableview');
 
 Template.colaboradorList.helpers({
   reactiveDataFunction: function () {

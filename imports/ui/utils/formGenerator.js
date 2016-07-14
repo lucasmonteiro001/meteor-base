@@ -448,7 +448,11 @@ export class FormGenerator {
 
           let valor = dadosCollection[key];
           if (schema[key].type == Date && valor) {
-            let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+            var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+            if (typeof valor == 'string')
+              valor = new Date(valor.replace(pattern, '$3-$2-$1'));
+
+            pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
             valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
           }
           if (schema[key].formOptions.FIELD_TAG == 'input3H') {
@@ -476,12 +480,6 @@ export class FormGenerator {
 
     document.getElementById(idOfElement).innerHTML = result;
 
-    if (applyValidation) {
-      if (idOfForm != '') {
-        idOfElement = idOfForm;
-      }
-      this.applyJQueryValidation(controller, schemaName, idOfElement);
-    }
 
     if (Meteor.isCordova) {
       console.log("Printed only in mobile Cordova apps");
@@ -600,6 +598,15 @@ export class FormGenerator {
       UtilsView.templateRender('select2Collection', 'template-' + collectionsFields[fieldKey], data);
     }
 
+
+    //Esta opção de aplicar a validação tem que ser a ultima ação do método
+    if (applyValidation) {
+      if (idOfForm != '') {
+        idOfElement = idOfForm;
+      }
+      this.applyJQueryValidation(controller, schemaName, idOfElement);
+    }
+
   }
 
   // formViewRender agora considera elementos do tipo vetor
@@ -637,7 +644,11 @@ export class FormGenerator {
           let valor = dadosCollection[key];
 
           if (schema[key].type == Date && valor) {
-            let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+            var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+            if (typeof valor == 'string')
+              valor = new Date(valor.replace(pattern, '$3-$2-$1'));
+
+            pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
             valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
           } else if (schema[key].type == Object) {
 

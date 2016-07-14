@@ -162,7 +162,9 @@ Template.projetoEdit.events({
 
 Template.projetoList.onCreated(() => {
   template = Template.instance();
-  UtilsView.applySubscribe(projetosController, 'view', template, '', function () {
+  UtilsView.applySubscribe(projetosController, 'tableview', template, '', function () {
+
+
   });
 });
 
@@ -172,14 +174,14 @@ let dataTableData = function () {
 
 };
 
-let optionsObject = UtilsView.getDataTableConfig(projetosController, 'view');
-
 Template.projetoList.helpers({
   reactiveDataFunction: function () {
-
     return dataTableData;
   },
-  optionsObject: optionsObject,
+  optionsObject: function () {
+    return UtilsView.getDataTableConfig(projetosController, 'tableview');
+  },
+
 });
 
 Template.projetoList.onRendered(() => {
