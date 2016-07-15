@@ -320,7 +320,7 @@ CollectionColaboradores.setSchema({
   checks: {
     type: String,
     defaultValue: '',
-    label: 'Possui filhos:',
+    label: 'Possui filhos: check',
     formOptions: {
       FIELD_TAG: 'checkboxNH',
       FIELD_TYPE: 'checkbox',
@@ -337,7 +337,7 @@ CollectionColaboradores.setSchema({
   radios: {
     type: String,
     defaultValue: '',
-    label: 'Possui filhos:',
+    label: 'Possui filhos: radio',
     formOptions: {
       FIELD_TAG: 'radioNH',
       FIELD_TYPE: 'checkbox',
@@ -384,22 +384,22 @@ CollectionColaboradores.setSchema({
       required: { value: true, message: 'O nome é obrigatório' },
     }
   },
-  // cropper: {
-  //   type: String,
-  //   defaultValue: '',
-  //   label: 'Imagem:',
-  //   formOptions: {
-  //     FIELD_TAG: 'imageCropper'
-  //   }
-  // }
+  cropper: {
+    type: String,
+    defaultValue: '',
+    label: 'Imagem:',
+    formOptions: {
+      FIELD_TAG: 'imageCropper'
+    }
+  }
 });
 
 CollectionColaboradores.addSubSchema('insert',
     ['nome', 'email']);
 
 CollectionColaboradores.addSubSchema('update',
-    ['nome', 'testeObj', 'inputDisabled', 'descricao', 'radios', 'checks', 'radio', 'filhos', 'diasTrabalhados', 'dataNascimento', 'cpf', 'login', 'setor',
-      'funcao', 'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida']);
+    ['nome', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao', 'diasTrabalhados', 'quantidadeDeDependentes',
+      'descricao', 'radio', 'filhos', 'dataEntrada', 'telefone', 'celular', 'email','helptext', 'horaEntrada', 'horaSaida']);
 
 CollectionColaboradores.addSubSchema('view',
     ['nome', 'testeObj', 'inputDisabled', 'descricao', 'radios', 'checks', 'radio', 'filhos', 'diasTrabalhados', 'dataNascimento', 'cpf', 'login', 'setor',

@@ -261,7 +261,7 @@ export class FormGenerator {
     // AINDA NAO FUNCIONA.
     this.templates['imageCropper'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="div{FIELD_NAME}">{FIELD_LABEL}</label> \
-        <div class=""> \
+        <div class="col-md-10"> \
         <div class="col-md-6"><h4>Image</h4><div class="image-crop"><img src="img/userDefault.png"></div></div>\
         <div class="col-md-6"><h4>Preview image</h4><div style="width: 150px; height: 150px;" class="img-preview img-preview-xs"></div></div>\
         <div class="row btn-group">\
@@ -269,6 +269,43 @@ export class FormGenerator {
         <input type="file" accept="image/*" name="file" id="inputImage" class="hide">Upload new image</label>\
         {BUTTONS}\
         </div></div></div>';
+
+    this.templates['btnHosp'] = '<div class="form-group"> \
+        <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-10" id="{FIELD_NAME}"> \
+          {HOSPEDE}\
+         </div>\
+        </div>';
+
+    this.templates['modal'] = '<div class="form-group"> \
+         <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">\
+         <div class="modal-dialog modal-lg">\
+         <div class="modal-content">\
+         <div class="modal-header">\
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+         <span aria-hidden="true">&times;</span>\
+         </button> \
+         <h4 class="modal-title" id="myModalLabel">Modal title</h4> \
+         </div> \
+         <div class="modal-body"> \
+         <div class="col-md-6"> \
+         <h4>Image</h4> <div class="image-crop"> <img src="img/userDefault.png"> </div> \
+         </div> \
+         <div class="col-md-6"> <h4>Preview image</h4> \
+         <div style="width: 150px; height: 150px;"class="img-preview img-preview-xs"></div> \
+         </div> <div class="row btn-group"> \
+         <label title="Upload image file" for="inputImage" class="btn btn-primary"> \
+         <input type="file" accept="image/*" name="file" id="inputImage"class="hide"> Upload new image </label>\
+          <button class="btn btn-white" id="salvar" type="button">Salvar</button>\
+          <button class="btn btn-white" id="zoomIn" type="button">Zoom In</button>\
+          <button class="btn btn-white" id="zoomOut" type="button">Zoom Out</button>\
+          <button class="btn btn-white" id="rotateLeft" type="button">Rotate Left</button>\
+          <button class="btn btn-white" id="rotateRight" type="button">Rotate Right </button>\
+          <button class="btn btn-white" id="setDrag" type="button">New crop</button>\
+          </div></div>\
+          <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button> \
+          <button type="button" class="btn btn-primary">Save changes</button> \
+          </div> </div> </div> </div> </div>';
   }
 
   getTemplate (templateKey) {
@@ -295,6 +332,7 @@ export class FormGenerator {
     let result = '';
     let fieldTmp = '';
     let dadosCollection = {};
+    let hospede = false;
     let schema = controller.getSchemaJson(schemaName);
 
     if (searchFor != '' && typeof searchFor == 'string') {
@@ -429,6 +467,30 @@ export class FormGenerator {
 
           fieldTmp = fieldTmp.replace(
               new RegExp('{BUTTONS}', 'g'), buttonsTmp);
+
+        }
+
+        if (schema[key].formOptions.FIELD_TAG == 'modal') {
+          hospede = true;
+          let hospedeTmp = '';
+          let hospedeCollections = schema[key].formOptions.HOSPEDECOLLECTION;
+          if (hospedeCollections) {
+            hospedeTmp = this.getTemplate('btnHosp');
+            collectionsFields.push(key);
+          } else {
+            let options = schema[key].formOptions.OPTIONS;
+            for (let oKey in options) {
+              if (typeof options[oKey].VALUE == 'object') {
+                hospedeTmp = hospedeTmp + "<option value='" + JSON.stringify(options[oKey].VALUE) + "'>" + options[oKey].LABEL + '</option>';
+              } else {
+                hospedeTmp = hospedeTmp + '<option value="' + options[oKey].VALUE + '">' + options[oKey].LABEL + '</option>';
+              }
+
+            }
+
+            fieldTmp = fieldTmp.replace(
+                new RegExp('{FIELD_OPTIONS}', 'g'), hospedeTmp);
+          }
 
         }
 

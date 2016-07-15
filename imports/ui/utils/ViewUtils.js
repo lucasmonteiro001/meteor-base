@@ -130,6 +130,62 @@ class ViewUtils {
         //endregion
     }
 
+  showModalWithTemplateHTML (templateHTML, data = {}, titleModal = 'Informações', config = {
+    animacao: 'flipInY',
+    classTamanho: '500px'
+  }) {
+    
+    let modalDiv = document.createElement('div');
+    modalDiv.id = 'openTemplateModal';
+    modalDiv.className = 'modalDialog col-xs-12';
+    document.getElementsByTagName('body')[0].appendChild(modalDiv);
+
+    let modalContent = document.createElement('div');
+    modalContent.className = 'modal-content animated ' + config.animacao;
+
+    if (config.classTamanho) {
+      modalContent.style = 'min-width:90px; width: ' + config.classTamanho;
+    }
+
+    modalDiv.appendChild(modalContent);
+
+    let modalHeader = document.createElement('div');
+    modalHeader.className = 'modalHead';
+
+    let titleTag = document.createElement('h2');
+    titleTag.className = 'modal-title';
+    titleTag.innerHTML = titleModal;
+    modalHeader.appendChild(titleTag);
+
+    modalContent.appendChild(modalHeader);
+
+    let modalBody = document.createElement('div');
+    modalBody.id = 'modalBody';
+    modalBody.className = 'modal-body';
+    modalBody.innerHTML = templateHTML;
+    modalContent.appendChild(modalBody);
+
+    let modalFooter = document.createElement('div');
+    modalFooter.className = 'modal-footer';
+
+    let buttonClose = document.createElement('button');
+    buttonClose.className = 'btn btn-white';
+    buttonClose.onclick = function () {
+      window.location.hash = '#';
+      //To DO - Salvar o dado no Input
+      document.getElementsByTagName('body')[0].removeChild(modalDiv);
+    };
+    buttonClose.innerHTML = 'Fechar'
+    modalFooter.appendChild(buttonClose);
+
+    modalContent.appendChild(modalFooter);
+
+    window.location.hash = '#openTemplateModal';
+
+    console.log('showModalWithTemplate:OK');
+    //endregion
+  }
+
     /**
      * Retorna as configurações para o componente DataTable a partir do controler do schema selecionado
      * @param controller Controler referente aos dados que serão utilizados

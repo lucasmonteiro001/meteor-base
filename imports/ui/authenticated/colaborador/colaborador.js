@@ -74,45 +74,41 @@ Template.colaboradorAdd.onRendered(() => {
   $("#salvar").click(function () {
     window.open($image.cropper("getDataURL"));
   });
-
   $("#zoomIn").click(function () {
     $image.cropper("zoom", 0.1);
   });
-
   $("#zoomOut").click(function () {
     $image.cropper("zoom", -0.1);
   });
-
   $("#rotateLeft").click(function () {
     $image.cropper("rotate", 45);
   });
-
   $("#rotateRight").click(function () {
     $image.cropper("rotate", -45);
   });
-
   $("#setDrag").click(function () {
     $image.cropper("setDragMode", "crop");
   });
-
   $("#moveUp").click(function () {
     $image.cropper("move", 0, -10);
   });
-
   $("#moveDown").click(function () {
     $image.cropper("move", 0, 10);
   });
-
   $("#moveLeft").click(function () {
     $image.cropper("move", -10, 0);
   });
-
   $("#moveRight").click(function () {
     $image.cropper("move", 10, 0);
   });
 
+  $('#myModal').modal('show');
+
 });
 Template.colaboradorAdd.events({
+  'click a[id="testeModal"]': function () {
+    UtilsView.showModalWithTemplateHTML("<div>Ola</div>", {});
+  },
 
   //Eventos do template de inserção
   'submit form'(event, templateInstance){
@@ -244,7 +240,6 @@ Template.colaboradorList.onCreated(() => {
   });
 });
 
-
 let dataTableData = function () {
 
   return colaboradoresController.getAll().fetch();
@@ -260,9 +255,7 @@ Template.colaboradorList.helpers({
   },
   optionsObject: optionsObject,
 });
-
 Template.colaboradorList.onRendered(() => {
 
 });
-
 Template.colaboradorList.events({});
