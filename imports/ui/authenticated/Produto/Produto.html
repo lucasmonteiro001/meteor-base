@@ -1,0 +1,179 @@
+<template name="Produto">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-8">
+            <h2> Lista de Produto </h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{pathFor route='index'}}">Página Principal</a>
+                </li>
+                <li class="active">
+                    <strong> Lista de Produto </strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content white-bg animated fadeIn">
+
+        {{#if canUserInsert}}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="pull-right btAdd">
+                        <a href="{{pathFor 'ProdutoAdd'}}" id="insert" class="btn btn-success" name="insert">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i> Novo</a>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+
+        <div class="row">
+            <div class="col-lg-12">
+                {{> ProdutoList}}
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="ProdutoAdd">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-8">
+            <h2> Cadastrar Produto </h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{pathFor route='index'}}">Página Principal</a>
+                </li>
+                <li class="active">
+                    <strong> Cadastrar Produto </strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+
+    <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
+        <form class="form-horizontal row-border" id="formTag" data-toggle="validator" role="form">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel-body" id="formContext"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="pull-right btAdd">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <a href="{{pathFor 'Produto'}}" class="btn">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</template>
+
+<template name="ProdutoEdit">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-12">
+            <h2> {{ collectionData.nome }}</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{pathFor route='index'}}">Página Principal</a>
+                </li>
+                <li>
+                    <a href="{{pathFor route='Produto'}}">Lista de Produto</a>
+                </li>
+
+                <li class="active">
+                    <strong> {{ collectionData.nome }}</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+
+    <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
+        <form class="form-horizontal row-border" id="formTag" data-toggle="validator" role="form">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel-body" id="formContext"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="pull-right btAdd">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <a href="{{pathFor 'ProdutoView'}}/{{collectionData._id}}" class="btn">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</template>
+
+<template name="ProdutoView">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-8">
+            <h2> {{ collectionData.nome }}</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{pathFor route='index'}}">Página Principal</a>
+                </li>
+                <li>
+                    <a href="{{pathFor route='Produto'}}">Lista de Produto</a>
+                </li>
+
+                <li class="active">
+                    <strong> {{ collectionData.nome }}</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-4">
+            <div class="pull-right">
+                <a id="btn-criar-chamado-voltar" class="btn btn-default" href="{{pathFor 'Produto'}}">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    Voltar
+                </a>
+                {{#if canUserAccessActions}}
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="false">
+                            Ações <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+
+                            {{#if canUserUpdate}}
+                                <li><a id="linkEdit" href="{{pathFor 'ProdutoEdit'}}/{{collectionData._id}}"
+                                       name="update"><i
+                                        class="icon icon-pencil"></i>
+                                    Editar</a></li>
+                            {{/if}}
+                            <li class="divider"></li>
+                            {{#if canUserRemove}}
+                                <li><a id="linkExcluir" href="#!" value="{{collectionData._id}}" name="remove"><i
+                                        class="icon icon-pencil"></i>
+                                    Excluir</a>
+                                </li>
+                            {{/if}}
+                        </ul>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
+        <div class="row form-horizontal row-border">
+            <div class="col-lg-12">
+                <div class="panel-body" id="formContext"></div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="ProdutoList">
+    {{> reactiveTable settings=settings}}
+</template>
+
+<template name="ProdutoTmpl">
+    <a href="{{pathFor 'ProdutoView'}}/{{_id}}">  {{nome}} </a>
+</template>

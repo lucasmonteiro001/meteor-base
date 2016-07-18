@@ -67,3 +67,14 @@ Template.registerHelper('containsValueInList', function (field, key, item, list)
   return result;
 
 });
+
+//######################################################################################
+//###################CARREGA TODOS OS DADOS PARA A MEMÓRIA #############################
+//#######################PARA SEREM PESQUISADOS OFFLINE#################################
+if (Meteor.isCordova) {
+  Meteor.subscribe(colaboradoresController.getCollectionName(),
+      colaboradoresController.getFilter(), colaboradoresController.getProjection('view'))
+  Meteor.subscribe(projetosController.getCollectionName(),
+      projetosController.getFilter(), projetosController.getProjection('view'))
+//Fim Meteor.isCordova
+}

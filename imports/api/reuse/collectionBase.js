@@ -23,6 +23,9 @@ export class CollectionBase {
     this.collecitonName = collectionName;
     this.collectionInstance = new Mongo.Collection(collectionName);
 
+    if (Meteor.isCordova) Ground.Collection(this.collectionInstance);  
+    
+    
     this.schemaDefault = {};
     this.subSchemas = {};
 
