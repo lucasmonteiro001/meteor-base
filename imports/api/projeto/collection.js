@@ -88,7 +88,6 @@ CollectionProjetos.setSchema({
   },
   dataInicio: {
     type: Date,
-    defaultValue: '',
     optional: true,
     label: 'Data de Início',
     formOptions: {
@@ -102,7 +101,6 @@ CollectionProjetos.setSchema({
   },
   dataFim: {
     type: String,
-    defaultValue: '',
     optional: true,
     label: 'Data de Fim',
     formOptions: {
@@ -116,6 +114,7 @@ CollectionProjetos.setSchema({
   descricao: {
     type: String,
     defaultValue: '',
+    optional: true,
     label: 'Descrição:',
     formOptions: {
       FIELD_TAG: 'textareaH',
