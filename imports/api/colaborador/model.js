@@ -1,6 +1,6 @@
-import { CollectionColaboradores } from './collection.js';
-import { ModelBase } from '../reuse/modelBase';
-import {MdlProjetos} from '../projeto/model';
+import {CollectionColaboradores} from "./collection.js";
+import {ModelBase} from "../reuse/modelBase";
+import {MdlProjetos} from "../projeto/model";
 
 class ModelColaboradores extends ModelBase {
 
@@ -33,16 +33,15 @@ MdlColaboradores.setGroupPermissions(['insert', 'update', 'remove', 'read'], gro
 
 //Aqui deve sevem ser inseridas as regras referentes às restrições por dados.
 
-// Por exemplo: O usuário só pode alterar registros criados por ele ou se ele
-// pertencer à regra 'Administrador'.
-// Para mais informações sobre o uso do módulo Roles veja:
-// http://alanning.github.io/meteor-roles/classes/Roles.html#method_userIsInRole
-Security.defineMethod('ownsDocument', {
-  fetch: [],
-  allow(type, field, userId, doc) {
-    if (!field) field = 'userId';
-    return userId === doc[field] || Roles.userIsInRole(userId, groups);
-  },
-});
-MdlColaboradores.setFunctionPermissions(['update', 'remove', 'read'], 'ownsDocument');
+
+let loggedUser = () => {
+    return Meteor.userId();
+}
+let permissions = {
+    byRoles: ['administrador'],
+    //And
+    byData: {'userId': loggedUser}
+}
+
+MdlColaboradores.setFunctionPermissions(['update', 'remove', 'read'], permissions);
 
