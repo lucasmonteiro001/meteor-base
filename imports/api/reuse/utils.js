@@ -66,21 +66,57 @@ class Util {
    */
   toObject (arr) {
 
-    var rv = {};
+    var objRetorno = {};
     if (arr !== undefined && arr != null) {
-      for (var i = 0; i < arr.length; ++i) {
+      for (let i = 0; i<arr.length; ++i) {
         try {
           if (arr[i] !== undefined)
-            rv[i] = JSON.parse(arr[i]);
+            objRetorno[i] = JSON.parse(arr[i]);
         }
         catch (err) {
           if (arr[i] !== undefined)
-            rv[i] = arr[i];
+            objRetorno[i] = arr[i];
         }
 
       }
 
-      return rv;
+      return objRetorno;
+    } else {
+      console.log('Valor indefinido');
+    }
+
+  }
+
+  /**
+   * Converte Object em Array
+   * @param obj Object que será convertido em um Array
+   * @returns Array
+   */
+  toArray (obj) {
+
+    var arrRetorno = [];
+    if (obj !== undefined && obj != null) {
+      for (let i in obj) {
+        try {
+
+          if (obj[i] !== undefined) {
+            let stringObjeto = '{"_id":"' + obj[i]._id + '"';
+            for (let key in obj[i]) {
+              if (key != '_id')
+                stringObjeto = stringObjeto + ',"' + key + '":"' + obj[i][key] + '"';
+            }
+            arrRetorno[i] = stringObjeto + '}';
+
+          }
+        }
+        catch (err) {
+          if (obj[i] !== undefined)
+            arrRetorno[i] = obj[i];
+        }
+
+      }
+
+      return arrRetorno;
     } else {
       console.log('Valor indefinido');
     }

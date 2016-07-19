@@ -5,30 +5,30 @@ class message {
 
   showErro (msgError) {
     swal({
-      title:"Erro Interno",
-      text:msgError,
-      type:"error",
-      closeOnConfirm:true
+      title: 'Erro Interno',
+      text: msgError,
+      type: 'error',
+      closeOnConfirm: true,
     });
   };
 
   showSuccess (title, msgSuccess) {
-    swal(title, msgSuccess, "success");
+    swal(title, msgSuccess, 'success');
   };
 
   showConfirmation (title, msg, comando, callback) {
     swal({
-          title:title,
-          text:msg,
-          type:"warning",
-          showCancelButton:true,
-          confirmButtonColor:"#DD6B55",
-          confirmButtonText:comando,
-          closeOnConfirm:true,
-          closeOnCancel:true
+          title: title,
+          text: msg,
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#DD6B55',
+          confirmButtonText: comando,
+          closeOnConfirm: true,
+          closeOnCancel: true,
         },
         function (isConfirm) {
-          if ( isConfirm ) {
+          if (isConfirm) {
             callback(null, true);
           } else {
             callback(null, false);

@@ -26,14 +26,16 @@ export class FormGenerator {
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
                <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
-          name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}"  data-mask="{DATA_MASK}"> \
+          name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}" \
+          data-mask="{DATA_MASK}"> \
           </div> \
         </div>';
 
     this.templates['inputMaskV'] = '<div class="form-group"> \
           <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
                <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
-          name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}"  data-mask="{DATA_MASK}"> \
+          name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}" \
+          data-mask="{DATA_MASK}"> \
         </div>';
 
     this.templates['inputDateH'] = '<div class="form-group" id="data_1"> \
@@ -41,7 +43,8 @@ export class FormGenerator {
          <div class="col-md-10"> \
             <div class="input-group date"> \
               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>\
-              <input type="text" class="form-control" id="{FIELD_NAME}" name="{FIELD_NAME}" value="{VALUE}"> \
+              <input type="text" class="form-control" id="{FIELD_NAME}" name="{FIELD_NAME}" \
+              value="{VALUE}"> \
             </div>\
           </div> \
          </div>';
@@ -50,20 +53,23 @@ export class FormGenerator {
          <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label>\
             <div class="input-group date">\
               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>\
-              <input type="text" class="form-control" id="{FIELD_NAME}" name="{FIELD_NAME}" value="{VALUE}"> \
+              <input type="text" class="form-control" id="{FIELD_NAME}" name="{FIELD_NAME}" \
+              value="{VALUE}"> \
           </div> \
          </div>';
 
     this.templates['inputDisabledH'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
-        <input type="text" disabled="" name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}">\
+        <input type="text" disabled="" name="{FIELD_NAME}" class="form-control" value="{VALUE}" \
+        placeholder="{PLACEHOLDER}">\
         </div> \
         </div>';
 
     this.templates['inputDisabledV'] = '<div class="form-group"> \
           <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-        <input type="text" disabled="" name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}">\
+        <input type="text" disabled="" name="{FIELD_NAME}" class="form-control" value="{VALUE}" \
+        placeholder="{PLACEHOLDER}">\
         </div>';
 
     this.templates['inputHourH'] = '<div class="form-group" id="hour_1"> \
@@ -71,7 +77,8 @@ export class FormGenerator {
          <div class="col-md-10"> \
             <div class="input-group clockpicker" data-autoclose="true">\
               <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>\
-              <input type="text" class="form-control" value="00:00" id="{FIELD_NAME}" name="{FIELD_NAME}"> \
+              <input type="text" class="form-control" value="00:00" id="{FIELD_NAME}" \
+              name="{FIELD_NAME}"> \
             </div>\
           </div> \
          </div>';
@@ -80,21 +87,24 @@ export class FormGenerator {
          <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label>\
             <div class="input-group clockpicker" data-autoclose="true">\
               <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>\
-              <input type="text" class="form-control" value="00:00" id="{FIELD_NAME}" name="{FIELD_NAME}"> \
+              <input type="text" class="form-control" value="00:00" id="{FIELD_NAME}" \
+              name="{FIELD_NAME}"> \
           </div> \
          </div>';
 
     this.templates['inputHelpH'] = '<div class="form-group">  \
     <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
             <div class="col-md-10">\
-                <input type="{FIELD_TYPE}" id="{FIELD_NAME}" name="{FIELD_NAME}" class="form-control">\
+                <input type="{FIELD_TYPE}" id="{FIELD_NAME}" name="{FIELD_NAME}" \
+                class="form-control">\
                 <span class="help-block m-b-none">{HELP_TEXT}</span>\
             </div>\
             </div>';
 
     this.templates['inputHelpV'] = '<div class="form-group">  \
     <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-                <input type="{FIELD_TYPE}" id="{FIELD_NAME}" name="{FIELD_NAME}" class="form-control">\
+                <input type="{FIELD_TYPE}" id="{FIELD_NAME}" name="{FIELD_NAME}" \
+                class="form-control">\
                 <span class="help-block m-b-none">{HELP_TEXT}</span>\
             </div>';
 
@@ -127,21 +137,24 @@ export class FormGenerator {
     this.templates['selectH'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
-        <select class="form-control js-example-placeholder-single" style="width: 100%" tabindex="-1" aria-hidden="true" id="{FIELD_NAME}" name="{FIELD_NAME}">\
+        <select class="form-control js-example-placeholder-single" style="width: 100%" \
+        tabindex="-1" aria-hidden="true" id="{FIELD_NAME}" name="{FIELD_NAME}">\
            {FIELD_OPTIONS} \
-        </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr">\
+        </select><span class="select2 select2-container select2-container--default \
+        select2-container--below" dir="ltr">\
         </div>\
     </div>';
 
     this.templates['selectV'] = '<div class="form-group"> \
         <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-      <select class="form-control js-example-placeholder-single" id="{FIELD_NAME}" name="{FIELD_NAME}">\
+      <select class="form-control js-example-placeholder-single" id="{FIELD_NAME}" \
+      name="{FIELD_NAME}">\
            {FIELD_OPTIONS} \
       </select>\
     </div>';
 
     this.templates['fieldWithDataFromCollection'] = '<div class="form-group"> \
-        <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+        <label class="col-md-2 control-label" for="template-{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10" id="template-{FIELD_NAME}"> \
          </div>\
         </div>';
@@ -149,7 +162,8 @@ export class FormGenerator {
     this.templates['multipleH'] = '<div class="form-group"> \
         <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
-        <select class="select2_demo_2 form-control" style="width: 100%" multiple="multiple" id="{FIELD_NAME}" name="{FIELD_NAME}">\
+        <select class="select2_demo_2 form-control" style="width: 100%" multiple="multiple" \
+        id="{FIELD_NAME}" name="{FIELD_NAME}">\
            {FIELD_OPTIONS} \
         </select>\
          </div>\
@@ -157,7 +171,8 @@ export class FormGenerator {
 
     this.templates['multipleV'] = '<div class="form-group"> \
         <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-        <select class="select2_demo_2 form-control" multiple="multiple" id="{FIELD_NAME}" name="{FIELD_NAME}">\
+        <select class="select2_demo_2 form-control" multiple="multiple" id="{FIELD_NAME}" \
+        name="{FIELD_NAME}">\
            {FIELD_OPTIONS} \
         </select>\
         </div>';
@@ -262,11 +277,14 @@ export class FormGenerator {
     this.templates['imageCropper'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="div{FIELD_NAME}">{FIELD_LABEL}</label> \
         <div class="col-md-10"> \
-        <div class="col-md-6"><h4>Image</h4><div class="image-crop"><img src="img/userDefault.png"></div></div>\
-        <div class="col-md-6"><h4>Preview image</h4><div style="width: 150px; height: 150px;" class="img-preview img-preview-xs"></div></div>\
+        <div class="col-md-6"><h4>Image</h4><div class="image-crop"><img src="img/userDefault.png">\
+        </div></div>\
+        <div class="col-md-6"><h4>Preview image</h4><div style="width: 150px; height: 150px;" \
+        class="img-preview img-preview-xs"></div></div>\
         <div class="row btn-group">\
         <label title="Upload image file" for="inputImage" class="btn btn-primary">\
-        <input type="file" accept="image/*" name="file" id="inputImage" class="hide">Upload new image</label>\
+        <input type="file" accept="image/*" name="file" id="inputImage" class="hide">\
+        Upload new image</label>\
         {BUTTONS}\
         </div></div></div>';
 
@@ -278,7 +296,8 @@ export class FormGenerator {
         </div>';
 
     this.templates['modal'] = '<div class="form-group"> \
-         <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">\
+         <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" \
+         aria-labelledby="myLargeModalLabel">\
          <div class="modal-dialog modal-lg">\
          <div class="modal-content">\
          <div class="modal-header">\
@@ -295,7 +314,8 @@ export class FormGenerator {
          <div style="width: 150px; height: 150px;"class="img-preview img-preview-xs"></div> \
          </div> <div class="row btn-group"> \
          <label title="Upload image file" for="inputImage" class="btn btn-primary"> \
-         <input type="file" accept="image/*" name="file" id="inputImage"class="hide"> Upload new image </label>\
+         <input type="file" accept="image/*" name="file" id="inputImage"class="hide">\
+          Upload new image </label>\
           <button class="btn btn-white" id="salvar" type="button">Salvar</button>\
           <button class="btn btn-white" id="zoomIn" type="button">Zoom In</button>\
           <button class="btn btn-white" id="zoomOut" type="button">Zoom Out</button>\
@@ -303,24 +323,27 @@ export class FormGenerator {
           <button class="btn btn-white" id="rotateRight" type="button">Rotate Right </button>\
           <button class="btn btn-white" id="setDrag" type="button">New crop</button>\
           </div></div>\
-          <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button> \
+          <div class="modal-footer"><button type="button" class="btn btn-default"\
+           data-dismiss="modal">Close</button> \
           <button type="button" class="btn btn-primary">Save changes</button> \
           </div> </div> </div> </div> </div>';
   }
 
   getTemplate (templateKey) {
-    let template = "";
+    let template = '';
     if (typeof this.templates[templateKey] != 'undefined') {
       template = this.templates[templateKey];
     } else {
-      console.log("O template " + templateKey + " NÃO existe!");
+      console.log('O template ' + templateKey + ' NÃO existe!');
     }
-    return template
+
+    return template;
   }
 
   // formView agora considera elementos do tipo vetor
   //todo Melhorar a escrita do código, há muita repetição
-  formRender (idOfElement, applyValidation = true, controller, schemaName = 'default', searchFor = '', idOfForm = '') {
+  formRender (idOfElement, applyValidation = true, controller, schemaName = 'default',
+              searchFor = '', idOfForm = '') {
     let collectionFieldValues = [];
     let existsDataType = false;
     let existsCropperType = false;
@@ -346,15 +369,18 @@ export class FormGenerator {
 
         fieldTmp = this.getTemplate(schema[key].formOptions.FIELD_TAG);
 
-        if (schema[key].formOptions.FIELD_TAG == 'inputDateH' || schema[key].formOptions.FIELD_TAG == 'inputDateV') {
+        if (schema[key].formOptions.FIELD_TAG == 'inputDateH' ||
+            schema[key].formOptions.FIELD_TAG == 'inputDateV') {
           existsDataType = true;
         }
 
-        if (schema[key].formOptions.FIELD_TAG == 'inputHourH' || schema[key].formOptions.FIELD_TAG == 'inputHourH') {
+        if (schema[key].formOptions.FIELD_TAG == 'inputHourH' ||
+            schema[key].formOptions.FIELD_TAG == 'inputHourH') {
           existsHourType = true;
         }
 
-        if (schema[key].formOptions.FIELD_TAG == 'multipleH' || schema[key].formOptions.FIELD_TAG == 'multipleV') {
+        if (schema[key].formOptions.FIELD_TAG == 'multipleH' ||
+            schema[key].formOptions.FIELD_TAG == 'multipleV') {
           existsMultipleType = true;
           let optionsTmp = '';
           let optionsCollections = schema[key].formOptions.OPTIONSCOLLECTION;
@@ -365,9 +391,11 @@ export class FormGenerator {
             let options = schema[key].formOptions.OPTIONS;
             for (let oKey in options) {
               if (typeof options[oKey].VALUE == 'object') {
-                optionsTmp = optionsTmp + "<option value='" + JSON.stringify(options[oKey].VALUE) + "'>" + options[oKey].LABEL + '</option>';
+                optionsTmp = optionsTmp + "<option value='" + JSON.stringify(options[oKey].VALUE)
+                    + "'>" + options[oKey].LABEL + '</option>';
               } else {
-                optionsTmp = optionsTmp + '<option value="' + options[oKey].VALUE + '">' + options[oKey].LABEL + '</option>';
+                optionsTmp = optionsTmp + '<option value="' + options[oKey].VALUE + '">'
+                    + options[oKey].LABEL + '</option>';
               }
 
             }
@@ -378,7 +406,8 @@ export class FormGenerator {
 
         }
 
-        if (schema[key].formOptions.FIELD_TAG == 'selectH' || schema[key].formOptions.FIELD_TAG == 'selectV') {
+        if (schema[key].formOptions.FIELD_TAG == 'selectH' ||
+            schema[key].formOptions.FIELD_TAG == 'selectV') {
           existsSelectType = true;
           let optionsTmp = '';
           let options = schema[key].formOptions.OPTIONS;
@@ -387,9 +416,11 @@ export class FormGenerator {
             if (typeof options[oKey].VALUE == 'object') {
 
               console.log(options[oKey].VALUE);
-              optionsTmp = optionsTmp + '<option value=' + options[oKey].VALUE + '>' + options[oKey].LABEL + '</option>';
+              optionsTmp = optionsTmp + '<option value=' + options[oKey].VALUE + '>'
+                  + options[oKey].LABEL + '</option>';
             } else {
-              optionsTmp = optionsTmp + '<option value="' + options[oKey].VALUE + '">' + options[oKey].LABEL + '</option>';
+              optionsTmp = optionsTmp + '<option value="' + options[oKey].VALUE + '">'
+                  + options[oKey].LABEL + '</option>';
             }
           }
 
@@ -397,50 +428,61 @@ export class FormGenerator {
               new RegExp('{FIELD_OPTIONS}', 'g'), optionsTmp);
         }
 
-        if (schema[key].formOptions.FIELD_TAG == 'checkboxNH' || schema[key].formOptions.FIELD_TAG == 'checkboxNV') {
+        if (schema[key].formOptions.FIELD_TAG == 'checkboxNH' ||
+            schema[key].formOptions.FIELD_TAG == 'checkboxNV') {
           existsMultipleType = true;
           let labelsTmp = '';
           let labels = schema[key].formOptions.LABELS;
           for (let oKey in labels) {
-            labelsTmp = labelsTmp + '<input type="checkbox" name="' + labels[oKey].NAME + '  " value="' + labels[oKey].VALUE + '"> \
-                                 <label class="control-label" for="' + labels[oKey].FOR + '">' + labels[oKey].LABEL + ' </label><br>';
+            labelsTmp = labelsTmp + '<input type="checkbox" name="' + labels[oKey].NAME
+                + '  " value="' + labels[oKey].VALUE + '"> \
+                                 <label class="control-label" for="' + labels[oKey].FOR + '">'
+                + labels[oKey].LABEL + ' </label><br>';
           }
 
           fieldTmp = fieldTmp.replace(
               new RegExp('{LABEL_OPTIONS}', 'g'), labelsTmp);
         }
 
-        if (schema[key].formOptions.FIELD_TAG == 'radioNH' || schema[key].formOptions.FIELD_TAG == 'radioNV') {
+        if (schema[key].formOptions.FIELD_TAG == 'radioNH' ||
+            schema[key].formOptions.FIELD_TAG == 'radioNV') {
           existsMultipleType = true;
           let labelsTmp = '';
           let labels = schema[key].formOptions.LABELS;
           for (let oKey in labels) {
-            labelsTmp = labelsTmp + '<input type="radio" name="' + labels[oKey].NAME + '  " value="' + labels[oKey].VALUE + '"> \
-                                 <label class="control-label" for="' + labels[oKey].FOR + '">' + labels[oKey].LABEL + ' </label><br>';
+            labelsTmp = labelsTmp + '<input type="radio" name="' + labels[oKey].NAME
+                + '  " value="' + labels[oKey].VALUE + '"> \
+                                 <label class="control-label" for="' + labels[oKey].FOR
+                + '">' + labels[oKey].LABEL + ' </label><br>';
           }
 
           fieldTmp = fieldTmp.replace(
               new RegExp('{LABEL_OPTIONS}', 'g'), labelsTmp);
         }
 
-        if (schema[key].formOptions.FIELD_TAG == 'spanNH' || schema[key].formOptions.FIELD_TAG == 'spanNV') {
+        if (schema[key].formOptions.FIELD_TAG == 'spanNH' ||
+            schema[key].formOptions.FIELD_TAG == 'spanNV') {
           existsMultipleType = true;
           let spansTmp = '';
           let spans = schema[key].formOptions.SPANS;
           for (let oKey in spans) {
-            spansTmp = spansTmp + '<span id="' + spans[oKey].ID + '">' + spans[oKey].VALUE + '</span> <br><br>';
+            spansTmp = spansTmp + '<span id="' + spans[oKey].ID + '">' + spans[oKey].VALUE
+                + '</span> <br><br>';
           }
 
           fieldTmp = fieldTmp.replace(
               new RegExp('{SPANS}', 'g'), spansTmp);
         }
 
-        if (schema[key].formOptions.FIELD_TAG == 'inputNH' || schema[key].formOptions.FIELD_TAG == 'inputNV') {
+        if (schema[key].formOptions.FIELD_TAG == 'inputNH' ||
+            schema[key].formOptions.FIELD_TAG == 'inputNV') {
           existsMultipleType = true;
           let inputsTmp = '';
           let inputs = schema[key].formOptions.INPUTS;
           for (let oKey in inputs) {
-            inputsTmp = inputsTmp + '<input type="{FIELD_TYPE}" id="' + inputs[oKey].ID + '" name="' + inputs[oKey].NAME + '" class="form-control" value="" placeholder="' + inputs[oKey].PLACEHOLDER + '"> <br>';
+            inputsTmp = inputsTmp + '<input type="{FIELD_TYPE}" id="' + inputs[oKey].ID + '" name="'
+                + inputs[oKey].NAME + '" class="form-control" value="" placeholder="'
+                + inputs[oKey].PLACEHOLDER + '"> <br>';
           }
 
           fieldTmp = fieldTmp.replace(
@@ -453,16 +495,18 @@ export class FormGenerator {
           let buttonsTmp = '';
           let buttons = schema[key].formOptions.BUTTONS;
           for (let oKey in buttons) {
-            buttonsTmp = buttonsTmp + '<button class="btn btn-white" id="download" type="button">Download</button>\
-                                       <button class="btn btn-white" id="zoomIn" type="button">Zoom In</button>\
-                                       <button class="btn btn-white" id="zoomOut" type="button">Zoom Out</button>\
-                                       <button class="btn btn-white" id="rotateLeft" type="button">Rotate Left</button>\
-                                       <button class="btn btn-white" id="rotateRight" type="button">Rotate Right</button>\
-                                       <button class="btn btn-white" id="setDrag" type="button">New crop</button>\
-                                       <button class="btn btn-white" id="moveUp" type="button">Move up</button>\
-                                       <button class="btn btn-white" id="moveDown" type="button">Move down</button>\
-                                       <button class="btn btn-white" id="moveRight" type="button">Move Rigth</button>\
-                                       <button class="btn btn-white" id="moveLeft" type="button">Move Down</button>\ <br>';
+            buttonsTmp = buttonsTmp +
+                '<button class="btn btn-white" id="download" type="button">Download</button>\
+                 <button class="btn btn-white" id="zoomIn" type="button">Zoom In</button>\
+                 <button class="btn btn-white" id="zoomOut" type="button">Zoom Out</button>\
+                 <button class="btn btn-white" id="rotateLeft" type="button">Rotate Left</button>\
+                 <button class="btn btn-white" id="rotateRight" type="button">Rotate Right</button>\
+                 <button class="btn btn-white" id="setDrag" type="button">New crop</button>\
+                 <button class="btn btn-white" id="moveUp" type="button">Move up</button>\
+                 <button class="btn btn-white" id="moveDown" type="button">Move down</button>\
+                 <button class="btn btn-white" id="moveRight" type="button">Move Rigth</button>\
+                 <button class="btn btn-white" id="moveLeft" type="button">Move Down</button>\ <br>'
+            ;
           }
 
           fieldTmp = fieldTmp.replace(
@@ -481,9 +525,11 @@ export class FormGenerator {
             let options = schema[key].formOptions.OPTIONS;
             for (let oKey in options) {
               if (typeof options[oKey].VALUE == 'object') {
-                hospedeTmp = hospedeTmp + "<option value='" + JSON.stringify(options[oKey].VALUE) + "'>" + options[oKey].LABEL + '</option>';
+                hospedeTmp = hospedeTmp + "<option value='" + JSON.stringify(options[oKey].VALUE)
+                    + "'>" + options[oKey].LABEL + '</option>';
               } else {
-                hospedeTmp = hospedeTmp + '<option value="' + options[oKey].VALUE + '">' + options[oKey].LABEL + '</option>';
+                hospedeTmp = hospedeTmp + '<option value="' + options[oKey].VALUE + '">'
+                    + options[oKey].LABEL + '</option>';
               }
 
             }
@@ -517,6 +563,7 @@ export class FormGenerator {
             pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
             valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
           }
+
           if (schema[key].formOptions.FIELD_TAG == 'input3H') {
             for (let i = 0; i < 3; i++) {
               fieldTmp = fieldTmp.replace(new RegExp('{VALUE' + i + '}', 'g'), valor || '');
@@ -542,18 +589,17 @@ export class FormGenerator {
 
     document.getElementById(idOfElement).innerHTML = result;
 
-
     if (Meteor.isCordova) {
-      console.log("Printed only in mobile Cordova apps");
+      console.log('Printed only in mobile Cordova apps');
     } else {
       if (existsDataType) {
         $('#data_1 .input-group.date').datepicker({
           startView: 1,
-          todayBtn: "linked",
+          todayBtn: 'linked',
           keyboardNavigation: false,
           forceParse: false,
           autoclose: true,
-          format: "dd/mm/yyyy"
+          format: 'dd/mm/yyyy',
         });
       }
 
@@ -567,28 +613,28 @@ export class FormGenerator {
     }
 
     if (existsSelectType) {
-      $(".js-example-placeholder-single").select2({
-        placeholder: "Selecione uma opção"
+      $('.js-example-placeholder-single').select2({
+        placeholder: 'Selecione uma opção',
       });
     }
 
     if (existsCropperType) {
 
-      var $image = $(".image-crop > img")
+      var $image = $('.image-crop > img');
       $($image).cropper({
         aspectRatio: 1.1,
-        preview: ".img-preview",
+        preview: '.img-preview',
         done: function (data) {
           // Output the result data for cropping image.
-        }
+        },
       });
 
-      var $inputImage = $("#inputImage");
+      var $inputImage = $('#inputImage');
       if (window.FileReader) {
         $inputImage.change(function () {
-          var fileReader = new FileReader(),
-              files = this.files,
-              file;
+          var fileReader = new FileReader();
+          var files = this.files;
+          var file;
 
           if (!files.length) {
             return;
@@ -599,55 +645,55 @@ export class FormGenerator {
           if (/^image\/\w+$/.test(file.type)) {
             fileReader.readAsDataURL(file);
             fileReader.onload = function () {
-              $inputImage.val("");
-              $image.cropper("reset", true).cropper("replace", this.result);
+              $inputImage.val('');
+              $image.cropper('reset', true).cropper('replace', this.result);
             };
           } else {
-            showMessage("Please choose an image file.");
+            showMessage('Please choose an image file.');
           }
         });
       } else {
-        $inputImage.addClass("hide");
+        $inputImage.addClass('hide');
       }
 
-      $("#download").click(function () {
-        window.open($image.cropper("getDataURL"));
+      $('#download').click(function () {
+        window.open($image.cropper('getDataURL'));
       });
 
-      $("#zoomIn").click(function () {
-        $image.cropper("zoom", 0.1);
+      $('#zoomIn').click(function () {
+        $image.cropper('zoom', 0.1);
       });
 
-      $("#zoomOut").click(function () {
-        $image.cropper("zoom", -0.1);
+      $('#zoomOut').click(function () {
+        $image.cropper('zoom', -0.1);
       });
 
-      $("#rotateLeft").click(function () {
-        $image.cropper("rotate", 45);
+      $('#rotateLeft').click(function () {
+        $image.cropper('rotate', 45);
       });
 
-      $("#rotateRight").click(function () {
-        $image.cropper("rotate", -45);
+      $('#rotateRight').click(function () {
+        $image.cropper('rotate', -45);
       });
 
-      $("#setDrag").click(function () {
-        $image.cropper("setDragMode", "crop");
+      $('#setDrag').click(function () {
+        $image.cropper('setDragMode', 'crop');
       });
 
-      $("#moveUp").click(function () {
-        $image.cropper("move", 0, -10);
+      $('#moveUp').click(function () {
+        $image.cropper('move', 0, -10);
       });
 
-      $("#moveDown").click(function () {
-        $image.cropper("move", 0, 10);
+      $('#moveDown').click(function () {
+        $image.cropper('move', 0, 10);
       });
 
-      $("#moveLeft").click(function () {
-        $image.cropper("move", -10, 0);
+      $('#moveLeft').click(function () {
+        $image.cropper('move', -10, 0);
       });
 
-      $("#moveRight").click(function () {
-        $image.cropper("move", 10, 0);
+      $('#moveRight').click(function () {
+        $image.cropper('move', 10, 0);
       });
 
     }
@@ -657,15 +703,16 @@ export class FormGenerator {
       data['FIELD_NAME'] = collectionsFields[fieldKey];
       data['FIELD_VALUES'] = collectionFieldValues;
 
-      UtilsView.templateRender('select2Collection', 'template-' + collectionsFields[fieldKey], data);
+      UtilsView.templateRender('select2Collection', 'template-'
+          + collectionsFields[fieldKey], data);
     }
-
 
     //Esta opção de aplicar a validação tem que ser a ultima ação do método
     if (applyValidation) {
       if (idOfForm != '') {
         idOfElement = idOfForm;
       }
+
       this.applyJQueryValidation(controller, schemaName, idOfElement);
     }
 
@@ -714,36 +761,32 @@ export class FormGenerator {
             valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
           } else if (schema[key].type == Object) {
 
-            if (schema[key].formOptions && typeof schema[key].formOptions.OPTIONSCOLLECTION != 'undefined') {
-              let controllerTmp = Blaze._globalHelpers.getController(schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION);
+            if (schema[key].formOptions && typeof schema[key].formOptions.OPTIONSCOLLECTION !=
+                'undefined') {
+              let controllerTmp = Blaze._globalHelpers.getController(
+                  schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION);
               let collectionSchema = schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION_SCHEMA;
-              valor = UtilsView.getTableViewFromSchemaAndListOfObjects(controllerTmp.getSubSchemaJson(collectionSchema), valor)
+              valor = UtilsView.getTableViewFromSchemaAndListOfObjects(
+                  controllerTmp.getSubSchemaJson(collectionSchema), valor);
             } else {
-              valor = UtilsView.getTableViewFromSchemaAndListOfObjects(controller.getFieldSchemaJson(key), valor)
+              valor = UtilsView.getTableViewFromSchemaAndListOfObjects(
+                  controller.getFieldSchemaJson(key), valor);
             }
-
           }
+
           fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
         }
 
         //Resultado Final
         result = result + fieldTmp;
-
       }
-
     }
-    document.getElementById(idOfElement).innerHTML = result;
 
+    document.getElementById(idOfElement).innerHTML = result;
 
     //Inicializa as tabelas do tipo foottable
     $('.footable').footable();
   }
-
-
-
-
-
-
 
   applyJQueryValidation (controller, schemaName = 'default', elementId) {
     let rules = {};
@@ -790,12 +833,12 @@ export class FormGenerator {
 
           value = $(objAux).val();
 
-        }
-        else {
+        } else {
           objAux = template.findAll('[name="' + key + '"]');
           for (i = 0; i < objAux.length; i++) {
             objAux[i] = objAux[i].value.trim();
           }
+
           value = objAux;
         }
 
@@ -805,8 +848,9 @@ export class FormGenerator {
             break;
           case [String]:
             objData[key] = JSON.parse(value).keys(obj).map(function (k) {
-              return obj[k]
+              return obj[k];
             });
+
             break;
           case Number:
             objData[key] = Number(value);
@@ -816,7 +860,7 @@ export class FormGenerator {
             objData[key] = new Date(value.replace(pattern, '$3-$2-$1'));
             break;
           case Array:
-            objData[key] = value.split(",");
+            objData[key] = value.split(',');
             break;
           case Object:
             objData[key] = Utils.toObject(value);
@@ -831,9 +875,7 @@ export class FormGenerator {
           default:
             objData[key] = value;
         }
-
       }
-
     }
 
     return objData;

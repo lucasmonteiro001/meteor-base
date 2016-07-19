@@ -4,18 +4,13 @@
 
 
 <template name="select2Collection">
-    <select class="select2_demo_2 form-control" style="width: 100%" multiple="multiple"
-            id="{{FIELD_NAME}}"
-            name="{{FIELD_NAME}}">
+    <select class="select2_demo_2 form-control" style="width: 100%" multiple id="{{FIELD_NAME}}" name="{{FIELD_NAME}}">
         {{#each item in collectionData}}
-
             {{#if containsValueInList FIELD_NAME "nome" item.nome FIELD_VALUES}}
-                <option value={{json item}} selected="selected">{{item.nome}} </option>
+                <option selected value={{json item}}>{{item.nome}}</option>
             {{else}}
-                <option value={{json item}}>{{item.nome}} </option>
-
+                <option value={{json item}}>{{item.nome}}</option>
             {{/if}}
-
         {{/each}}
     </select>
 </template>

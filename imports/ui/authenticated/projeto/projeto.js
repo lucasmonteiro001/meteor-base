@@ -32,7 +32,7 @@ Template.projetoAdd.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
   template = Template.instance();
   formGen.formRender('formContext', true, projetosController, 'insert', '', 'formTag');
-  
+
 });
 Template.projetoAdd.events({
 
