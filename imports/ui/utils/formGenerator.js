@@ -389,15 +389,33 @@ export class FormGenerator {
             collectionsFields.push(key);
           } else {
             let options = schema[key].formOptions.OPTIONS;
+            console.log(dadosCollection[key]);
             for (let oKey in options) {
-              if (typeof options[oKey].VALUE == 'object') {
-                optionsTmp = optionsTmp + "<option value='" + JSON.stringify(options[oKey].VALUE)
-                    + "'>" + options[oKey].LABEL + '</option>';
-              } else {
-                optionsTmp = optionsTmp + '<option value="' + options[oKey].VALUE + '">'
-                    + options[oKey].LABEL + '</option>';
+              let selected = false;
+
+              //Verifica se opções foram previamente selecionadas
+              for (let dado in dadosCollection[key]) {
+                if (_.isEqual(options[oKey].VALUE, dadosCollection[key][dado])) {
+                  selected = true;
+                }
               }
 
+              optionsTmp = optionsTmp + "<option value='";
+
+              if (typeof options[oKey].VALUE == 'object') {
+                optionsTmp = optionsTmp + JSON.stringify(options[oKey].VALUE);
+              } else {
+                optionsTmp = optionsTmp + options[oKey].VALUE;
+              }
+
+              //Permite exibir as opções previamente selecionadas
+              if (selected) {
+                optionsTmp = optionsTmp + "' selected>";
+              } else {
+                optionsTmp = optionsTmp + "'>";
+              }
+
+              optionsTmp = optionsTmp + options[oKey].LABEL + '</option>';
             }
 
             fieldTmp = fieldTmp.replace(
@@ -551,7 +569,8 @@ export class FormGenerator {
               new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
         }
 
-        //INICIO Valor dos campos
+        //region INICIO Valor dos campos
+
         if (typeof dadosCollection != 'undefined') {
 
           let valor = dadosCollection[key];
@@ -565,7 +584,7 @@ export class FormGenerator {
           }
 
           if (schema[key].formOptions.FIELD_TAG == 'input3H') {
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i<3; i++) {
               fieldTmp = fieldTmp.replace(new RegExp('{VALUE' + i + '}', 'g'), valor || '');
             }
           } else {
@@ -576,11 +595,10 @@ export class FormGenerator {
             collectionFieldValues[key] = valor;
           }
 
-          //FIM Valor dos Campos
-
         }
 
-        //Resultado Final
+        //endregion FIM Valor dos Campos
+
         result = result + fieldTmp;
 
       }
@@ -835,7 +853,7 @@ export class FormGenerator {
 
         } else {
           objAux = template.findAll('[name="' + key + '"]');
-          for (i = 0; i < objAux.length; i++) {
+          for (i = 0; i<objAux.length; i++) {
             objAux[i] = objAux[i].value.trim();
           }
 
