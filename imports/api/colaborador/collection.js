@@ -384,26 +384,36 @@ CollectionColaboradores.setSchema({
       required: { value: true, message: 'O nome é obrigatório' },
     }
   },
-  cropper: {
+  btnHosp: {
     type: String,
     defaultValue: '',
-    label: 'Imagem:',
+    label: 'Insira uma Imagem',
     formOptions: {
-      FIELD_TAG: 'imageCropper'
+      FIELD_TAG: 'btnHosp',
+      FIELD_LABEL: 'Insira uma Imagem'
+    },
+  },
+  dataURLInto: {
+    type: String,
+    defaultValue: '',
+    label: 'URL da imagem',
+    formOptions: {
+      FIELD_TAG: 'textareaHideH',
+      ROWS: '15'
     }
   }
 });
 
 CollectionColaboradores.addSubSchema('insert',
-    ['nome', 'email']);
+    ['nome', 'email', 'btnHosp', 'dataURLInto']);
 
 CollectionColaboradores.addSubSchema('update',
     ['nome', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao', 'diasTrabalhados', 'quantidadeDeDependentes',
-      'descricao', 'radio', 'filhos', 'dataEntrada', 'telefone', 'celular', 'email','helptext', 'horaEntrada', 'horaSaida']);
+      'descricao', 'radio', 'filhos', 'dataEntrada', 'telefone', 'celular', 'email', 'helptext', 'horaEntrada', 'horaSaida', 'btnHosp', 'dataURLInto']);
 
 CollectionColaboradores.addSubSchema('view',
-    ['nome', 'testeObj', 'inputDisabled', 'descricao', 'radios', 'checks', 'radio', 'filhos', 'diasTrabalhados', 'dataNascimento', 'cpf', 'login', 'setor',
-      'funcao', 'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida', 'userId']);
+    ['nome', 'testeObj', 'inputDisabled', 'descricao', 'radio', 'filhos', 'diasTrabalhados', 'dataNascimento', 'cpf', 'login', 'setor',
+      'funcao', 'dataEntrada', 'telefone', 'celular', 'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida', 'dataURLInto', 'userId']);
 
 CollectionColaboradores.addSubSchema('tableview',
     ['nome', 'email', 'userId']);
