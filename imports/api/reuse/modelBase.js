@@ -90,6 +90,7 @@ export class ModelBase {
       /**
        * DESCOMENTE PARA EXECUTAR OS TESTES
        */
+
       //checkIfisTestMode(dataObj);
 
       //dataObj.userId = Meteor.userId();
@@ -159,6 +160,9 @@ export class ModelBase {
   getAllApplyMethods () {
     return Meteor.methods(this.functions);
   }
+
+  /*todo Tratar as dependências entre collections(Update e Delete).
+   O melhor local para este método é no collectionBase recebendo uma collection como parametro.*/
 
   setCollectionModelDependent (collectionModel) {
     console.log('Model dependente relacionado ao model Colaborador');

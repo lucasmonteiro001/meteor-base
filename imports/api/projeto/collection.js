@@ -169,8 +169,8 @@ CollectionProjetos.addSubSchema('update',
     ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores']);
 
 CollectionProjetos.addSubSchema('tableview',
-    ['nome', 'userId', 'colaboradores']);
+    ['nome', 'diasdetrabalho', 'userId', 'colaboradores']);
 
 CollectionProjetos.addSubSchema('view',
-    ['nome', 'colaboradores', 'dataInicio']);
+    ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio']);
 

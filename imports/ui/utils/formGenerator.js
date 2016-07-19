@@ -389,15 +389,32 @@ export class FormGenerator {
             collectionsFields.push(key);
           } else {
             let options = schema[key].formOptions.OPTIONS;
+            console.log(dadosCollection[key]);
             for (let oKey in options) {
-              if (typeof options[oKey].VALUE == 'object') {
-                optionsTmp = optionsTmp + "<option value='" + JSON.stringify(options[oKey].VALUE)
-                    + "'>" + options[oKey].LABEL + '</option>';
-              } else {
-                optionsTmp = optionsTmp + '<option value="' + options[oKey].VALUE + '">'
-                    + options[oKey].LABEL + '</option>';
+              let selected = false;
+              for (let dado in dadosCollection[key]) {
+                if (_.isEqual(options[oKey].VALUE, dadosCollection[key][dado])) {
+                  selected = true;
+                }
               }
 
+              if (selected) {
+                if (typeof options[oKey].VALUE == 'object') {
+                  optionsTmp = optionsTmp + "<option value='" + JSON.stringify(options[oKey].VALUE)
+                      + "' selected>" + options[oKey].LABEL + "</option>";
+                } else {
+                  optionsTmp = optionsTmp + "<option value='" + options[oKey].VALUE
+                      + "' selected>" + options[oKey].LABEL + "</option>";
+                }
+              } else {
+                if (typeof options[oKey].VALUE == 'object') {
+                  optionsTmp = optionsTmp + "<option value='" + JSON.stringify(options[oKey].VALUE)
+                      + "'>" + options[oKey].LABEL + "</option>";
+                } else {
+                  optionsTmp = optionsTmp + "<option value='" + options[oKey].VALUE
+                      + "'>" + options[oKey].LABEL + "</option>";
+                }
+              }
             }
 
             fieldTmp = fieldTmp.replace(
@@ -551,7 +568,8 @@ export class FormGenerator {
               new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
         }
 
-        //INICIO Valor dos campos
+        //region INICIO Valor dos campos
+
         if (typeof dadosCollection != 'undefined') {
 
           let valor = dadosCollection[key];
@@ -576,11 +594,10 @@ export class FormGenerator {
             collectionFieldValues[key] = valor;
           }
 
-          //FIM Valor dos Campos
-
         }
 
-        //Resultado Final
+        //endregion FIM Valor dos Campos
+
         result = result + fieldTmp;
 
       }

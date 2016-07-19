@@ -12,23 +12,15 @@ Template.select2Collection.onCreated(() => {
 
   UtilsView.applySubscribe(collectionData.COLLECTION, collectionData.COLLECTION_SCHEMA, template,
       '', function () {
-
+        $(document).ready(function () {
+          $('.select2_demo_2').select2();
+        });
       }
   );
 
 });
 
 Template.select2Collection.onRendered(() => {
-  template = Template.instance();
-  template.controller = Blaze._globalHelpers.getController(template.data.COLLECTION);
-  let collectionData = template.data;
-  UtilsView.applySubscribe(collectionData.COLLECTION, collectionData.COLLECTION_SCHEMA, template,
-      '', function () {
-        $(document).ready(function () {
-          $('.select2_demo_2').select2();
-        });
-      }
-  );
 
 });
 
