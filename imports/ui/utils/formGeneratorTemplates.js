@@ -109,23 +109,7 @@ Template.selectImage.onRendered(() => {
   });
 
   $("#setDrag").click(function () {
-    $image.cropper("setDragMode", "crop");
-  });
-
-  $("#moveUp").click(function () {
-    $image.cropper("move", 0, -10);
-  });
-
-  $("#moveDown").click(function () {
-    $image.cropper("move", 0, 10);
-  });
-
-  $("#moveLeft").click(function () {
-    $image.cropper("move", -10, 0);
-  });
-
-  $("#moveRight").click(function () {
-    $image.cropper("move", 10, 0);
+    $image.cropper("reset");
   });
 
 });

@@ -294,6 +294,11 @@ export class FormGenerator {
          </div>\
         </div>';
 
+    this.templates['showImageH'] = '<div class="form-group"> \
+  <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+        <div class="col-md-10" id="{FIELD_NAME}"> \
+          <img src="{VALUE}" >\
+          </div> </div>';
   }
 
   getTemplate (templateKey) {
@@ -318,11 +323,9 @@ export class FormGenerator {
     let existsMultipleType = false;
     let existsHourType = false;
     let collectionsFields = [];
-    let buttons = false;
     let result = '';
     let fieldTmp = '';
     let dadosCollection = {};
-    let hospede = false;
     let schema = controller.getSchemaJson(schemaName);
 
     if (searchFor != '' && typeof searchFor == 'string') {
@@ -596,51 +599,77 @@ export class FormGenerator {
 
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
+        if (schema[key].formOptions.FIELD_TAG == 'textareaHideH') {
+          fieldTmp = this.getTemplate('showImageH');
 
-        fieldTmp = this.getTemplate('spanH');
+          //FIELD_NAME = key
+          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
 
-        //FIELD_NAME = key
-        fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
+          //FIELD_LABEÇ = schema[key].label
+          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
 
-        //FIELD_LABEÇ = schema[key].label
-        fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
-
-        for (let fieldOptions in schema[key].formOptions) {
-          fieldTmp = fieldTmp.replace(
-              new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
-        }
-
-        //Valor dos campos
-        if (typeof dadosCollection != 'undefined') {
-          let valor = dadosCollection[key];
-
-          if (schema[key].type == Date && valor) {
-            var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
-            if (typeof valor == 'string')
-              valor = new Date(valor.replace(pattern, '$3-$2-$1'));
-
-            pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
-            valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
-          } else if (schema[key].type == Object) {
-
-            if (schema[key].formOptions && typeof schema[key].formOptions.OPTIONSCOLLECTION !=
-                'undefined') {
-              let controllerTmp = Blaze._globalHelpers.getController(
-                  schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION);
-              let collectionSchema = schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION_SCHEMA;
-              valor = UtilsView.getTableViewFromSchemaAndListOfObjects(
-                  controllerTmp.getSubSchemaJson(collectionSchema), valor);
-            } else {
-              valor = UtilsView.getTableViewFromSchemaAndListOfObjects(
-                  controller.getFieldSchemaJson(key), valor);
-            }
+          for (let fieldOptions in schema[key].formOptions) {
+            fieldTmp = fieldTmp.replace(
+                new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
           }
 
-          fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
-        }
+          //Valor dos campos
+          if (typeof dadosCollection != 'undefined') {
+            let valor = dadosCollection[key];
 
-        //Resultado Final
-        result = result + fieldTmp;
+            fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
+          }
+
+          //Resultado Final
+          result = result + fieldTmp;
+
+        }
+        else {
+          fieldTmp = this.getTemplate('spanH');
+
+          //FIELD_NAME = key
+          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
+
+          //FIELD_LABEÇ = schema[key].label
+          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
+
+          for (let fieldOptions in schema[key].formOptions) {
+            fieldTmp = fieldTmp.replace(
+                new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
+          }
+
+          //Valor dos campos
+          if (typeof dadosCollection != 'undefined') {
+            let valor = dadosCollection[key];
+
+            if (schema[key].type == Date && valor) {
+              var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+              if (typeof valor == 'string')
+                valor = new Date(valor.replace(pattern, '$3-$2-$1'));
+
+              pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+              valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+            } else if (schema[key].type == Object) {
+
+              if (schema[key].formOptions && typeof schema[key].formOptions.OPTIONSCOLLECTION !=
+                  'undefined') {
+                let controllerTmp = Blaze._globalHelpers.getController(
+                    schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION);
+                let collectionSchema = schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION_SCHEMA;
+                valor = UtilsView.getTableViewFromSchemaAndListOfObjects(
+                    controllerTmp.getSubSchemaJson(collectionSchema), valor);
+              } else {
+                valor = UtilsView.getTableViewFromSchemaAndListOfObjects(
+                    controller.getFieldSchemaJson(key), valor);
+              }
+            }
+
+            fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
+          }
+
+          //Resultado Final
+          result = result + fieldTmp;
+        }
       }
     }
 
