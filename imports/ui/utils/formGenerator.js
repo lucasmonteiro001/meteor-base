@@ -122,6 +122,20 @@ export class FormGenerator {
           name="{FIELD_NAME}">{VALUE}</textarea> \
           </div>';
 
+    this.templates['textareaHideH'] = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}"></label> \
+          <div class="col-md-10"> \
+          <textarea class="form-control" style="display: none" rows="{ROWS}" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}">{VALUE}</textarea> \
+          </div> \
+          </div>';
+
+    this.templates['textareaHideV'] = '<div class="form-group"> \
+          <label class="control-label" for="{FIELD_NAME}"></label> \
+          <textarea class="form-control" style="display: none" rows="{ROWS}" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}">{VALUE}</textarea> \
+          </div>';
+
     this.templates['spanH'] = '<div class="form-group"> \
           <label class="col-md-3 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-9"  style="overflow-x:auto;"> \
@@ -273,60 +287,18 @@ export class FormGenerator {
           {INPUTS} \
           </div> </div>';
 
-    // AINDA NAO FUNCIONA.
-    this.templates['imageCropper'] = '<div class="form-group"> \
-          <label class="col-md-2 control-label" for="div{FIELD_NAME}">{FIELD_LABEL}</label> \
-        <div class="col-md-10"> \
-        <div class="col-md-6"><h4>Image</h4><div class="image-crop"><img src="img/userDefault.png">\
-        </div></div>\
-        <div class="col-md-6"><h4>Preview image</h4><div style="width: 150px; height: 150px;" \
-        class="img-preview img-preview-xs"></div></div>\
-        <div class="row btn-group">\
-        <label title="Upload image file" for="inputImage" class="btn btn-primary">\
-        <input type="file" accept="image/*" name="file" id="inputImage" class="hide">\
-        Upload new image</label>\
-        {BUTTONS}\
-        </div></div></div>';
-
     this.templates['btnHosp'] = '<div class="form-group"> \
         <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10" id="{FIELD_NAME}"> \
-          {HOSPEDE}\
+         <div id="templateImage"></div>\
          </div>\
         </div>';
 
-    this.templates['modal'] = '<div class="form-group"> \
-         <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" \
-         aria-labelledby="myLargeModalLabel">\
-         <div class="modal-dialog modal-lg">\
-         <div class="modal-content">\
-         <div class="modal-header">\
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
-         <span aria-hidden="true">&times;</span>\
-         </button> \
-         <h4 class="modal-title" id="myModalLabel">Modal title</h4> \
-         </div> \
-         <div class="modal-body"> \
-         <div class="col-md-6"> \
-         <h4>Image</h4> <div class="image-crop"> <img src="img/userDefault.png"> </div> \
-         </div> \
-         <div class="col-md-6"> <h4>Preview image</h4> \
-         <div style="width: 150px; height: 150px;"class="img-preview img-preview-xs"></div> \
-         </div> <div class="row btn-group"> \
-         <label title="Upload image file" for="inputImage" class="btn btn-primary"> \
-         <input type="file" accept="image/*" name="file" id="inputImage"class="hide">\
-          Upload new image </label>\
-          <button class="btn btn-white" id="salvar" type="button">Salvar</button>\
-          <button class="btn btn-white" id="zoomIn" type="button">Zoom In</button>\
-          <button class="btn btn-white" id="zoomOut" type="button">Zoom Out</button>\
-          <button class="btn btn-white" id="rotateLeft" type="button">Rotate Left</button>\
-          <button class="btn btn-white" id="rotateRight" type="button">Rotate Right </button>\
-          <button class="btn btn-white" id="setDrag" type="button">New crop</button>\
-          </div></div>\
-          <div class="modal-footer"><button type="button" class="btn btn-default"\
-           data-dismiss="modal">Close</button> \
-          <button type="button" class="btn btn-primary">Save changes</button> \
-          </div> </div> </div> </div> </div>';
+    this.templates['showImageH'] = '<div class="form-group"> \
+  <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+        <div class="col-md-10" id="{FIELD_NAME}"> \
+          <img src="{VALUE}" >\
+          </div> </div>';
   }
 
   getTemplate (templateKey) {
@@ -351,11 +323,9 @@ export class FormGenerator {
     let existsMultipleType = false;
     let existsHourType = false;
     let collectionsFields = [];
-    let buttons = false;
     let result = '';
     let fieldTmp = '';
     let dadosCollection = {};
-    let hospede = false;
     let schema = controller.getSchemaJson(schemaName);
 
     if (searchFor != '' && typeof searchFor == 'string') {
@@ -507,55 +477,8 @@ export class FormGenerator {
               new RegExp('{INPUTS}', 'g'), inputsTmp);
         }
 
-        if (schema[key].formOptions.FIELD_TAG == 'imageCropper') {
+        if (schema[key].formOptions.FIELD_TAG == 'btnHosp') {
           existsCropperType = true;
-          buttons = true;
-          let buttonsTmp = '';
-          let buttons = schema[key].formOptions.BUTTONS;
-          for (let oKey in buttons) {
-            buttonsTmp = buttonsTmp +
-                '<button class="btn btn-white" id="download" type="button">Download</button>\
-                 <button class="btn btn-white" id="zoomIn" type="button">Zoom In</button>\
-                 <button class="btn btn-white" id="zoomOut" type="button">Zoom Out</button>\
-                 <button class="btn btn-white" id="rotateLeft" type="button">Rotate Left</button>\
-                 <button class="btn btn-white" id="rotateRight" type="button">Rotate Right</button>\
-                 <button class="btn btn-white" id="setDrag" type="button">New crop</button>\
-                 <button class="btn btn-white" id="moveUp" type="button">Move up</button>\
-                 <button class="btn btn-white" id="moveDown" type="button">Move down</button>\
-                 <button class="btn btn-white" id="moveRight" type="button">Move Rigth</button>\
-                 <button class="btn btn-white" id="moveLeft" type="button">Move Down</button>\ <br>'
-            ;
-          }
-
-          fieldTmp = fieldTmp.replace(
-              new RegExp('{BUTTONS}', 'g'), buttonsTmp);
-
-        }
-
-        if (schema[key].formOptions.FIELD_TAG == 'modal') {
-          hospede = true;
-          let hospedeTmp = '';
-          let hospedeCollections = schema[key].formOptions.HOSPEDECOLLECTION;
-          if (hospedeCollections) {
-            hospedeTmp = this.getTemplate('btnHosp');
-            collectionsFields.push(key);
-          } else {
-            let options = schema[key].formOptions.OPTIONS;
-            for (let oKey in options) {
-              if (typeof options[oKey].VALUE == 'object') {
-                hospedeTmp = hospedeTmp + "<option value='" + JSON.stringify(options[oKey].VALUE)
-                    + "'>" + options[oKey].LABEL + '</option>';
-              } else {
-                hospedeTmp = hospedeTmp + '<option value="' + options[oKey].VALUE + '">'
-                    + options[oKey].LABEL + '</option>';
-              }
-
-            }
-
-            fieldTmp = fieldTmp.replace(
-                new RegExp('{FIELD_OPTIONS}', 'g'), hospedeTmp);
-          }
-
         }
 
         //FIELD_NAME = key
@@ -584,7 +507,7 @@ export class FormGenerator {
           }
 
           if (schema[key].formOptions.FIELD_TAG == 'input3H') {
-            for (let i = 0; i<3; i++) {
+            for (let i = 0; i < 3; i++) {
               fieldTmp = fieldTmp.replace(new RegExp('{VALUE' + i + '}', 'g'), valor || '');
             }
           } else {
@@ -637,83 +560,7 @@ export class FormGenerator {
     }
 
     if (existsCropperType) {
-
-      var $image = $('.image-crop > img');
-      $($image).cropper({
-        aspectRatio: 1.1,
-        preview: '.img-preview',
-        done: function (data) {
-          // Output the result data for cropping image.
-        },
-      });
-
-      var $inputImage = $('#inputImage');
-      if (window.FileReader) {
-        $inputImage.change(function () {
-          var fileReader = new FileReader();
-          var files = this.files;
-          var file;
-
-          if (!files.length) {
-            return;
-          }
-
-          file = files[0];
-
-          if (/^image\/\w+$/.test(file.type)) {
-            fileReader.readAsDataURL(file);
-            fileReader.onload = function () {
-              $inputImage.val('');
-              $image.cropper('reset', true).cropper('replace', this.result);
-            };
-          } else {
-            showMessage('Please choose an image file.');
-          }
-        });
-      } else {
-        $inputImage.addClass('hide');
-      }
-
-      $('#download').click(function () {
-        window.open($image.cropper('getDataURL'));
-      });
-
-      $('#zoomIn').click(function () {
-        $image.cropper('zoom', 0.1);
-      });
-
-      $('#zoomOut').click(function () {
-        $image.cropper('zoom', -0.1);
-      });
-
-      $('#rotateLeft').click(function () {
-        $image.cropper('rotate', 45);
-      });
-
-      $('#rotateRight').click(function () {
-        $image.cropper('rotate', -45);
-      });
-
-      $('#setDrag').click(function () {
-        $image.cropper('setDragMode', 'crop');
-      });
-
-      $('#moveUp').click(function () {
-        $image.cropper('move', 0, -10);
-      });
-
-      $('#moveDown').click(function () {
-        $image.cropper('move', 0, 10);
-      });
-
-      $('#moveLeft').click(function () {
-        $image.cropper('move', -10, 0);
-      });
-
-      $('#moveRight').click(function () {
-        $image.cropper('move', 10, 0);
-      });
-
+      UtilsView.templateRender('selectImage', 'templateImage', { name: 'teste' });
     }
 
     for (let fieldKey in collectionsFields) {
@@ -752,51 +599,77 @@ export class FormGenerator {
 
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
+        if (schema[key].formOptions.FIELD_TAG == 'textareaHideH') {
+          fieldTmp = this.getTemplate('showImageH');
 
-        fieldTmp = this.getTemplate('spanH');
+          //FIELD_NAME = key
+          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
 
-        //FIELD_NAME = key
-        fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
+          //FIELD_LABEÇ = schema[key].label
+          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
 
-        //FIELD_LABEÇ = schema[key].label
-        fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
-
-        for (let fieldOptions in schema[key].formOptions) {
-          fieldTmp = fieldTmp.replace(
-              new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
-        }
-
-        //Valor dos campos
-        if (typeof dadosCollection != 'undefined') {
-          let valor = dadosCollection[key];
-
-          if (schema[key].type == Date && valor) {
-            var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
-            if (typeof valor == 'string')
-              valor = new Date(valor.replace(pattern, '$3-$2-$1'));
-
-            pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
-            valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
-          } else if (schema[key].type == Object) {
-
-            if (schema[key].formOptions && typeof schema[key].formOptions.OPTIONSCOLLECTION !=
-                'undefined') {
-              let controllerTmp = Blaze._globalHelpers.getController(
-                  schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION);
-              let collectionSchema = schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION_SCHEMA;
-              valor = UtilsView.getTableViewFromSchemaAndListOfObjects(
-                  controllerTmp.getSubSchemaJson(collectionSchema), valor);
-            } else {
-              valor = UtilsView.getTableViewFromSchemaAndListOfObjects(
-                  controller.getFieldSchemaJson(key), valor);
-            }
+          for (let fieldOptions in schema[key].formOptions) {
+            fieldTmp = fieldTmp.replace(
+                new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
           }
 
-          fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
-        }
+          //Valor dos campos
+          if (typeof dadosCollection != 'undefined') {
+            let valor = dadosCollection[key];
 
-        //Resultado Final
-        result = result + fieldTmp;
+            fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
+          }
+
+          //Resultado Final
+          result = result + fieldTmp;
+
+        }
+        else {
+          fieldTmp = this.getTemplate('spanH');
+
+          //FIELD_NAME = key
+          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
+
+          //FIELD_LABEÇ = schema[key].label
+          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
+
+          for (let fieldOptions in schema[key].formOptions) {
+            fieldTmp = fieldTmp.replace(
+                new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
+          }
+
+          //Valor dos campos
+          if (typeof dadosCollection != 'undefined') {
+            let valor = dadosCollection[key];
+
+            if (schema[key].type == Date && valor) {
+              var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+              if (typeof valor == 'string')
+                valor = new Date(valor.replace(pattern, '$3-$2-$1'));
+
+              pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+              valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+            } else if (schema[key].type == Object) {
+
+              if (schema[key].formOptions && typeof schema[key].formOptions.OPTIONSCOLLECTION !=
+                  'undefined') {
+                let controllerTmp = Blaze._globalHelpers.getController(
+                    schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION);
+                let collectionSchema = schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION_SCHEMA;
+                valor = UtilsView.getTableViewFromSchemaAndListOfObjects(
+                    controllerTmp.getSubSchemaJson(collectionSchema), valor);
+              } else {
+                valor = UtilsView.getTableViewFromSchemaAndListOfObjects(
+                    controller.getFieldSchemaJson(key), valor);
+              }
+            }
+
+            fieldTmp = fieldTmp.replace(new RegExp('{VALUE}', 'g'), valor || '');
+          }
+
+          //Resultado Final
+          result = result + fieldTmp;
+        }
       }
     }
 
@@ -853,7 +726,7 @@ export class FormGenerator {
 
         } else {
           objAux = template.findAll('[name="' + key + '"]');
-          for (i = 0; i<objAux.length; i++) {
+          for (i = 0; i < objAux.length; i++) {
             objAux[i] = objAux[i].value.trim();
           }
 
@@ -921,7 +794,3 @@ export class FormGenerator {
 }
 
 export const formGen = new FormGenerator();
-
-
-
-

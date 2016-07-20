@@ -23,6 +23,7 @@ export class CollectionBase {
         this.collecitonName = collectionName;
         this.collectionInstance = new Mongo.Collection(collectionName);
         this.collectionPermissions = {};
+        this.collectionsDependents = [];
 
         if (Meteor.isCordova) {
             Ground.Collection(this.collectionInstance);
@@ -51,6 +52,31 @@ export class CollectionBase {
         });
 
     }
+    //region todo####################### Hooks #######################
+    let collTemp = this.collectionsDependents;
+
+    this.collectionInstance.before.remove(function (userId, doc) {
+      console.log('Tentativa de remoção');
+      console.log(collTemp);
+
+      for (let key in collTemp) {
+        console.log('Nome:' + collTemp[key]._name);
+      }
+
+    });
+
+    this.collectionInstance.before.update(function (userId, doc) {
+      console.log('Tentativa de atualização');
+      console.log(collTemp);
+
+      for (let key in collTemp) {
+
+        console.log('Nome:' + collTemp[key].collectionName);
+      }
+
+    });
+    //endregion
+  }
 
     /**
      * Retorna o schema desejado
@@ -124,6 +150,23 @@ export class CollectionBase {
     addSubSchema(schemaName, schemaFields) {
         this.subSchemas[schemaName] = schemaFields;
     }
+  /**
+   * Inclui em uma lista uma collection que depende da atual
+   * @param collection - é a collection dependente
+   */
+  setCollectionDependent (collection) {
+    console.log(collection.collectionName + ' depende da collection ' + this.collectionName);
+    this.collectionsDependents.push(collection);
+  }
+
+  /**
+   * Adiciona um subSchmea
+   * @param schemaName -
+   * @param schemaFields -
+   */
+  addSubSchema (schemaName, schemaFields) {
+    this.subSchemas[schemaName] = schemaFields;
+  }
 
     /**
      * Retorna um subSchema
@@ -151,81 +194,32 @@ export class CollectionBase {
         return schema;
     }
 
-    /**
-     *  Retorna o schema, em formato json para um determinado campo do documento
-     * @param schemaName
-     * @returns {{}}
-     */
-    getFieldSchemaJson(fieldName) {
-        let schema = {};
-        let fieldJson = {};
+  /**
+   *  Retorna o schema, em formato json para um determinado campo do documento
+   * @param schemaName
+   * @returns {{}}
+   */
+  getFieldSchemaJson(fieldName) {
+    let schema = {};
+    let fieldJson = {};
 
-        schema = Utils.cloneObj(this.schemaDefault);
+    schema = Utils.cloneObj(this.schemaDefault);
 
-        if (schema[fieldName] && schema[fieldName].formOptions && schema[fieldName].formOptions.FIELD_SCHEMA) {
-            fieldJson = schema[fieldName].formOptions.FIELD_SCHEMA;
-        }
-
-        return fieldJson;
+    if (schema[fieldName] && schema[fieldName].formOptions && schema[fieldName].formOptions.FIELD_SCHEMA) {
+      fieldJson = schema[fieldName].formOptions.FIELD_SCHEMA;
     }
 
+    return fieldJson;
+  }  
+  
+  
+  /**
+   * Retorna a coleção
+   * @returns {Mongo.Collection} - Retorna uma coleção
+   */
+  getCollection () {
+    return this.collectionInstance;
+  }
 
-    /**
-     * Retorna a coleção
-     * @returns {Mongo.Collection} - Retorna uma coleção
-     */
-    getCollection() {
-        return this.collectionInstance;
-    }
-
-    /**
-     * Retorna um objeto com as permissões da Collection
-     */
-    getPermissions() {
-        return this.collectionPermissions;
-    }
-
-    /**
-     * Aplica as permissões para ações por funcionalidade e por data
-     * Essa funcionalidade só pode ser aplicada no servidor
-     * @param permissions permissões definidas para a collection
-     */
-    setPermissions(permissions) {
-        if (Meteor.isServer) {
-
-            this.collectionPermissions = permissions;
-
-            if (typeof permissions.byFunctionality != 'undefined') {
-                for (let keyPerm in permissions.byFunctionality) {
-                    this.collectionInstance.permit(permissions.byFunctionality[keyPerm].actions).ifHasRole(permissions.byFunctionality[keyPerm].groups);
-                }
-            }
-
-
-            if (typeof permissions.byData != 'undefined') {
-                for (let keyPerm in permissions.byData) {
-
-
-                    Security.defineMethod(this.collecitonName + 'Permissions_' + keyPerm, {
-                        fetch: [],
-                        allow(type, field, userId, doc) {
-                            let result = true;
-
-                            for (let key in permissions.byData[keyPerm].data) {
-                                if (doc[key] != permissions.byData[keyPerm].data[key])
-                                    result = false;
-                            }
-
-
-                            return result && Roles.userIsInRole(userId, permissions.byData[keyPerm].groups);
-                        },
-                    });
-                    this.collectionInstance.permit(permissions.byData[keyPerm].actions)[this.collecitonName + 'Permissions_' + keyPerm]();
-                }
-
-            }
-
-        }
-    }
 }
 ;
