@@ -18,30 +18,23 @@ MdlColaboradores.applyAllMethods();
 MdlColaboradores.applyPublications();
 
 //################################################
-//############ RESTRIÇÃO POR FUNCIONALIDADE ######
-//################################################
-//Por default, somente administradores conseguem editar as informações.
-//Mais informações: https://atmospherejs.com/ongoworks/security
-
-//Grupos que podem realizar operações no banco de dados
-let groups = ['administrador'];
-MdlColaboradores.setGroupPermissions(['insert', 'update', 'remove', 'read'], groups);
-
-//################################################
-//############ RESTRIÇÃO POR DADOS ###############
+//############ RESTRIÇÃO DE ACESSO ###############
 //################################################
 
-//Aqui deve sevem ser inseridas as regras referentes às restrições por dados.
-
-
-let loggedUser = () => {
-    return Meteor.userId();
-}
 let permissions = {
-    byRoles: ['administrador'],
-    //And
-    byData: {'userId': loggedUser}
+
+    byFunctionality: [{
+        actions: ['insert', 'update', 'read'],
+        groups: ['administrador'],
+    }
+    ],
+    byData: [{
+        actions: ['update', 'remove', 'read'],
+        groups: ['administrador'],
+        data: {userId: "{_UserID_}"},
+    }
+    ]
 }
 
-MdlColaboradores.setFunctionPermissions(['update', 'remove', 'read'], permissions);
+MdlColaboradores.setPermissions(permissions);
 

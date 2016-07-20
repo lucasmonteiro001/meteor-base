@@ -28,6 +28,8 @@ export class ModelBase {
 
         this.myCollection = collectionBase.getCollection();
 
+        this.myCollectionBase = collectionBase;
+
 
         this.collectionsModelDependents = [];
 
@@ -81,6 +83,11 @@ export class ModelBase {
 
         };
 
+        this.functions['get.' + collectionBase.getCollection()._name + '.permissions']
+            = function () {
+            return collectionBase.getPermissions();
+        };        
+        
         //##################################################
         //###Inicialização de métodos que alteram o banco###
         //##################################################
@@ -225,37 +232,12 @@ export class ModelBase {
     }
 
     /**
-     * Aplica as permissões de ações para a collection, por usuário.
-     * @param actionsList
-     * @param functionName
+     * Aplica as permissões para ações por funcionalidade e por data
+     * @param permissions permissões definidas para a collection
      */
-    setFunctionPermissions(actionsList, permissions) {
+    setPermissions(permissions = {}) {
 
-// Por exemplo: O usuário só pode alterar registros criados por ele ou se ele
-// pertencer à regra 'Administrador'.
-// Para mais informações sobre o uso do módulo Roles veja:
-// http://alanning.github.io/meteor-roles/classes/Roles.html#method_userIsInRole
-
-        if (typeof permissions.byData != 'undefined') {
-
-            Security.defineMethod(this.getCollectionName() + 'Permissions', {
-                fetch: [],
-                allow(type, field, userId, doc) {
-                    let result = true;
-
-                    for (let key in permissions.byData) {
-                        if (doc[key] != permissions.byData[key])
-                            result = false;
-                    }
-
-
-                    return result && Roles.userIsInRole(userId, permissions.byRoles);
-                },
-            });
-
-            this.myCollection.permit(actionsList)[this.getCollectionName() + 'Permissions']();
-        }
-
+        this.myCollectionBase.setPermissions(permissions);
     }
 }
 ;

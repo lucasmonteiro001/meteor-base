@@ -18,31 +18,23 @@ MdlProjetos.setCollectionModelDependent(MdlColaboradores);
 MdlProjetos.applyPublications();
 
 //################################################
-//############ RESTRIÇÃO POR FUNCIONALIDADE ######
-//################################################
-//Por default, somente administradores conseguem editar as informações.
-//Mais informações: https://atmospherejs.com/ongoworks/security
-
-//Grupos que podem realizar operações no banco de dados
-let groups = ['administrador'];
-MdlProjetos.setGroupPermissions(['insert', 'update', 'remove', 'read'], groups);
-
-//################################################
-//############ RESTRIÇÃO POR DADOS ###############
+//############ RESTRIÇÃO DE ACESSO ###############
 //################################################
 
-//Aqui deve sevem ser inseridas as regras referentes às restrições por dados.
 
-// Por exemplo: O usuário só pode alterar registros criados por ele ou se ele
-// pertencer à regra 'Administrador'.
-// Para mais informações sobre o uso do módulo Roles veja:
-// http://alanning.github.io/meteor-roles/classes/Roles.html#method_userIsInRole
-Security.defineMethod('ownsDocumentProjeto', {
-  fetch: [],
-  allow(type, field, userId, doc) {
-    if (!field) field = 'userId';
-    return userId === doc[field] || Roles.userIsInRole(userId, groups);
-  },
-});
-MdlProjetos.setFunctionPermissions(['update', 'remove', 'read'], 'ownsDocumentProjeto');
+let permissions = {
 
+  byFunctionality: [{
+    actions: ['insert', 'update', 'remove', 'read'],
+    groups: ['administrador'],
+  }
+  ],
+  byData: [{
+    actions: ['update', 'remove', 'read'],
+    groups: ['administrador'],
+    data: {userId: "{_UserID_}"},
+  }
+  ]
+}
+
+MdlProjetos.setPermissions(permissions);

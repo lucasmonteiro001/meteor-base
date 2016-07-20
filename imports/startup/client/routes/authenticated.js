@@ -7,15 +7,6 @@ import { colaboradoresController } from '../../../api/colaborador/controller';
 import { projetosController } from '../../../api/projeto/controller';
 import { Message } from '../../../ui/utils/message';
 
-const CanViewFunction = function (renderFunction) {
-  this.set = function (value) {
-    if (value === false) {
-      Message.showErrorNotification('Você não tem permissão para acessar essa página!');
-    } else {
-      renderFunction();
-    }
-  };
-};
 
 const blockUnauthorizedAdmin = (context, redirect) => {
   if (Meteor.userId() && !Roles.userIsInRole(Meteor.userId(), 'administrador')) {
@@ -68,24 +59,28 @@ authenticatedRoutes.route('/colaboradorAdd', {
 });
 authenticatedRoutes.route('/colaboradorEdit/:_id', {
   name: 'colaboradorEdit',
+  triggersEnter: (context, redirect) => {
+    let id = FlowRouter.current().params['_id'];
+    if (colaboradoresController.canUserDo('update', id) == false) {
+      Message.showErrorNotification('Você não tem permissão para acessar a página.')
+      redirect('colaborador');
+    }
+  },
   action() {
-    cvFunction = new CanViewFunction(function () {
       BlazeLayout.render('default', { yield: 'colaboradorEdit' });
-    });
-
-    const id = FlowRouter.getParam('_id');
-    colaboradoresController.checkIfCanUserUpdate(cvFunction, id);
   },
 });
 authenticatedRoutes.route('/colaboradorView/:_id', {
   name: 'colaboradorView',
+  triggersEnter: (context, redirect) => {
+    let id = FlowRouter.current().params['_id'];
+    if (colaboradoresController.canUserDo('read', id) == false) {
+      Message.showErrorNotification('Você não tem permissão para acessar a página.')
+      redirect('colaborador');
+    }
+  },
   action() {
-    cvFunction = new CanViewFunction(function () {
       BlazeLayout.render('default', { yield: 'colaboradorView' });
-    });
-
-    const id = FlowRouter.getParam('_id');
-    colaboradoresController.checkIfCanUserView(cvFunction, id);
   },
 });
 
@@ -103,23 +98,28 @@ authenticatedRoutes.route('/projetoAdd', {
 });
 authenticatedRoutes.route('/projetoEdit/:_id', {
   name: 'projetoEdit',
+  triggersEnter: (context, redirect) => {
+    let id = FlowRouter.current().params['_id'];
+    if (projetosController.canUserDo('update', id) == false) {
+      Message.showErrorNotification('Você não tem permissão para acessar a página.')
+      redirect('projeto');
+    }
+  },
   action() {
-    cvFunction = new CanViewFunction(function () {
       BlazeLayout.render('default', { yield: 'projetoEdit' });
-    });
-
-    const id = FlowRouter.getParam('_id');
-    projetosController.checkIfCanUserUpdate(cvFunction, id);
   },
 });
 authenticatedRoutes.route('/projetoView/:_id', {
   name: 'projetoView',
+  triggersEnter: (context, redirect) => {
+    let id = FlowRouter.current().params['_id'];
+    if (projetosController.canUserDo('read', id) == false) {
+      Message.showErrorNotification('Você não tem permissão para acessar a página.')
+      redirect('projeto');
+    }
+  },
   action() {
-    cvFunction = new CanViewFunction(function () {
-      BlazeLayout.render('default', { yield: 'projetoView' });
-    });
+    BlazeLayout.render('default', {yield: 'projetoView'});
 
-    const id = FlowRouter.getParam('_id');
-    projetosController.checkIfCanUserView(cvFunction, id);
   },
 });
