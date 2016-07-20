@@ -84,7 +84,7 @@ Template.selectImage.onRendered(() => {
   $("#getDataURL2").click(function () {
     var dataURL = $image.cropper("getDataURL", "image/jpeg");
 
-    $dataURLInto.text(dataURL);
+    $dataURLInto.val(dataURL);
     $dataURLView.html('<img src="' + dataURL + '">');
   });
 

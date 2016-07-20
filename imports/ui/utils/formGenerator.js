@@ -116,24 +116,19 @@ export class FormGenerator {
           </div> \
           </div>';
 
-    this.templates['textareaV'] = '<div class="form-group"> \
+    this.templates['textareaV'] = '<ldiv class="form-group"> \
           <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <textarea class="form-control" rows="{ROWS}" id="{FIELD_NAME}" \
           name="{FIELD_NAME}">{VALUE}</textarea> \
-          </div>';
+          </ldiv>';
 
-    this.templates['textareaHideH'] = '<div class="form-group"> \
+
+    this.templates['imageH'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}"></label> \
           <div class="col-md-10"> \
-          <textarea class="form-control" style="display: none" rows="{ROWS}" id="{FIELD_NAME}" \
-          name="{FIELD_NAME}">{VALUE}</textarea> \
+          <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
+          <div id="templateImage"></div>\
           </div> \
-          </div>';
-
-    this.templates['textareaHideV'] = '<div class="form-group"> \
-          <label class="control-label" for="{FIELD_NAME}"></label> \
-          <textarea class="form-control" style="display: none" rows="{ROWS}" id="{FIELD_NAME}" \
-          name="{FIELD_NAME}">{VALUE}</textarea> \
           </div>';
 
     this.templates['spanH'] = '<div class="form-group"> \
@@ -286,13 +281,6 @@ export class FormGenerator {
           <div id="div{FIELD_NAME}" class="col-md-10"> \
           {INPUTS} \
           </div> </div>';
-
-    this.templates['btnHosp'] = '<div class="form-group"> \
-        <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-          <div class="col-md-10" id="{FIELD_NAME}"> \
-         <div id="templateImage"></div>\
-         </div>\
-        </div>';
 
     this.templates['showImageH'] = '<div class="form-group"> \
   <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
@@ -477,7 +465,7 @@ export class FormGenerator {
               new RegExp('{INPUTS}', 'g'), inputsTmp);
         }
 
-        if (schema[key].formOptions.FIELD_TAG == 'btnHosp') {
+        if (schema[key].formOptions.FIELD_TAG == 'imageH') {
           existsCropperType = true;
         }
 
@@ -599,7 +587,7 @@ export class FormGenerator {
 
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
-        if (schema[key].formOptions.FIELD_TAG == 'textareaHideH') {
+        if (schema[key].formOptions.FIELD_TAG == 'imageH') {
           fieldTmp = this.getTemplate('showImageH');
 
           //FIELD_NAME = key

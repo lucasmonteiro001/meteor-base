@@ -385,28 +385,19 @@ CollectionColaboradores.setSchema({
       required: { value: true, message: 'O nome é obrigatório' },
     },
   },
-  btnHosp: {
+  image: {
     type: String,
     defaultValue: '',
-    label: 'Insira uma Imagem',
+    label: 'Minha Foto',
     formOptions: {
-      FIELD_TAG: 'btnHosp',
-      FIELD_LABEL: 'Insira uma Imagem',
-    },
-  },
-  dataURLInto: {
-    type: String,
-    defaultValue: '',
-    label: 'URL da imagem',
-    formOptions: {
-      FIELD_TAG: 'textareaHideH',
-      ROWS: '15',
-    },
+      FIELD_TAG: 'imageH',
+      FIELD_LABEL: 'Minha foto',
+    }
   },
 });
 
 CollectionColaboradores.addSubSchema('insert',
-    ['nome', 'email', 'btnHosp', 'dataURLInto']);
+    ['nome', 'email', 'image']);
 
 CollectionColaboradores.addSubSchema('update',
     ['nome', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao', 'diasTrabalhados']);
@@ -414,7 +405,7 @@ CollectionColaboradores.addSubSchema('update',
 CollectionColaboradores.addSubSchema('view',
     ['nome', 'testeObj', 'inputDisabled', 'descricao', 'radio', 'filhos', 'diasTrabalhados',
       'dataNascimento', 'cpf', 'login', 'setor', 'funcao', 'dataEntrada', 'telefone', 'celular',
-      'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida', 'dataURLInto',
+      'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida', 'image',
       'userId']);
 
 CollectionColaboradores.addSubSchema('tableview',
