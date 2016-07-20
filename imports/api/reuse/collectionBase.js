@@ -20,8 +20,9 @@ import { Utils } from './utils';
 export class CollectionBase {
 
   constructor (collectionName) {
-    this.collecitonName = collectionName;
+    this.collectionName = collectionName;
     this.collectionInstance = new Mongo.Collection(collectionName);
+    this.collectionsDependents = [];
 
     if (Meteor.isCordova) Ground.Collection(this.collectionInstance);  
     
@@ -47,6 +48,30 @@ export class CollectionBase {
       },
     });
 
+    //region todo####################### Hooks #######################
+    let collTemp = this.collectionsDependents;
+
+    this.collectionInstance.before.remove(function (userId, doc) {
+      console.log('Tentativa de remoção');
+      console.log(collTemp);
+
+      for (let key in collTemp) {
+        console.log('Nome:' + collTemp[key]._name);
+      }
+
+    });
+
+    this.collectionInstance.before.update(function (userId, doc) {
+      console.log('Tentativa de atualização');
+      console.log(collTemp);
+
+      for (let key in collTemp) {
+
+        console.log('Nome:' + collTemp[key].collectionName);
+      }
+
+    });
+    //endregion
   }
 
   /**
@@ -91,7 +116,7 @@ export class CollectionBase {
     if (typeof this.subSchemas[schemaName] != 'undefined')
       fields = this.subSchemas[schemaName];
     else
-      console.log('O SubSchema ' + schemaName + ' NÃO existe!!!')
+      console.log('O SubSchema ' + schemaName + ' NÃO existe!!!');
     let schema = Utils.cloneObj(this.schemaDefault);
     for (let key in schema) {
       if (fields.indexOf(key) == -1) {
@@ -111,6 +136,15 @@ export class CollectionBase {
     this.schemaDefault = schema;
     this.collectionInstance.attachSchema(this.getSchema());
 
+  }
+
+  /**
+   * Inclui em uma lista uma collection que depende da atual
+   * @param collection - é a collection dependente
+   */
+  setCollectionDependent (collection) {
+    console.log(collection.collectionName + ' depende da collection ' + this.collectionName);
+    this.collectionsDependents.push(collection);
   }
 
   /**

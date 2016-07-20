@@ -1,14 +1,12 @@
-import {CollectionColaboradores} from "./collection.js";
-import {ModelBase} from "../reuse/modelBase";
-import {MdlProjetos} from "../projeto/model";
+import { CollectionColaboradores } from './collection.js';
+import { ModelBase } from '../reuse/modelBase';
+
 
 class ModelColaboradores extends ModelBase {
 
 }
 
 export const MdlColaboradores = new ModelColaboradores(CollectionColaboradores);
-
-MdlColaboradores.setCollectionModelDependent(MdlProjetos);
 
 //Aplicar os métodos que serão utilizados no Client através do "Meteor.Call"
 MdlColaboradores.applyAllMethods();
@@ -33,15 +31,16 @@ MdlColaboradores.setGroupPermissions(['insert', 'update', 'remove', 'read'], gro
 
 //Aqui deve sevem ser inseridas as regras referentes às restrições por dados.
 
-
 let loggedUser = () => {
-    return Meteor.userId();
-}
+  return Meteor.userId();
+};
+
 let permissions = {
-    byRoles: ['administrador'],
-    //And
-    byData: {'userId': loggedUser}
-}
+  byRoles: ['administrador'],
+
+  //And
+  byData: { 'userId': loggedUser },
+};
 
 MdlColaboradores.setFunctionPermissions(['update', 'remove', 'read'], permissions);
 

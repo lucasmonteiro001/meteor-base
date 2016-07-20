@@ -1,6 +1,9 @@
 import { CollectionBase } from '../reuse/collectionBase';
+import { CollectionColaboradores } from '../colaborador/collection';
 
 export const CollectionProjetos = new CollectionBase('Projetos');
+
+CollectionColaboradores.setCollectionDependent(CollectionProjetos);
 
 //Definição dos Schemas
 CollectionProjetos.setSchema({
@@ -39,7 +42,7 @@ CollectionProjetos.setSchema({
         { VALUE: { campo1: 'C', campo2: 'I' }, LABEL: 'Quinta-feira' },
         { VALUE: { campo1: 'D', campo2: 'J' }, LABEL: 'Sexta-feira' },
         { VALUE: { campo1: 'E', campo2: 'K' }, LABEL: 'Sabado' },
-        { VALUE: { campo1: 'F', campo2: 'L' }, LABEL: 'Domingo' }
+        { VALUE: { campo1: 'F', campo2: 'L' }, LABEL: 'Domingo' },
       ],
       FIELD_SCHEMA: {
         campo1: {
@@ -130,9 +133,6 @@ CollectionProjetos.setSchema({
     label: 'Colaboradores',
     formOptions: {
       FIELD_TAG: 'multipleH',
-      OPTIONS: [{ LABEL: 'VALOR1', VALUE: 'VALOR01' },
-        { LABEL: 'VALOR2', VALUE: { campo1: 'valueCampo1', campo2: 'valorcampo2' } },
-        { LABEL: 'VALOR3', VALUE: 'VALOR03' }],
       OPTIONSCOLLECTION: {
         COLLECTION: 'colaboradores',
         COLLECTION_SCHEMA: 'tableview',

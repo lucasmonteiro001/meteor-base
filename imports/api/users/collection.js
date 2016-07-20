@@ -4,7 +4,7 @@ class CollectionUsers extends CollectionBase {
   constructor () {
 
     super(null);
-    this.collecitonName = 'Users';
+    this.collectionName = 'Users';
     this.collectionInstance = Meteor.users;
 
     this.schemaDefault = new SimpleSchema();
