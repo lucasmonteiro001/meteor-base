@@ -296,7 +296,7 @@ export class ControllerBase {
   }
 
   canUserDo (action, id) {
-    if (id && (typeof this.get(id) != 'undefined')) {
+    if ((typeof id != 'undefined') && (typeof this.get(id) == 'undefined')) {
       if (Meteor.status().connected) {
 
         let handle = Meteor
@@ -306,12 +306,17 @@ export class ControllerBase {
         Meteor.autorun(() => {
           const isReady = handle.ready();
           if (isReady) {
+            console.log('Verificou a permissao');
             return this.canUserDo2(action, id);
+
 
           }
         });
       }
-    } else {
+    } else if (typeof id != 'undefined') {
+      return this.canUserDo2(action, id);
+    }
+    else {
       return this.canUserDo2(action);
     }
   }
