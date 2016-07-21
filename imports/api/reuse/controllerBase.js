@@ -168,6 +168,7 @@ export class ControllerBase {
         callback(error, null);
       } else {
         callback(null, result);
+
       }
     });
   }
@@ -295,6 +296,27 @@ export class ControllerBase {
   }
 
   canUserDo (action, id) {
+    if (id && (typeof this.get(id) != 'undefined')) {
+      if (Meteor.status().connected) {
+
+        let handle = Meteor
+            .subscribe(this.getCollectionName(),
+                { '_id': id }, this.getProjection('view'));
+
+        Meteor.autorun(() => {
+          const isReady = handle.ready();
+          if (isReady) {
+            return this.canUserDo2(action, id);
+
+          }
+        });
+      }
+    } else {
+      return this.canUserDo2(action);
+    }
+  }
+
+  canUserDo2 (action, id) {
     let permissions = this.collectionPermissions;
     let userId = Meteor.userId();
     let result = false;
@@ -312,6 +334,7 @@ export class ControllerBase {
       console.log('Verificando:' + id);
       //Não basta ter permissão de functionalidade, tem que ter por dados também
       result = false;
+
       let doc = this.get(id);
 
       if (typeof doc != 'undefined') {
@@ -334,8 +357,8 @@ export class ControllerBase {
           }
         }
       } else {
-        //Caso o subscribe não tenha efetivado ainda a permissão de acesso é concedida.
-        result = true;
+        //Caso o subscribe não tenha efetivado não dá acesso à tela.
+        result = false;
       }
 
     }
