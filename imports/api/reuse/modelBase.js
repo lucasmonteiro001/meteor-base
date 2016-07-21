@@ -222,47 +222,9 @@ export class ModelBase {
         Meteor.publish(this.myCollection._name, this.publications);
     }
 
-    /**
-     * Aplica as permissões de grupo para a collection
-     * @param actionsList
-     * @param groups
-     */
-    setGroupPermissions(actionsList, groups) {
-        this.myCollection.permit(actionsList).ifHasRole(groups);
-    }
+    setPermissions (permissions = {}) {
 
-    /**
-     * Aplica as permissões de ações para a collection, por usuário.
-     * @param actionsList
-     * @param functionName
-     */
-    setFunctionPermissions(actionsList, permissions) {
-
-// Por exemplo: O usuário só pode alterar registros criados por ele ou se ele
-// pertencer à regra 'Administrador'.
-// Para mais informações sobre o uso do módulo Roles veja:
-// http://alanning.github.io/meteor-roles/classes/Roles.html#method_userIsInRole
-
-        if (typeof permissions.byData != 'undefined') {
-
-            Security.defineMethod(this.getCollectionName() + 'Permissions', {
-                fetch: [],
-                allow(type, field, userId, doc) {
-                    let result = true;
-
-                    for (let key in permissions.byData) {
-                        if (doc[key] != permissions.byData[key])
-                            result = false;
-                    }
-
-
-                    return result && Roles.userIsInRole(userId, permissions.byRoles);
-                },
-            });
-
-            this.myCollection.permit(actionsList)[this.getCollectionName() + 'Permissions']();
-        }
-
+        this.myCollectionBase.setPermissions(permissions);
     }
 }
 ;

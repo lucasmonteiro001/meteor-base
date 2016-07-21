@@ -51,7 +51,7 @@ export class CollectionBase {
             },
         });
 
-    }
+
     //region todo####################### Hooks #######################
     let collTemp = this.collectionsDependents;
 
@@ -220,6 +220,55 @@ export class CollectionBase {
   getCollection () {
     return this.collectionInstance;
   }
+
+  /**
+   * Retorna um objeto com as permissões da Collection
+   */
+  getPermissions () {
+    return this.collectionPermissions;
+  }
+
+  /**
+   * Aplica as permissões para ações por funcionalidade e por data
+   * Essa funcionalidade só pode ser aplicada no servidor
+   * @param permissions permissões definidas para a collection
+   */
+  setPermissions (permissions) {
+    if (Meteor.isServer) {
+
+      this.collectionPermissions = permissions;
+
+      if (typeof permissions.byFunctionality != 'undefined') {
+        for (let keyPerm in permissions.byFunctionality) {
+          this.collectionInstance.permit(permissions.byFunctionality[keyPerm].actions).ifHasRole(permissions.byFunctionality[keyPerm].groups);
+        }
+      }
+
+      if (typeof permissions.byData != 'undefined') {
+        for (let keyPerm in permissions.byData) {
+
+          Security.defineMethod(this.collecitonName + 'Permissions_' + keyPerm, {
+            fetch: [],
+            allow(type, field, userId, doc) {
+              let result = true;
+
+              for (let key in permissions.byData[keyPerm].data) {
+                if (doc[key] != permissions.byData[keyPerm].data[key])
+                  result = false;
+              }
+
+              return result && Roles.userIsInRole(userId, permissions.byData[keyPerm].groups);
+            },
+          });
+          this.collectionInstance.permit(permissions.byData[keyPerm].actions)[this.collecitonName + 'Permissions_' + keyPerm]();
+        }
+
+      }
+
+    }
+
+  }
+
 
 }
 ;

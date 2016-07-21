@@ -6,6 +6,7 @@ import '../../../ui/authenticated/users/users';
 import { colaboradoresController } from '../../../api/colaborador/controller';
 import { projetosController } from '../../../api/projeto/controller';
 import { Message } from '../../../ui/utils/message';
+import { UtilsView } from '../../../ui/utils/ViewUtils';
 
 
 const blockUnauthorizedAdmin = (context, redirect) => {
@@ -60,6 +61,7 @@ authenticatedRoutes.route('/colaboradorAdd', {
 authenticatedRoutes.route('/colaboradorEdit/:_id', {
   name: 'colaboradorEdit',
   triggersEnter: (context, redirect) => {
+
     let id = FlowRouter.current().params['_id'];
     if (colaboradoresController.canUserDo('update', id) == false) {
       Message.showErrorNotification('Você não tem permissão para acessar a página.')
@@ -112,6 +114,7 @@ authenticatedRoutes.route('/projetoEdit/:_id', {
 authenticatedRoutes.route('/projetoView/:_id', {
   name: 'projetoView',
   triggersEnter: (context, redirect) => {
+
     let id = FlowRouter.current().params['_id'];
     if (projetosController.canUserDo('read', id) == false) {
       Message.showErrorNotification('Você não tem permissão para acessar a página.')
