@@ -385,7 +385,7 @@ CollectionColaboradores.setSchema({
       required: { value: true, message: 'O nome é obrigatório' },
     },
   },
-  image: {
+  imageInto: {
     type: String,
     defaultValue: '',
     label: 'Minha Foto',
@@ -397,7 +397,7 @@ CollectionColaboradores.setSchema({
 });
 
 CollectionColaboradores.addSubSchema('insert',
-    ['nome', 'email', 'image']);
+    ['nome', 'email', 'imageInto']);
 
 CollectionColaboradores.addSubSchema('update',
     ['nome', 'dataNascimento', 'cpf', 'login', 'setor', 'funcao', 'diasTrabalhados']);
@@ -405,7 +405,7 @@ CollectionColaboradores.addSubSchema('update',
 CollectionColaboradores.addSubSchema('view',
     ['nome', 'testeObj', 'inputDisabled', 'descricao', 'radio', 'filhos', 'diasTrabalhados',
       'dataNascimento', 'cpf', 'login', 'setor', 'funcao', 'dataEntrada', 'telefone', 'celular',
-      'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida', 'image',
+      'email', 'quantidadeDeDependentes', 'helptext', 'horaEntrada', 'horaSaida', 'imageInto',
       'userId']);
 
 CollectionColaboradores.addSubSchema('tableview',

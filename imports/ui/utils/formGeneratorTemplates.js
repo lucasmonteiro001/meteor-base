@@ -78,8 +78,8 @@ Template.selectImage.onRendered(() => {
     $inputImage.addClass("hide");
   }
 
-  var $dataURLInto = $("#dataURLInto"),
-      $dataURLView = $("#dataURLView");
+  var $dataURLInto = $("#imageInto"),
+      $dataURLView = $("#imageView");
 
   $("#getDataURL2").click(function () {
     var dataURL = $image.cropper("getDataURL", "image/jpeg");

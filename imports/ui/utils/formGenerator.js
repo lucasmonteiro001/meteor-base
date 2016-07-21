@@ -116,12 +116,11 @@ export class FormGenerator {
           </div> \
           </div>';
 
-    this.templates['textareaV'] = '<ldiv class="form-group"> \
+    this.templates['textareaV'] = '<div class="form-group"> \
           <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <textarea class="form-control" rows="{ROWS}" id="{FIELD_NAME}" \
           name="{FIELD_NAME}">{VALUE}</textarea> \
-          </ldiv>';
-
+          </div>';
 
     this.templates['imageH'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}"></label> \
