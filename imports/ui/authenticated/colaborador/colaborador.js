@@ -10,22 +10,17 @@ let template;
 
 Template.colaborador.onCreated(() => {
   template = Template.instance();
+  template.data.canUserInsert = colaboradoresController.canUserDo('insert');
   UtilsView.applySubscribe(colaboradoresController, 'view', template, '', function () {
       }
   );
-  template.canInsert = new ReactiveVar(false);
+
 });
 Template.colaborador.onRendered(() => {
   template = Template.instance();
-  colaboradoresController.checkIfCanUserInsert(template.canInsert);
+
 });
-Template.colaborador.helpers({
-  'canUserInsert': () => {
-    template = Template.instance();
-    colaboradoresController.checkIfCanUserInsert(template.canInsert);
-    return template.canInsert.get();
-  },
-});
+Template.colaborador.helpers({});
 
 Template.colaboradorAdd.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
@@ -131,12 +126,11 @@ Template.colaboradorAdd.events({
 Template.colaboradorView.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
-  template.canUpdate = new ReactiveVar(false);
-  template.canRemove = new ReactiveVar(false);
+  template.data.canUserUpdate = colaboradoresController.canUserDo('update');
+  template.data.canUserRemove = colaboradoresController.canUserDo('remove');
+  template.data.canUserAccessActions = colaboradoresController.canUserDo('update') || colaboradoresController.canUserDo('remove');
 
   UtilsView.applySubscribe(colaboradoresController, 'view', template, id, ()=> {
-    colaboradoresController.checkIfCanUserUpdate(template.canUpdate, id);
-    colaboradoresController.checkIfCanUserRemove(template.canRemove, id);
     template.collectionData = colaboradoresController.get({ _id: id });
     formGen.formViewRender('formContext', colaboradoresController, 'view', id);
   });
@@ -146,30 +140,13 @@ Template.colaboradorView.onRendered(() => {
 
 });
 Template.colaboradorView.helpers({
-  'canUserUpdate': () => {
-    let template = Template.instance();
-    colaboradoresController.checkIfCanUserUpdate(template.canUpdate, FlowRouter.getParam('_id'));
-    return template.canUpdate.get();
-  },
-
-  'canUserRemove': () => {
-    let template = Template.instance();
-    colaboradoresController.checkIfCanUserRemove(template.canRemove, FlowRouter.getParam('_id'));
-    return template.canRemove.get();
-  },
-
-  'canUserAccessActions': () => {
-    let template = Template.instance();
-    if (typeof template.canRemove != 'undefined' && template.canUpdate != 'undefined') {
-      return template.canRemove.get() || template.canUpdate.get();
-    }
-  },
-
   'collectionData': () => {
     let id = FlowRouter.getParam('_id');
     return colaboradoresController.get({ _id: id });
   },
 });
+
+
 Template.colaboradorView.events({
 
   //Eventos do template de inserção

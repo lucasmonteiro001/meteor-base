@@ -33,7 +33,8 @@ class ViewUtils {
     }
 
     if (Meteor.status().connected) {
-
+      if (template == null)
+        template = Meteor;
       let handle = template
           .subscribe(controller.getCollectionName(),
               newFilter, controller.getProjection(schemaName));

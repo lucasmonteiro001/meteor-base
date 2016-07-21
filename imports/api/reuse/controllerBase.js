@@ -26,6 +26,14 @@ export class ControllerBase {
     this.collectionInstance = collectionBase.getCollection();
     this.collectionInstanceBase = collectionBase;
     this.filter = {};
+    this.collectionPermissions = {};
+    Meteor.call('get.' + this.getCollectionName() + '.permissions', (error, result) => {
+      if (error) {
+        console.log('Erro ao obter permissoes:' + error);
+      } else {
+        this.collectionPermissions = result;
+      }
+    });
   }
 
   /**
@@ -160,6 +168,7 @@ export class ControllerBase {
         callback(error, null);
       } else {
         callback(null, result);
+
       }
     });
   }
@@ -285,5 +294,76 @@ export class ControllerBase {
       }
     });
   }
+
+  canUserDo (action, id) {
+    if (id && (typeof this.get(id) != 'undefined')) {
+      if (Meteor.status().connected) {
+
+        let handle = Meteor
+            .subscribe(this.getCollectionName(),
+                { '_id': id }, this.getProjection('view'));
+
+        Meteor.autorun(() => {
+          const isReady = handle.ready();
+          if (isReady) {
+            return this.canUserDo2(action, id);
+
+          }
+        });
+      }
+    } else {
+      return this.canUserDo2(action);
+    }
+  }
+
+  canUserDo2 (action, id) {
+    let permissions = this.collectionPermissions;
+    let userId = Meteor.userId();
+    let result = false;
+    if (typeof permissions.byFunctionality != 'undefined') {
+      for (let keyPerm in permissions.byFunctionality) {
+        if (Roles.userIsInRole(userId, permissions.byFunctionality[keyPerm].groups)
+            && (permissions.byFunctionality[keyPerm].actions.indexOf(action) > -1)) {
+          result = true;
+        }
+      }
+
+    }
+    if ((result || typeof permissions.byFunctionality == 'undefined')
+        && ((typeof permissions.byData != 'undefined') && (typeof id != 'undefined'))) {
+      console.log('Verificando:' + id);
+      //Não basta ter permissão de functionalidade, tem que ter por dados também
+      result = false;
+
+      let doc = this.get(id);
+
+      if (typeof doc != 'undefined') {
+        for (let keyPerm in permissions.byData) {
+
+          let resultFields = false;
+          for (let field in permissions.byData[keyPerm].data) {
+            if (permissions.byData[keyPerm].data[field] == "{_UserID_}")
+              permissions.byData[keyPerm].data[field] = Meteor.userId();
+
+            if (permissions.byData[keyPerm].data[field] == doc[field]) {
+              resultFields = true;
+            }
+
+          }
+
+          if ((permissions.byData[keyPerm].actions.indexOf(action) > -1)
+              && resultFields) {
+            result = true;
+          }
+        }
+      } else {
+        //Caso o subscribe não tenha efetivado não dá acesso à tela.
+        result = false;
+      }
+
+    }
+    return result;
+  }
+
 }
 ;

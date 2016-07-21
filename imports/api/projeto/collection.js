@@ -36,33 +36,31 @@ CollectionProjetos.setSchema({
       FIELD_TAG: 'multipleH',
       FIELD_TYPE: 'text',
       OPTIONS: [
-        { VALUE: { Dia: 'valorCampo01', campo2: 'valorCampo02' }, LABEL: 'Segunda-feira' },
-        { VALUE: { campo1: 'A', campo2: 'G' }, LABEL: 'Terça-feira' },
-        { VALUE: { campo1: 'B', campo2: 'H' }, LABEL: 'Quarta-feira' },
-        { VALUE: { campo1: 'C', campo2: 'I' }, LABEL: 'Quinta-feira' },
-        { VALUE: { campo1: 'D', campo2: 'J' }, LABEL: 'Sexta-feira' },
-        { VALUE: { campo1: 'E', campo2: 'K' }, LABEL: 'Sabado' },
-        { VALUE: { campo1: 'F', campo2: 'L' }, LABEL: 'Domingo' },
+        { VALUE: { dia: 'Segunda-feira', horario: '8h-18h' }, LABEL: 'Segunda-feira' },
+        { VALUE: { dia: 'Terça-feira', horario: '8h-18h' }, LABEL: 'Terça-feira' },
+        { VALUE: { dia: 'Quarta-feira', horario: '8h-18h' }, LABEL: 'Quarta-feira' },
+        { VALUE: { dia: 'Quinta-feira', horario: '8h-18h' }, LABEL: 'Quinta-feira' },
+        { VALUE: { dia: 'Sexta-feira', horario: '8h-18h' }, LABEL: 'Sexta-feira' },
+        { VALUE: { dia: 'Sabado', horario: '8h-16h' }, LABEL: 'Sabado' },
+        { VALUE: { dia: 'Domingo', horario: '8h-12h' }, LABEL: 'Domingo' },
       ],
       FIELD_SCHEMA: {
-        campo1: {
+        dia: {
           type: String,
           defaultValue: '',
-          label: 'Campo01',
+          label: 'Dia da Semana',
           formOptions: {
             FIELD_TAG: 'inputH',
             FIELD_TYPE: 'text',
-            PLACEHOLDER: 'Nome',
           },
         },
-        campo2: {
+        horario: {
           type: String,
           defaultValue: '',
-          label: 'Campo02',
+          label: 'Horario',
           formOptions: {
             FIELD_TAG: 'inputH',
             FIELD_TYPE: 'text',
-            PLACEHOLDER: 'Nome',
           },
         },
       },
@@ -99,11 +97,10 @@ CollectionProjetos.setSchema({
     },
     formValidation: {
       required: { value: true, message: 'A data de início é obrigatória' },
-      date: { value: true, message: 'O valor informado não é uma data válida' },
     },
   },
   dataFim: {
-    type: String,
+    type: Date,
     optional: true,
     label: 'Data de Fim',
     formOptions: {

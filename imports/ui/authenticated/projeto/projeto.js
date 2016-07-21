@@ -10,23 +10,18 @@ let template;
 
 Template.projeto.onCreated(() => {
   template = Template.instance();
+  template.data.canUserInsert = projetosController.canUserDo('insert');
+
   UtilsView.applySubscribe(projetosController, 'view', template, '', function () {
       }
   );
-  template.canInsert = new ReactiveVar(false);
+
 });
 Template.projeto.onRendered(() => {
   template = Template.instance();
-  projetosController.checkIfCanUserInsert(template.canInsert);
 
 });
-Template.projeto.helpers({
-  'canUserInsert': () => {
-    template = Template.instance();
-    projetosController.checkIfCanUserInsert(template.canInsert);
-    return template.canInsert.get();
-  },
-});
+Template.projeto.helpers({});
 
 Template.projetoAdd.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
@@ -57,12 +52,11 @@ Template.projetoAdd.events({
 Template.projetoView.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
-  template.canUpdate = new ReactiveVar(false);
-  template.canRemove = new ReactiveVar(false);
+  template.data.canUserUpdate = projetosController.canUserDo('update');
+  template.data.canUserRemove = projetosController.canUserDo('remove');
+  template.data.canUserAccessActions = projetosController.canUserDo('update') || projetosController.canUserDo('remove');
 
   UtilsView.applySubscribe(projetosController, 'view', template, id, ()=> {
-    projetosController.checkIfCanUserUpdate(template.canUpdate, id);
-    projetosController.checkIfCanUserRemove(template.canRemove, id);
     template.collectionData = projetosController.get({ _id: id });
     formGen.formViewRender('formContext', projetosController, 'view', id);
   });
@@ -72,25 +66,6 @@ Template.projetoView.onRendered(() => {
 
 });
 Template.projetoView.helpers({
-  'canUserUpdate': () => {
-    let template = Template.instance();
-    projetosController.checkIfCanUserUpdate(template.canUpdate, FlowRouter.getParam('_id'));
-    return template.canUpdate.get();
-  },
-
-  'canUserRemove': () => {
-    let template = Template.instance();
-    projetosController.checkIfCanUserRemove(template.canRemove, FlowRouter.getParam('_id'));
-    return template.canRemove.get();
-  },
-
-  'canUserAccessActions': () => {
-    let template = Template.instance();
-    if (typeof template.canRemove != 'undefined' && template.canUpdate != 'undefined') {
-      return template.canRemove.get() || template.canUpdate.get();
-    }
-  },
-
   'collectionData': () => {
     let id = FlowRouter.getParam('_id');
     return projetosController.get({ _id: id });
