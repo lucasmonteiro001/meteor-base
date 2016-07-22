@@ -174,20 +174,12 @@ CollectionProjetos.addSubSchema('view',
 //############ RESTRIÇÃO DE ACESSO ###############
 //################################################
 
-let permissions = {
-
-  byFunctionality: [{
-    actions: ['insert', 'update', 'remove', 'read'],
-    groups: ['administrador'],
-  }
-  ],
-  byData: [{
-    actions: ['update', 'remove', 'read'],
-    groups: ['administrador'],
-    data: { userId: "{_UserID_}" },
-  }
-  ]
+let permissions = [{
+  actions: ['insert', 'update'],
+  groups: ['administrador'], //Permissions by Functionality
+  data: { userId: "{_UserID_}" }, //Filter/Permissions by Data
 }
+];
 
 CollectionProjetos.setPermissions(permissions);
 

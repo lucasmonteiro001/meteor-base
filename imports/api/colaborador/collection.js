@@ -418,19 +418,11 @@ CollectionColaboradores.addSubSchema('selection',
 //############ RESTRIÇÃO DE ACESSO ###############
 //################################################
 
-let permissions = {
-
-  byFunctionality: [{
-    actions: ['insert', 'update', 'read'],
-    groups: ['administrador'],
-  }
-  ],
-  byData: [{
-    actions: ['update', 'remove'],
-    groups: ['administrador'],
-    data: { userId: "{_UserID_}" },
-  }
-  ]
+let permissions = [{
+  actions: ['insert', 'update'],
+  groups: ['administrador'], //Permissions by Functionality
+  data: { userId: "{_UserID_}" }, //Filter/Permissions by Data
 }
+];
 
 CollectionColaboradores.setPermissions(permissions);
