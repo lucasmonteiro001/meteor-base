@@ -413,3 +413,24 @@ CollectionColaboradores.addSubSchema('tableview',
 
 CollectionColaboradores.addSubSchema('selection',
     ['nome', 'horaSaida']);
+
+//################################################
+//############ RESTRIÇÃO DE ACESSO ###############
+//################################################
+
+let permissions = {
+
+  byFunctionality: [{
+    actions: ['insert', 'update', 'read'],
+    groups: ['administrador'],
+  }
+  ],
+  byData: [{
+    actions: ['update', 'remove'],
+    groups: ['administrador'],
+    data: { userId: "{_UserID_}" },
+  }
+  ]
+}
+
+CollectionColaboradores.setPermissions(permissions);

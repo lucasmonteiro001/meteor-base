@@ -15,6 +15,7 @@
  *
  */
 import { Mongo } from 'meteor/mongo';
+import { Utils } from "./utils";
 
 export class ControllerBase {
   /**
@@ -51,7 +52,7 @@ export class ControllerBase {
    * @returns {*} - Filtro definido na collection
    */
   getFilter () {
-    return this.filter;
+    return this.filter
   }
 
   /**
@@ -301,14 +302,13 @@ export class ControllerBase {
 
         let handle = Meteor
             .subscribe(this.getCollectionName(),
-                { '_id': id }, this.getProjection('view'));
+                { '_id': id }, this.getProjection('view'), Meteor.userId());
 
         Meteor.autorun(() => {
           const isReady = handle.ready();
           if (isReady) {
             console.log('Verificou a permissao');
             return this.canUserDo2(action, id);
-
 
           }
         });

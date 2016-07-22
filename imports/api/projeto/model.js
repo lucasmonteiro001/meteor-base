@@ -14,24 +14,3 @@ MdlProjetos.applyAllMethods();
 // o "Template.subscribe"
 MdlProjetos.applyPublications();
 
-//################################################
-//############ RESTRIÇÃO DE ACESSO ###############
-//################################################
-
-
-let permissions = {
-
-  byFunctionality: [{
-    actions: ['insert', 'update', 'remove', 'read'],
-    groups: ['administrador'],
-  }
-  ],
-  byData: [{
-    actions: ['update', 'remove', 'read'],
-    groups: ['administrador'],
-    data: {userId: "{_UserID_}"},
-  }
-  ]
-}
-
-MdlProjetos.setPermissions(permissions);

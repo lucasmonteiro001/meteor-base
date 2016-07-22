@@ -37,7 +37,7 @@ class ViewUtils {
         template = Meteor;
       let handle = template
           .subscribe(controller.getCollectionName(),
-              newFilter, controller.getProjection(schemaName));
+              newFilter, controller.getProjection(schemaName), Meteor.userId());
 
       template.autorun(() => {
         const isReady = handle.ready();

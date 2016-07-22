@@ -17,24 +17,3 @@ MdlColaboradores.applyAllMethods();
 // o "Template.subscribe"
 MdlColaboradores.applyPublications();
 
-//################################################
-//############ RESTRIÇÃO DE ACESSO ###############
-//################################################
-
-let permissions = {
-
-    byFunctionality: [{
-        actions: ['insert', 'update', 'read'],
-        groups: ['administrador'],
-    }
-    ],
-    byData: [{
-        actions: ['update', 'remove', 'read'],
-        groups: ['administrador'],
-        data: {userId: "{_UserID_}"},
-    }
-    ]
-}
-
-MdlColaboradores.setPermissions(permissions);
-

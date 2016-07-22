@@ -170,3 +170,24 @@ CollectionProjetos.addSubSchema('tableview',
 CollectionProjetos.addSubSchema('view',
     ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio']);
 
+//################################################
+//############ RESTRIÇÃO DE ACESSO ###############
+//################################################
+
+let permissions = {
+
+  byFunctionality: [{
+    actions: ['insert', 'update', 'remove', 'read'],
+    groups: ['administrador'],
+  }
+  ],
+  byData: [{
+    actions: ['update', 'remove', 'read'],
+    groups: ['administrador'],
+    data: { userId: "{_UserID_}" },
+  }
+  ]
+}
+
+CollectionProjetos.setPermissions(permissions);
+

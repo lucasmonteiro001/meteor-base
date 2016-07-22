@@ -55,16 +55,3 @@ MdlUsers.applyAllMethods();
 MdlUsers.applyPublications();
 
 
-//################################################
-//############ RESTRIÇÃO DE ACESSO ###############
-//################################################
-
-let permissions = {
-
-  byFunctionality: [{
-    actions: ['update', 'read'],
-    groups: ['administrador'],
-  }]
-}
-
-MdlUsers.setPermissions(permissions);

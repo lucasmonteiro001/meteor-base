@@ -89,4 +89,16 @@ CltUsers.setSchema({
   },
 });
 
+//################################################
+//############ RESTRIÇÃO DE ACESSO ###############
+//################################################
 
+let permissions = {
+
+  byFunctionality: [{
+    actions: ['update', 'read'],
+    groups: ['administrador'],
+  }]
+}
+
+CltUsers.setPermissions(permissions);

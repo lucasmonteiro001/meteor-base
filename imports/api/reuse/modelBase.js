@@ -16,6 +16,7 @@
  */
 import {Meteor} from "meteor/meteor";
 import {Random} from "meteor/random";
+import { Utils } from './utils'
 
 export class ModelBase {
 
@@ -37,14 +38,33 @@ export class ModelBase {
 
         this.isTest = isTest;
 
-        this.publications = function (filter, projection) {
+        this.publications = function (filter, projection, userId) {
             var data = null;
+
             projection || (projection = {});
             check(projection, Object);
-
+            check(userId, String);
             // se existe um filtro
             if (typeof filter === 'object') {
                 check(filter, Object);
+
+                let permissions = collectionBase.getPermissions();
+
+                if (permissions.byData != 'undefined' && typeof userId != 'undefined') {
+
+                    for (let keyPerm in permissions.byData) {
+                        if (permissions.byData[keyPerm].actions.indexOf('read') > -1) {
+                            let data = JSON.stringify(permissions.byData[keyPerm].data);
+                            data = data.replace(new RegExp('{_UserID_}', 'g'), userId);
+                            filter = Utils.mergeObj(filter, JSON.parse(data));
+                        }
+
+                    }
+
+                }
+
+
+
                 return collectionBase.getCollection().find(filter, {fields: projection});
             } else {
                 return this.ready();
