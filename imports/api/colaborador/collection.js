@@ -120,19 +120,39 @@ CollectionColaboradores.setSchema({
     type: Object,
     blackbox: true,
     defaultValue: {},
-    label: 'Dias trabalhados',
+    label: 'Dias de Trabalho',
     formOptions: {
       FIELD_TAG: 'multipleH',
       FIELD_TYPE: 'text',
       OPTIONS: [
-        { VALUE: 'Segunda-Feira', LABEL: 'Segunda-feira' },
-        { VALUE: 'Terça-Feira', LABEL: 'Terça-feira' },
-        { VALUE: 'Quarta-Feira', LABEL: 'Quarta-feira' },
-        { VALUE: 'Quinta-Feira', LABEL: 'Quinta-feira' },
-        { VALUE: 'Sexta-Feira', LABEL: 'Sexta-feira' },
-        { VALUE: 'Sabado', LABEL: 'Sabado' },
-        { VALUE: 'Domingo', LABEL: 'Domingo' },
+        { VALUE: { dia: 'Segunda-feira', horario: '8h-18h' }, LABEL: 'Segunda-feira' },
+        { VALUE: { dia: 'Terça-feira', horario: '8h-18h' }, LABEL: 'Terça-feira' },
+        { VALUE: { dia: 'Quarta-feira', horario: '8h-18h' }, LABEL: 'Quarta-feira' },
+        { VALUE: { dia: 'Quinta-feira', horario: '8h-18h' }, LABEL: 'Quinta-feira' },
+        { VALUE: { dia: 'Sexta-feira', horario: '8h-18h' }, LABEL: 'Sexta-feira' },
+        { VALUE: { dia: 'Sabado', horario: '8h-16h' }, LABEL: 'Sabado' },
+        { VALUE: { dia: 'Domingo', horario: '8h-12h' }, LABEL: 'Domingo' },
       ],
+      FIELD_SCHEMA: {
+        dia: {
+          type: String,
+          defaultValue: '',
+          label: 'Dia da Semana',
+          formOptions: {
+            FIELD_TAG: 'inputH',
+            FIELD_TYPE: 'text',
+          },
+        },
+        horario: {
+          type: String,
+          defaultValue: '',
+          label: 'Horario',
+          formOptions: {
+            FIELD_TAG: 'inputH',
+            FIELD_TYPE: 'text',
+          },
+        },
+      },
     },
   },
   quantidadeDeDependentes: {
@@ -394,6 +414,15 @@ CollectionColaboradores.setSchema({
       FIELD_LABEL: 'Minha foto',
     }
   },
+  addInfo: {
+    type: String,
+    defaultValue: '',
+    label: 'Adicionar Informacoes',
+    formOptions: {
+      FIELD_TAG: 'addInfo',
+      FIELD_LABEL: 'Adicionar Informacoes',
+    }
+  },
 });
 
 CollectionColaboradores.addSubSchema('insert',
@@ -422,7 +451,5 @@ let permissions = [{
   actions: ['insert', 'update'],
   groups: ['administrador'], //Permissions by Functionality
   data: { userId: "{_UserID_}" }, //Filter/Permissions by Data
-}
-];
-
+}];
 CollectionColaboradores.setPermissions(permissions);
