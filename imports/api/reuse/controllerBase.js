@@ -321,9 +321,6 @@ export class ControllerBase {
   }
 
   canUserDo2 (action, id) {
-
-    console.log('Action:' + action);
-    console.log('id:' + id);
     let permissions = this.collectionPermissions;
     let userId = Meteor.userId();
     let result = false;
