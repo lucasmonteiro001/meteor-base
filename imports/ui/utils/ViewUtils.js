@@ -1,6 +1,7 @@
 import { Blaze } from 'meteor/blaze';
 import { Template } from 'meteor/templating';
 import { Utils } from '../../api/reuse/utils';
+import { Message } from './message';
 
 class ViewUtils {
   constructor () {

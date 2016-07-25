@@ -1,13 +1,13 @@
-<template name="projeto">
+<template name="Colaboradores">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-8">
-            <h2> Lista de Projetos </h2>
+            <h2> Lista de Colaboradores </h2>
             <ol class="breadcrumb">
                 <li>
                     <a href="{{pathFor route='index'}}">Página Principal</a>
                 </li>
                 <li class="active">
-                    <strong> Lista de Projetos </strong>
+                    <strong> Lista de Colaboradores </strong>
                 </li>
             </ol>
         </div>
@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="pull-right btAdd">
-                        <a href="{{pathFor 'projetoAdd'}}" id="insert" class="btn btn-success" name="insert">
+                        <a href="{{pathFor 'ColaboradoresAdd'}}" id="insert" class="btn btn-success" name="insert">
                             <i class="fa fa-plus-circle" aria-hidden="true"></i> Novo</a>
                     </div>
                 </div>
@@ -28,22 +28,25 @@
 
         <div class="row">
             <div class="col-lg-12 fixedSWidthDiv">
-                {{> projetoList}}
+                {{> ColaboradoresList}}
             </div>
         </div>
     </div>
 </template>
 
-<template name="projetoAdd">
+<template name="ColaboradoresAdd">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-8">
-            <h2> Cadastrar Projeto </h2>
+            <h2> Cadastrar Colaborador </h2>
             <ol class="breadcrumb">
                 <li>
                     <a href="{{pathFor route='index'}}">Página Principal</a>
                 </li>
+                <li>
+                    <a href="{{pathFor route='Colaboradores'}}">Lista de Colaboradores</a>
+                </li>
                 <li class="active">
-                    <strong> Cadastrar Projeto </strong>
+                    <strong> Cadastrar Colaborador </strong>
                 </li>
             </ol>
         </div>
@@ -55,13 +58,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel-body" id="formContext"></div>
-                                    </div>
+                </div>
             </div>
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="pull-right btAdd">
                         <button type="submit" class="btn btn-primary">Salvar</button>
-                        <a href="{{pathFor 'projeto'}}" class="btn">Voltar</a>
+                        <a href="{{pathFor 'Colaboradores'}}" class="btn">Voltar</a>
                     </div>
                 </div>
             </div>
@@ -69,7 +73,7 @@
     </div>
 </template>
 
-<template name="projetoEdit">
+<template name="ColaboradoresEdit">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-12">
             <h2> {{ collectionData.nome }}</h2>
@@ -78,7 +82,7 @@
                     <a href="{{pathFor route='index'}}">Página Principal</a>
                 </li>
                 <li>
-                    <a href="{{pathFor route='projeto'}}">Lista de projetos</a>
+                    <a href="{{pathFor route='Colaboradores'}}">Lista de Colaboradores</a>
                 </li>
 
                 <li class="active">
@@ -100,7 +104,7 @@
                 <div class="col-lg-12">
                     <div class="pull-right btAdd">
                         <button type="submit" class="btn btn-primary">Salvar</button>
-                        <a href="{{pathFor 'projetoView'}}/{{collectionData._id}}" class="btn">Voltar</a>
+                        <a href="{{pathFor 'ColaboradoresView'}}/{{collectionData._id}}" class="btn">Voltar</a>
                     </div>
                 </div>
             </div>
@@ -108,7 +112,7 @@
     </div>
 </template>
 
-<template name="projetoView">
+<template name="ColaboradoresView">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-8">
             <h2> {{ collectionData.nome }}</h2>
@@ -117,7 +121,7 @@
                     <a href="{{pathFor route='index'}}">Página Principal</a>
                 </li>
                 <li>
-                    <a href="{{pathFor route='projeto'}}">Lista de Projetos</a>
+                    <a href="{{pathFor route='Colaboradores'}}">Lista de Colaboradores</a>
                 </li>
 
                 <li class="active">
@@ -127,7 +131,7 @@
         </div>
         <div class="col-lg-4">
             <div class="pull-right">
-                <a id="btn-criar-chamado-voltar" class="btn btn-default" href="{{pathFor 'projeto'}}">
+                <a id="btn-criar-chamado-voltar" class="btn btn-default" href="{{pathFor 'Colaboradores'}}">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     Voltar
                 </a>
@@ -141,7 +145,7 @@
                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
 
                             {{#if canUserUpdate}}
-                                <li><a id="linkEdit" href="{{pathFor 'projetoEdit'}}/{{collectionData._id}}"
+                                <li><a id="linkEdit" href="{{pathFor 'ColaboradoresEdit'}}/{{collectionData._id}}"
                                        name="update"><i
                                         class="icon icon-pencil"></i>
                                     Editar</a></li>
@@ -170,7 +174,6 @@
     </div>
 </template>
 
-<template name="projetoList">
+<template name="ColaboradoresList">
     {{> ReactiveDatatable tableData=reactiveDataFunction options=optionsObject}}
 </template>
-

@@ -1,6 +1,6 @@
 import {CollectionColaboradores} from "./collection.js";
 import {ModelBase} from "../reuse/modelBase";
-import {MdlProjetos} from "../projeto/model";
+import { MdlProjetos } from "../Projetos/model";
 
 class ModelColaboradores extends ModelBase {
 

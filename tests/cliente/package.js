@@ -28,6 +28,6 @@ Package.onTest(function (api) {
     'test-package',
   ]);
 
-  api.addFiles('colaborador.js');
+  api.addFiles('Colaboradores.js');
   //api.addFiles('mocha-globals-tests.js');
 });

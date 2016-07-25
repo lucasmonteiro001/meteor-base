@@ -1,31 +1,31 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import { colaboradoresController } from '../../../api/colaborador/controller.js';
+import { ColaboradoresController } from '../../../api/Colaboradores/controller.js';
 import { Message } from '../../utils/message';
 import { formGen } from '../../utils/formGenerator';
 import { UtilsView } from '../../utils/ViewUtils';
-import './colaborador.html';
+import './Colaboradores.html';
 
 let template;
 
-Template.colaborador.onCreated(() => {
+Template.Colaboradores.onCreated(() => {
   template = Template.instance();
-  template.data.canUserInsert = colaboradoresController.canUserDo('insert');
-  UtilsView.applySubscribe(colaboradoresController, 'view', template, '', function () {
+  template.data.canUserInsert = ColaboradoresController.canUserDo('insert');
+  UtilsView.applySubscribe(ColaboradoresController, 'view', template, '', function () {
       }
   );
 
 });
-Template.colaborador.onRendered(() => {
+Template.Colaboradores.onRendered(() => {
   template = Template.instance();
 
 });
-Template.colaborador.helpers({});
+Template.Colaboradores.helpers({});
 
-Template.colaboradorAdd.onRendered(() => {
+Template.ColaboradoresAdd.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
 
-  formGen.formRender('formContext', true, colaboradoresController, 'insert', '', 'formTag');
+  formGen.formRender('formContext', true, ColaboradoresController, 'insert', '', 'formTag');
 
   // Set options for cropper plugin
 
@@ -100,7 +100,7 @@ Template.colaboradorAdd.onRendered(() => {
   $('#myModal').modal('show');
 
 });
-Template.colaboradorAdd.events({
+Template.ColaboradoresAdd.events({
   'click a[id="testeModal"]': function () {
     UtilsView.showModalWithTemplateHTML("<div>Ola</div>", {});
   },
@@ -108,62 +108,61 @@ Template.colaboradorAdd.events({
   //Eventos do template de inserção
   'submit form'(event, templateInstance){
     event.preventDefault();
-    const colaboradorData = formGen.getFormData(colaboradoresController, 'insert', templateInstance);
+    const ColaboradoresData = formGen.getFormData(ColaboradoresController, 'insert', templateInstance);
 
-    colaboradoresController.insert(colaboradorData, (error, data) => {
+    ColaboradoresController.insert(ColaboradoresData, (error, data) => {
       if (error) {
         Message.showErro(error);
 
       } else {
         Message.showSuccessNotification(' inserido com sucesso!');
-        FlowRouter.go('/colaboradorView/' + data);
+        FlowRouter.go('/ColaboradoresView/' + data);
       }
 
     });
   }
 });
 
-Template.colaboradorView.onCreated(() => {
+Template.ColaboradoresView.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
-  template.data.canUserUpdate = colaboradoresController.canUserDo('update');
-  template.data.canUserRemove = colaboradoresController.canUserDo('remove');
-  template.data.canUserAccessActions = colaboradoresController.canUserDo('update') || colaboradoresController.canUserDo('remove');
+  template.data.canUserUpdate = ColaboradoresController.canUserDo('update');
+  template.data.canUserRemove = ColaboradoresController.canUserDo('remove');
+  template.data.canUserAccessActions = ColaboradoresController.canUserDo('update') || ColaboradoresController.canUserDo('remove');
 
-  UtilsView.applySubscribe(colaboradoresController, 'view', template, id, ()=> {
-    template.collectionData = colaboradoresController.get({ _id: id });
-    formGen.formViewRender('formContext', colaboradoresController, 'view', id);
+  UtilsView.applySubscribe(ColaboradoresController, 'view', template, id, ()=> {
+    template.collectionData = ColaboradoresController.get({ _id: id });
+    formGen.formViewRender('formContext', ColaboradoresController, 'view', id);
   });
 
 });
-Template.colaboradorView.onRendered(() => {
+Template.ColaboradoresView.onRendered(() => {
 
 });
-Template.colaboradorView.helpers({
+Template.ColaboradoresView.helpers({
   'collectionData': () => {
     let id = FlowRouter.getParam('_id');
-    return colaboradoresController.get({ _id: id });
+    return ColaboradoresController.get({ _id: id });
   },
 });
 
-
-Template.colaboradorView.events({
+Template.ColaboradoresView.events({
 
   //Eventos do template de inserção
   'click #linkExcluir'(event, template) {
     let sel = event.target;
     let id = sel.getAttribute('value');
 
-    Message.showConfirmation('Remover o colaborador?', 'Não é possível recuperar um colaborador removido!',
+    Message.showConfirmation('Remover o Colaboradores?', 'Não é possível recuperar um Colaboradores removido!',
         'Sim, remover!', (erro, confirm) => {
           if (confirm) {
-            colaboradoresController.remove(id, (error, data) => {
+            ColaboradoresController.remove(id, (error, data) => {
               if (error) {
                 Message.showErro(error);
 
               } else {
-                FlowRouter.go('colaborador');
-                Message.showSuccessNotification('O colaborador foi removido com sucesso!');
+                FlowRouter.go('Colaboradores');
+                Message.showSuccessNotification('O Colaboradores foi removido com sucesso!');
               }
             });
           }
@@ -171,68 +170,68 @@ Template.colaboradorView.events({
   },
 });
 
-Template.colaboradorEdit.onCreated(() => {
+Template.ColaboradoresEdit.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
 
-  UtilsView.applySubscribe(colaboradoresController, 'update', template, id, ()=> {
-    template.collectionData = colaboradoresController.get({ _id: id });
-    formGen.formRender('formContext', true, colaboradoresController, 'update', id, 'formTag');
+  UtilsView.applySubscribe(ColaboradoresController, 'update', template, id, ()=> {
+    template.collectionData = ColaboradoresController.get({ _id: id });
+    formGen.formRender('formContext', true, ColaboradoresController, 'update', id, 'formTag');
   });
 
 });
-Template.colaboradorEdit.onRendered(() => {
+Template.ColaboradoresEdit.onRendered(() => {
 
 });
-Template.colaboradorEdit.helpers({
+Template.ColaboradoresEdit.helpers({
   'collectionData': () => {
     let id = FlowRouter.getParam('_id');
-    return colaboradoresController.get({ _id: id });
+    return ColaboradoresController.get({ _id: id });
   },
 });
-Template.colaboradorEdit.events({
+Template.ColaboradoresEdit.events({
 
   //Eventos do template de inserção
   'submit form'(event, template) {
     event.preventDefault();
     const id = FlowRouter.getParam('_id');
-    const colaboradorData = formGen.getFormData(colaboradoresController, 'update', template);
+    const ColaboradoresData = formGen.getFormData(ColaboradoresController, 'update', template);
 
-    colaboradoresController.update(id, colaboradorData, (error, data) => {
+    ColaboradoresController.update(id, ColaboradoresData, (error, data) => {
       if (error) {
         Message.showErro(error);
 
       } else {
         Message.showSuccessNotification('O Cliente foi atualizado com sucesso!');
-        FlowRouter.go('/colaboradorView/' + id);
+        FlowRouter.go('/ColaboradoresView/' + id);
       }
 
     });
   },
 });
 
-Template.colaboradorList.onCreated(() => {
+Template.ColaboradoresList.onCreated(() => {
   template = Template.instance();
-  UtilsView.applySubscribe(colaboradoresController, 'tableview', template, '', function () {
+  UtilsView.applySubscribe(ColaboradoresController, 'tableview', template, '', function () {
   });
 });
 
 let dataTableData = function () {
 
-  return colaboradoresController.getAll().fetch();
+  return ColaboradoresController.getAll().fetch();
 
 };
 
-let optionsObject = UtilsView.getDataTableConfig(colaboradoresController, 'tableview');
+let optionsObject = UtilsView.getDataTableConfig(ColaboradoresController, 'tableview');
 
-Template.colaboradorList.helpers({
+Template.ColaboradoresList.helpers({
   reactiveDataFunction: function () {
 
     return dataTableData;
   },
   optionsObject: optionsObject,
 });
-Template.colaboradorList.onRendered(() => {
+Template.ColaboradoresList.onRendered(() => {
 
 });
-Template.colaboradorList.events({});
+Template.ColaboradoresList.events({});

@@ -321,6 +321,9 @@ export class ControllerBase {
   }
 
   canUserDo2 (action, id) {
+
+    console.log('Action:' + action);
+    console.log('id:' + id);
     let permissions = this.collectionPermissions;
     let userId = Meteor.userId();
     let result = false;
@@ -346,16 +349,13 @@ export class ControllerBase {
 
           if (typeof doc != 'undefined') {
 
-            let resultFields = false;
-
             //Substitui as tags {_UserID_} pelo ID do usuário no Objeto
             let dataTmp = JSON.stringify(permissions[keyPerm].data);
-            permissions[keyPerm].data = dataTmp.replace(new RegExp('{_UserID_}', 'g'), userId);
+            permissions[keyPerm].data = JSON.parse(dataTmp.replace(new RegExp('{_UserID_}', 'g'), userId));
 
             for (let field in permissions[keyPerm].data) {
-
               if (permissions[keyPerm].data[field] == doc[field]) {
-                resultFields = true;
+                result = true;
               }
 
             }

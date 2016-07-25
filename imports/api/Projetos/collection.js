@@ -1,5 +1,5 @@
 import { CollectionBase } from '../reuse/collectionBase';
-import { CollectionColaboradores } from '../colaborador/collection';
+import { CollectionColaboradores } from '../Colaboradores/collection';
 
 export const CollectionProjetos = new CollectionBase('Projetos');
 
@@ -22,7 +22,7 @@ CollectionProjetos.setSchema({
     dataTableConfig: {
       title: 'Novo_Nome',
       link: {
-        router: 'projetoView',
+        router: 'ProjetosView',
         field: '_id',
       },
     },
@@ -122,7 +122,7 @@ CollectionProjetos.setSchema({
     },
     formValidation: {},
   },
-  colaboradores: {
+  Colaboradores: {
     type: Object,
     blackbox: true,
     defaultValue: {},
@@ -131,7 +131,7 @@ CollectionProjetos.setSchema({
     formOptions: {
       FIELD_TAG: 'multipleH',
       OPTIONSCOLLECTION: {
-        COLLECTION: 'colaboradores',
+        COLLECTION: 'Colaboradores',
         COLLECTION_SCHEMA: 'tableview',
       },
     },
@@ -159,26 +159,30 @@ CollectionProjetos.setSchema({
 });
 
 CollectionProjetos.addSubSchema('insert',
-    ['nome', 'dataInicio', 'diasdetrabalho', 'colaboradores']);
+    ['nome', 'dataInicio', 'diasdetrabalho', 'Colaboradores']);
 
 CollectionProjetos.addSubSchema('update',
-    ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores']);
+    ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'Colaboradores']);
 
 CollectionProjetos.addSubSchema('tableview',
-    ['nome', 'diasdetrabalho', 'userId', 'colaboradores']);
+    ['nome', 'diasdetrabalho', 'userId', 'Colaboradores']);
 
 CollectionProjetos.addSubSchema('view',
-    ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio']);
+    ['nome', 'diasdetrabalho', 'Colaboradores', 'dataInicio']);
 
 //################################################
 //############ RESTRIÇÃO DE ACESSO ###############
 //################################################
 
 let permissions = [{
-  actions: ['insert', 'update'],
+  actions: ['insert'],
   groups: ['administrador'], //Permissions by Functionality
-  data: { userId: "{_UserID_}" }, //Filter/Permissions by Data
-}
+},
+  {
+    actions: ['update', 'remove'],
+    groups: ['administrador'], //Permissions by Functionality
+    data: { userId: "{_UserID_}" }, //Filter/Permissions by Data
+  }
 ];
 
 CollectionProjetos.setPermissions(permissions);
