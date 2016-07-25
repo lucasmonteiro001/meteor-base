@@ -52,9 +52,9 @@ Template.ProjetosAdd.events({
 Template.ProjetosView.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
-  template.data.canUserUpdate = ProjetosController.canUserDo('update');
-  template.data.canUserRemove = ProjetosController.canUserDo('remove');
-  template.data.canUserAccessActions = ProjetosController.canUserDo('update') || ProjetosController.canUserDo('remove');
+  template.data.canUserUpdate = ProjetosController.canUserDo('update', id);
+  template.data.canUserRemove = ProjetosController.canUserDo('remove', id);
+  template.data.canUserAccessActions = template.data.canUserUpdate || template.data.canUserRemove;
 
   UtilsView.applySubscribe(ProjetosController, 'view', template, id, ()=> {
     template.collectionData = ProjetosController.get({ _id: id });

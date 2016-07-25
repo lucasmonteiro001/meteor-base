@@ -93,36 +93,9 @@ export class ModelBase {
 
     };
 
-    //##################################################
-    //###Inicialização de métodos de validaão###########
-    //##################################################
-
-    this.functions['user.can.' + collectionBase.getCollection()._name + '.insert']
-        = function (userId = this.userId) {
-      let objDataToCheck = { _id: 'id_Fake_For_Permit_this_action' };
-      return Security.can(userId).insert(objDataToCheck)
-          .for(collectionBase.getCollection()).check();
-    };
-
-    this.functions['user.can.' + collectionBase.getCollection()._name + '.update']
-        = function (id, userId = this.userId) {
-      check(id, String);
-      return Security.can(userId).update(id).for(collectionBase.getCollection()).check();
-    };
-
-    this.functions['user.can.' + collectionBase.getCollection()._name + '.remove']
-        = function (id, userId = this.userId) {
-      check(id, String);
-      return Security.can(userId).remove(id).for(collectionBase.getCollection()).check();
-
-    };
-
-    this.functions['user.can.' + collectionBase.getCollection()._name + '.read']
-        = function (id, userId = this.userId) {
-      check(id, String);
-      return Security.can(userId).read(id).for(collectionBase.getCollection()).check();
-
-    };
+    //######################################################
+    //###Inicialização de métodos de validação# de acesso###
+    //######################################################
 
     this.functions['get.' + collectionBase.getCollection()._name + '.permissions']
         = function () {

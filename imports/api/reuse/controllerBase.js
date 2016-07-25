@@ -206,95 +206,13 @@ export class ControllerBase {
     });
   }
 
-  /**
-   * Verifica se o usuário tem permissão para
-   * remover um domcuento da collection
-   * @param reactVar - Variável que recebe o resultado e
-   * atualiza os dados para o cliente e servidor
-   * @param id - Id do usuário
-   */
-  checkIfCanUserRemove (reactVar, id) {
-    let idToCheck = id;
-    if (typeof id === 'undefined' || id === null) {
-      idToCheck = 'id_Fake_For_Permit_this_action';
-    } else {
-      idToCheck = id;
-    }
-
-    Meteor.call
-    ('user.can.' + this.getCollectionName() + '.remove', idToCheck, (error, result) => {
-      if (error) {
-        console.log(error);
-      } else {
-        reactVar.set(result);
-      }
-    });
-  }
 
   /**
-   * Verifica se o usuário tem permissão para
-   * inserir um domcuento da collection
-   * @param reactVar - Variável que recebe o
-   * resultado e atualiza os dados para o cliente e servidor
+   * Verifica se o usuario logado temp permissao para executa a açaõ informada.
+   * @param action realizado pelo usuário
+   * @param id do objeto que esetá sendo referenciado na açao
+   * @returns {*}
    */
-  checkIfCanUserInsert (reactVar) {
-    Meteor.call('user.can.' + this.getCollectionName() + '.insert', (error, result) => {
-      if (error) {
-        console.log(error);
-      } else {
-        reactVar.set(result);
-      }
-    });
-  }
-
-  /**
-   * Verifica se o usuário tem permissão
-   * para remover um domcuento da collection
-   * @param reactVar  - Variável que recebe
-   * o resultado e atualiza os dados para o cliente e servidor
-   * @param id - Id do usuário
-   */
-  checkIfCanUserUpdate (reactVar, id) {
-    let idToCheck = id;
-    if (typeof id === 'undefined' || id === null) {
-      idToCheck = 'id_Fake_For_Permit_this_action';
-    } else {
-      idToCheck = id;
-    }
-
-    Meteor.call('user.can.' + this.getCollectionName() + '.update', idToCheck, (error, result) => {
-      if (error) {
-        console.log(error);
-      } else {
-        reactVar.set(result);
-      }
-    });
-  }
-
-  /**
-   * Verifica se o usuário tem permissão para visualizar
-   * um domcuento da collection
-   * @param reactVar - Variável que recebe o resultado e
-   * atualiza os dados para o cliente e servidor
-   * @param id - Id do usuário
-   */
-  checkIfCanUserView (reactVar, id) {
-    let idToCheck = id;
-    if (typeof id === 'undefined' || id === null) {
-      idToCheck = 'id_Fake_For_Permit_this_action';
-    } else {
-      idToCheck = id;
-    }
-
-    Meteor.call('user.can.' + this.getCollectionName() + '.read', idToCheck, (error, result) => {
-      if (error) {
-        console.log(error);
-      } else {
-        reactVar.set(result);
-      }
-    });
-  }
-
   canUserDo (action, id) {
     if ((typeof id != 'undefined') && (typeof this.get(id) == 'undefined')) {
       if (Meteor.status().connected) {
@@ -306,7 +224,7 @@ export class ControllerBase {
         Meteor.autorun(() => {
           const isReady = handle.ready();
           if (isReady) {
-            console.log('Verificou a permissao');
+
             return this.canUserDo2(action, id);
 
           }

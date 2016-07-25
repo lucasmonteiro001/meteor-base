@@ -48,11 +48,12 @@ Template.ColaboradoresAdd.events({
 Template.ColaboradoresView.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
-  template.data.canUserUpdate = ColaboradoresController.canUserDo('update');
-  template.data.canUserRemove = ColaboradoresController.canUserDo('remove');
-  template.data.canUserAccessActions = ColaboradoresController.canUserDo('update') || ColaboradoresController.canUserDo('remove');
+  template.data.canUserUpdate = ColaboradoresController.canUserDo('update', id);
+  template.data.canUserRemove = ColaboradoresController.canUserDo('remove', id);
+  template.data.canUserAccessActions = template.data.canUserUpdate || template.data.canUserRemove;
 
   UtilsView.applySubscribe(ColaboradoresController, 'view', template, id, ()=> {
+
     template.collectionData = ColaboradoresController.get({ _id: id });
     formGen.formViewRender('formContext', ColaboradoresController, 'view', id);
   });
@@ -65,7 +66,7 @@ Template.ColaboradoresView.helpers({
   'collectionData': () => {
     let id = FlowRouter.getParam('_id');
     return ColaboradoresController.get({ _id: id });
-  },
+  }
 });
 
 Template.ColaboradoresView.events({
