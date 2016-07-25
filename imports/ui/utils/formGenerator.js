@@ -123,7 +123,7 @@ export class FormGenerator {
           </div>';
 
     this.templates['imageH'] = '<div class="form-group"> \
-          <label class="col-md-2 control-label" for="{FIELD_NAME}"></label> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
           <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
           <div id="templateImage"></div>\
@@ -286,6 +286,13 @@ export class FormGenerator {
         <div class="col-md-10" id="{FIELD_NAME}"> \
           <img src="{VALUE}" >\
           </div> </div>';
+
+    this.templates['addInfo'] = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-10"> \
+          <div id="templateAddInfo"></div>\
+          </div> \
+          </div>';
   }
 
   getTemplate (templateKey) {
@@ -309,6 +316,7 @@ export class FormGenerator {
     let existsSelectType = false;
     let existsMultipleType = false;
     let existsHourType = false;
+    let existsAddInfo = false;
     let collectionsFields = [];
     let result = '';
     let fieldTmp = '';
@@ -468,6 +476,10 @@ export class FormGenerator {
           existsCropperType = true;
         }
 
+        if (schema[key].formOptions.FIELD_TAG == 'addInfo') {
+          existsAddInfo = true;
+        }
+        
         //FIELD_NAME = key
         fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
 
@@ -550,6 +562,10 @@ export class FormGenerator {
       UtilsView.templateRender('selectImage', 'templateImage', { name: 'teste' });
     }
 
+    if (existsAddInfo) {
+      UtilsView.templateRender('addInfo', 'templateAddInfo', { name: 'teste' });
+    }
+    
     for (let fieldKey in collectionsFields) {
       let data = schema[collectionsFields[fieldKey]].formOptions.OPTIONSCOLLECTION;
       data['FIELD_NAME'] = collectionsFields[fieldKey];

@@ -117,6 +117,39 @@ Template.selectImage.helpers(() => {
 });
 Template.selectImage.events({
 
-  'click button[data-target=".imageModal"]': function () {},
-  'click button[data-dismiss="modal"]': function () {}
+  'click button[data-target=".imageModal"]': function () {
+  },
+  'click button[data-dismiss="modal"]': function () {
+  }
+});
+
+Template.addInfo.onCreated(() => {
+  template = Template.instance();
+  template.controller = Blaze._globalHelpers.getController(template.data.COLLECTION);
+  let infoData = template.data;
+});
+Template.addInfo.onRendered(() => {
+  template = Template.instance();
+  template.controller = Blaze._globalHelpers.getController(template.data.schema);
+  let collectionData = template.data;
+  document.getElementById('tableview_field').innerHTML = UtilsView.getTableViewFromSchemaAndListOfObjects(template.data.schema, template.data.values);
+  // template.data.values.push(object);
+
+});
+Template.addInfo.helpers(() => {
+});
+Template.addInfo.events({
+  'click button[data-target=".addInfo"]': function () {},
+  'click button[data-dismiss="modal"]': function () {},
+  'click button[id="save"]': function () {
+
+    var $infoInto = $("#teste"),
+        $infoView = $("#teste");
+
+    var data = $("#namefield-nome").val();
+
+    $infoInto.val(data);
+    $infoView.val(data);
+
+  }
 });

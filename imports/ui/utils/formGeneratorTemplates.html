@@ -15,8 +15,7 @@
 </template>
 
 <template name="selectImage">
-    <button type="button" class="btn btn-primary" data-toggle="modal"
-            data-target=".imageModal">Insira uma imagem
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".imageModal">Insira uma imagem
     </button>
     <div class="modal fade imageModal" hidden tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel">
@@ -65,15 +64,53 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" data-dismiss="modal" id="getDataURL2" data-toggle="tooltip"
-                            type="button">
-                        Salvar edições
+                            type="button"> Salvar edições
                     </button>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="row">
         <div id="imageView"><img src=""></div>
+    </div>
+</template>
+
+<template name="addInfo">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".addInfo">Adicionar Informacoes
+    </button>
+    <div class="modal fade addInfo" hidden tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Adicionar Informacoes</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="nome">Nome</label>
+                        <div class="col-md-10">
+                            <input type="text" id="namefield-nome"
+                                   name="namefield-name" class="form-control" placeholder="Nome">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-dismiss="modal" id="save" data-toggle="tooltip"
+                            type="button">
+                        Salvar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2 control-label" for="teste">Teste</label>
+        <div class="col-md-10">
+            <input type="text" id="teste"
+                   name="teste" disabled class="form-control" value="">
+        </div>
+        <div id="tableview_field"></div>
     </div>
 </template>
