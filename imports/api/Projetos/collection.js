@@ -3,7 +3,7 @@ import { CollectionColaboradores } from '../Colaboradores/collection';
 
 export const CollectionProjetos = new CollectionBase('Projetos');
 
-CollectionColaboradores.setCollectionDependent(CollectionProjetos);
+CollectionColaboradores.isRequiredBy(CollectionProjetos);
 
 //Definição dos Schemas
 CollectionProjetos.setSchema({

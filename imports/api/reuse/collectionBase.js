@@ -14,50 +14,54 @@
  * @version :: 21/06/2016#$.
  *
  */
-import {Meteor} from "meteor/meteor";
-import {Utils} from "./utils";
+import { Meteor } from 'meteor/meteor';
+import { Utils } from './utils';
 
 export class CollectionBase {
 
-    constructor(collectionName) {
-        this.collecitonName = collectionName;
-        this.collectionInstance = new Mongo.Collection(collectionName);
-        this.collectionPermissions = {};
-        this.collectionsDependents = [];
+  constructor (collectionName) {
+    this.collectionName = collectionName;
+    this.collectionInstance = new Mongo.Collection(collectionName);
+    this.collectionPermissions = {};
+    this.collectionsDependents = [];
 
-        if (Meteor.isCordova) {
-            Ground.Collection(this.collectionInstance);
-        }
+    if (Meteor.isCordova) {
+      Ground.Collection(this.collectionInstance);
+    }
 
+    this.schemaDefault = {};
+    this.subSchemas = {};
 
-        this.schemaDefault = {};
-        this.subSchemas = {};
+    /**
+     * Definições de segurança
+     * Deny all client-side updates on the MdlClientes collection
+     */
+    this.collectionInstance.deny({
+      insert() {
+        return true;
+      },
 
-        /**
-         * Definições de segurança
-         * Deny all client-side updates on the MdlClientes collection
-         */
-        this.collectionInstance.deny({
-            insert() {
-                return true;
-            },
+      update() {
+        return true;
+      },
 
-            update() {
-                return true;
-            },
-
-            remove() {
-                return true;
-            },
-        });
-
+      remove() {
+        return true;
+      },
+    });
 
     //region todo####################### Hooks #######################
-    let collTemp = this.collectionsDependents;
+    const collTemp = this.collectionsDependents;
+    const thisName = String(this.collectionName).toLowerCase();
+    const allDocOfThis = this.collectionInstance.find().fetch();
+    const thisCollection = this.collectionInstance;
+    const thisSchema = this.subSchemas;
 
     this.collectionInstance.before.remove(function (userId, doc) {
       console.log('Tentativa de remoção');
       console.log(collTemp);
+      console.log('Variável doc:');
+      console.log(doc);
 
       for (let key in collTemp) {
         console.log('Nome:' + collTemp[key]._name);
@@ -65,98 +69,96 @@ export class CollectionBase {
 
     });
 
-    this.collectionInstance.before.update(function (userId, doc) {
-      console.log('Tentativa de atualização');
-      console.log(collTemp);
-
+    this.collectionInstance.after.update(function (userId, doc) {
       for (let key in collTemp) {
+        for (let kDoc in allDocOfThis) {
+          let content = JSON.parse('{"' + thisName + '.' + kDoc + '._id": "' + doc._id + '"}');
+          let cursor = collTemp[key].collectionInstance.find(content).fetch();
+          for (let i in cursor) {
+            let atualizar = '{"' + thisName + '":{"' + kDoc + '": ';
 
-        console.log('Nome:' + collTemp[key].collectionName);
+            //todo utilizar apenas os campos de doc constantes no subschema
+
+            atualizar = atualizar + JSON.stringify(doc);
+
+            for (let x in cursor[i].colaboradores) {
+              if (x != kDoc) {
+                atualizar = atualizar + ', "' + x + '": ' +
+                    JSON.stringify(cursor[i].colaboradores[x]);
+              }
+            }
+
+            atualizar = JSON.parse(atualizar + '}}');
+            collTemp[key].collectionInstance.update(cursor[i]._id, { $set: atualizar });
+          }
+        }
       }
-
     });
     //endregion
   }
 
-    /**
-     * Retorna o schema desejado
-     * @param schemaName - Nome do Schema definido
-     * @returns {SimpleSchema} - Retorna o schema passado por parâmetro ou default
-     * caso nenhum seja passado por parâmetro
-     */
-    getSchema(schemaName = 'default') {
-        let schema = {};
-        if (schemaName === 'default' || typeof this.subSchemas[schemaName] == undefined) {
-            schema = Utils.cloneObj(this.schemaDefault);
-        } else {
-            schema = this.getSubSchemaJson(schemaName);
-        }
-
-        for (let key in schema) {
-            if (typeof schema[key].formOptions != 'undefined') {
-                delete schema[key].formOptions;
-            }
-
-            if (typeof schema[key].formValidation != 'undefined') {
-                delete schema[key].formValidation;
-            }
-
-            if (typeof schema[key].dataTableConfig != 'undefined') {
-                delete schema[key].dataTableConfig;
-            }
-        }
-
-        return new SimpleSchema(schema);
-    }
-
-    /**
-     * Retorna o subSchema desejado
-     * @param schemaName - Nome do subSchema definido
-     * @returns {*} - Retorna o schema passado por parâmetro ou default
-     * caso nenhum seja passado por parâmetro
-     */
-    getSubSchemaJson(schemaName = 'default') {
-        let fields = [];
-        if (typeof this.subSchemas[schemaName] != 'undefined')
-            fields = this.subSchemas[schemaName];
-        else
-            console.log('O SubSchema ' + schemaName + ' NÃO existe!!!')
-        let schema = Utils.cloneObj(this.schemaDefault);
-        for (let key in schema) {
-            if (fields.indexOf(key) == -1) {
-                delete schema[key];
-            }
-        }
-
-        return schema;
-
-    }
-
-    /**
-     * Aplica um schema
-     * @param schema - schema que será aplicado
-     */
-    setSchema(schema) {
-        this.schemaDefault = schema;
-        this.collectionInstance.attachSchema(this.getSchema());
-
-    }
-
-    /**
-     * Adiciona um subSchmea
-     * @param schemaName -
-     * @param schemaFields -
-     */
-    addSubSchema(schemaName, schemaFields) {
-        this.subSchemas[schemaName] = schemaFields;
-    }
   /**
-   * Inclui em uma lista uma collection que depende da atual
-   * @param collection - é a collection dependente
+   * Retorna o schema desejado
+   * @param schemaName - Nome do Schema definido
+   * @returns {SimpleSchema} - Retorna o schema passado por parâmetro ou default
+   * caso nenhum seja passado por parâmetro
    */
-  setCollectionDependent (collection) {
-    console.log(collection.collectionName + ' depende da collection ' + this.collectionName);
-    this.collectionsDependents.push(collection);
+  getSchema (schemaName = 'default') {
+    let schema = {};
+    if (schemaName === 'default' || typeof this.subSchemas[schemaName] == undefined) {
+      schema = Utils.cloneObj(this.schemaDefault);
+    } else {
+      schema = this.getSubSchemaJson(schemaName);
+    }
+
+    for (let key in schema) {
+      if (typeof schema[key].formOptions != 'undefined') {
+        delete schema[key].formOptions;
+      }
+
+      if (typeof schema[key].formValidation != 'undefined') {
+        delete schema[key].formValidation;
+      }
+
+      if (typeof schema[key].dataTableConfig != 'undefined') {
+        delete schema[key].dataTableConfig;
+      }
+    }
+
+    return new SimpleSchema(schema);
+  }
+
+  /**
+   * Retorna o subSchema desejado
+   * @param schemaName - Nome do subSchema definido
+   * @returns {*} - Retorna o schema passado por parâmetro ou default
+   * caso nenhum seja passado por parâmetro
+   */
+  getSubSchemaJson (schemaName = 'default') {
+    let fields = [];
+    if (typeof this.subSchemas[schemaName] != 'undefined')
+      fields = this.subSchemas[schemaName];
+    else
+      console.log('O SubSchema ' + schemaName + ' NÃO existe!!!')
+    let schema = Utils.cloneObj(this.schemaDefault);
+    for (let key in schema) {
+      if (fields.indexOf(key) == -1) {
+        delete schema[key];
+      }
+    }
+
+    return schema;
+
+  }
+
+  /**
+   * Aplica um schema
+   * @param schema - schema que será aplicado
+   */
+  setSchema (schema) {
+    this.schemaDefault = schema;
+    this.collectionInstance.attachSchema(this.getSchema());
+
   }
 
   /**
@@ -168,38 +170,57 @@ export class CollectionBase {
     this.subSchemas[schemaName] = schemaFields;
   }
 
-    /**
-     * Retorna um subSchema
-     * @param schemaName -
-     * @returns {*}
-     */
-    getSubSchema(schemaName) {
-        return this.subSchemas[schemaName];
+  /**
+   * Inclui em uma lista uma collection que depende da atual
+   * @param collection - é a collection dependente
+   */
+  isRequiredBy (collection) {
+    console.log(collection.collectionName + ' depende da collection ' + this.collectionName);
+    this.collectionsDependents.push(collection);
+
+  }
+
+  /**
+   * Adiciona um subSchmea
+   * @param schemaName -
+   * @param schemaFields -
+   */
+  addSubSchema (schemaName, schemaFields) {
+    this.subSchemas[schemaName] = schemaFields;
+  }
+
+  /**
+   * Retorna um subSchema
+   * @param schemaName -
+   * @returns {*}
+   */
+  getSubSchema (schemaName) {
+    return this.subSchemas[schemaName];
+  }
+
+  /**
+   *  Retorna o schmema, em formato json, definido no modelo
+   * @param schemaName
+   * @returns {{}}
+   */
+  getSchemaJson (schemaName = 'default') {
+    let schema = {};
+
+    if (schemaName === 'default' || typeof this.subSchemas[schemaName] == undefined) {
+      schema = Utils.cloneObj(this.schemaDefault);
+    } else {
+      schema = this.getSubSchemaJson(schemaName);
     }
 
-    /**
-     *  Retorna o schmema, em formato json, definido no modelo
-     * @param schemaName
-     * @returns {{}}
-     */
-    getSchemaJson(schemaName = 'default') {
-        let schema = {};
-
-        if (schemaName === 'default' || typeof this.subSchemas[schemaName] == undefined) {
-            schema = Utils.cloneObj(this.schemaDefault);
-        } else {
-            schema = this.getSubSchemaJson(schemaName);
-        }
-
-        return schema;
-    }
+    return schema;
+  }
 
   /**
    *  Retorna o schema, em formato json para um determinado campo do documento
    * @param schemaName
    * @returns {{}}
    */
-  getFieldSchemaJson(fieldName) {
+  getFieldSchemaJson (fieldName) {
     let schema = {};
     let fieldJson = {};
 
@@ -210,9 +231,8 @@ export class CollectionBase {
     }
 
     return fieldJson;
-  }  
-  
-  
+  }
+
   /**
    * Retorna a coleção
    * @returns {Mongo.Collection} - Retorna uma coleção
@@ -247,7 +267,7 @@ export class CollectionBase {
       if (typeof permissions.byData != 'undefined') {
         for (let keyPerm in permissions.byData) {
 
-          Security.defineMethod(this.collecitonName + 'Permissions_' + keyPerm, {
+          Security.defineMethod(this.collectionName + 'Permissions_' + keyPerm, {
             fetch: [],
             allow(type, field, userId, doc) {
               let result = true;
@@ -260,7 +280,7 @@ export class CollectionBase {
               return result && Roles.userIsInRole(userId, permissions.byData[keyPerm].groups);
             },
           });
-          this.collectionInstance.permit(permissions.byData[keyPerm].actions)[this.collecitonName + 'Permissions_' + keyPerm]();
+          this.collectionInstance.permit(permissions.byData[keyPerm].actions)[this.collectionName + 'Permissions_' + keyPerm]();
         }
 
       }
@@ -268,7 +288,6 @@ export class CollectionBase {
     }
 
   }
-
 
 }
 ;
