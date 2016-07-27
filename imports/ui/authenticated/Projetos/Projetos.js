@@ -71,11 +71,11 @@ Template.ProjetosView.helpers({
   },
   'canUserRemove': () => {
     let id = FlowRouter.getParam('_id');
-    return ProjetosController.canUserDo('remove', id)
+    return true;//ProjetosController.canUserDo('remove', id)
   },
   'canUserAccessActions': () => {
-    //let id = FlowRouter.getParam('_id');
-    //let result = ProjetosController.canUserDo('update', id)||ProjetosController.canUserDo('remove', id);
+    let id = FlowRouter.getParam('_id');
+    let result = ProjetosController.canUserDo('update', id) || ProjetosController.canUserDo('remove', id);
     return true;
   },
 });

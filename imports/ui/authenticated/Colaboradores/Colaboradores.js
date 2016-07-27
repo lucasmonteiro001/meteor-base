@@ -74,9 +74,9 @@ Template.ColaboradoresView.helpers({
     return ColaboradoresController.canUserDo('remove', id)
   },
   'canUserAccessActions': () => {
-    //let id = FlowRouter.getParam('_id');
-    //let result = ColaboradoresController.canUserDo('update', id)||ColaboradoresController.canUserDo('remove', id);
-    return true;
+    let id = FlowRouter.getParam('_id');
+    let result = ColaboradoresController.canUserDo('update', id) || ColaboradoresController.canUserDo('remove', id);
+    return result;
   },
 });
 

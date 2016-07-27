@@ -8,7 +8,7 @@ class ModelColaboradores extends ModelBase {
 
 export const MdlColaboradores = new ModelColaboradores(CollectionColaboradores);
 
-MdlColaboradores.setCollectionModelDependent(MdlProjetos);
+//MdlColaboradores.setCollectionModelDependent(MdlProjetos);
 
 //Aplicar os métodos que serão utilizados no Client através do "Meteor.Call"
 MdlColaboradores.applyAllMethods();
