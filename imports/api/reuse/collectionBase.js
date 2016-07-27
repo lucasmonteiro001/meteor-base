@@ -54,8 +54,6 @@ export class CollectionBase {
     const collTemp = this.collectionsDependents;
     const thisName = String(this.collectionName).toLowerCase();
     const allDocOfThis = this.collectionInstance.find().fetch();
-    const thisCollection = this.collectionInstance;
-    const thisSchema = this.subSchemas;
 
     this.collectionInstance.before.remove(function (userId, doc) {
       console.log('Tentativa de remoção');
@@ -81,10 +79,10 @@ export class CollectionBase {
 
             atualizar = atualizar + JSON.stringify(doc);
 
-            for (let x in cursor[i].colaboradores) {
+            for (let x in cursor[i][thisName]) {
               if (x != kDoc) {
                 atualizar = atualizar + ', "' + x + '": ' +
-                    JSON.stringify(cursor[i].colaboradores[x]);
+                    JSON.stringify(cursor[i][thisName][x]);
               }
             }
 
@@ -139,7 +137,7 @@ export class CollectionBase {
     if (typeof this.subSchemas[schemaName] != 'undefined')
       fields = this.subSchemas[schemaName];
     else
-      console.log('O SubSchema ' + schemaName + ' NÃO existe!!!')
+      console.log('O SubSchema ' + schemaName + ' NÃO existe!!!');
     let schema = Utils.cloneObj(this.schemaDefault);
     for (let key in schema) {
       if (fields.indexOf(key) == -1) {
