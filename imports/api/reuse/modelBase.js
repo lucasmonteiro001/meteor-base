@@ -49,37 +49,35 @@ export class ModelBase {
         check(filter, Object);
 
         if (permissions.length > 0) {
-          let permissionsOK = false;
+          let result = true;
 
           for (let keyPerm in permissions) {
-            let result = true;
 
             //Se o usuário não estiver no Grupo ele não pode ver nada
             if (permissions[keyPerm].groups != 'undefined'
                 && Roles.userIsInRole(userId, permissions[keyPerm].groups) == false && permissions[keyPerm].actions.indexOf('read') > -1) {
               result = false;
+
             }
             //Altera o filtro para informar as permissões de acesso
-            if (result && permissions[keyPerm].data != 'undefined' && typeof userId != 'undefined') {
-
-              if (permissions[keyPerm].actions.indexOf('read') > -1) {
-
-                //Faz a substituiçãop da tag {_UserID_} pelo ID do usuário logado
-                let data = JSON.stringify(permissions[keyPerm].data);
+            if (result && permissions[keyPerm].data != 'undefined' && permissions[keyPerm].actions.indexOf('read') > -1) {
+              //Faz a substituiçãop da tag {_UserID_} pelo ID do usuário logado
+              let data = JSON.stringify(permissions[keyPerm].data);
+              if (typeof userId != 'undefined') {
                 data = data.replace(new RegExp('{_UserID_}', 'g'), userId);
-                filter = Utils.mergeObj(filter, JSON.parse(data));
               }
+              filter = Utils.mergeObj(filter, JSON.parse(data));
 
-            }
-
-            if (result) {
-              return collectionBase.getCollection().find(filter, { fields: projection });
             }
 
           }
 
-          //Se em todos os casos o usuário não estiver no grupo ele não pode ver nada
-          return this.ready();
+          if (result) {
+            return collectionBase.getCollection().find(filter, { fields: projection });
+          } else {
+            //Se em todos os casos o usuário não estiver no grupo ele não pode ver nada
+            return this.ready();
+          }
 
         } else {
           //Se não existir permissões é retornado o filtro padrão
