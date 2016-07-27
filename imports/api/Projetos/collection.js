@@ -143,6 +143,27 @@ CollectionProjetos.setSchema({
       RenderObjects: 'OnTable',
     },
   },
+  colaboradoresOA: {
+    type: [Object],
+    blackbox: true,
+    defaultValue: {},
+    optional: true,
+    label: 'ColaboradoresOA',
+    formOptions: {
+      FIELD_TAG: 'multipleH',
+      OPTIONSCOLLECTION: {
+        COLLECTION: 'Colaboradores',
+        COLLECTION_SCHEMA: 'tableview',
+      },
+    },
+    formValidation: {
+      required: { value: true, message: 'Campo obrigatório' },
+    },
+    dataTableConfig: {
+      orderable: false,
+      RenderObjects: 'OnTable',
+    },
+  },
   userId: {
     type: String,
     label: 'Associated User ID',
@@ -159,7 +180,7 @@ CollectionProjetos.setSchema({
 });
 
 CollectionProjetos.addSubSchema('insert',
-    ['nome', 'dataInicio', 'diasdetrabalho', 'colaboradores']);
+    ['nome', 'dataInicio', 'diasdetrabalho', 'colaboradoresOA']);
 
 CollectionProjetos.addSubSchema('update',
     ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores']);
