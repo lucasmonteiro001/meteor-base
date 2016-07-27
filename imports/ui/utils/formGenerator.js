@@ -758,16 +758,20 @@ export class FormGenerator {
             break;
           case Object:
             objData[key] = Utils.toObject(value);
-
             break;
-          case [Object]:
-            objData[key] = Utils.toObject(value);
+          case [Object]://Não funciona, descobrir como comparar, atualmente é realizado no default
+            objData[key] = Utils.toObjectArray(value);
             break;
           case Boolean:
             objData[key] = Boolean(value);
             break;
           default:
-            objData[key] = value;
+            try {
+              objData[key] = Utils.toObjectArray(value);
+            }
+            catch (err) {
+              objData[key] = value;
+            }
         }
       }
     }

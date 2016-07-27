@@ -122,12 +122,33 @@ CollectionProjetos.setSchema({
     },
     formValidation: {},
   },
-  Colaboradores: {
+  colaboradores: {
     type: Object,
     blackbox: true,
     defaultValue: {},
     optional: true,
     label: 'Colaboradores',
+    formOptions: {
+      FIELD_TAG: 'multipleH',
+      OPTIONSCOLLECTION: {
+        COLLECTION: 'Colaboradores',
+        COLLECTION_SCHEMA: 'tableview',
+      },
+    },
+    formValidation: {
+      required: { value: true, message: 'Campo obrigatório' },
+    },
+    dataTableConfig: {
+      orderable: false,
+      RenderObjects: 'OnTable',
+    },
+  },
+  colaboradoresOA: {
+    type: [Object],
+    blackbox: true,
+    defaultValue: {},
+    optional: true,
+    label: 'ColaboradoresOA',
     formOptions: {
       FIELD_TAG: 'multipleH',
       OPTIONSCOLLECTION: {
@@ -159,16 +180,16 @@ CollectionProjetos.setSchema({
 });
 
 CollectionProjetos.addSubSchema('insert',
-    ['nome', 'dataInicio', 'diasdetrabalho', 'Colaboradores']);
+    ['nome', 'dataInicio', 'diasdetrabalho', 'colaboradoresOA']);
 
 CollectionProjetos.addSubSchema('update',
-    ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'Colaboradores']);
+    ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores']);
 
 CollectionProjetos.addSubSchema('tableview',
-    ['nome', 'diasdetrabalho', 'userId', 'Colaboradores']);
+    ['nome', 'diasdetrabalho', 'userId', 'colaboradores']);
 
 CollectionProjetos.addSubSchema('view',
-    ['nome', 'diasdetrabalho', 'Colaboradores', 'dataInicio']);
+    ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio']);
 
 //################################################
 //############ RESTRIÇÃO DE ACESSO ###############
@@ -181,8 +202,8 @@ let permissions = [{
   {
     actions: ['update', 'remove'],
     groups: ['administrador'], //Permissions by Functionality
-    data: { userId: "{_UserID_}" }, //Filter/Permissions by Data
-  }
+    data: { userId: '{_UserID_}' }, //Filter/Permissions by Data
+  },
 ];
 
 CollectionProjetos.setPermissions(permissions);

@@ -88,6 +88,34 @@ class Util {
   }
 
   /**
+   * Converte Array em Object Array
+   * @param arr Array que será convertido em um array de objeto
+   * @returns Object Array --> ([Object])
+   */
+  toObjectArray (arr) {
+
+    var objArrRetorno = [];
+    if (arr !== undefined && arr != null) {
+      for (let i = 0; i<arr.length; ++i) {
+        try {
+          if (arr[i] !== undefined)
+            objArrRetorno[i] = JSON.parse(arr[i]);
+        }
+        catch (err) {
+          if (arr[i] !== undefined)
+            objArrRetorno[i] = arr[i];
+        }
+
+      }
+
+      return objArrRetorno;
+    } else {
+      console.log('Valor indefinido');
+    }
+
+  }
+
+  /**
    * Converte Object em Array
    * @param obj Object que será convertido em um Array
    * @returns Array
