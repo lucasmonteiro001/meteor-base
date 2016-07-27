@@ -206,7 +206,6 @@ export class ControllerBase {
     });
   }
 
-
   /**
    * Verifica se o usuario logado temp permissao para executa a açaõ informada.
    * @param action realizado pelo usuário
@@ -214,31 +213,6 @@ export class ControllerBase {
    * @returns {*}
    */
   canUserDo (action, id) {
-    if ((typeof id != 'undefined') && (typeof this.get(id) == 'undefined')) {
-      if (Meteor.status().connected) {
-
-        let handle = Meteor
-            .subscribe(this.getCollectionName(),
-                { '_id': id }, this.getProjection('view'), Meteor.userId());
-
-        Meteor.autorun(() => {
-          const isReady = handle.ready();
-          if (isReady) {
-
-            return this.canUserDo2(action, id);
-
-          }
-        });
-      }
-    } else if (typeof id != 'undefined') {
-      return this.canUserDo2(action, id);
-    }
-    else {
-      return this.canUserDo2(action);
-    }
-  }
-
-  canUserDo2 (action, id) {
     let permissions = this.collectionPermissions;
     let userId = Meteor.userId();
     let result = false;

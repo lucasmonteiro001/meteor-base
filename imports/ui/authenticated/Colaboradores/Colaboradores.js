@@ -10,7 +10,6 @@ let template;
 
 Template.Colaboradores.onCreated(() => {
   template = Template.instance();
-  template.data.canUserInsert = ColaboradoresController.canUserDo('insert');
   UtilsView.applySubscribe(ColaboradoresController, 'view', template, '', function () {
       }
   );
@@ -20,7 +19,11 @@ Template.Colaboradores.onRendered(() => {
   template = Template.instance();
 
 });
-Template.Colaboradores.helpers({});
+Template.Colaboradores.helpers({
+  'canUserInsert': ()=> {
+    return ColaboradoresController.canUserDo('insert');
+  }
+});
 
 Template.ColaboradoresAdd.onRendered(() => {
   formGen.formRender('formContext', true, ColaboradoresController, 'insert', '', 'formTag');
@@ -48,12 +51,7 @@ Template.ColaboradoresAdd.events({
 Template.ColaboradoresView.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
-  template.data.canUserUpdate = ColaboradoresController.canUserDo('update', id);
-  template.data.canUserRemove = ColaboradoresController.canUserDo('remove', id);
-  template.data.canUserAccessActions = template.data.canUserUpdate || template.data.canUserRemove;
-
   UtilsView.applySubscribe(ColaboradoresController, 'view', template, id, ()=> {
-
     template.collectionData = ColaboradoresController.get({ _id: id });
     formGen.formViewRender('formContext', ColaboradoresController, 'view', id);
   });
@@ -66,7 +64,20 @@ Template.ColaboradoresView.helpers({
   'collectionData': () => {
     let id = FlowRouter.getParam('_id');
     return ColaboradoresController.get({ _id: id });
-  }
+  },
+  'canUserUpdate': () => {
+    let id = FlowRouter.getParam('_id');
+    return ColaboradoresController.canUserDo('update', id)
+  },
+  'canUserRemove': () => {
+    let id = FlowRouter.getParam('_id');
+    return ColaboradoresController.canUserDo('remove', id)
+  },
+  'canUserAccessActions': () => {
+    //let id = FlowRouter.getParam('_id');
+    //let result = ColaboradoresController.canUserDo('update', id)||ColaboradoresController.canUserDo('remove', id);
+    return true;
+  },
 });
 
 Template.ColaboradoresView.events({
