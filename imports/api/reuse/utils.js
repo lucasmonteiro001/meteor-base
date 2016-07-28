@@ -102,8 +102,9 @@ class Util {
             objArrRetorno[i] = JSON.parse(arr[i]);
         }
         catch (err) {
-          if (arr[i] !== undefined)
+          if (arr[i] !== undefined) {
             objArrRetorno[i] = arr[i];
+          }
         }
 
       }
