@@ -189,7 +189,7 @@ CollectionProjetos.addSubSchema('tableview',
     ['nome', 'diasdetrabalho', 'userId', 'colaboradores']);
 
 CollectionProjetos.addSubSchema('view',
-    ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio']);
+    ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio', 'userId']);
 
 //################################################
 //############ RESTRIÇÃO DE ACESSO ###############

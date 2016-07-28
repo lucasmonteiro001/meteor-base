@@ -250,6 +250,7 @@ export class ControllerBase {
             }
 
           } else {
+            console.warn('Falha na verificação de segurança: No Subscribe');
             //Caso o subscribe não tenha efetivado não dá acesso à tela.
             result = false;
           }

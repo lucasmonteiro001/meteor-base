@@ -211,7 +211,11 @@ export class ModelBase {
     this.functions[collectionBase.getCollection()._name + '.remove'] = function (id) {
       check(id, String);
       try {
-        collectionBase.getCollection().remove(id);
+        if (collectionBase.getCollection().remove(id) == false) {
+          throw new Meteor.Error('Acesso Negado',
+              'Você não tem permissão para acessar esta funcionalidade');
+        }
+        ;
       } catch (e) {
         throw new Meteor.Error('Acesso Negado',
             e.message);

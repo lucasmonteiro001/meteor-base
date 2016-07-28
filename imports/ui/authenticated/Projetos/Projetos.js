@@ -54,6 +54,7 @@ Template.ProjetosView.onCreated(() => {
   UtilsView.applySubscribe(ProjetosController, 'view', template, id, ()=> {
     template.collectionData = ProjetosController.get({ _id: id });
     formGen.formViewRender('formContext', ProjetosController, 'view', id);
+
   });
 
 });
@@ -67,16 +68,15 @@ Template.ProjetosView.helpers({
   },
   'canUserUpdate': () => {
     let id = FlowRouter.getParam('_id');
-    return ProjetosController.canUserDo('update', id)
+    return ProjetosController.canUserDo('update', id);
   },
   'canUserRemove': () => {
     let id = FlowRouter.getParam('_id');
-    return true;//ProjetosController.canUserDo('remove', id)
+    return ProjetosController.canUserDo('remove', id);
   },
   'canUserAccessActions': () => {
     let id = FlowRouter.getParam('_id');
-    let result = ProjetosController.canUserDo('update', id) || ProjetosController.canUserDo('remove', id);
-    return true;
+    return ProjetosController.canUserDo('update', id) || ProjetosController.canUserDo('remove', id);
   },
 });
 
