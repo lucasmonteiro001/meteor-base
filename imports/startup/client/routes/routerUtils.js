@@ -36,6 +36,12 @@ class RouterUtils {
 
       //Tela de Edição
       routerGroup.route('/' + controller.getCollectionName() + 'Edit/:_id', {
+        subscriptions: function (params, queryParams) {
+          let newFilter = { '_id': params._id };
+          this.register(controller.getCollectionName() + 'Edit',
+              Meteor.subscribe(controller.getCollectionName(),
+                  newFilter, controller.getProjection('update'), Meteor.userId()));
+        },
         name: controller.getCollectionName() + 'Edit',
         //triggersEnter: (context, redirect) => {this.verifyRouterPermissions(context, redirect,controller, 'update', FlowRouter.current().params['_id'])},
         action() {
@@ -45,6 +51,12 @@ class RouterUtils {
 
       //Tela de Visualização
       routerGroup.route('/' + controller.getCollectionName() + 'View/:_id', {
+        subscriptions: function (params, queryParams) {
+          let newFilter = { '_id': params._id };
+          this.register(controller.getCollectionName() + 'View',
+              Meteor.subscribe(controller.getCollectionName(),
+                  newFilter, controller.getProjection('view'), Meteor.userId()));
+        },        
         name: controller.getCollectionName() + 'View',
         //triggersEnter: (context, redirect) => {this.verifyRouterPermissions(context, redirect,controller, 'read', FlowRouter.current().params['_id'])},
         action() {

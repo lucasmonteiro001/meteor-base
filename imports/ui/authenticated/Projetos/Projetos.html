@@ -37,13 +37,16 @@
 <template name="ProjetosAdd">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-8">
-            <h2> Cadastrar Projeto </h2>
+            <h2> Cadastrar Colaborador </h2>
             <ol class="breadcrumb">
                 <li>
                     <a href="{{pathFor route='index'}}">Página Principal</a>
                 </li>
+                <li>
+                    <a href="{{pathFor route='Projetos'}}">Lista de Projetos</a>
+                </li>
                 <li class="active">
-                    <strong> Cadastrar Projeto </strong>
+                    <strong> Cadastrar Colaborador </strong>
                 </li>
             </ol>
         </div>
@@ -55,8 +58,9 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel-body" id="formContext"></div>
-                                    </div>
+                </div>
             </div>
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="pull-right btAdd">
@@ -173,4 +177,3 @@
 <template name="ProjetosList">
     {{> ReactiveDatatable tableData=reactiveDataFunction options=optionsObject}}
 </template>
-

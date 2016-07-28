@@ -55,17 +55,6 @@ export class CollectionBase {
     const thisName = String(this.collectionName).toLowerCase();
     const allDocOfThis = this.collectionInstance.find().fetch();
 
-    this.collectionInstance.before.remove(function (userId, doc) {
-      console.log('Tentativa de remoção');
-      console.log(collTemp);
-      console.log('Variável doc:');
-      console.log(doc);
-
-      for (let key in collTemp) {
-        console.log('Nome:' + collTemp[key]._name);
-      }
-
-    });
 
     this.collectionInstance.after.update(function (userId, doc) {
       for (let key in collTemp) {

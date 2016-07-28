@@ -122,28 +122,8 @@ CollectionProjetos.setSchema({
     },
     formValidation: {},
   },
-  /*  colaboradores: {
-    type: Object,
-    blackbox: true,
-    defaultValue: {},
-    optional: true,
-    label: 'Colaboradores',
-    formOptions: {
-      FIELD_TAG: 'multipleH',
-      OPTIONSCOLLECTION: {
-        COLLECTION: 'Colaboradores',
-        COLLECTION_SCHEMA: 'tableview',
-      },
-    },
-    formValidation: {
-      required: { value: true, message: 'Campo obrigatório' },
-    },
-    dataTableConfig: {
-      orderable: false,
-      RenderObjects: 'OnTable',
-    },
-   },*/
   colaboradores: {
+    //type: Object,
     type: [Object],
     blackbox: true,
     defaultValue: {},
@@ -189,7 +169,7 @@ CollectionProjetos.addSubSchema('tableview',
     ['nome', 'diasdetrabalho', 'userId', 'colaboradores']);
 
 CollectionProjetos.addSubSchema('view',
-    ['nome', 'diasdetrabalho', 'dataInicio', 'colaboradores']);
+    ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio', 'userId']);
 
 //################################################
 //############ RESTRIÇÃO DE ACESSO ###############
@@ -200,10 +180,11 @@ let permissions = [{
   groups: ['administrador'], //Permissions by Functionality
 },
   {
-    actions: ['update', 'remove'],
+    actions: ['update', 'read'],
     groups: ['administrador'], //Permissions by Functionality
-    data: { userId: '{_UserID_}' }, //Filter/Permissions by Data
-  },
+    data: { userId: "{_UserID_}" }, //Filter/Permissions by Data
+  }
+
 ];
 
 CollectionProjetos.setPermissions(permissions);

@@ -49,37 +49,35 @@ export class ModelBase {
         check(filter, Object);
 
         if (permissions.length > 0) {
-          let permissionsOK = false;
+          let result = true;
 
           for (let keyPerm in permissions) {
-            let result = true;
 
             //Se o usuário não estiver no Grupo ele não pode ver nada
             if (permissions[keyPerm].groups != 'undefined'
                 && Roles.userIsInRole(userId, permissions[keyPerm].groups) == false && permissions[keyPerm].actions.indexOf('read') > -1) {
               result = false;
+
             }
             //Altera o filtro para informar as permissões de acesso
-            if (result && permissions[keyPerm].data != 'undefined' && typeof userId != 'undefined') {
-
-              if (permissions[keyPerm].actions.indexOf('read') > -1) {
-
-                //Faz a substituiçãop da tag {_UserID_} pelo ID do usuário logado
-                let data = JSON.stringify(permissions[keyPerm].data);
+            if (result && permissions[keyPerm].data != 'undefined' && permissions[keyPerm].actions.indexOf('read') > -1) {
+              //Faz a substituiçãop da tag {_UserID_} pelo ID do usuário logado
+              let data = JSON.stringify(permissions[keyPerm].data);
+              if (typeof userId != 'undefined') {
                 data = data.replace(new RegExp('{_UserID_}', 'g'), userId);
-                filter = Utils.mergeObj(filter, JSON.parse(data));
               }
+              filter = Utils.mergeObj(filter, JSON.parse(data));
 
-            }
-
-            if (result) {
-              return collectionBase.getCollection().find(filter, { fields: projection });
             }
 
           }
 
-          //Se em todos os casos o usuário não estiver no grupo ele não pode ver nada
-          return this.ready();
+          if (result) {
+            return collectionBase.getCollection().find(filter, { fields: projection });
+          } else {
+            //Se em todos os casos o usuário não estiver no grupo ele não pode ver nada
+            return this.ready();
+          }
 
         } else {
           //Se não existir permissões é retornado o filtro padrão
@@ -92,6 +90,66 @@ export class ModelBase {
       }
 
     };
+
+    this.canUserDo = (action, doc) => {
+      let permissions = this.myCollectionBase.getPermissions();
+      let userId = Meteor.userId();
+      let result = false;
+      if (permissions.length > 0) {
+        for (let keyPerm in permissions) {
+          if (typeof permissions[keyPerm].groups != 'undefined') {
+
+            if (Roles.userIsInRole(userId, permissions[keyPerm].groups)
+                && (permissions[keyPerm].actions.indexOf(action) > -1)) {
+              result = true;
+            }
+
+          }
+
+          //Verifica somente o acesso, o filtro de dados é feito no Model
+          if ((result || typeof permissions[keyPerm].groups == 'undefined')
+              && ((typeof permissions[keyPerm].data != 'undefined') && (typeof doc != 'undefined'))) {
+
+            //Não basta ter permissão de functionalidade, tem que ter por dados também caso ela seja definida
+            result = false;
+
+            if (typeof doc != 'undefined') {
+
+              //Substitui as tags {_UserID_} pelo ID do usuário no Objeto
+              let dataTmp = JSON.stringify(permissions[keyPerm].data);
+              permissions[keyPerm].data = JSON.parse(dataTmp.replace(new RegExp('{_UserID_}', 'g'), userId));
+
+              for (let field in permissions[keyPerm].data) {
+                if (permissions[keyPerm].data[field] == doc[field]) {
+                  result = true;
+                }
+
+              }
+
+            } else {
+              //Caso o subscribe não tenha efetivado não dá acesso à tela.
+              result = false;
+            }
+
+          }
+
+          if (result) {
+            return true;
+          }
+        }
+
+        //Se nenhuma permissão é atendida o resultado é sempre falso.
+        return false;
+
+      } else {
+        //Se não existir permissões por funcionalidade (groups) ou data o acesso é sempre permitido.
+        return true;
+      }
+
+    }
+
+    //Define uma variável para a função de verificação de permissões
+    let fCanUserDo = this.canUserDo;
 
     //######################################################
     //###Inicialização de métodos de validação# de acesso###
@@ -118,17 +176,18 @@ export class ModelBase {
 
       check(dataObj, collectionBase.getSchema('insert'));
 
-      if ((!Security.can(this.userId).insert(dataObj).for(collectionBase.getCollection()).check())
-          && this.isTest === false) {
+      let result;
+
+      try {
+        result = collectionBase.getCollection().insert(dataObj);
+
+      } catch (e) {
         throw new Meteor.Error('Acesso Negado',
-            'Você não tem permissão para executar essa ação!');
-      } else {
-        return collectionBase.getCollection().insert(dataObj, (error) => {
-          if (error) {
-            console.log(error);
-          }
-        });
+            e.message);
+      } finally {
+        return result;
       }
+
     };
 
     this.functions[collectionBase.getCollection()._name + '.update'] = function (id, dataObj) {
@@ -136,33 +195,61 @@ export class ModelBase {
       check(id, String);
       check(dataObj, collectionBase.getSchema('update'));
 
-      if (!Security.can(this.userId).update(id || dataObj)
-              .for(collectionBase.getCollection()).check() && this.isTest === false) {
-        throw new Meteor.Error('Acesso Negado',
-            'Você não tem permissão para executar essa ação!');
-      } else {
-
+      try {
         collectionBase.getCollection().update(id, {
           $set: dataObj,
         });
+      } catch (e) {
+        throw new Meteor.Error('Acesso Negado',
+            e.message);
+      } finally {
+        return true;
       }
+
     };
 
     this.functions[collectionBase.getCollection()._name + '.remove'] = function (id) {
       check(id, String);
-      if (!Security.can(this.userId).remove(id).for(collectionBase.getCollection()).check()
-          && this.isTest === false) {
+      try {
+        if (collectionBase.getCollection().remove(id) == false) {
+          throw new Meteor.Error('Acesso Negado',
+              'Você não tem permissão para acessar esta funcionalidade');
+        }
+        ;
+      } catch (e) {
         throw new Meteor.Error('Acesso Negado',
-            'Você não tem permissão para executar essa ação!');
-      } else {
-        collectionBase.getCollection().remove(id);
+            e.message);
+      } finally {
+        return true;
       }
+
     };
 
     //####################### Hooks ##################################
     //####################### Hooks ##################################
     //####################### Hooks ##################################
     //####################### Hooks ##################################
+
+    this.myCollection.before.remove(function (userId, doc) {
+      if (fCanUserDo('remove', doc) == false) {
+        return false;
+      } else
+        return true;
+    });
+
+    this.myCollection.before.update(function (userId, doc) {
+      if (fCanUserDo('update', doc) == false) {
+        return false;
+      } else
+        return true;
+    });
+
+    this.myCollection.before.insert(function (userId, doc) {
+      if (fCanUserDo('insert') == false) {
+        return false;
+      } else
+        return true;
+    });
 
   }
 
@@ -180,22 +267,6 @@ export class ModelBase {
    */
   getAllApplyMethods () {
     return Meteor.methods(this.functions);
-  }
-
-  setCollectionModelDependent (collectionModel) {
-    console.log('Model dependente relacionado ao model Colaborador');
-    this.collectionsModelDependents.push(collectionModel);
-
-    this.myCollection.before.remove(function (userId, doc) {
-      console.log('Tentativa de remoção');
-      console.log(this.collectionsModelDependents);
-
-      for (let key in this.collectionsModelDependents) {
-        console.log('Nome:' + this.collectionsModelDependents[key]._name);
-      }
-
-    });
-
   }
 
   getCollectionName () {
@@ -240,5 +311,6 @@ export class ModelBase {
 
     this.myCollectionBase.setPermissions(permissions);
   }
+
 }
 ;

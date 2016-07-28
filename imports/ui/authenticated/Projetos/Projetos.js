@@ -10,8 +10,6 @@ let template;
 
 Template.Projetos.onCreated(() => {
   template = Template.instance();
-  template.data.canUserInsert = ProjetosController.canUserDo('insert');
-
   UtilsView.applySubscribe(ProjetosController, 'view', template, '', function () {
       }
   );
@@ -21,18 +19,19 @@ Template.Projetos.onRendered(() => {
   template = Template.instance();
 
 });
-Template.Projetos.helpers({});
+Template.Projetos.helpers({
+  'canUserInsert': ()=> {
+    return ProjetosController.canUserDo('insert');
+  }
+});
 
 Template.ProjetosAdd.onRendered(() => {
-  //Jquery Validation - https://jqueryvalidation.org/validate
-  template = Template.instance();
   formGen.formRender('formContext', true, ProjetosController, 'insert', '', 'formTag');
 
 });
 Template.ProjetosAdd.events({
-
   //Eventos do template de inserção
-  'submit form'(event, templateInstance) {
+  'submit form'(event, templateInstance){
     event.preventDefault();
     const ProjetosData = formGen.getFormData(ProjetosController, 'insert', templateInstance);
 
@@ -46,19 +45,16 @@ Template.ProjetosAdd.events({
       }
 
     });
-  },
+  }
 });
 
 Template.ProjetosView.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
-  template.data.canUserUpdate = ProjetosController.canUserDo('update', id);
-  template.data.canUserRemove = ProjetosController.canUserDo('remove', id);
-  template.data.canUserAccessActions = template.data.canUserUpdate || template.data.canUserRemove;
-
   UtilsView.applySubscribe(ProjetosController, 'view', template, id, ()=> {
     template.collectionData = ProjetosController.get({ _id: id });
     formGen.formViewRender('formContext', ProjetosController, 'view', id);
+
   });
 
 });
@@ -70,7 +66,20 @@ Template.ProjetosView.helpers({
     let id = FlowRouter.getParam('_id');
     return ProjetosController.get({ _id: id });
   },
+  'canUserUpdate': () => {
+    let id = FlowRouter.getParam('_id');
+    return ProjetosController.canUserDo('update', id);
+  },
+  'canUserRemove': () => {
+    let id = FlowRouter.getParam('_id');
+    return ProjetosController.canUserDo('remove', id);
+  },
+  'canUserAccessActions': () => {
+    let id = FlowRouter.getParam('_id');
+    return ProjetosController.canUserDo('update', id) || ProjetosController.canUserDo('remove', id);
+  },
 });
+
 Template.ProjetosView.events({
 
   //Eventos do template de inserção
@@ -138,7 +147,6 @@ Template.ProjetosEdit.events({
 Template.ProjetosList.onCreated(() => {
   template = Template.instance();
   UtilsView.applySubscribe(ProjetosController, 'tableview', template, '', function () {
-
   });
 });
 
@@ -148,18 +156,16 @@ let dataTableData = function () {
 
 };
 
+let optionsObject = UtilsView.getDataTableConfig(ProjetosController, 'tableview');
+
 Template.ProjetosList.helpers({
   reactiveDataFunction: function () {
+
     return dataTableData;
   },
-  optionsObject: function () {
-    return UtilsView.getDataTableConfig(ProjetosController, 'tableview');
-  },
-
+  optionsObject: optionsObject,
 });
-
 Template.ProjetosList.onRendered(() => {
 
 });
-
 Template.ProjetosList.events({});

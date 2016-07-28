@@ -89,10 +89,16 @@ let permissions = [{
   groups: ['administrador'], //Permissions by Functionality
 },
   {
-    actions: ['update', 'remove'],
+    actions: ['remove'],
+    groups: ['administrador'], //Permissions by Functionality
+    data: { userId: "{_UserID_}" }, //Filter/Permissions by Data
+  },
+  {
+    actions: ['update', 'read'],
     groups: ['administrador'], //Permissions by Functionality
     data: { userId: "{_UserID_}" }, //Filter/Permissions by Data
   }
+
 ];
 
 CollectionColaboradores.setPermissions(permissions);
