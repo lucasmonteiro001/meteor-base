@@ -122,7 +122,7 @@ CollectionProjetos.setSchema({
     },
     formValidation: {},
   },
-  colaboradores: {
+  /*  colaboradores: {
     type: Object,
     blackbox: true,
     defaultValue: {},
@@ -142,13 +142,13 @@ CollectionProjetos.setSchema({
       orderable: false,
       RenderObjects: 'OnTable',
     },
-  },
-  colaboradoresOA: {
+   },*/
+  colaboradores: {
     type: [Object],
     blackbox: true,
     defaultValue: {},
     optional: true,
-    label: 'ColaboradoresOA',
+    label: 'Colaboradores',
     formOptions: {
       FIELD_TAG: 'multipleH',
       OPTIONSCOLLECTION: {
@@ -180,7 +180,7 @@ CollectionProjetos.setSchema({
 });
 
 CollectionProjetos.addSubSchema('insert',
-    ['nome', 'dataInicio', 'diasdetrabalho', 'colaboradoresOA']);
+    ['nome', 'dataInicio', 'diasdetrabalho', 'colaboradores']);
 
 CollectionProjetos.addSubSchema('update',
     ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores']);
@@ -189,7 +189,7 @@ CollectionProjetos.addSubSchema('tableview',
     ['nome', 'diasdetrabalho', 'userId', 'colaboradores']);
 
 CollectionProjetos.addSubSchema('view',
-    ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio']);
+    ['nome', 'diasdetrabalho', 'dataInicio', 'colaboradores']);
 
 //################################################
 //############ RESTRIÇÃO DE ACESSO ###############

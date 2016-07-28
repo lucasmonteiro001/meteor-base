@@ -69,7 +69,16 @@ export class CollectionBase {
 
     this.collectionInstance.after.update(function (userId, doc) {
       for (let key in collTemp) {
-        for (let kDoc in allDocOfThis) {
+        console.log(this.previous._id);
+        let content = JSON.parse('{"' + thisName + '._id": "' + this.previous._id + '"}');
+        let atualizar = JSON.parse('{"$set": {"' + thisName + '.$": ' + JSON.stringify(doc) + '}}');
+        console.log(content);
+        console.log(atualizar);
+        let cursor = collTemp[key].collectionInstance.update(content, atualizar);
+        console.log(cursor);
+
+        //region Objetos aninhados
+        /*for (let kDoc in allDocOfThis) {
           let content = JSON.parse('{"' + thisName + '.' + kDoc + '._id": "' + doc._id + '"}');
           let cursor = collTemp[key].collectionInstance.find(content).fetch();
           for (let i in cursor) {
@@ -89,7 +98,8 @@ export class CollectionBase {
             atualizar = JSON.parse(atualizar + '}}');
             collTemp[key].collectionInstance.update(cursor[i]._id, { $set: atualizar });
           }
-        }
+         }*/
+        //endregion
       }
     });
     //endregion
