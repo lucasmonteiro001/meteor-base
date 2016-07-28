@@ -641,7 +641,6 @@ export class FormGenerator {
                 new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
           }
 
-          //Valor dos campos
           if (typeof dadosCollection != 'undefined') {
             let valor = dadosCollection[key];
 
@@ -652,7 +651,10 @@ export class FormGenerator {
 
               pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
               valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
-            } else if (schema[key].type == Object) {
+
+              //Se for um Array de Objetos ou se for um Objeto
+            } else if (typeof schema[key].type == 'object' || schema[key].type == Object) {
+
 
               if (schema[key].formOptions && typeof schema[key].formOptions.OPTIONSCOLLECTION !=
                   'undefined') {

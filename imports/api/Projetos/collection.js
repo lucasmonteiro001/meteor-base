@@ -28,7 +28,7 @@ CollectionProjetos.setSchema({
     },
   },
   diasdetrabalho: {
-    type: Object,
+    type: [Object],
     blackbox: true,
     defaultValue: {},
     label: 'Dias de Trabalho',
@@ -123,7 +123,7 @@ CollectionProjetos.setSchema({
     formValidation: {},
   },
   colaboradores: {
-    type: Object,
+    type: [Object],
     blackbox: true,
     defaultValue: {},
     optional: true,
