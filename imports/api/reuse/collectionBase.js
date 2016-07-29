@@ -61,10 +61,7 @@ export class CollectionBase {
         console.log(this.previous._id);
         let content = JSON.parse('{"' + thisName + '._id": "' + this.previous._id + '"}');
         let atualizar = JSON.parse('{"$set": {"' + thisName + '.$": ' + JSON.stringify(doc) + '}}');
-        console.log(content);
-        console.log(atualizar);
-        let cursor = collTemp[key].collectionInstance.update(content, atualizar);
-        console.log(cursor);
+        cursor = collTemp[key].collectionInstance.update(content, atualizar, { multi: true });
 
         //region Objetos aninhados
         /*for (let kDoc in allDocOfThis) {
