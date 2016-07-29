@@ -159,7 +159,7 @@ CollectionProjetos.setSchema({
     optional: true,
     label: 'Coordenadores',
     formOptions: {
-      FIELD_TAG: 'multipleH',
+      FIELD_TAG: 'multipleHCollection',
       OPTIONSCOLLECTION: {
         COLLECTION: 'Colaboradores',
         COLLECTION_SCHEMA: 'tableview',

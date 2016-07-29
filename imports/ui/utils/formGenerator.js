@@ -1,6 +1,7 @@
 import { Utils } from '.././../api/reuse/utils';
 import './formGeneratorTemplates.html';
 import { UtilsView } from './ViewUtils';
+import { FormComponents } from './components';
 import './formGeneratorTemplates';
 import { Blaze } from 'meteor/blaze';
 
@@ -315,10 +316,165 @@ export class FormGenerator {
     return template;
   }
 
-  // formView agora considera elementos do tipo vetor
-  //todo Melhorar a escrita do código, há muita repetição
+  getDefaultComponent (fieldType) {
+
+    if (typeof fieldType == 'object') {
+
+      if (fieldType[0].name == 'Object') {
+        return 'multipleH';
+
+      } else if (fieldType[0].name == 'String') {
+        return 'inputTaggingH';
+      }
+    }
+    else switch (fieldType) {
+      case String:
+        return 'inputH';
+        break;
+      case Number:
+        return 'inputH';
+        break;
+      case Date:
+        return 'inputDateH';
+        break;
+      default:
+        return 'inputH';
+        break;
+    }
+
+  }
+
   formRender (idOfElement, applyValidation = true, controller, schemaName = 'default',
               searchFor = '', idOfForm = '') {
+
+    let form = '';
+    let listOfFieldsAndComponents = {};
+    let dadosCollection = {};
+    let schema = controller.getSchemaJson(schemaName);
+
+    if (searchFor != '' && typeof searchFor == 'string') {
+      dadosCollection = controller.get({ _id: searchFor });
+    } else if (searchFor != '' && typeof searchFor == 'object') {
+      dadosCollection = controller.get(searchFor);
+    }
+
+    //######################################################################
+    //################## DEFINIÇAÕ DOS TEMPLATES############################
+    //######################################################################
+
+    //Itera sobre todos os campos que estarão disponíveis no formulário para
+    // inserir os componentes no formulario com as tags apropriadas
+    for (let key in schema) {
+      if (typeof schema[key].formOptions != 'undefined' && typeof schema[key].formOptions.visible) {
+
+        //Define qual componente será utilizado
+        if (typeof schema[key].formOptions.FIELD_TAG == 'undefined')
+          listOfFieldsAndComponents[key] = FormComponents.getComponente(this.getDefaultComponent(schema[key].type));
+        else
+          listOfFieldsAndComponents[key] = FormComponents.getComponente(schema[key].formOptions.FIELD_TAG);
+
+        let template = listOfFieldsAndComponents[key].template;
+
+        //FIELD_NAME = key
+        template = template.replace(new RegExp('{FIELD_NAME}', 'g'), key);
+
+        //FIELD_LABEL = schema[key].label
+        template = template.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
+
+        for (let fieldOptions in schema[key].formOptions) {
+          template = template.replace(
+              new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
+        }
+
+        listOfFieldsAndComponents[key].template = template;
+
+      }
+    }
+
+    //######################################################################
+    //#############DEFINIÇAÕ DOS VALORES DE CADA CAMPO######################
+    //######################################################################
+
+    //Itera sobre todos a lista de campos que serão renderizados e definie o valor
+    //inicial para cada um deles com base nos dados do documento (collection)
+    if (typeof dadosCollection != 'undefined') {
+
+      for (let field in listOfFieldsAndComponents) {
+        let val = dadosCollection[field];
+
+        let calculateValue = listOfFieldsAndComponents[field].getValue(val);
+
+        if (calculateValue != '') {
+          let template = listOfFieldsAndComponents[field].template;
+          template = template.replace(new RegExp('{VALUE}', 'g'), calculateValue || '');
+          listOfFieldsAndComponents[field].template = template;
+        } else {
+          let template = listOfFieldsAndComponents[field].template;
+          template = template.replace(new RegExp('{VALUE}', 'g'), val || '');
+          listOfFieldsAndComponents[field].template = template;
+        }
+
+      }
+
+    }
+
+    //######################################################################
+    //########REALIZA MODIFICAÇÕES NOS TEPLATES DOS COMPONENTES#############
+    //######################################################################
+
+    //Itera sobre todos a lista de campos que serão renderizados e executa
+    //a função de inicialização de cada um deles
+    for (let field in listOfFieldsAndComponents) {
+
+      listOfFieldsAndComponents[field].templateFunction(field, listOfFieldsAndComponents[field]
+          , schema[field]);
+
+    }
+
+    //######################################################################
+    //#############INSERÇÃO DOS CAMPONENTES NO FORMULARIO###################
+    //######################################################################
+
+    //Itera sobre todos a lista de campos que serão renderizados e insere na
+    //variavel form e, em seguida, insere na Div que o forma será renderizado
+    for (let field in listOfFieldsAndComponents) {
+      form = form + listOfFieldsAndComponents[field].template;
+    }
+
+    document.getElementById(idOfElement).innerHTML = form;
+
+    //######################################################################
+    //#############INICIALIZAÇÃO DOS COMPONENTES############################
+    //######################################################################
+
+    //Itera sobre todos a lista de campos que serão renderizados e executa
+    //a função de inicialização de cada um deles
+    for (let field in listOfFieldsAndComponents) {
+
+      listOfFieldsAndComponents[field].init(field, listOfFieldsAndComponents[field]
+          , schema[field]);
+
+    }
+
+    //######################################################################
+    //#############APLICAÇÃO DO JQUERY VALIDATION###########################
+    //######################################################################
+
+    //Esta opção de aplicar a validação tem que ser a ultima ação do método
+    if (applyValidation) {
+      if (idOfForm != '') {
+        idOfElement = idOfForm;
+      }
+
+      this.applyJQueryValidation(controller, schemaName, idOfElement);
+    }
+
+  }
+
+  // formView agora considera elementos do tipo vetor
+  //todo Melhorar a escrita do código, há muita repetição
+  formRender2 (idOfElement, applyValidation = true, controller, schemaName = 'default',
+               searchFor = '', idOfForm = '') {
     let collectionFieldValues = [];
     let existsDataType = false;
     let taggingFields = [];
