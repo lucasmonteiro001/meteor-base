@@ -76,7 +76,10 @@ export class CollectionBase {
             let atualizar = JSON.parse('{"$set": {"' + field + '.$": ' + JSON.stringify(doc) + '}}');
 
             //Executa a atualização do campo
-            let cursor = listOfCollectionsDependents[key].collectionInstance.update(fieldFilter, atualizar);
+            let cursor = listOfCollectionsDependents[key].collectionInstance.update(fieldFilter, atualizar, {
+              upsert: false,
+              multi: true,
+            });
           }
         }
 
