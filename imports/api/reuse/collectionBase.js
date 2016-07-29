@@ -51,44 +51,35 @@ export class CollectionBase {
     });
 
     //region todo####################### Hooks #######################
-    const collTemp = this.collectionsDependents;
-    const thisName = String(this.collectionName).toLowerCase();
-    const allDocOfThis = this.collectionInstance.find().fetch();
-
+    const listOfCollectionsDependents = this.collectionsDependents;
+    const thisCollectionName = this.collectionName;
 
     this.collectionInstance.after.update(function (userId, doc) {
-      for (let key in collTemp) {
-        console.log(this.previous._id);
-        let content = JSON.parse('{"' + thisName + '._id": "' + this.previous._id + '"}');
-        let atualizar = JSON.parse('{"$set": {"' + thisName + '.$": ' + JSON.stringify(doc) + '}}');
-        console.log(content);
-        console.log(atualizar);
-        let cursor = collTemp[key].collectionInstance.update(content, atualizar);
-        console.log(cursor);
 
-        //region Objetos aninhados
-        /*for (let kDoc in allDocOfThis) {
-          let content = JSON.parse('{"' + thisName + '.' + kDoc + '._id": "' + doc._id + '"}');
-          let cursor = collTemp[key].collectionInstance.find(content).fetch();
-          for (let i in cursor) {
-            let atualizar = '{"' + thisName + '":{"' + kDoc + '": ';
+      //Itera
+      for (let key in listOfCollectionsDependents) {
+        let Schema = listOfCollectionsDependents[key].getSchemaJson();
 
-            //todo utilizar apenas os campos de doc constantes no subschema
+        //Itera os campos da collection dependente está associado à collection em alteração
+        //Para realizar a atualização
+        for (let field in Schema) {
+          if (typeof Schema[field].formOptions != 'undefined'
+              && typeof Schema[field].formOptions.OPTIONSCOLLECTION != 'undefined'
+              && Schema[field].formOptions.OPTIONSCOLLECTION.COLLECTION == thisCollectionName) {
 
-            atualizar = atualizar + JSON.stringify(doc);
+            //Define o filtro que será utilizado para
+            // realizar a atualização
+            let fieldFilter = JSON.parse('{"' + field + '._id": "' + this.previous._id + '"}');
 
-            for (let x in cursor[i][thisName]) {
-              if (x != kDoc) {
-                atualizar = atualizar + ', "' + x + '": ' +
-                    JSON.stringify(cursor[i][thisName][x]);
-              }
-            }
+            //Define a String de atualização considerando o
+            // campo que será atualizado como um array de objetos
+            let atualizar = JSON.parse('{"$set": {"' + field + '.$": ' + JSON.stringify(doc) + '}}');
 
-            atualizar = JSON.parse(atualizar + '}}');
-            collTemp[key].collectionInstance.update(cursor[i]._id, { $set: atualizar });
+            //Executa a atualização do campo
+            let cursor = listOfCollectionsDependents[key].collectionInstance.update(fieldFilter, atualizar);
           }
-         }*/
-        //endregion
+        }
+
       }
     });
     //endregion

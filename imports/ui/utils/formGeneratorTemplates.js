@@ -13,7 +13,7 @@ Template.select2Collection.onCreated(() => {
   UtilsView.applySubscribe(collectionData.COLLECTION, collectionData.COLLECTION_SCHEMA, template,
       '', function () {
         $(document).ready(function () {
-          $('.select2_demo_2').select2();
+          $('#' + collectionData.FIELD_NAME).select2();
         });
       }
   );
@@ -39,6 +39,7 @@ Template.selectImage.onCreated(() => {
   template.controller = Blaze._globalHelpers.getController(template.data.COLLECTION);
   let imageData = template.data;
 });
+
 Template.selectImage.onRendered(() => {
   template = Template.instance();
 

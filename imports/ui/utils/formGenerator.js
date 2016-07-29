@@ -371,7 +371,7 @@ export class FormGenerator {
             collectionsFields.push(key);
           } else {
             let options = schema[key].formOptions.OPTIONS;
-            console.log(dadosCollection[key]);
+
             for (let oKey in options) {
               let selected = false;
 
@@ -797,18 +797,10 @@ export class FormGenerator {
 
         if (typeof schema[key].type == 'object') {
 
-          console.log('É um Objeto - Array de Algo');
-
           if (schema[key].type[0].name == 'Object') {
-            console.log('Array de Objeto');
-            console.log(value);
-            console.log(typeof value);
-
             objData[key] = Utils.toObjectArray(value)
-            console.log(objData[key]);
 
           } else if (schema[key].type[0].name == 'String') {
-            console.log('Array de String');
             objData[key] = value;
           }
         }

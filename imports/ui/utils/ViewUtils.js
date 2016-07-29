@@ -60,8 +60,9 @@ class ViewUtils {
   templateRender (templateName, idOfDomNode, data = {}) {
     let domNode = document.getElementById(idOfDomNode);
 
-    if (this.templatesRendereds[templateName] && Blaze.getData(
-            this.templatesRendereds[templateName])) {
+    if (this.templatesRendereds[templateName]
+        && Blaze.getData(this.templatesRendereds[templateName])
+        && Blaze.getData(this.templatesRendereds[templateName]).FIELD_NAME == data.FIELD_NAME) {
       Blaze.remove(this.templatesRendereds[templateName]);
     }
 
