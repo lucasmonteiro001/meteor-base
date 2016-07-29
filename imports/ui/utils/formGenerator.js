@@ -11,7 +11,9 @@ export class FormGenerator {
     this.templates['inputTaggingH'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
-          <div class="col-md-10" id="{FIELD_NAME}-tagging"> \
+          <div class="col-md-10"> \
+          <div id="{FIELD_NAME}-tagging"> \
+          </div> \
           </div> \
         </div>';
 
@@ -127,14 +129,6 @@ export class FormGenerator {
           <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <textarea class="form-control" rows="{ROWS}" id="{FIELD_NAME}" \
           name="{FIELD_NAME}">{VALUE}</textarea> \
-          </div>';
-
-    this.templates['imageH'] = '<div class="form-group"> \
-          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-          <div class="col-md-10"> \
-          <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
-          <div id="templateImage"></div>\
-          </div> \
           </div>';
 
     this.templates['spanH'] = '<div class="form-group"> \
@@ -288,6 +282,14 @@ export class FormGenerator {
           {INPUTS} \
           </div> </div>';
 
+    this.templates['imageH'] = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-10"> \
+          <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
+          <div id="templateImage"></div>\
+          </div> \
+          </div>';
+
     this.templates['showImageH'] = '<div class="form-group"> \
   <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
         <div class="col-md-10" id="{FIELD_NAME}"> \
@@ -357,9 +359,6 @@ export class FormGenerator {
           taggingFields.push(key);
 
         }
-
-
-
 
         if (schema[key].formOptions.FIELD_TAG == 'multipleH' ||
             schema[key].formOptions.FIELD_TAG == 'multipleV') {
@@ -496,7 +495,7 @@ export class FormGenerator {
         if (schema[key].formOptions.FIELD_TAG == 'addInfo') {
           existsAddInfo = true;
         }
-        
+
         //FIELD_NAME = key
         fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
 
@@ -517,8 +516,6 @@ export class FormGenerator {
           if (taggingFields.indexOf(key) > -1) {
             taggingFieldsValues[key] = valor
           }
-
-
 
           if (schema[key].type == Date && valor) {
             var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
@@ -619,9 +616,14 @@ export class FormGenerator {
     }
 
     if (existsAddInfo) {
-      UtilsView.templateRender('addInfo', 'templateAddInfo', { name: 'teste' });
+      UtilsView.templateRender('addInfo', 'templateAddInfo', {
+        values: [
+          { VALUE: { dia: 'Segunda-feira', horario: '8h-18h' }, LABEL: 'Segunda-feira' },
+          { VALUE: { dia: 'Terça-feira', horario: '8h-18h' }, LABEL: 'Terça-feira' },
+        ], FIELD_SCHEMA: 'teste'
+      });
     }
-    
+
     for (let fieldKey in collectionsFields) {
       let data = schema[collectionsFields[fieldKey]].formOptions.OPTIONSCOLLECTION;
       data['FIELD_NAME'] = collectionsFields[fieldKey];
@@ -661,17 +663,6 @@ export class FormGenerator {
         if (schema[key].formOptions.FIELD_TAG == 'imageH') {
           fieldTmp = this.getTemplate('showImageH');
 
-          //FIELD_NAME = key
-          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
-
-          //FIELD_LABEÇ = schema[key].label
-          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
-
-          for (let fieldOptions in schema[key].formOptions) {
-            fieldTmp = fieldTmp.replace(
-                new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
-          }
-
           //Valor dos campos
           if (typeof dadosCollection != 'undefined') {
             let valor = dadosCollection[key];
@@ -710,7 +701,6 @@ export class FormGenerator {
 
               //Se for um Array de Objetos ou se for um Objeto
             } else if (typeof schema[key].type == 'object' || schema[key].type == Object) {
-
 
               if (schema[key].formOptions && typeof schema[key].formOptions.OPTIONSCOLLECTION !=
                   'undefined') {
