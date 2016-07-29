@@ -203,11 +203,11 @@ class ViewUtils {
   }
 
   /**
-   * Retorna as configurações para o componente DataTable a partir do controler do schema selecionado
+   * Retorna as configurações para o componente DataTable a partir do controller do schema selecionado
    * @param controller Controler referente aos dados que serão utilizados
    * @param schemaName Nome do Schema utilizado na renderização das informações da tabela
    */
-  getDataTableConfig (conrollerVar, schemaName, otherConfigurations = {}) {
+  getDataTableConfig (controllerVar, schemaName, otherConfigurations = {}) {
 
     let tableRenderFunction = this.getTableViewFromSchemaAndListOfObjects;
     let listRenderFunction = this.getListViewFromSchemaAndListOfObjects;
@@ -226,7 +226,7 @@ class ViewUtils {
       }
     }
 
-    let schema = conrollerVar.getSubSchemaJson(schemaName);
+    let schema = controllerVar.getSubSchemaJson(schemaName);
     for (let key in schema) {
       let isLink = false;
       let collunsConfig = {};
@@ -293,7 +293,7 @@ class ViewUtils {
   }
 
   /**
-   * Returna uma tabela a partir de uma lista de objetos
+   * Returna uma TABELA a partir de uma lista de objetos
    * @param schema utilizado na construção da tabela
    * @param listOfObjects lista de objetos que serão inseridos na tabela
    * @returns {string}
@@ -357,7 +357,7 @@ class ViewUtils {
   }
 
   /**
-   * Retorna uma lista a partir de uma lista de objetos
+   * Retorna uma LISTA a partir de uma lista de objetos
    * @param schema utilizado na construção da tabela
    * @param listOfObjects lista de objetos que serão inseridos na tabela
    * @returns {string}

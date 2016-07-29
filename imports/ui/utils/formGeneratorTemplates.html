@@ -76,8 +76,10 @@
 </template>
 
 <template name="addInfo">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".addInfo">Adicionar Informacoes
-    </button>
+    <div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".addInfo">Adicionar Informacoes
+        </button>
+    </div>
     <div class="modal fade addInfo" hidden tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
@@ -88,13 +90,13 @@
                     <h4 class="modal-title" id="myModalLabel">Adicionar Informacoes</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="nome">Nome</label>
-                        <div class="col-md-10">
-                            <input type="text" id="namefield-nome"
-                                   name="namefield-name" class="form-control" placeholder="Nome">
+                    <form class="form-horizontal row-border" id="modalTag" data-toggle="validator" role="form">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel-body" id="modalContext"></div>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" data-dismiss="modal" id="save" data-toggle="tooltip"
@@ -105,12 +107,5 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <label class="col-md-2 control-label" for="teste">Teste</label>
-        <div class="col-md-10">
-            <input type="text" id="teste"
-                   name="teste" disabled class="form-control" value="">
-        </div>
-        <div id="tableview_field"></div>
-    </div>
+    <div id="tableview"></div>
 </template>

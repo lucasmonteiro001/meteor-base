@@ -4,11 +4,11 @@
     cursor: text;
     font-size: 1em;
     height: auto;
-    padding: 10px 10px 15px;
+    padding: 6px 12px 6px 12px;
 }
 
 .tag {
-    background: none repeat scroll 0 0 #EE7407;
+    background: none repeat scroll 0 0 #18A689;
     border-radius: 2px;
     color: white;
     cursor: default;
@@ -20,7 +20,7 @@
 }
 
 .tag span {
-    background: none repeat scroll 0 0 #D66806;
+    background: none repeat scroll 0 0 #11735F;
     border-radius: 2px 0 0 2px;
     margin-right: 5px;
     padding: 5px 10px 5px;

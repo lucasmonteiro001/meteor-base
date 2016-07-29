@@ -1,6 +1,8 @@
 import { Blaze } from 'meteor/blaze';
 import { Utils } from '.././../api/reuse/utils';
 import './formGeneratorTemplates.html';
+import { formGen } from './formGenerator';
+import { ColaboradoresController } from '../../api/Colaboradores/controller.js';
 import { UtilsView } from './ViewUtils';
 
 let template;
@@ -36,7 +38,6 @@ Template.select2Collection.events({});
 
 Template.selectImage.onCreated(() => {
   template = Template.instance();
-  template.controller = Blaze._globalHelpers.getController(template.data.COLLECTION);
   let imageData = template.data;
 });
 Template.selectImage.onRendered(() => {
@@ -125,26 +126,32 @@ Template.selectImage.events({
 
 Template.addInfo.onCreated(() => {
   template = Template.instance();
-  template.controller = Blaze._globalHelpers.getController(template.data.COLLECTION);
-  let infoData = template.data;
+  // template.controller = Blaze._globalHelpers.getController(template.data.COLLECTION);
+  // let infoData = template.data;
+
+  // document.getElementById('tableview').innerHTML = '<div>koe bily jow</div>';
+  // document.getElementById('tableview').innerHTML = UtilsView.getTableViewFromSchemaAndListOfObjects(infoData.FIELD_SCHEMA, infoData.values);
+  // template.data.values.push(object);
 });
 Template.addInfo.onRendered(() => {
-  template = Template.instance();
-  template.controller = Blaze._globalHelpers.getController(template.data.schema);
-  let collectionData = template.data;
-  document.getElementById('tableview_field').innerHTML = UtilsView.getTableViewFromSchemaAndListOfObjects(template.data.schema, template.data.values);
-  // template.data.values.push(object);
+  let infoData = template.data;
+  template.controller = Blaze._globalHelpers.getController(template.data.COLLECTION);
+  formGen.formRender('modalContext', true, ColaboradoresController, 'teste', '', 'modalTag');
+  // document.getElementById('tableview').innerHTML = '<div>koe bily jow</div>';
+  document.getElementById('tableview').innerHTML = UtilsView.getTableViewFromSchemaAndListOfObjects(infoData.FIELD_SCHEMA, infoData.values);
 
 });
 Template.addInfo.helpers(() => {
 });
 Template.addInfo.events({
-  'click button[data-target=".addInfo"]': function () {},
-  'click button[data-dismiss="modal"]': function () {},
+  'click button[data-target=".addInfo"]': function () {
+  },
+  'click button[data-dismiss="modal"]': function () {
+  },
   'click button[id="save"]': function () {
 
-    var $infoInto = $("#teste"),
-        $infoView = $("#teste");
+    var $infoInto = $("#testeInto"),
+        $infoView = $("#testeView");
 
     var data = $("#namefield-nome").val();
 
