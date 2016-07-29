@@ -48,19 +48,19 @@ export class ModelBase {
       if (typeof filter === 'object') {
         check(filter, Object);
 
-        if (permissions.length > 0) {
+        if (permissions.length>0) {
           let result = true;
 
           for (let keyPerm in permissions) {
 
             //Se o usuário não estiver no Grupo ele não pode ver nada
             if (permissions[keyPerm].groups != 'undefined'
-                && Roles.userIsInRole(userId, permissions[keyPerm].groups) == false && permissions[keyPerm].actions.indexOf('read') > -1) {
+                && Roles.userIsInRole(userId, permissions[keyPerm].groups) == false && permissions[keyPerm].actions.indexOf('read')> -1) {
               result = false;
 
             }
             //Altera o filtro para informar as permissões de acesso
-            if (result && permissions[keyPerm].data != 'undefined' && permissions[keyPerm].actions.indexOf('read') > -1) {
+            if (result && permissions[keyPerm].data != 'undefined' && permissions[keyPerm].actions.indexOf('read')> -1) {
               //Faz a substituiçãop da tag {_UserID_} pelo ID do usuário logado
               let data = JSON.stringify(permissions[keyPerm].data);
               if (typeof userId != 'undefined') {
@@ -95,12 +95,12 @@ export class ModelBase {
       let permissions = this.myCollectionBase.getPermissions();
       let userId = Meteor.userId();
       let result = false;
-      if (permissions.length > 0) {
+      if (permissions.length>0) {
         for (let keyPerm in permissions) {
           if (typeof permissions[keyPerm].groups != 'undefined') {
 
             if (Roles.userIsInRole(userId, permissions[keyPerm].groups)
-                && (permissions[keyPerm].actions.indexOf(action) > -1)) {
+                && (permissions[keyPerm].actions.indexOf(action)> -1)) {
               result = true;
             }
 
@@ -171,18 +171,12 @@ export class ModelBase {
 
       let result;
 
-      console.log('Entrou');
-
       try {
-        console.log('Try');
         result = collectionBase.getCollection().insert(dataObj);
-
       } catch (e) {
-        console.log('Catch:' + e.message);
         throw new Meteor.Error('Acesso Negado',
             e.message);
       } finally {
-        console.log('Finally:' + result);
         return result;
       }
 
@@ -214,6 +208,7 @@ export class ModelBase {
               'Você não tem permissão para acessar esta funcionalidade');
         }
         ;
+
       } catch (e) {
         throw new Meteor.Error('Acesso Negado',
             e.message);
@@ -229,6 +224,7 @@ export class ModelBase {
     //####################### Hooks ##################################
 
     this.myCollection.before.remove(function (userId, doc) {
+
       if (fCanUserDo('remove', doc) == false) {
         return false;
       } else
@@ -245,8 +241,10 @@ export class ModelBase {
     this.myCollection.before.insert(function (userId, doc) {
       if (fCanUserDo('insert') == false) {
         return false;
-      } else
+      } else {
         return true;
+      }
+
     });
 
   }
