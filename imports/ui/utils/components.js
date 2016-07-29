@@ -70,6 +70,7 @@ let templateFunction;
 let initializationFunction;
 let getValueFunction;
 
+//##############################################################################################
 //#############  Componente inputH ########################################################
 name = 'inputH';
 template = '<div class="form-group"> \
@@ -82,19 +83,20 @@ template = '<div class="form-group"> \
 templateFunction = ()=> {
   return '';
 };
-initializationFunction = ()=> {
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
   return '';
 };
-getValueFunction = ()=> {
+getValueFunction = (value, fieldName = '')=> {
   return '';
 };
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
 
+//##############################################################################################
 //#############  Componente inputTaggingH ########################################################
 name = 'inputTaggingH';
 template = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-          <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
+          <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}[]"/> \
           <div class="col-md-10"> \
           <div id="{FIELD_NAME}-tagging"> \
           </div> \
@@ -103,14 +105,47 @@ template = '<div class="form-group"> \
 templateFunction = ()=> {
   return '';
 };
-initializationFunction = ()=> {
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  let t = $("#" + fieldName + '-tagging').tagging();
+  let tag_box = t[0];
+  let arrayValField = [];
+  //Configurar para remover o "spacebar" como ação para adicionar uma tag.
+  tag_box.tagging("removeSpecialKeys", ["add", 32]);
+  tag_box.tagging("reset");
+
+  for (let key in this['value' + fieldName]) {
+    let val = String(this['value' + fieldName][key]);
+    if (val.trim() != '')
+      tag_box.tagging("add", val.trim());
+    arrayValField.push(val.trim());
+  }
+  $("#" + fieldName).val(tag_box.tagging("getTags"));
+
+  // Execute callback when a tag is added
+  tag_box.on("add:after", function (el, text, tagging) {
+    arrayValField.push(text.trim())
+    $("#" + fieldName).val(arrayValField);
+
+  });
+
+  // Execute callback when a tag is removed
+  tag_box.on("remove:after", function (el, text, tagging) {
+
+    arrayValField = $.grep(arrayValField, function (val, index) {
+      return val == text.trim();
+    });
+
+  });
+  
   return '';
 };
-getValueFunction = ()=> {
+getValueFunction = (value, fieldName = '')=> {
+  this['value' + fieldName] = value;
   return '';
 };
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
 
+//##############################################################################################
 //#############  Componente multipleH ########################################################
 name = 'multipleHCollection';
 template = '<div class="form-group"> \
@@ -159,19 +194,20 @@ initializationFunction = (fieldName, fieldOptions, schema)=> {
   if (typeof schema.formOptions.OPTIONSCOLLECTION != 'undefined') {
     let data = schema.formOptions.OPTIONSCOLLECTION;
     data['FIELD_NAME'] = fieldName;
-    data['FIELD_VALUES'] = this.value;
+    data['FIELD_VALUES'] = this['value' + fieldName];
     UtilsView.templateRender('select2Collection', 'template-' + fieldName, data);
   } else {
     console.log('Error: Schema não definido');
   }
 };
-getValueFunction = (value)=> {
-  this.value = value;
+getValueFunction = (value, fieldName = '')=> {
+  this['value' + fieldName] = value;
   return '';
 };
 
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
 
+//##############################################################################################
 //#############  Componente inputDateH ########################################################
 name = 'inputDateH';
 template = '<div class="form-group" id="data_1"> \
@@ -199,7 +235,7 @@ initializationFunction = (fieldName)=> {
   });
   return '';
 };
-getValueFunction = (value)=> {
+getValueFunction = (value, fieldName = '')=> {
   var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
   if (typeof value == 'string')
     value = new Date(value.replace(pattern, '$3-$2-$1'));
@@ -210,16 +246,38 @@ getValueFunction = (value)=> {
 };
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
 
+//##############################################################################################
+//#############  Componente textareaH ########################################################
+name = 'textareaH';
+template = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-10"> \
+          <textarea class="form-control" rows="{ROWS}" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}">{VALUE}</textarea> \
+          </div> \
+          </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+
+//##############################################################################################
 //#############  Componente fieldSample ########################################################
 name = 'fieldSAMPLE';
 template = '';
 templateFunction = ()=> {
   return '';
 };
-initializationFunction = ()=> {
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
   return '';
 };
-getValueFunction = ()=> {
+getValueFunction = (value, fieldName = '')=> {
   return '';
 };
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);

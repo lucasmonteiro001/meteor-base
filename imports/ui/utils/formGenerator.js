@@ -402,7 +402,7 @@ export class FormGenerator {
       for (let field in listOfFieldsAndComponents) {
         let val = dadosCollection[field];
 
-        let calculateValue = listOfFieldsAndComponents[field].getValue(val);
+        let calculateValue = listOfFieldsAndComponents[field].getValue(val, field);
 
         if (calculateValue != '') {
           let template = listOfFieldsAndComponents[field].template;
@@ -570,7 +570,6 @@ export class FormGenerator {
 
             if (typeof options[oKey].VALUE == 'object') {
 
-              console.log(options[oKey].VALUE);
               optionsTmp = optionsTmp + '<option value=' + options[oKey].VALUE + '>'
                   + options[oKey].LABEL + '</option>';
             } else {
@@ -734,19 +733,17 @@ export class FormGenerator {
 
           // Execute callback when a tag is added
           tag_box.on("add:after", function (el, text, tagging) {
-            //console.log( "Added tag: ", text );
-            //$("#"+taggingFields[indexField]).val(text );
             let arrayValField = [];
             for (let ind in tagging.tags) {
               arrayValField.push(tagging.tags[ind].pure_text)
             }
             $("#" + taggingFields[indexField]).val(arrayValField);
-            console.log($("#" + taggingFields[indexField]).val());
+
           });
 
           // Execute callback when a tag is removed
           tag_box.on("remove:after", function (el, text, tagging) {
-            console.log("Removed tag: ", text);
+
           });
 
         }
@@ -947,6 +944,9 @@ export class FormGenerator {
             objData[key] = Utils.toObjectArray(value)
 
           } else if (schema[key].type[0].name == 'String') {
+            if (typeof value != 'array') {
+              value = value.split(",");
+            }
             objData[key] = value;
           }
         }

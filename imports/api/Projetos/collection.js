@@ -180,7 +180,7 @@ CollectionProjetos.setSchema({
     optional: true,
     label: 'Colaboradores',
     formOptions: {
-      FIELD_TAG: 'multipleH',
+      FIELD_TAG: 'multipleHCollection',
       OPTIONSCOLLECTION: {
         COLLECTION: 'Colaboradores',
         COLLECTION_SCHEMA: 'tableview',
@@ -210,10 +210,10 @@ CollectionProjetos.setSchema({
 });
 
 CollectionProjetos.addSubSchema('insert',
-    ['nome', 'dataInicio', 'diasdetrabalho', 'colaboradores', 'coordenadores']);
+    ['nome', 'dataInicio', 'diasdetrabalho', 'colaboradores', 'coordenadores', 'tecnologias']);
 
 CollectionProjetos.addSubSchema('update',
-    ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores', 'coordenadores']);
+    ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores', 'coordenadores', 'tecnologias']);
 
 CollectionProjetos.addSubSchema('tableview',
     ['nome', 'diasdetrabalho', 'userId', 'colaboradores', 'tecnologias', 'coordenadores']);

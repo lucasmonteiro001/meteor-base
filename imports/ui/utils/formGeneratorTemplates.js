@@ -16,6 +16,7 @@ Template.select2Collection.onCreated(() => {
       '', function () {
         $(document).ready(function () {
           $('#' + collectionData.FIELD_NAME).select2();
+          console.log('#' + collectionData.FIELD_NAME);
         });
       }
   );
