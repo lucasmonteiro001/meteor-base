@@ -27,10 +27,11 @@ CollectionProjetos.setSchema({
       },
     },
   },
+
   diasdetrabalho: {
     type: [Object],
     blackbox: true,
-    defaultValue: {},
+    defaultValue: [],
     label: 'Dias de Trabalho',
     formOptions: {
       FIELD_TAG: 'multipleH',
@@ -73,6 +74,35 @@ CollectionProjetos.setSchema({
       RenderObjects: 'OnTable',
     },
   },
+
+  tecnologias: {
+    type: [String],
+    blackbox: true,
+    defaultValue: [],
+    optional: true,
+    label: 'Tecnologias',
+    formOptions: {
+      FIELD_TAG: 'inputTaggingH',
+      FIELD_TYPE: 'text',
+      FIELD_SCHEMA: {
+        Tecnologia: {
+          type: String,
+          defaultValue: '',
+          label: 'Tecnologia',
+          formOptions: {
+            FIELD_TAG: 'inputH',
+            FIELD_TYPE: 'text',
+          },
+        },
+      },
+    },
+    dataTableConfig: {
+      orderable: false,
+      RenderObjects: 'OnTable',
+    },
+  },
+
+
   valor: {
     type: Number,
     defaultValue: 0,
@@ -125,7 +155,7 @@ CollectionProjetos.setSchema({
   colaboradores: {
     type: [Object],
     blackbox: true,
-    defaultValue: {},
+    defaultValue: [],
     optional: true,
     label: 'Colaboradores',
     formOptions: {
@@ -186,10 +216,10 @@ CollectionProjetos.addSubSchema('update',
     ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores']);
 
 CollectionProjetos.addSubSchema('tableview',
-    ['nome', 'diasdetrabalho', 'userId', 'colaboradores']);
+    ['nome', 'diasdetrabalho', 'userId', 'colaboradores', 'tecnologias']);
 
 CollectionProjetos.addSubSchema('view',
-    ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio', 'userId']);
+    ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio', 'tecnologias', 'userId']);
 
 //################################################
 //############ RESTRIÇÃO DE ACESSO ###############

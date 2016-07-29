@@ -167,24 +167,22 @@ export class ModelBase {
     this.functions[collectionBase.getCollection()._name + '.insert']
         = function (dataObj) {
 
-      /**
-       * DESCOMENTE PARA EXECUTAR OS TESTES
-       */
-      //checkIfisTestMode(dataObj);
-
-      //dataObj.userId = Meteor.userId();
-
       check(dataObj, collectionBase.getSchema('insert'));
 
       let result;
 
+      console.log('Entrou');
+
       try {
+        console.log('Try');
         result = collectionBase.getCollection().insert(dataObj);
 
       } catch (e) {
+        console.log('Catch:' + e.message);
         throw new Meteor.Error('Acesso Negado',
             e.message);
       } finally {
+        console.log('Finally:' + result);
         return result;
       }
 

@@ -8,6 +8,13 @@ export class FormGenerator {
   constructor () {
     this.templates = {};
 
+    this.templates['inputTaggingH'] = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
+          <div class="col-md-10" id="{FIELD_NAME}-tagging"> \
+          </div> \
+        </div>';
+
     this.templates['inputH'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
@@ -312,6 +319,8 @@ export class FormGenerator {
               searchFor = '', idOfForm = '') {
     let collectionFieldValues = [];
     let existsDataType = false;
+    let taggingFields = [];
+    let taggingFieldsValues = [];
     let existsCropperType = false;
     let existsSelectType = false;
     let existsMultipleType = false;
@@ -343,6 +352,14 @@ export class FormGenerator {
             schema[key].formOptions.FIELD_TAG == 'inputHourH') {
           existsHourType = true;
         }
+
+        if (schema[key].formOptions.FIELD_TAG == 'inputTaggingH') {
+          taggingFields.push(key);
+
+        }
+
+
+
 
         if (schema[key].formOptions.FIELD_TAG == 'multipleH' ||
             schema[key].formOptions.FIELD_TAG == 'multipleV') {
@@ -496,6 +513,13 @@ export class FormGenerator {
         if (typeof dadosCollection != 'undefined') {
 
           let valor = dadosCollection[key];
+
+          if (taggingFields.indexOf(key) > -1) {
+            taggingFieldsValues[key] = valor
+          }
+
+
+
           if (schema[key].type == Date && valor) {
             var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
             if (typeof valor == 'string')
@@ -541,6 +565,38 @@ export class FormGenerator {
           autoclose: true,
           format: 'dd/mm/yyyy',
         });
+      }
+
+      if (taggingFields.length > 0) {
+        for (let indexField in taggingFields) {
+          let t = $("#" + taggingFields[indexField] + '-tagging').tagging()
+          let tag_box = t[0];
+          //Configurar para remover o "spacebar" como ação para adicionar uma tag.
+          tag_box.tagging("removeSpecialKeys", ["add", 32]);
+
+          for (let indexField2 in taggingFieldsValues[taggingFields[indexField]]) {
+            if (taggingFieldsValues[indexField][indexField2] != null)
+              tag_box.tagging("add", taggingFieldsValues[taggingFields[indexField]][indexField2]);
+          }
+
+          // Execute callback when a tag is added
+          tag_box.on("add:after", function (el, text, tagging) {
+            //console.log( "Added tag: ", text );
+            //$("#"+taggingFields[indexField]).val(text );
+            let arrayValField = [];
+            for (let ind in tagging.tags) {
+              arrayValField.push(tagging.tags[ind].pure_text)
+            }
+            $("#" + taggingFields[indexField]).val(arrayValField);
+            console.log($("#" + taggingFields[indexField]).val());
+          });
+
+          // Execute callback when a tag is removed
+          tag_box.on("remove:after", function (el, text, tagging) {
+            console.log("Removed tag: ", text);
+          });
+
+        }
       }
 
       if (existsHourType) {
@@ -725,6 +781,7 @@ export class FormGenerator {
 
         //Necessário para preencher collections que possuem vetor
         let objAux = template.find('[id="' + key + '"]');
+
         if (objAux != null) {
 
           value = $(objAux).val();
@@ -738,15 +795,26 @@ export class FormGenerator {
           value = objAux;
         }
 
-        switch (schema[key].type) {
+        if (typeof schema[key].type == 'object') {
+
+          console.log('É um Objeto - Array de Algo');
+
+          if (schema[key].type[0].name == 'Object') {
+            console.log('Array de Objeto');
+            console.log(value);
+            console.log(typeof value);
+
+            objData[key] = Utils.toObjectArray(value)
+            console.log(objData[key]);
+
+          } else if (schema[key].type[0].name == 'String') {
+            console.log('Array de String');
+            objData[key] = value;
+          }
+        }
+        else switch (schema[key].type) {
           case String:
             objData[key] = value;
-            break;
-          case [String]:
-            objData[key] = JSON.parse(value).keys(obj).map(function (k) {
-              return obj[k];
-            });
-
             break;
           case Number:
             objData[key] = Number(value);
@@ -760,9 +828,6 @@ export class FormGenerator {
             break;
           case Object:
             objData[key] = Utils.toObject(value);
-            break;
-          case [Object]://Não funciona, descobrir como comparar, atualmente é realizado no default
-            objData[key] = Utils.toObjectArray(value);
             break;
           case Boolean:
             objData[key] = Boolean(value);
