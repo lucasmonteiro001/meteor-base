@@ -380,8 +380,8 @@ initializationFunction = (fieldName)=> {
 getValueFunction = (value, fieldName = '')=> {
   let pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
   let newvalue;
-  value = String(value);
-  if (typeof value == 'string') {
+  if (typeof value != 'undefined') {
+    value = String(value);
     newvalue = new Date(value.replace(pattern, '$3-$2-$1'));
     pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
     return newvalue.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
