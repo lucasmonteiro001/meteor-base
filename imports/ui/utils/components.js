@@ -75,7 +75,7 @@ export const FormComponents = new Components();
 
 //#################################################################
 //#################################################################
-//#########DEFINIÇAÕ DOS TEMPLATES ################################
+//######### DEFINIÇÃO DOS TEMPLATES ###############################
 //#################################################################
 //#################################################################
 
@@ -91,6 +91,18 @@ FormComponents.addTemplate('spanV', '<div class="form-group"  style="overflow-x:
  <span id="{FIELD_NAME}">{VALUE}</span> \
  </div>');
 
+FormComponents.addTemplate('showImageH', '<div class="form-group"> \
+ <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div class="col-md-10" id="{FIELD_NAME}"> \
+ <img src="{VALUE}" >\
+ </div> </div>');
+
+FormComponents.addTemplate('showImageV', '<div class="form-group"> \
+ <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div id="{FIELD_NAME}"> \
+ <img src="{VALUE}" >\
+ </div> </div>');
+
 //#################################################################
 //#################################################################
 //######### DEFINIÇÃO DOS COMPONENTES #############################
@@ -104,9 +116,9 @@ let getValueFunction;
 let viewFunction;
 
 //Função de visualização comum a vários componentes
-let defaultViewComponent = (value)=> {
+let defaultViewComponent = (value) => {
   return (FormComponents.templates['spanH'].replace(new RegExp('{VALUE}', 'g'), value || ''))
-}
+};
 
 //##############################################################################################
 //#############  Componente inputH ########################################################
@@ -130,7 +142,6 @@ getValueFunction = (value, fieldName = '')=> {
 viewFunction = defaultViewComponent;
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
-
 //##############################################################################################
 //#############  Componente inputV ########################################################
 name = 'inputV';
@@ -149,7 +160,7 @@ getValueFunction = (value, fieldName = '')=> {
   return '';
 };
 viewFunction = defaultViewComponent;
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
 //#############  Componente inputMaskH ########################################################
@@ -172,7 +183,7 @@ getValueFunction = (value, fieldName = '')=> {
   return '';
 };
 viewFunction = defaultViewComponent;
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
 //#############  Componente inputMaskV ########################################################
@@ -193,7 +204,7 @@ getValueFunction = (value, fieldName = '')=> {
   return '';
 };
 viewFunction = defaultViewComponent;
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
 //#############  Componente inputTaggingH ########################################################
@@ -301,7 +312,7 @@ getValueFunction = (value, fieldName = '')=> {
   return '';
 };
 viewFunction = defaultViewComponent;
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
 //#############  Componente multipleH ########################################################
@@ -429,7 +440,22 @@ getValueFunction = (value, fieldName = '')=> {
   return value.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
 
 };
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+viewFunction = (value)=> {
+  let pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+  let result;
+  value = String(value);
+  if (typeof value == 'string') {
+    result = new Date(value.replace(pattern, '$3-$2-$1'));
+    pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+    result = result.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+  } else {
+    result = '';
+  }
+
+  return defaultViewComponent(result);
+
+};
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
 //#############  Componente inputHourH ########################################################
@@ -606,7 +632,7 @@ getValueFunction = (value, fieldName = '')=> {
   return '';
 };
 viewFunction = defaultViewComponent;
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
 //#############  Componente inputHelpH ########################################################
@@ -627,7 +653,7 @@ getValueFunction = (value, fieldName = '')=> {
   return '';
 };
 viewFunction = defaultViewComponent;
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
 //#############  Componente spanH ########################################################
@@ -648,8 +674,7 @@ getValueFunction = (value, fieldName = '')=> {
   return '';
 };
 viewFunction = defaultViewComponent;
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
-
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction , viewFunction);
 
 //#################################################################
 //#################################################################
@@ -671,5 +696,5 @@ getValueFunction = (value, fieldName = '')=> {
   return '';
 };
 viewFunction = defaultViewComponent;
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
