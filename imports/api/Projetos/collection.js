@@ -152,6 +152,27 @@ CollectionProjetos.setSchema({
     },
     formValidation: {},
   },
+  coordenadores: {
+    type: [Object],
+    blackbox: true,
+    defaultValue: [],
+    optional: true,
+    label: 'Coordenadores',
+    formOptions: {
+      FIELD_TAG: 'multipleHCollection',
+      OPTIONSCOLLECTION: {
+        COLLECTION: 'Colaboradores',
+        COLLECTION_SCHEMA: 'tableview',
+      },
+    },
+    formValidation: {
+      required: { value: true, message: 'Campo obrigatório' },
+    },
+    dataTableConfig: {
+      orderable: false,
+      RenderObjects: 'OnTable',
+    },
+  },
   colaboradores: {
     type: [Object],
     blackbox: true,
@@ -159,7 +180,7 @@ CollectionProjetos.setSchema({
     optional: true,
     label: 'Colaboradores',
     formOptions: {
-      FIELD_TAG: 'multipleH',
+      FIELD_TAG: 'multipleHCollection',
       OPTIONSCOLLECTION: {
         COLLECTION: 'Colaboradores',
         COLLECTION_SCHEMA: 'tableview',
@@ -189,16 +210,16 @@ CollectionProjetos.setSchema({
 });
 
 CollectionProjetos.addSubSchema('insert',
-    ['nome', 'dataInicio', 'diasdetrabalho', 'colaboradores']);
+    ['nome', 'dataInicio', 'diasdetrabalho', 'colaboradores', 'coordenadores', 'tecnologias']);
 
 CollectionProjetos.addSubSchema('update',
-    ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores']);
+    ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores', 'coordenadores', 'tecnologias']);
 
 CollectionProjetos.addSubSchema('tableview',
-    ['nome', 'diasdetrabalho', 'userId', 'colaboradores', 'tecnologias']);
+    ['nome', 'diasdetrabalho', 'userId', 'colaboradores', 'tecnologias', 'coordenadores']);
 
 CollectionProjetos.addSubSchema('view',
-    ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio', 'tecnologias', 'userId']);
+    ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio', 'tecnologias', 'userId', 'coordenadores']);
 
 //################################################
 //############ RESTRIÇÃO DE ACESSO ###############

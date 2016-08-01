@@ -1,6 +1,7 @@
 import { Utils } from '.././../api/reuse/utils';
 import './formGeneratorTemplates.html';
 import { UtilsView } from './ViewUtils';
+import { FormComponents } from './components';
 import './formGeneratorTemplates';
 import { Blaze } from 'meteor/blaze';
 
@@ -11,7 +12,9 @@ export class FormGenerator {
     this.templates['inputTaggingH'] = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
-          <div class="col-md-10" id="{FIELD_NAME}-tagging"> \
+          <div class="col-md-10"> \
+          <div id="{FIELD_NAME}-tagging"> \
+          </div> \
           </div> \
         </div>';
 
@@ -127,14 +130,6 @@ export class FormGenerator {
           <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <textarea class="form-control" rows="{ROWS}" id="{FIELD_NAME}" \
           name="{FIELD_NAME}">{VALUE}</textarea> \
-          </div>';
-
-    this.templates['imageH'] = '<div class="form-group"> \
-          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-          <div class="col-md-10"> \
-          <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
-          <div id="templateImage"></div>\
-          </div> \
           </div>';
 
     this.templates['spanH'] = '<div class="form-group"> \
@@ -288,6 +283,14 @@ export class FormGenerator {
           {INPUTS} \
           </div> </div>';
 
+    this.templates['imageH'] = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-10"> \
+          <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
+          <div id="templateImage"></div>\
+          </div> \
+          </div>';
+
     this.templates['showImageH'] = '<div class="form-group"> \
   <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
         <div class="col-md-10" id="{FIELD_NAME}"> \
@@ -313,10 +316,165 @@ export class FormGenerator {
     return template;
   }
 
-  // formView agora considera elementos do tipo vetor
-  //todo Melhorar a escrita do código, há muita repetição
+  getDefaultComponent (fieldType) {
+
+    if (typeof fieldType == 'object') {
+
+      if (fieldType[0].name == 'Object') {
+        return 'multipleH';
+
+      } else if (fieldType[0].name == 'String') {
+        return 'inputTaggingH';
+      }
+    }
+    else switch (fieldType) {
+      case String:
+        return 'inputH';
+        break;
+      case Number:
+        return 'inputH';
+        break;
+      case Date:
+        return 'inputDateH';
+        break;
+      default:
+        return 'inputH';
+        break;
+    }
+
+  }
+
   formRender (idOfElement, applyValidation = true, controller, schemaName = 'default',
               searchFor = '', idOfForm = '') {
+
+    let form = '';
+    let listOfFieldsAndComponents = {};
+    let dadosCollection = {};
+    let schema = controller.getSchemaJson(schemaName);
+
+    if (searchFor != '' && typeof searchFor == 'string') {
+      dadosCollection = controller.get({ _id: searchFor });
+    } else if (searchFor != '' && typeof searchFor == 'object') {
+      dadosCollection = controller.get(searchFor);
+    }
+
+    //######################################################################
+    //################## DEFINIÇAÕ DOS TEMPLATES############################
+    //######################################################################
+
+    //Itera sobre todos os campos que estarão disponíveis no formulário para
+    // inserir os componentes no formulario com as tags apropriadas
+    for (let key in schema) {
+      if (typeof schema[key].formOptions != 'undefined' && typeof schema[key].formOptions.visible) {
+
+        //Define qual componente será utilizado
+        if (typeof schema[key].formOptions.FIELD_TAG == 'undefined')
+          listOfFieldsAndComponents[key] = FormComponents.getComponente(this.getDefaultComponent(schema[key].type));
+        else
+          listOfFieldsAndComponents[key] = FormComponents.getComponente(schema[key].formOptions.FIELD_TAG);
+
+        let template = listOfFieldsAndComponents[key].template;
+
+        //FIELD_NAME = key
+        template = template.replace(new RegExp('{FIELD_NAME}', 'g'), key);
+
+        //FIELD_LABEL = schema[key].label
+        template = template.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
+
+        for (let fieldOptions in schema[key].formOptions) {
+          template = template.replace(
+              new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
+        }
+
+        listOfFieldsAndComponents[key].template = template;
+
+      }
+    }
+
+    //######################################################################
+    //#############DEFINIÇAÕ DOS VALORES DE CADA CAMPO######################
+    //######################################################################
+
+    //Itera sobre todos a lista de campos que serão renderizados e definie o valor
+    //inicial para cada um deles com base nos dados do documento (collection)
+    if (typeof dadosCollection != 'undefined') {
+
+      for (let field in listOfFieldsAndComponents) {
+        let val = dadosCollection[field];
+
+        let calculateValue = listOfFieldsAndComponents[field].getValue(val, field);
+
+        if (calculateValue != '') {
+          let template = listOfFieldsAndComponents[field].template;
+          template = template.replace(new RegExp('{VALUE}', 'g'), calculateValue || '');
+          listOfFieldsAndComponents[field].template = template;
+        } else {
+          let template = listOfFieldsAndComponents[field].template;
+          template = template.replace(new RegExp('{VALUE}', 'g'), val || '');
+          listOfFieldsAndComponents[field].template = template;
+        }
+
+      }
+
+    }
+
+    //######################################################################
+    //########REALIZA MODIFICAÇÕES NOS TEPLATES DOS COMPONENTES#############
+    //######################################################################
+
+    //Itera sobre todos a lista de campos que serão renderizados e executa
+    //a função de inicialização de cada um deles
+    for (let field in listOfFieldsAndComponents) {
+
+      listOfFieldsAndComponents[field].templateFunction(field, listOfFieldsAndComponents[field]
+          , schema[field]);
+
+    }
+
+    //######################################################################
+    //#############INSERÇÃO DOS CAMPONENTES NO FORMULARIO###################
+    //######################################################################
+
+    //Itera sobre todos a lista de campos que serão renderizados e insere na
+    //variavel form e, em seguida, insere na Div que o forma será renderizado
+    for (let field in listOfFieldsAndComponents) {
+      form = form + listOfFieldsAndComponents[field].template;
+    }
+
+    document.getElementById(idOfElement).innerHTML = form;
+
+    //######################################################################
+    //#############INICIALIZAÇÃO DOS COMPONENTES############################
+    //######################################################################
+
+    //Itera sobre todos a lista de campos que serão renderizados e executa
+    //a função de inicialização de cada um deles
+    for (let field in listOfFieldsAndComponents) {
+
+      listOfFieldsAndComponents[field].init(field, listOfFieldsAndComponents[field]
+          , schema[field]);
+
+    }
+
+    //######################################################################
+    //#############APLICAÇÃO DO JQUERY VALIDATION###########################
+    //######################################################################
+
+    //Esta opção de aplicar a validação tem que ser a ultima ação do método
+    if (applyValidation) {
+      if (idOfForm != '') {
+        idOfElement = idOfForm;
+      }
+
+      this.applyJQueryValidation(controller, schemaName, idOfElement);
+    }
+
+  }
+
+  // formView agora considera elementos do tipo vetor
+  //todo Melhorar a escrita do código, há muita repetição
+  formRender2 (idOfElement, applyValidation = true, controller, schemaName = 'default',
+               searchFor = '', idOfForm = '') {
     let collectionFieldValues = [];
     let existsDataType = false;
     let taggingFields = [];
@@ -358,9 +516,6 @@ export class FormGenerator {
 
         }
 
-
-
-
         if (schema[key].formOptions.FIELD_TAG == 'multipleH' ||
             schema[key].formOptions.FIELD_TAG == 'multipleV') {
           existsMultipleType = true;
@@ -371,7 +526,7 @@ export class FormGenerator {
             collectionsFields.push(key);
           } else {
             let options = schema[key].formOptions.OPTIONS;
-            console.log(dadosCollection[key]);
+
             for (let oKey in options) {
               let selected = false;
 
@@ -415,7 +570,6 @@ export class FormGenerator {
 
             if (typeof options[oKey].VALUE == 'object') {
 
-              console.log(options[oKey].VALUE);
               optionsTmp = optionsTmp + '<option value=' + options[oKey].VALUE + '>'
                   + options[oKey].LABEL + '</option>';
             } else {
@@ -496,7 +650,7 @@ export class FormGenerator {
         if (schema[key].formOptions.FIELD_TAG == 'addInfo') {
           existsAddInfo = true;
         }
-        
+
         //FIELD_NAME = key
         fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
 
@@ -517,8 +671,6 @@ export class FormGenerator {
           if (taggingFields.indexOf(key) > -1) {
             taggingFieldsValues[key] = valor
           }
-
-
 
           if (schema[key].type == Date && valor) {
             var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
@@ -581,19 +733,17 @@ export class FormGenerator {
 
           // Execute callback when a tag is added
           tag_box.on("add:after", function (el, text, tagging) {
-            //console.log( "Added tag: ", text );
-            //$("#"+taggingFields[indexField]).val(text );
             let arrayValField = [];
             for (let ind in tagging.tags) {
               arrayValField.push(tagging.tags[ind].pure_text)
             }
             $("#" + taggingFields[indexField]).val(arrayValField);
-            console.log($("#" + taggingFields[indexField]).val());
+
           });
 
           // Execute callback when a tag is removed
           tag_box.on("remove:after", function (el, text, tagging) {
-            console.log("Removed tag: ", text);
+
           });
 
         }
@@ -619,9 +769,14 @@ export class FormGenerator {
     }
 
     if (existsAddInfo) {
-      UtilsView.templateRender('addInfo', 'templateAddInfo', { name: 'teste' });
+      UtilsView.templateRender('addInfo', 'templateAddInfo', {
+        values: [
+          { VALUE: { dia: 'Segunda-feira', horario: '8h-18h' }, LABEL: 'Segunda-feira' },
+          { VALUE: { dia: 'Terça-feira', horario: '8h-18h' }, LABEL: 'Terça-feira' },
+        ], FIELD_SCHEMA: 'teste'
+      });
     }
-    
+
     for (let fieldKey in collectionsFields) {
       let data = schema[collectionsFields[fieldKey]].formOptions.OPTIONSCOLLECTION;
       data['FIELD_NAME'] = collectionsFields[fieldKey];
@@ -661,17 +816,6 @@ export class FormGenerator {
         if (schema[key].formOptions.FIELD_TAG == 'imageH') {
           fieldTmp = this.getTemplate('showImageH');
 
-          //FIELD_NAME = key
-          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_NAME}', 'g'), key);
-
-          //FIELD_LABEÇ = schema[key].label
-          fieldTmp = fieldTmp.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
-
-          for (let fieldOptions in schema[key].formOptions) {
-            fieldTmp = fieldTmp.replace(
-                new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
-          }
-
           //Valor dos campos
           if (typeof dadosCollection != 'undefined') {
             let valor = dadosCollection[key];
@@ -710,7 +854,6 @@ export class FormGenerator {
 
               //Se for um Array de Objetos ou se for um Objeto
             } else if (typeof schema[key].type == 'object' || schema[key].type == Object) {
-
 
               if (schema[key].formOptions && typeof schema[key].formOptions.OPTIONSCOLLECTION !=
                   'undefined') {
@@ -797,18 +940,13 @@ export class FormGenerator {
 
         if (typeof schema[key].type == 'object') {
 
-          console.log('É um Objeto - Array de Algo');
-
           if (schema[key].type[0].name == 'Object') {
-            console.log('Array de Objeto');
-            console.log(value);
-            console.log(typeof value);
-
             objData[key] = Utils.toObjectArray(value)
-            console.log(objData[key]);
 
           } else if (schema[key].type[0].name == 'String') {
-            console.log('Array de String');
+            if (typeof value != 'array') {
+              value = value.split(",");
+            }
             objData[key] = value;
           }
         }

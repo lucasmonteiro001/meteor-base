@@ -66,7 +66,60 @@ CollectionColaboradores.setSchema({
       searchable: false,
     },
   },
+  addInfo: {
+    type: Object,
+    defaultValue: '',
+    label: 'Adicionar Informacoes',
+    formOptions: {
+      FIELD_TAG: 'addInfo',
+      CONTROLLER: 'Colaboradores',
+      SCHEMANAME: 'teste',
+      FIELD_SCHEMA: {
+        dia: {
+          type: String,
+          defaultValue: '',
+          label: 'Dia da Semana',
+          formOptions: {
+            FIELD_TAG: 'inputH',
+            FIELD_TYPE: 'text',
+          }
+        },
+        horario: {
+          type: String,
+          defaultValue: '',
+          label: 'Horario',
+          formOptions: {
+            FIELD_TAG: 'inputH',
+            FIELD_TYPE: 'text',
+          }
+        }
+      }
+    }
+  },
+  dia: {
+    type: String,
+    defaultValue: '',
+    label: 'Dia da Semana',
+    formOptions: {
+      FIELD_TAG: 'inputH',
+      FIELD_TYPE: 'text',
+      PLACEHOLDER: 'Dia da semana'
+    }
+  },
+  horario: {
+    type: String,
+    defaultValue: '',
+    label: 'Horario',
+    formOptions: {
+      FIELD_TAG: 'inputH',
+      FIELD_TYPE: 'text',
+      PLACEHOLDER: 'Horario'
+    }
+  }
 });
+
+CollectionColaboradores.addSubSchema('teste',
+    ['dia', 'horario']);
 
 CollectionColaboradores.addSubSchema('insert',
     ['nome', 'dataNascimento', 'email']);

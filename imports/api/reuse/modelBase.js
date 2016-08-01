@@ -174,7 +174,8 @@ export class ModelBase {
       try {
         result = collectionBase.getCollection().insert(dataObj);
       } catch (e) {
-        throw new Meteor.Error('Acesso Negado',
+        console.error(e.message);
+        throw new Meteor.Error(400,
             e.message);
       } finally {
         return result;
@@ -192,7 +193,8 @@ export class ModelBase {
           $set: dataObj,
         });
       } catch (e) {
-        throw new Meteor.Error('Acesso Negado',
+        console.error(e.message);
+        throw new Meteor.Error(400,
             e.message);
       } finally {
         return true;
@@ -204,13 +206,14 @@ export class ModelBase {
       check(id, String);
       try {
         if (collectionBase.getCollection().remove(id) == false) {
-          throw new Meteor.Error('Acesso Negado',
+          throw new Meteor.Error(400,
               'Você não tem permissão para acessar esta funcionalidade');
         }
         ;
 
       } catch (e) {
-        throw new Meteor.Error('Acesso Negado',
+        console.error(e.message);
+        throw new Meteor.Error(400,
             e.message);
       } finally {
         return true;

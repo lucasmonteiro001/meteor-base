@@ -34,10 +34,12 @@ Template.registerHelper('json', function (a) {
 Template.registerHelper('containsValueInList', function (field, key, item, list) {
   let result = false;
   try {
-    let fieldValues = list[field];
-    for (let index in fieldValues) {
-      if (fieldValues[index][key] == item)
+
+    for (let i in list) {
+
+      if (list[i][key] == item)
         result = true;
+
     }
 
   } catch (e) {

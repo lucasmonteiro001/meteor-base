@@ -79,7 +79,6 @@ Template.ColaboradoresView.helpers({
     return result;
   },
 });
-
 Template.ColaboradoresView.events({
 
   //Eventos do template de inserção
