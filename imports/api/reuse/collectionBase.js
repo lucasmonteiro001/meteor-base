@@ -73,13 +73,48 @@ export class CollectionBase {
 
             //Define a String de atualização considerando o
             // campo que será atualizado como um array de objetos
-            let atualizar = JSON.parse('{"$set": {"' + field + '.$": ' + JSON.stringify(doc) + '}}');
+            let atualizar =
+                JSON.parse('{"$set": {"' + field + '.$": ' + JSON.stringify(doc) + '}}');
 
             //Executa a atualização do campo
-            let cursor = listOfCollectionsDependents[key].collectionInstance.update(fieldFilter, atualizar, {
+            listOfCollectionsDependents[key].collectionInstance.update(fieldFilter, atualizar, {
               upsert: false,
               multi: true,
             });
+          }
+        }
+
+      }
+    });
+
+    this.collectionInstance.before.remove(function (userId, doc) {
+      //Itera
+      for (let key in listOfCollectionsDependents) {
+        let Schema = listOfCollectionsDependents[key].getSchemaJson();
+
+        //Itera os campos da collection dependente está associado à collection em alteração
+        //Para realizar a atualização
+        for (let field in Schema) {
+          if (typeof Schema[field].formOptions != 'undefined'
+              && typeof Schema[field].formOptions.OPTIONSCOLLECTION != 'undefined'
+              && Schema[field].formOptions.OPTIONSCOLLECTION.COLLECTION == thisCollectionName) {
+
+            //Define o filtro que será utilizado para
+            // realizar a pesquisa de documentos dependentes
+            let fieldFilter = JSON.parse('{"' + field + '._id": "' + doc._id + '"}');
+
+            //Executa a pesquisa por documentos dependentes
+            let documentsDependent =
+                listOfCollectionsDependents[key].collectionInstance.find(fieldFilter).fetch();
+
+            //Se houver documento que depende do item a ser removido
+            // a remoção é negada
+            if (documentsDependent.length>0) {
+              //todo Tratar este novo erro lançado, o modelBase envia mensagem conflitante
+              throw new Meteor.Error(666,
+                  'Você não pode remover, pois existem ' +
+                  listOfCollectionsDependents[key].collectionName + ' associados.');
+            }
           }
         }
 
