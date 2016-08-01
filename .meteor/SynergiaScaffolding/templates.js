@@ -18,7 +18,7 @@ templates['collection.js'] = M(function () {
     defaultValue: '',
     label: 'Nome',
     formOptions: {
-      FIELD_TAG: 'inputH',
+      FIELD_COMPONENT: 'inputH',
       FIELD_TYPE: 'text',
       PLACEHOLDER: 'Nome',
     },
@@ -37,7 +37,7 @@ templates['collection.js'] = M(function () {
     optional: true,
     label: 'Data de Nascimento',
     formOptions: {
-      FIELD_TAG: 'inputDateH',
+      FIELD_COMPONENT: 'inputDateH',
       FIELD_TYPE: 'date',
     },
     formValidation: {
@@ -50,7 +50,7 @@ templates['collection.js'] = M(function () {
     optional: true,
     label: 'Email',
     formOptions: {
-      FIELD_TAG: 'inputH',
+      FIELD_COMPONENT: 'inputH',
       FIELD_TYPE: 'text',
       PLACEHOLDER: 'Email',
 

@@ -8,13 +8,20 @@ class Components {
     this.ComponentTemplatesFunction = {};
     this.ComponentInitializationFunction = {};
     this.ComponentSetValuesFunction = {};
+    this.ComponentViewFunction = {};
+    this.templates = {};
   }
 
-  addComponent (name, template, templateFunction, initializationFunction, setValuesFunction) {
+  addTemplate (name, template) {
+    this.templates[name] = template;
+  }
+
+  addComponent (name, template, templateFunction, initializationFunction, setValuesFunction, viewFunction) {
     this.ComponentTemplates[name] = template;
     this.ComponentTemplatesFunction[name] = templateFunction;
     this.ComponentInitializationFunction[name] = initializationFunction;
     this.ComponentSetValuesFunction[name] = setValuesFunction;
+    this.ComponentViewFunction[name] = viewFunction;
   }
 
   getComponente (name) {
@@ -24,17 +31,24 @@ class Components {
         template: this.ComponentTemplates[name],
         templateFunction: this.ComponentTemplatesFunction[name],
         init: this.ComponentInitializationFunction[name],
-        getValue: this.ComponentSetValuesFunction[name]
+        getValue: this.ComponentSetValuesFunction[name],
+        view: this.ComponentViewFunction[name],
       }
 
     } else {
       return {
-        name: name, template: '', templateFunction: ()=> {
+        name: name,
+        template: '',
+        templateFunction: ()=> {
           return '';
         },
         init: ()=> {
           return '';
-        }, getValue: ()=> {
+        },
+        getValue: ()=> {
+          return '';
+        },
+        view: ()=> {
           return '';
         }
       }
@@ -61,6 +75,24 @@ export const FormComponents = new Components();
 
 //#################################################################
 //#################################################################
+//#########DEFINIÇAÕ DOS TEMPLATES ################################
+//#################################################################
+//#################################################################
+
+FormComponents.addTemplate('spanH', '<div class="form-group"> \
+ <label class="col-md-3 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div class="col-md-9"  style="overflow-x:auto;"> \
+ <span id="{FIELD_NAME}">{VALUE}</span> \
+ </div>\
+ </div>');
+
+FormComponents.addTemplate('spanV', '<div class="form-group"  style="overflow-x:auto;"> \
+ <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <span id="{FIELD_NAME}">{VALUE}</span> \
+ </div>');
+
+//#################################################################
+//#################################################################
 //#########DEFINIÇAÕ DOS COMPONENTES###############################
 //#################################################################
 //#################################################################
@@ -69,6 +101,12 @@ let template;
 let templateFunction;
 let initializationFunction;
 let getValueFunction;
+let viewFunction;
+
+//Função de visualização comum a vários componentes
+let defaultViewComponent = (value)=> {
+  return (FormComponents.templates['spanH'].replace(new RegExp('{VALUE}', 'g'), value || ''))
+}
 
 //##############################################################################################
 //#############  Componente inputH ########################################################
@@ -89,7 +127,10 @@ initializationFunction = (fieldName, fieldOptions, Schema)=> {
 getValueFunction = (value, fieldName = '')=> {
   return '';
 };
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+viewFunction = defaultViewComponent;
+
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
 
 //##############################################################################################
 //#############  Componente inputTaggingH ########################################################
@@ -136,14 +177,17 @@ initializationFunction = (fieldName, fieldOptions, Schema)=> {
     });
 
   });
-  
+
   return '';
 };
 getValueFunction = (value, fieldName = '')=> {
   this['value' + fieldName] = value;
   return '';
 };
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+
+viewFunction = defaultViewComponent;
+
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
 //#############  Componente multipleH ########################################################
@@ -154,6 +198,130 @@ template = '<div class="form-group"> \
          </div>\
         </div>';
 templateFunction = (fieldName, fieldOptions, schema)=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, schema)=> {
+  if (typeof schema.formOptions.OPTIONSCOLLECTION != 'undefined') {
+    let data = schema.formOptions.OPTIONSCOLLECTION;
+    data['FIELD_NAME'] = fieldName;
+    data['FIELD_VALUES'] = this['value' + fieldName];
+    UtilsView.templateRender('select2Collection', 'template-' + fieldName, data);
+  } else {
+    console.log('Error: Schema não definido');
+  }
+};
+getValueFunction = (value, fieldName = '')=> {
+  this['value' + fieldName] = value;
+  return '';
+};
+
+viewFunction = (value, schema)=> {
+  let controllerTmp = Blaze._globalHelpers.getController(
+      schema.formOptions.OPTIONSCOLLECTION.COLLECTION);
+  let collectionSchema = schema.formOptions.OPTIONSCOLLECTION.COLLECTION_SCHEMA;
+  let result = UtilsView.getTableViewFromSchemaAndListOfObjects(
+      controllerTmp.getSubSchemaJson(collectionSchema), value);
+  return (defaultViewComponent(result));
+}
+
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente inputDateH ########################################################
+name = 'inputDateH';
+template = '<div class="form-group" id="data_1"> \
+         <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+         <div class="col-md-10"> \
+            <div class="input-group date"  id="{FIELD_NAME}-Date"> \
+              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>\
+              <input type="text" class="form-control" id="{FIELD_NAME}" name="{FIELD_NAME}" \
+              value="{VALUE}"> \
+            </div>\
+          </div> \
+         </div>';
+;
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName)=> {
+  $('#' + fieldName).datepicker({
+    startView: 1,
+    todayBtn: 'linked',
+    keyboardNavigation: false,
+    forceParse: false,
+    autoclose: true,
+    format: 'dd/mm/yyyy',
+  });
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  let pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+  let newvalue;
+  value = String(value);
+  if (typeof value == 'string') {
+    newvalue = new Date(value.replace(pattern, '$3-$2-$1'));
+    pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+    return newvalue.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+  } else {
+    return '';
+  }
+};
+
+viewFunction = (value)=> {
+  let pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+  let result;
+  value = String(value);
+  if (typeof value == 'string') {
+    result = new Date(value.replace(pattern, '$3-$2-$1'));
+    pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+    result = result.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+  } else {
+    result = '';
+  }
+
+  return defaultViewComponent(result);
+
+};
+
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente textareaH ########################################################
+name = 'textareaH';
+template = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-10"> \
+          <textarea class="form-control" rows="{ROWS}" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}">{VALUE}</textarea> \
+          </div> \
+          </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+
+viewFunction = defaultViewComponent;
+
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente fieldSample ########################################################
+name = 'multipleH';
+template = '<div class="form-group"> \
+ <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div class="col-md-10"> \
+ <select class="select2_demo_2 form-control" style="width: 100%" multiple="multiple" \
+ id="{FIELD_NAME}" name="{FIELD_NAME}">\
+ {FIELD_OPTIONS} \
+ </select>\
+ </div>\
+ </div>';
+templateFunction = (fieldName, fieldOptions, schema)=> {
   let optionsTmp = '';
   if (typeof schema.formOptions.OPTIONS != 'undefined') {
     let options = schema.formOptions.OPTIONS;
@@ -163,7 +331,7 @@ templateFunction = (fieldName, fieldOptions, schema)=> {
 
       //Verifica se opções foram previamente selecionadas
       for (let dado in this.value) {
-        if (_.isEqual(options[oKey].VALUE, this.value[dado])) {
+        if (_.isEqual(options[oKey].VALUE, this['value' + fieldName][dado])) {
           selected = true;
         }
       }
@@ -190,82 +358,24 @@ templateFunction = (fieldName, fieldOptions, schema)=> {
         new RegExp('{FIELD_OPTIONS}', 'g'), optionsTmp);
   }
 };
-initializationFunction = (fieldName, fieldOptions, schema)=> {
-  if (typeof schema.formOptions.OPTIONSCOLLECTION != 'undefined') {
-    let data = schema.formOptions.OPTIONSCOLLECTION;
-    data['FIELD_NAME'] = fieldName;
-    data['FIELD_VALUES'] = this['value' + fieldName];
-    UtilsView.templateRender('select2Collection', 'template-' + fieldName, data);
-  } else {
-    console.log('Error: Schema não definido');
-  }
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  $('#' + fieldName).select2();
+  return '';
 };
 getValueFunction = (value, fieldName = '')=> {
   this['value' + fieldName] = value;
   return '';
 };
 
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+viewFunction = (value, schema)=> {
+  let result = UtilsView.getTableViewFromSchemaAndListOfObjects(
+      schema.formOptions.FIELD_SCHEMA, value);
+  return (defaultViewComponent(result));
+}
 
-//##############################################################################################
-//#############  Componente inputDateH ########################################################
-name = 'inputDateH';
-template = '<div class="form-group" id="data_1"> \
-         <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-         <div class="col-md-10"> \
-            <div class="input-group date"  id="{FIELD_NAME}-Date"> \
-              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>\
-              <input type="text" class="form-control" id="{FIELD_NAME}" name="{FIELD_NAME}" \
-              value="{VALUE}"> \
-            </div>\
-          </div> \
-         </div>';
-;
-templateFunction = ()=> {
-  return '';
-};
-initializationFunction = (fieldName)=> {
-  $('#' + fieldName + '-Date').datepicker({
-    startView: 1,
-    todayBtn: 'linked',
-    keyboardNavigation: false,
-    forceParse: false,
-    autoclose: true,
-    format: 'dd/mm/yyyy',
-  });
-  return '';
-};
-getValueFunction = (value, fieldName = '')=> {
-  var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
-  if (typeof value == 'string')
-    value = new Date(value.replace(pattern, '$3-$2-$1'));
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
-  pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
-  return value.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
 
-};
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
-
-//##############################################################################################
-//#############  Componente textareaH ########################################################
-name = 'textareaH';
-template = '<div class="form-group"> \
-          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-          <div class="col-md-10"> \
-          <textarea class="form-control" rows="{ROWS}" id="{FIELD_NAME}" \
-          name="{FIELD_NAME}">{VALUE}</textarea> \
-          </div> \
-          </div>';
-templateFunction = ()=> {
-  return '';
-};
-initializationFunction = (fieldName, fieldOptions, Schema)=> {
-  return '';
-};
-getValueFunction = (value, fieldName = '')=> {
-  return '';
-};
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
 
 //##############################################################################################
 //#############  Componente fieldSample ########################################################
@@ -280,7 +390,10 @@ initializationFunction = (fieldName, fieldOptions, Schema)=> {
 getValueFunction = (value, fieldName = '')=> {
   return '';
 };
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+
+viewFunction = defaultViewComponent;
+
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //#################################################################
 //#################################################################

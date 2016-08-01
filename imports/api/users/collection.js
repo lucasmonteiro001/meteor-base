@@ -52,7 +52,7 @@ CltUsers.setSchema({
     type: String,
     label: 'Nome',
     formOptions: {
-      FIELD_TAG: 'input',
+      FIELD_COMPONENT: 'input',
       FIELD_TYPE: 'text',
     },
     formValidation: {
@@ -76,7 +76,7 @@ CltUsers.setSchema({
     type: Object,
     label: 'Email',
     formOptions: {
-      FIELD_TAG: 'input',
+      FIELD_COMPONENT: 'input',
       FIELD_TYPE: 'text',
     },
     formValidation: {

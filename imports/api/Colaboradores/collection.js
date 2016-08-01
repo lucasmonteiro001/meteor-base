@@ -8,7 +8,8 @@ CollectionColaboradores.setSchema({
     defaultValue: '',
     label: 'Nome',
     formOptions: {
-      FIELD_TAG: 'inputH',
+      VISIBLE: true,
+      FIELD_COMPONENT: 'inputH',
       FIELD_TYPE: 'text',
       PLACEHOLDER: 'Nome',
     },
@@ -27,7 +28,8 @@ CollectionColaboradores.setSchema({
     optional: true,
     label: 'Data de Nascimento',
     formOptions: {
-      FIELD_TAG: 'inputDateH',
+      VISIBLE: true,
+      FIELD_COMPONENT: 'inputDateH',
       FIELD_TYPE: 'date',
     },
     formValidation: {
@@ -40,7 +42,8 @@ CollectionColaboradores.setSchema({
     optional: true,
     label: 'Email',
     formOptions: {
-      FIELD_TAG: 'inputH',
+      VISIBLE: true,
+      FIELD_COMPONENT: 'inputH',
       FIELD_TYPE: 'text',
       PLACEHOLDER: 'Email',
 
@@ -71,7 +74,8 @@ CollectionColaboradores.setSchema({
     defaultValue: '',
     label: 'Adicionar Informacoes',
     formOptions: {
-      FIELD_TAG: 'addInfo',
+      VISIBLE: true,
+      FIELD_COMPONENT: 'addInfo',
       CONTROLLER: 'Colaboradores',
       SCHEMANAME: 'teste',
       FIELD_SCHEMA: {
@@ -80,7 +84,7 @@ CollectionColaboradores.setSchema({
           defaultValue: '',
           label: 'Dia da Semana',
           formOptions: {
-            FIELD_TAG: 'inputH',
+            FIELD_COMPONENT: 'inputH',
             FIELD_TYPE: 'text',
           }
         },
@@ -89,7 +93,7 @@ CollectionColaboradores.setSchema({
           defaultValue: '',
           label: 'Horario',
           formOptions: {
-            FIELD_TAG: 'inputH',
+            FIELD_COMPONENT: 'inputH',
             FIELD_TYPE: 'text',
           }
         }
@@ -101,7 +105,7 @@ CollectionColaboradores.setSchema({
     defaultValue: '',
     label: 'Dia da Semana',
     formOptions: {
-      FIELD_TAG: 'inputH',
+      FIELD_COMPONENT: 'inputH',
       FIELD_TYPE: 'text',
       PLACEHOLDER: 'Dia da semana'
     }
@@ -111,7 +115,7 @@ CollectionColaboradores.setSchema({
     defaultValue: '',
     label: 'Horario',
     formOptions: {
-      FIELD_TAG: 'inputH',
+      FIELD_COMPONENT: 'inputH',
       FIELD_TYPE: 'text',
       PLACEHOLDER: 'Horario'
     }

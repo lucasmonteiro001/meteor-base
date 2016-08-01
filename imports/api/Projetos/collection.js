@@ -12,7 +12,8 @@ CollectionProjetos.setSchema({
     defaultValue: '',
     label: 'Nome',
     formOptions: {
-      FIELD_TAG: 'inputH',
+      VISIBLE: true,
+      FIELD_COMPONENT: 'inputH',
       FIELD_TYPE: 'text',
       PLACEHOLDER: 'Nome',
     },
@@ -34,7 +35,8 @@ CollectionProjetos.setSchema({
     defaultValue: [],
     label: 'Dias de Trabalho',
     formOptions: {
-      FIELD_TAG: 'multipleH',
+      VISIBLE: true,
+      FIELD_COMPONENT: 'multipleH',
       FIELD_TYPE: 'text',
       OPTIONS: [
         { VALUE: { dia: 'Segunda-feira', horario: '8h-18h' }, LABEL: 'Segunda-feira' },
@@ -51,7 +53,8 @@ CollectionProjetos.setSchema({
           defaultValue: '',
           label: 'Dia da Semana',
           formOptions: {
-            FIELD_TAG: 'inputH',
+            VISIBLE: true,
+            FIELD_COMPONENT: 'inputH',
             FIELD_TYPE: 'text',
           },
         },
@@ -60,7 +63,8 @@ CollectionProjetos.setSchema({
           defaultValue: '',
           label: 'Horario',
           formOptions: {
-            FIELD_TAG: 'inputH',
+            VISIBLE: true,
+            FIELD_COMPONENT: 'inputH',
             FIELD_TYPE: 'text',
           },
         },
@@ -82,39 +86,27 @@ CollectionProjetos.setSchema({
     optional: true,
     label: 'Tecnologias',
     formOptions: {
-      FIELD_TAG: 'inputTaggingH',
+      VISIBLE: true,
+      FIELD_COMPONENT: 'inputTaggingH',
       FIELD_TYPE: 'text',
-      FIELD_SCHEMA: {
-        Tecnologia: {
-          type: String,
-          defaultValue: '',
-          label: 'Tecnologia',
-          formOptions: {
-            FIELD_TAG: 'inputH',
-            FIELD_TYPE: 'text',
-          },
-        },
-      },
     },
     dataTableConfig: {
       orderable: false,
       RenderObjects: 'OnTable',
     },
   },
-
-
-  valor: {
+  esforcoestimado: {
     type: Number,
     defaultValue: 0,
     optional: true,
-    label: 'Valor',
+    label: 'Esforço Estimado',
     formOptions: {
-      FIELD_TAG: 'inputH',
+      VISIBLE: true,
+      FIELD_COMPONENT: 'inputH',
       FIELD_TYPE: 'number',
-      PLACEHOLDER: 'Valor',
     },
     dataTableConfig: {
-      label: 'Valor',
+      label: 'Esforço Estimado',
     },
   },
   dataInicio: {
@@ -122,7 +114,8 @@ CollectionProjetos.setSchema({
     optional: true,
     label: 'Data de Início',
     formOptions: {
-      FIELD_TAG: 'inputDateH',
+      VISIBLE: true,
+      FIELD_COMPONENT: 'inputDateH',
       FIELD_TYPE: 'date',
     },
     formValidation: {
@@ -134,7 +127,8 @@ CollectionProjetos.setSchema({
     optional: true,
     label: 'Data de Fim',
     formOptions: {
-      FIELD_TAG: 'inputDateH',
+      VISIBLE: true,
+      FIELD_COMPONENT: 'inputDateH',
       FIELD_TYPE: 'date',
     },
     formValidation: {
@@ -147,7 +141,8 @@ CollectionProjetos.setSchema({
     optional: true,
     label: 'Descrição:',
     formOptions: {
-      FIELD_TAG: 'textareaH',
+      VISIBLE: true,
+      FIELD_COMPONENT: 'textareaH',
       ROWS: 3,
     },
     formValidation: {},
@@ -159,7 +154,8 @@ CollectionProjetos.setSchema({
     optional: true,
     label: 'Coordenadores',
     formOptions: {
-      FIELD_TAG: 'multipleHCollection',
+      VISIBLE: true,
+      FIELD_COMPONENT: 'multipleHCollection',
       OPTIONSCOLLECTION: {
         COLLECTION: 'Colaboradores',
         COLLECTION_SCHEMA: 'tableview',
@@ -180,7 +176,8 @@ CollectionProjetos.setSchema({
     optional: true,
     label: 'Colaboradores',
     formOptions: {
-      FIELD_TAG: 'multipleHCollection',
+      VISIBLE: true,
+      FIELD_COMPONENT: 'multipleHCollection',
       OPTIONSCOLLECTION: {
         COLLECTION: 'Colaboradores',
         COLLECTION_SCHEMA: 'tableview',
@@ -210,16 +207,16 @@ CollectionProjetos.setSchema({
 });
 
 CollectionProjetos.addSubSchema('insert',
-    ['nome', 'dataInicio', 'diasdetrabalho', 'colaboradores', 'coordenadores', 'tecnologias']);
+    ['nome', 'dataInicio', 'diasdetrabalho', 'colaboradores', 'coordenadores', 'tecnologias', 'esforcoestimado']);
 
 CollectionProjetos.addSubSchema('update',
-    ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores', 'coordenadores', 'tecnologias']);
+    ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores', 'coordenadores', 'tecnologias', 'esforcoestimado']);
 
 CollectionProjetos.addSubSchema('tableview',
-    ['nome', 'diasdetrabalho', 'userId', 'colaboradores', 'tecnologias', 'coordenadores']);
+    ['nome', 'diasdetrabalho', 'userId', 'colaboradores', 'tecnologias', 'coordenadores', 'esforcoestimado']);
 
 CollectionProjetos.addSubSchema('view',
-    ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio', 'tecnologias', 'userId', 'coordenadores']);
+    ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio', 'tecnologias', 'userId', 'coordenadores', 'esforcoestimado']);
 
 //################################################
 //############ RESTRIÇÃO DE ACESSO ###############
