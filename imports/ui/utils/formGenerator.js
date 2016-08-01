@@ -203,7 +203,6 @@ export class FormGenerator {
 
         let template = listOfFieldsAndComponents[key].view(val, schema[key]);
 
-
         //FIELD_NAME = key
         template = template.replace(new RegExp('{FIELD_NAME}', 'g'), key);
 
@@ -232,8 +231,6 @@ export class FormGenerator {
     document.getElementById(idOfElement).innerHTML = form;
 
   }
-
-
 
   applyJQueryValidation (controller, schemaName = 'default', elementId) {
     let rules = {};
@@ -488,8 +485,6 @@ export const formGen = new FormGenerator();
  name="{FIELD_NAME}">{VALUE}</textarea> \
  </div>';
 
-
-
  this.templates['selectH'] = '<div class="form-group"> \
  <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
  <div class="col-md-10"> \
@@ -643,12 +638,19 @@ export const formGen = new FormGenerator();
  <img src="{VALUE}" >\
  </div> </div>';
 
- this.templates['addInfo'] = '<div class="form-group"> \
+ this.templates['showImageV'] = '<div class="form-group"> \
+ <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div id="{FIELD_NAME}"> \
+ <img src="{VALUE}" >\
+ </div> </div>';
+
+ this.templates['addInfoH'] = '<div class="form-group"> \
  <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
  <div class="col-md-10"> \
  <div id="templateAddInfo"></div>\
  </div> \
  </div>';
+ }
 
 
 

@@ -37,12 +37,11 @@ Template.select2Collection.helpers({
 });
 Template.select2Collection.events({});
 
-Template.selectImage.onCreated(() => {
+Template.selectImageTemplate.onCreated(() => {
   template = Template.instance();
   let imageData = template.data;
 });
-
-Template.selectImage.onRendered(() => {
+Template.selectImageTemplate.onRendered(() => {
   template = Template.instance();
 
   var $image = $(".image-crop > img")
@@ -116,9 +115,9 @@ Template.selectImage.onRendered(() => {
   });
 
 });
-Template.selectImage.helpers(() => {
+Template.selectImageTemplate.helpers(() => {
 });
-Template.selectImage.events({
+Template.selectImageTemplate.events({
 
   'click button[data-target=".imageModal"]': function () {
   },
@@ -126,26 +125,21 @@ Template.selectImage.events({
   }
 });
 
-Template.addInfo.onCreated(() => {
+Template.addInfoTemplate.onCreated(() => {
   template = Template.instance();
-  // template.controller = Blaze._globalHelpers.getController(template.data.COLLECTION);
-  // let infoData = template.data;
-
-  // document.getElementById('tableview').innerHTML = '<div>koe bily jow</div>';
-  // document.getElementById('tableview').innerHTML = UtilsView.getTableViewFromSchemaAndListOfObjects(infoData.FIELD_SCHEMA, infoData.values);
-  // template.data.values.push(object);
 });
-Template.addInfo.onRendered(() => {
+Template.addInfoTemplate.onRendered(() => {
   let infoData = template.data;
   template.controller = Blaze._globalHelpers.getController(template.data.COLLECTION);
-  formGen.formRender('modalContext', true, ColaboradoresController, 'teste', '', 'modalTag');
-  // document.getElementById('tableview').innerHTML = '<div>koe bily jow</div>';
-  document.getElementById('tableview').innerHTML = UtilsView.getTableViewFromSchemaAndListOfObjects(infoData.FIELD_SCHEMA, infoData.values);
+
+  formGen.formRender2('modalContext', true, ColaboradoresController, 'teste', '', 'modalTag');
+  
+  document.getElementById('tableview').innerHTML = UtilsView.getDataTableConfig(ColaboradoresController,'teste', {});
 
 });
-Template.addInfo.helpers(() => {
+Template.addInfoTemplate.helpers(() => {
 });
-Template.addInfo.events({
+Template.addInfoTemplate.events({
   'click button[data-target=".addInfo"]': function () {
   },
   'click button[data-dismiss="modal"]': function () {

@@ -75,7 +75,7 @@ CollectionColaboradores.setSchema({
     label: 'Adicionar Informacoes',
     formOptions: {
       VISIBLE: true,
-      FIELD_COMPONENT: 'addInfo',
+      FIELD_COMPONENT: 'addInfoH',
       CONTROLLER: 'Colaboradores',
       SCHEMANAME: 'teste',
       FIELD_SCHEMA: {
@@ -126,7 +126,7 @@ CollectionColaboradores.addSubSchema('teste',
     ['dia', 'horario']);
 
 CollectionColaboradores.addSubSchema('insert',
-    ['nome', 'dataNascimento', 'email']);
+    ['nome', 'dataNascimento', 'email', 'addInfo']);
 
 CollectionColaboradores.addSubSchema('update',
     ['nome', 'dataNascimento', 'email']);

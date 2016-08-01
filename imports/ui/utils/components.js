@@ -93,7 +93,7 @@ FormComponents.addTemplate('spanV', '<div class="form-group"  style="overflow-x:
 
 //#################################################################
 //#################################################################
-//#########DEFINIÇAÕ DOS COMPONENTES###############################
+//######### DEFINIÇÃO DOS COMPONENTES #############################
 //#################################################################
 //#################################################################
 let name;
@@ -128,9 +128,72 @@ getValueFunction = (value, fieldName = '')=> {
   return '';
 };
 viewFunction = defaultViewComponent;
-
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
+
+//##############################################################################################
+//#############  Componente inputV ########################################################
+name = 'inputV';
+template = '<div class="form-group"> \
+<label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+<input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
+name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}"> \
+</div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+
+//##############################################################################################
+//#############  Componente inputMaskH ########################################################
+name = 'inputMaskH';
+template = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-10"> \
+               <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}" \
+          data-mask="{DATA_MASK}"> \
+          </div> \
+        </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+
+//##############################################################################################
+//#############  Componente inputMaskV ########################################################
+name = 'inputMaskV';
+template = '<div class="form-group"> \
+          <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+               <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}" \
+          data-mask="{DATA_MASK}"> \
+        </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
 
 //##############################################################################################
 //#############  Componente inputTaggingH ########################################################
@@ -184,10 +247,61 @@ getValueFunction = (value, fieldName = '')=> {
   this['value' + fieldName] = value;
   return '';
 };
-
 viewFunction = defaultViewComponent;
-
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente inputTaggingV ########################################################
+name = 'inputTaggingV';
+template = '<div class="form-group"> \
+          <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
+          <div id="{FIELD_NAME}-tagging"> \
+          </div> \
+        </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  let t = $("#" + fieldName + '-tagging').tagging();
+  let tag_box = t[0];
+  let arrayValField = [];
+  //Configurar para remover o "spacebar" como ação para adicionar uma tag.
+  tag_box.tagging("removeSpecialKeys", ["add", 32]);
+  tag_box.tagging("reset");
+
+  for (let key in this['value' + fieldName]) {
+    let val = String(this['value' + fieldName][key]);
+    if (val.trim() != '')
+      tag_box.tagging("add", val.trim());
+    arrayValField.push(val.trim());
+  }
+  $("#" + fieldName).val(tag_box.tagging("getTags"));
+
+  // Execute callback when a tag is added
+  tag_box.on("add:after", function (el, text, tagging) {
+    arrayValField.push(text.trim())
+    $("#" + fieldName).val(arrayValField);
+
+  });
+
+  // Execute callback when a tag is removed
+  tag_box.on("remove:after", function (el, text, tagging) {
+
+    arrayValField = $.grep(arrayValField, function (val, index) {
+      return val == text.trim();
+    });
+
+  });
+
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  this['value' + fieldName] = value;
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
 
 //##############################################################################################
 //#############  Componente multipleH ########################################################
@@ -214,7 +328,6 @@ getValueFunction = (value, fieldName = '')=> {
   this['value' + fieldName] = value;
   return '';
 };
-
 viewFunction = (value, schema)=> {
   let controllerTmp = Blaze._globalHelpers.getController(
       schema.formOptions.OPTIONSCOLLECTION.COLLECTION);
@@ -222,7 +335,7 @@ viewFunction = (value, schema)=> {
   let result = UtilsView.getTableViewFromSchemaAndListOfObjects(
       controllerTmp.getSubSchemaJson(collectionSchema), value);
   return (defaultViewComponent(result));
-}
+};
 
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
@@ -239,7 +352,6 @@ template = '<div class="form-group" id="data_1"> \
             </div>\
           </div> \
          </div>';
-;
 templateFunction = ()=> {
   return '';
 };
@@ -266,7 +378,6 @@ getValueFunction = (value, fieldName = '')=> {
     return '';
   }
 };
-
 viewFunction = (value)=> {
   let pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
   let result;
@@ -282,8 +393,91 @@ viewFunction = (value)=> {
   return defaultViewComponent(result);
 
 };
-
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente inputDateV ########################################################
+name = 'inputDateV';
+template = '<div class="form-group" id="data_1"> \
+         <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label>\
+            <div class="input-group date">\
+              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>\
+              <input type="text" class="form-control" id="{FIELD_NAME}" name="{FIELD_NAME}" \
+              value="{VALUE}"> \
+          </div> \
+         </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName)=> {
+  $('#' + fieldName + '-Date').datepicker({
+    startView: 1,
+    todayBtn: 'linked',
+    keyboardNavigation: false,
+    forceParse: false,
+    autoclose: true,
+    format: 'dd/mm/yyyy',
+  });
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+  if (typeof value == 'string')
+    value = new Date(value.replace(pattern, '$3-$2-$1'));
+
+  pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+  return value.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+
+};
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+
+//##############################################################################################
+//#############  Componente inputHourH ########################################################
+name = 'inputHourH';
+template = '<div class="form-group" id="hour_1"> \
+         <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label>\
+         <div class="col-md-10"> \
+            <div class="input-group clockpicker" data-autoclose="true">\
+              <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>\
+              <input type="text" class="form-control" value="00:00" id="{FIELD_NAME}" \
+              name="{FIELD_NAME}"> \
+            </div>\
+          </div> \
+         </div>';
+templateFunction = ()=> {
+  $('.clockpicker').clockpicker();
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+
+//##############################################################################################
+//#############  Componente inputHourV ########################################################
+name = 'inputHourV';
+template = '<div class="form-group" id="hour_1"> \
+         <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label>\
+            <div class="input-group clockpicker" data-autoclose="true">\
+              <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>\
+              <input type="text" class="form-control" value="00:00" id="{FIELD_NAME}" \
+              name="{FIELD_NAME}"> \
+          </div> \
+         </div>';
+templateFunction = ()=> {
+  $('.clockpicker').clockpicker();
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
 
 //##############################################################################################
 //#############  Componente textareaH ########################################################
@@ -304,13 +498,11 @@ initializationFunction = (fieldName, fieldOptions, Schema)=> {
 getValueFunction = (value, fieldName = '')=> {
   return '';
 };
-
 viewFunction = defaultViewComponent;
-
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
-//#############  Componente fieldSample ########################################################
+//#############  Componente multipleH ########################################################
 name = 'multipleH';
 template = '<div class="form-group"> \
  <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
@@ -366,16 +558,104 @@ getValueFunction = (value, fieldName = '')=> {
   this['value' + fieldName] = value;
   return '';
 };
-
 viewFunction = (value, schema)=> {
   let result = UtilsView.getTableViewFromSchemaAndListOfObjects(
       schema.formOptions.FIELD_SCHEMA, value);
   return (defaultViewComponent(result));
 }
-
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
+//##############################################################################################
+//#############  Componente textareaV ########################################################
+name = 'textareaV';
+template = '<div class="form-group"> \
+          <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <textarea class="form-control" rows="{ROWS}" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}">{VALUE}</textarea> \
+          </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
+//##############################################################################################
+//#############  Componente inputHelpH ########################################################
+name = 'inputHelpH';
+template = '<div class="form-group">  \
+    <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+            <div class="col-md-10">\
+                <input type="{FIELD_TYPE}" id="{FIELD_NAME}" name="{FIELD_NAME}" \
+                class="form-control">\
+                <span class="help-block m-b-none">{HELP_TEXT}</span>\
+            </div>\
+            </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+
+//##############################################################################################
+//#############  Componente inputHelpH ########################################################
+name = 'inputHelpH';
+template = '<div class="form-group">  \
+    <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+                <input type="{FIELD_TYPE}" id="{FIELD_NAME}" name="{FIELD_NAME}" \
+                class="form-control">\
+                <span class="help-block m-b-none">{HELP_TEXT}</span>\
+            </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+
+//##############################################################################################
+//#############  Componente spanH ########################################################
+name = 'spanH';
+template = '<div class="form-group"> \
+          <label class="col-md-3 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-9"  style="overflow-x:auto;"> \
+              <span id="{FIELD_NAME}">{VALUE}</span> \
+          </div>\
+          </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
+
+
+//#################################################################
+//#################################################################
+//#################################################################
+//#################################################################
+//#################################################################
 
 //##############################################################################################
 //#############  Componente fieldSample ########################################################
@@ -390,14 +670,6 @@ initializationFunction = (fieldName, fieldOptions, Schema)=> {
 getValueFunction = (value, fieldName = '')=> {
   return '';
 };
-
 viewFunction = defaultViewComponent;
-
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
-
-//#################################################################
-//#################################################################
-//#################################################################
-//#################################################################
-//#################################################################
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
 
