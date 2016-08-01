@@ -50,7 +50,7 @@ export class CollectionBase {
       },
     });
 
-    //region todo####################### Hooks #######################
+    //region ####################### Hooks #######################
     const listOfCollectionsDependents = this.collectionsDependents;
     const thisCollectionName = this.collectionName;
 
@@ -120,6 +120,7 @@ export class CollectionBase {
 
       }
     });
+
     //endregion
   }
 
@@ -252,7 +253,8 @@ export class CollectionBase {
 
     schema = Utils.cloneObj(this.schemaDefault);
 
-    if (schema[fieldName] && schema[fieldName].formOptions && schema[fieldName].formOptions.FIELD_SCHEMA) {
+    if (schema[fieldName] && schema[fieldName].formOptions &&
+        schema[fieldName].formOptions.FIELD_SCHEMA) {
       fieldJson = schema[fieldName].formOptions.FIELD_SCHEMA;
     }
 
@@ -286,7 +288,8 @@ export class CollectionBase {
 
       if (typeof permissions.byFunctionality != 'undefined') {
         for (let keyPerm in permissions.byFunctionality) {
-          this.collectionInstance.permit(permissions.byFunctionality[keyPerm].actions).ifHasRole(permissions.byFunctionality[keyPerm].groups);
+          this.collectionInstance.permit(permissions.byFunctionality[keyPerm].actions).ifHasRole(
+              permissions.byFunctionality[keyPerm].groups);
         }
       }
 
