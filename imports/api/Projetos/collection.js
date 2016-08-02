@@ -227,7 +227,7 @@ let permissions = [{
   groups: ['administrador'], //Permissions by Functionality
 },
   {
-    actions: ['update', 'read'],
+    actions: ['update', 'remove'],
     groups: ['administrador'], //Permissions by Functionality
     data: { userId: "{_UserID_}" }, //Filter/Permissions by Data
   }

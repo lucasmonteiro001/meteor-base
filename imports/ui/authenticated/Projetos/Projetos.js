@@ -151,7 +151,7 @@ Template.ProjetosList.onCreated(() => {
 });
 
 let dataTableData = function () {
-
+  
   return ProjetosController.getAll().fetch();
 
 };

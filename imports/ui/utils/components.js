@@ -394,9 +394,16 @@ viewFunction = (value)=> {
   let result;
   value = String(value);
   if (typeof value == 'string') {
-    result = new Date(value.replace(pattern, '$3-$2-$1'));
-    pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
-    result = result.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+    try {
+      result = new Date(value.replace(pattern, '$3-$2-$1'));
+      pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+      result = result.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+    } catch (e) {
+      console.error(e.message);
+    } finally {
+      result = '';
+    }
+
   } else {
     result = '';
   }
@@ -445,9 +452,17 @@ viewFunction = (value)=> {
   let result;
   value = String(value);
   if (typeof value == 'string') {
-    result = new Date(value.replace(pattern, '$3-$2-$1'));
-    pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
-    result = result.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+    try {
+      result = new Date(value.replace(pattern, '$3-$2-$1'));
+      pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+      result = result.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+    } catch (e) {
+      console.error(e.message);
+    } finally {
+      result = '';
+    }
+
+
   } else {
     result = '';
   }

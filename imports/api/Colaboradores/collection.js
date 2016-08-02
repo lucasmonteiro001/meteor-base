@@ -100,26 +100,6 @@ CollectionColaboradores.setSchema({
       }
     }
   },
-  dia: {
-    type: String,
-    defaultValue: '',
-    label: 'Dia da Semana',
-    formOptions: {
-      FIELD_COMPONENT: 'inputH',
-      FIELD_TYPE: 'text',
-      PLACEHOLDER: 'Dia da semana'
-    }
-  },
-  horario: {
-    type: String,
-    defaultValue: '',
-    label: 'Horario',
-    formOptions: {
-      FIELD_COMPONENT: 'inputH',
-      FIELD_TYPE: 'text',
-      PLACEHOLDER: 'Horario'
-    }
-  }
 });
 
 CollectionColaboradores.addSubSchema('teste',

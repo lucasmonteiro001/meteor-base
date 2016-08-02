@@ -1,6 +1,5 @@
 import { Utils } from '.././../api/reuse/utils';
 import './formGeneratorTemplates.html';
-import { UtilsView } from './ViewUtils';
 import { FormComponents } from './components';
 import './formGeneratorTemplates';
 import { Blaze } from 'meteor/blaze';
@@ -199,7 +198,10 @@ export class FormGenerator {
         else
           listOfFieldsAndComponents[key] = FormComponents.getComponente(schema[key].formOptions.FIELD_COMPONENT);
 
-        let val = dadosCollection[key] || '';
+        let val = '';
+        if (typeof dadosCollection != 'undefined') {
+          val = dadosCollection[key] || '';
+        }
 
         let template = listOfFieldsAndComponents[key].view(val, schema[key]);
 

@@ -94,8 +94,10 @@ Template.ColaboradoresView.events({
                 Message.showErro(error);
 
               } else {
+
                 FlowRouter.go('Colaboradores');
                 Message.showSuccessNotification('O Colaboradores foi removido com sucesso!');
+                
               }
             });
           }
@@ -150,7 +152,6 @@ Template.ColaboradoresList.onCreated(() => {
 });
 
 let dataTableData = function () {
-
   return ColaboradoresController.getAll().fetch();
 
 };
