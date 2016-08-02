@@ -315,7 +315,7 @@ viewFunction = defaultViewComponent;
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
-//#############  Componente multipleH ########################################################
+//#############  Componente multipleHCollection #################################################
 name = 'multipleHCollection';
 template = '<div class="form-group"> \
         <label class="col-md-2 control-label" for="template-{FIELD_NAME}">{FIELD_LABEL}</label> \
@@ -563,7 +563,7 @@ templateFunction = (fieldName, fieldOptions, schema)=> {
       let selected = false;
 
       //Verifica se opções foram previamente selecionadas
-      for (let dado in this.value) {
+      for (let dado in this['value' + fieldName]) {
         if (_.isEqual(options[oKey].VALUE, this['value' + fieldName][dado])) {
           selected = true;
         }
