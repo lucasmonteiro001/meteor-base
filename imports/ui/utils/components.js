@@ -103,6 +103,18 @@ FormComponents.addTemplate('showImageV', '<div class="form-group"> \
  <img src="{VALUE}" >\
  </div> </div>');
 
+FormComponents.addTemplate('inputDisabledH', '<div class="form-group"> \
+ <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div class="col-md-10"> \
+ <input type="text" disabled="" name="{FIELD_NAME}" class="form-control" value="{VALUE}">\
+ </div> \
+ </div>');
+
+FormComponents.addTemplate('inputDisabledv', '<div class="form-group"> \
+<label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+<input type="text" disabled="" name="{FIELD_NAME}" class="form-control" value="{VALUE}">\
+</div>');
+
 //#################################################################
 //#################################################################
 //######### DEFINIÇÃO DOS COMPONENTES #############################
@@ -169,8 +181,7 @@ template = '<div class="form-group"> \
           <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10"> \
                <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
-          name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}" \
-          data-mask="{DATA_MASK}"> \
+          name="{FIELD_NAME}" class="form-control" value="{VALUE}" data-mask="{DATA_MASK}"> \
           </div> \
         </div>';
 templateFunction = ()=> {
@@ -351,6 +362,41 @@ viewFunction = (value, schema)=> {
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
+//#############  Componente multipleHCollection #################################################
+name = 'multipleVCollection';
+template = '<div class="form-group"> \
+        <label class="control-label" for="template-{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div id="template-{FIELD_NAME}"> \
+         </div></div>';
+templateFunction = (fieldName, fieldOptions, schema)=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, schema)=> {
+  if (typeof schema.formOptions.OPTIONSCOLLECTION != 'undefined') {
+    let data = schema.formOptions.OPTIONSCOLLECTION;
+    data['FIELD_NAME'] = fieldName;
+    data['FIELD_VALUES'] = this['value' + fieldName];
+    UtilsView.templateRender('select2Collection', 'template-' + fieldName, data);
+  } else {
+    console.log('Error: Schema não definido');
+  }
+};
+getValueFunction = (value, fieldName = '')=> {
+  this['value' + fieldName] = value;
+  return '';
+};
+viewFunction = (value, schema)=> {
+  let controllerTmp = Blaze._globalHelpers.getController(
+      schema.formOptions.OPTIONSCOLLECTION.COLLECTION);
+  let collectionSchema = schema.formOptions.OPTIONSCOLLECTION.COLLECTION_SCHEMA;
+  let result = UtilsView.getTableViewFromSchemaAndListOfObjects(
+      controllerTmp.getSubSchemaJson(collectionSchema), value);
+  return (defaultViewComponent(result));
+};
+
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
 //#############  Componente inputDateH ########################################################
 name = 'inputDateH';
 template = '<div class="form-group" id="data_1"> \
@@ -462,7 +508,6 @@ viewFunction = (value)=> {
       result = '';
     }
 
-
   } else {
     result = '';
   }
@@ -489,7 +534,8 @@ templateFunction = ()=> {
   $('.clockpicker').clockpicker();
   return '';
 };
-initializationFunction = (fieldName, fieldOptions, Schema)=> {
+initializationFunction = (fieldName)=> {
+  $('#' + fieldName).clockpicker({});
   return '';
 };
 getValueFunction = (value, fieldName = '')=> {
@@ -519,28 +565,6 @@ getValueFunction = (value, fieldName = '')=> {
   return '';
 };
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction);
-
-//##############################################################################################
-//#############  Componente textareaH ########################################################
-name = 'textareaH';
-template = '<div class="form-group"> \
-          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-          <div class="col-md-10"> \
-          <textarea class="form-control" rows="{ROWS}" id="{FIELD_NAME}" \
-          name="{FIELD_NAME}">{VALUE}</textarea> \
-          </div> \
-          </div>';
-templateFunction = ()=> {
-  return '';
-};
-initializationFunction = (fieldName, fieldOptions, Schema)=> {
-  return '';
-};
-getValueFunction = (value, fieldName = '')=> {
-  return '';
-};
-viewFunction = defaultViewComponent;
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
 //#############  Componente multipleH ########################################################
@@ -603,7 +627,195 @@ viewFunction = (value, schema)=> {
   let result = UtilsView.getTableViewFromSchemaAndListOfObjects(
       schema.formOptions.FIELD_SCHEMA, value);
   return (defaultViewComponent(result));
-}
+};
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente multipleV ########################################################
+name = 'multipleV';
+template = '<div class="form-group"> \
+<label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+<select class="select2_demo_2 form-control" multiple="multiple" id="{FIELD_NAME}" \
+name="{FIELD_NAME}">\
+{FIELD_OPTIONS} \
+</select>\
+</div>';
+templateFunction = (fieldName, fieldOptions, schema)=> {
+  let optionsTmp = '';
+  if (typeof schema.formOptions.OPTIONS != 'undefined') {
+    let options = schema.formOptions.OPTIONS;
+
+    for (let oKey in options) {
+      let selected = false;
+
+      //Verifica se opções foram previamente selecionadas
+      for (let dado in this['value' + fieldName]) {
+        if (_.isEqual(options[oKey].VALUE, this['value' + fieldName][dado])) {
+          selected = true;
+        }
+      }
+
+      optionsTmp = optionsTmp + "<option value='";
+
+      if (typeof options[oKey].VALUE == 'object') {
+        optionsTmp = optionsTmp + JSON.stringify(options[oKey].VALUE);
+      } else {
+        optionsTmp = optionsTmp + options[oKey].VALUE;
+      }
+
+      //Permite exibir as opções previamente selecionadas
+      if (selected) {
+        optionsTmp = optionsTmp + "' selected>";
+      } else {
+        optionsTmp = optionsTmp + "'>";
+      }
+
+      optionsTmp = optionsTmp + options[oKey].LABEL + '</option>';
+    }
+
+    fieldOptions.template = fieldOptions.template.replace(
+        new RegExp('{FIELD_OPTIONS}', 'g'), optionsTmp);
+  }
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  $('#' + fieldName).select2();
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  this['value' + fieldName] = value;
+  return '';
+};
+viewFunction = (value, schema)=> {
+  let result = UtilsView.getTableViewFromSchemaAndListOfObjects(
+      schema.formOptions.FIELD_SCHEMA, value);
+  return (defaultViewComponent(result));
+};
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente selectH ########################################################
+name = 'selectH';
+template = '<div class="form-group"> \
+ <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div class="col-md-10"> \
+ <select class="form-control js-example-placeholder-single" style="width: 100%" \
+ tabindex="-1" aria-hidden="true" id="{FIELD_NAME}" name="{FIELD_NAME}">\
+ {FIELD_OPTIONS} \
+ </select><span class="select2 select2-container select2-container--default \
+ select2-container--below" dir="ltr">\
+ </div>\
+ </div>';
+templateFunction = (fieldName, fieldOptions, schema)=> {
+  let optionsTmp = '';
+  if (typeof schema.formOptions.SELECTS != 'undefined') {
+    let options = schema.formOptions.SELECTS;
+
+    for (let oKey in options) {
+      let selected = false;
+
+      //Verifica se opções foram previamente selecionadas
+      for (let dado in this['value' + fieldName]) {
+        if (_.isEqual(options[oKey].VALUE, this['value' + fieldName][dado])) {
+          selected = true;
+        }
+      }
+
+      optionsTmp = optionsTmp + "<option value='";
+
+      if (typeof options[oKey].VALUE == 'object') {
+        optionsTmp = optionsTmp + JSON.stringify(options[oKey].VALUE);
+      } else {
+        optionsTmp = optionsTmp + options[oKey].VALUE;
+      }
+
+      //Permite exibir as opções previamente selecionadas
+      if (selected) {
+        optionsTmp = optionsTmp + "' selected>";
+      } else {
+        optionsTmp = optionsTmp + "'>";
+      }
+
+      optionsTmp = optionsTmp + options[oKey].LABEL + '</option>';
+    }
+
+    fieldOptions.template = fieldOptions.template.replace(
+        new RegExp('{FIELD_OPTIONS}', 'g'), optionsTmp);
+  }
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  $('.js-example-placeholder-single').select2({
+    placeholder: 'Selecione uma opção',
+  });
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  this['value' + fieldName] = value;
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente selectV ########################################################
+name = 'selectV';
+template = '<div class="form-group"> \
+ <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <select class="form-control js-example-placeholder-single" id="{FIELD_NAME}" \
+ name="{FIELD_NAME}">\
+ {FIELD_OPTIONS} \
+ </select>\
+ </div>';
+templateFunction = ()=> {
+  let optionsTmp = '';
+  let options = schema[key].formOptions.OPTION;
+  for (let oKey in options) {
+
+    if (typeof options[oKey].VALUE == 'object') {
+
+      optionsTmp = optionsTmp + '<option value=' + options[oKey].VALUE + '>'
+          + options[oKey].LABEL + '</option>';
+    } else {
+      optionsTmp = optionsTmp + '<option value="' + options[oKey].VALUE + '">'
+          + options[oKey].LABEL + '</option>';
+    }
+  }
+
+  fieldTmp = fieldTmp.replace(
+      new RegExp('{FIELD_OPTIONS}', 'g'), optionsTmp);
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  $('#' + fieldName).select2({
+    placeholder: 'Selecione uma opção',
+  });
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  this['value' + fieldName] = value;
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente textareaH ########################################################
+name = 'textareaH';
+template = '<div class="form-group"> \
+          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div class="col-md-10"> \
+          <textarea class="form-control" rows="{ROWS}" id="{FIELD_NAME}" \
+          name="{FIELD_NAME}">{VALUE}</textarea> \
+          </div> \
+          </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
@@ -650,8 +862,8 @@ viewFunction = defaultViewComponent;
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
-//#############  Componente inputHelpH ########################################################
-name = 'inputHelpH';
+//#############  Componente inputHelpV ########################################################
+name = 'inputHelpV';
 template = '<div class="form-group">  \
     <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
                 <input type="{FIELD_TYPE}" id="{FIELD_NAME}" name="{FIELD_NAME}" \
@@ -671,14 +883,12 @@ viewFunction = defaultViewComponent;
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
-//#############  Componente spanH ########################################################
-name = 'spanH';
+//#############  Componente checkboxV ########################################################
+name = 'checkboxV';
 template = '<div class="form-group"> \
-          <label class="col-md-3 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
-          <div class="col-md-9"  style="overflow-x:auto;"> \
-              <span id="{FIELD_NAME}">{VALUE}</span> \
-          </div>\
-          </div>';
+ <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <input type="checkbox" id="{FIELD_NAME}" name="{FIELD_NAME}" />\
+ </div>';
 templateFunction = ()=> {
   return '';
 };
@@ -689,7 +899,108 @@ getValueFunction = (value, fieldName = '')=> {
   return '';
 };
 viewFunction = defaultViewComponent;
-FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction , viewFunction);
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente checkboxH ########################################################
+name = 'checkboxH';
+template = '<div class="form-group"> \
+ <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div class="col-md-10"> \
+ <input type="checkbox" id="{FIELD_NAME}" name="{FIELD_NAME}" />\
+ </div>\
+ </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente radioH ########################################################
+name = 'radioH';
+template = '<div class="form-group"> \
+ <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div class="col-md-10"> \
+ <input type="radio" id="{FIELD_NAME}" name="{FIELD_NAME}" />\
+ </div>\
+ </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente radioV ########################################################
+name = 'radioV';
+template = '<div class="form-group"> \
+ <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <input type="radio" id="{FIELD_NAME}" name="{FIELD_NAME}" />\
+ </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente rangeH ########################################################
+name = 'rangeH';
+template = '<div class="form-group"> \
+ <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div class="col-md-10"> \
+ <input type="range" id="{FIELD_NAME}" name="{FIELD_NAME}" />\
+ </div>\
+ </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente rangeV ########################################################
+name = 'rangeV';
+template = '<div class="form-group"> \
+ <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <input type="range" id="{FIELD_NAME}" name="{FIELD_NAME}" />\
+ </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //#################################################################
 //#################################################################
