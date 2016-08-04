@@ -90,8 +90,13 @@ Template.ColaboradoresView.events({
         'Sim, remover!', (erro, confirm) => {
           if (confirm) {
             ColaboradoresController.remove(id, (error, data) => {
+
               if (error) {
-                Message.showErro(error);
+                Message.showErro('Houve um erro ao realizar esta operação:' + error);
+              } else if (data == false) {
+                Message.showErro('Não foi possível executar esta operação. ' +
+                    'Você não ter permissão para executar essa ação ou o documento ' +
+                    'que será excluído está relacionado a um ou mais documentos');
 
               } else {
 

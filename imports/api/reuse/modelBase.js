@@ -169,17 +169,8 @@ export class ModelBase {
 
       check(dataObj, collectionBase.getSchema('insert'));
 
-      let result;
-
-      try {
-        result = collectionBase.getCollection().insert(dataObj);
-      } catch (e) {
-        console.error(e.message);
-        throw new Meteor.Error(400,
-            e.message);
-      } finally {
+      let result = collectionBase.getCollection().insert(dataObj);
         return result;
-      }
 
     };
 
@@ -188,32 +179,20 @@ export class ModelBase {
       check(id, String);
       check(dataObj, collectionBase.getSchema('update'));
 
-      try {
-        collectionBase.getCollection().update(id, {
+      let result = collectionBase.getCollection().update(id, {
           $set: dataObj,
         });
-      } catch (e) {
-        console.error(e.message);
-        throw new Meteor.Error(400,
-            e.message);
-      } finally {
-        return true;
-      }
+
+      return result;
+
 
     };
 
     this.functions[collectionBase.getCollection()._name + '.remove'] = function (id) {
       check(id, String);
-      try {
-        collectionBase.getCollection().remove(id);
 
-      } catch (e) {
-        console.error(e.message);
-        throw new Meteor.Error(400,
-            e.message);
-      } finally {
-        return true;
-      }
+      let result = collectionBase.getCollection().remove(id);
+      return result;
 
     };
 
@@ -226,8 +205,17 @@ export class ModelBase {
 
       if (fCanUserDo('remove', doc) == false) {
         return false;
-      } else
-        return true;
+      } else {
+        if (collectionBase.canRemove(doc._id))
+          return true;
+        else {
+          //console.log(this.args);
+          //this.args[0]._id = 'XXXXX';
+          return false;
+        }
+
+      }
+
     });
 
     this.myCollection.before.update(function (userId, doc) {
@@ -236,6 +224,11 @@ export class ModelBase {
       } else
         return true;
     });
+
+    this.myCollection.after.update(function (userId, doc) {
+      collectionBase.afterUpdate(doc._id, doc);
+    });
+
 
     this.myCollection.before.insert(function (userId, doc) {
       if (fCanUserDo('insert') == false) {

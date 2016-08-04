@@ -50,79 +50,92 @@ export class CollectionBase {
       },
     });
 
-    //region ####################### Hooks #######################
+    //endregion
+  }
+
+  //region ####################### Hooks #######################
+  afterUpdate (id, doc) {
+
     const listOfCollectionsDependents = this.collectionsDependents;
     const thisCollectionName = this.collectionName;
 
-    this.collectionInstance.after.update(function (userId, doc) {
+    //Itera
+    for (let key in listOfCollectionsDependents) {
+      let Schema = listOfCollectionsDependents[key].getSchemaJson();
 
-      //Itera
-      for (let key in listOfCollectionsDependents) {
-        let Schema = listOfCollectionsDependents[key].getSchemaJson();
+      //Itera os campos da collection dependente está associado à collection em alteração
+      //Para realizar a atualização
+      for (let field in Schema) {
+        if (typeof Schema[field].formOptions != 'undefined'
+            && typeof Schema[field].formOptions.OPTIONSCOLLECTION != 'undefined'
+            && Schema[field].formOptions.OPTIONSCOLLECTION.COLLECTION == thisCollectionName) {
 
-        //Itera os campos da collection dependente está associado à collection em alteração
-        //Para realizar a atualização
-        for (let field in Schema) {
-          if (typeof Schema[field].formOptions != 'undefined'
-              && typeof Schema[field].formOptions.OPTIONSCOLLECTION != 'undefined'
-              && Schema[field].formOptions.OPTIONSCOLLECTION.COLLECTION == thisCollectionName) {
+          //Define o filtro que será utilizado para
+          // realizar a atualização
+          let fieldFilter = JSON.parse('{"' + field + '._id": "' + id + '"}');
 
-            //Define o filtro que será utilizado para
-            // realizar a atualização
-            let fieldFilter = JSON.parse('{"' + field + '._id": "' + this.previous._id + '"}');
+          //Define a String de atualização considerando o
+          // campo que será atualizado como um array de objetos
+          let atualizar =
+              JSON.parse('{"$set": {"' + field + '.$": ' + JSON.stringify(doc) + '}}');
 
-            //Define a String de atualização considerando o
-            // campo que será atualizado como um array de objetos
-            let atualizar =
-                JSON.parse('{"$set": {"' + field + '.$": ' + JSON.stringify(doc) + '}}');
+          //Executa a atualização do campo
+          let resultUpdate = listOfCollectionsDependents[key].collectionInstance.update(fieldFilter, atualizar, {
+            upsert: false,
+            multi: true,
+          });
 
-            //Executa a atualização do campo
-            listOfCollectionsDependents[key].collectionInstance.update(fieldFilter, atualizar, {
-              upsert: false,
-              multi: true,
-            });
+          //console.log('{"' + field + '._id": "' + id + '"}');
+          //console.log('{"$set": {"' + field + '.$": ' + JSON.stringify(doc) + '}}');
+          //console.log(resultUpdate);
+        }
+      }
+
+    }
+  };
+
+  canRemove (id) {
+    const listOfCollectionsDependents = this.collectionsDependents;
+    const thisCollectionName = this.collectionName;
+
+    let result = true;
+
+    for (let key in listOfCollectionsDependents) {
+      let Schema = listOfCollectionsDependents[key].getSchemaJson();
+
+      //Itera os campos da collection dependente está associado à collection em alteração
+      //Para realizar a atualização
+      for (let field in Schema) {
+        if (typeof Schema[field].formOptions != 'undefined'
+            && typeof Schema[field].formOptions.OPTIONSCOLLECTION != 'undefined'
+            && Schema[field].formOptions.OPTIONSCOLLECTION.COLLECTION == thisCollectionName) {
+
+          //Define o filtro que será utilizado para
+          // realizar a pesquisa de documentos dependentes
+          let fieldFilter = JSON.parse('{"' + field + '._id": "' + id + '"}');
+
+          //Executa a pesquisa por documentos dependentes
+          let documentsDependent =
+              listOfCollectionsDependents[key].collectionInstance.find(fieldFilter).fetch();
+
+          //Se houver documento que depende do item a ser removido
+          // a remoção é negada
+          if (documentsDependent.length > 0) {
+            //console.log('Não é possível excluir o documento pois ele está associado a outro documento');
+            result = false;
+            //throw new Meteor.Error(666,
+            //  'Você não pode remover, pois existem ' +
+            //listOfCollectionsDependents[key].collectionName + ' associados.');
           }
         }
-
       }
-    });
 
-    this.collectionInstance.before.remove(function (userId, doc) {
-      //Itera
-      for (let key in listOfCollectionsDependents) {
-        let Schema = listOfCollectionsDependents[key].getSchemaJson();
+    }
 
-        //Itera os campos da collection dependente está associado à collection em alteração
-        //Para realizar a atualização
-        for (let field in Schema) {
-          if (typeof Schema[field].formOptions != 'undefined'
-              && typeof Schema[field].formOptions.OPTIONSCOLLECTION != 'undefined'
-              && Schema[field].formOptions.OPTIONSCOLLECTION.COLLECTION == thisCollectionName) {
+    //O documento que será excluído não está relacionado a nenhum outro documento.
+    return result;
+  };
 
-            //Define o filtro que será utilizado para
-            // realizar a pesquisa de documentos dependentes
-            let fieldFilter = JSON.parse('{"' + field + '._id": "' + doc._id + '"}');
-
-            //Executa a pesquisa por documentos dependentes
-            let documentsDependent =
-                listOfCollectionsDependents[key].collectionInstance.find(fieldFilter).fetch();
-
-            //Se houver documento que depende do item a ser removido
-            // a remoção é negada
-            if (documentsDependent.length>0) {
-              //todo Tratar este novo erro lançado, o modelBase envia mensagem conflitante
-              throw new Meteor.Error(666,
-                  'Você não pode remover, pois existem ' +
-                  listOfCollectionsDependents[key].collectionName + ' associados.');
-            }
-          }
-        }
-
-      }
-    });
-
-    //endregion
-  }
 
   /**
    * Retorna o schema desejado

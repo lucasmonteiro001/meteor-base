@@ -164,12 +164,7 @@ export class ControllerBase {
   insert (collectionData, callback) {
     Meteor.call
     (this.getCollectionName() + '.insert', collectionData, (error, result) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        callback(null, result);
-
-      }
+      callback(error, result);
     });
   }
 
@@ -182,11 +177,7 @@ export class ControllerBase {
   update (id, collectionData, callback) {
     Meteor.call(
         this.getCollectionName() + '.update', id, collectionData, (error, result) => {
-          if (error) {
-            callback(error, null);
-          } else {
-            callback(null, result);
-          }
+          callback(error, result);
         });
   }
 
@@ -197,12 +188,8 @@ export class ControllerBase {
    */
   remove (id, callback) {
 
-    Meteor.call(this.getCollectionName() + '.remove', id, (error) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        callback(null, 'ok');
-      }
+    Meteor.call(this.getCollectionName() + '.remove', id, (error, result) => {
+      callback(error, result);
     });
   }
 
