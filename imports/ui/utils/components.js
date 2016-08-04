@@ -1120,6 +1120,54 @@ getValueFunction = (value, fieldName = '')=> {
 viewFunction = defaultViewComponent;
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
+//##############################################################################################
+//#############  Componente imageH ########################################################
+name = 'imageH';
+template = '<div class="form-group"> \
+ <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div class="col-md-10"> \
+ <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
+ <div id="templateImage"></div>\
+ </div> \
+ </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  UtilsView.templateRender('selectImageTemplate', 'templateImage', { name: 'teste' });
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = (value) => {
+  return (FormComponents.templates['showImageH'].replace(new RegExp('{VALUE}', 'g'), value || ''))
+};
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente imageV ########################################################
+name = 'imageV';
+template = '<div class="form-group"> \
+ <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div class="col-md-10"> \
+ <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
+ <div id="templateImage"></div>\
+ </div> \
+ </div>';
+templateFunction = ()=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  UtilsView.templateRender('selectImageTemplate', 'templateImage', { name: 'teste' });
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = (value) => {
+  return (FormComponents.templates['showImageV'].replace(new RegExp('{VALUE}', 'g'), value || ''))
+};
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
 //#################################################################
 //#################################################################
 //#################################################################

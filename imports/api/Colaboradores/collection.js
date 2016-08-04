@@ -68,17 +68,26 @@ CollectionColaboradores.setSchema({
       orderable: false,
       searchable: false,
     },
+  },
+  imageInto: {
+    type: String,
+    defaultValue: '',
+    label: 'Minha Foto',
+    formOptions: {
+      VISIBLE: true,
+      FIELD_COMPONENT: 'imageH',
+    },
   }
 });
 
 CollectionColaboradores.addSubSchema('insert',
-    ['nome', 'dataNascimento', 'email']);
+    ['nome', 'dataNascimento', 'email', 'imageInto']);
 
 CollectionColaboradores.addSubSchema('update',
     ['nome', 'dataNascimento', 'email']);
 
 CollectionColaboradores.addSubSchema('view',
-    ['nome', 'dataNascimento', 'email', 'userId']);
+    ['nome', 'dataNascimento', 'email', 'userId', 'imageInto']);
 
 CollectionColaboradores.addSubSchema('tableview',
     ['nome', 'email', 'userId']);
