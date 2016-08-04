@@ -37,7 +37,7 @@ Template.ColaboradoresAdd.events({
 
     ColaboradoresController.insert(ColaboradoresData, (error, data) => {
       if (error) {
-        Message.showErro(error);
+        Message.showErrorNotification(error.message);
 
       } else {
         Message.showSuccessNotification(' inserido com sucesso!');
@@ -92,11 +92,7 @@ Template.ColaboradoresView.events({
             ColaboradoresController.remove(id, (error, data) => {
 
               if (error) {
-                Message.showErro('Houve um erro ao realizar esta operação:' + error);
-              } else if (data == false) {
-                Message.showErro('Não foi possível executar esta operação. ' +
-                    'Você não ter permissão para executar essa ação ou o documento ' +
-                    'que será excluído está relacionado a um ou mais documentos');
+                Message.showErrorNotification(error.message);
 
               } else {
 
@@ -139,7 +135,7 @@ Template.ColaboradoresEdit.events({
 
     ColaboradoresController.update(id, ColaboradoresData, (error, data) => {
       if (error) {
-        Message.showErro(error);
+        Message.showErrorNotification(error.message);
 
       } else {
         Message.showSuccessNotification('O Cliente foi atualizado com sucesso!');

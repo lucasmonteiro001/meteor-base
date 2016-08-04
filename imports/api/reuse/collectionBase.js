@@ -123,9 +123,9 @@ export class CollectionBase {
           if (documentsDependent.length > 0) {
             //console.log('Não é possível excluir o documento pois ele está associado a outro documento');
             result = false;
-            //throw new Meteor.Error(666,
-            //  'Você não pode remover, pois existem ' +
-            //listOfCollectionsDependents[key].collectionName + ' associados.');
+            throw new Meteor.Error('Operação não realizada',
+                'Não será possível realizar esta operação pois este dado está associado a ' +
+                listOfCollectionsDependents[key].collectionName);
           }
         }
       }

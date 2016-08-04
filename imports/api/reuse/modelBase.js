@@ -204,22 +204,18 @@ export class ModelBase {
     this.myCollection.before.remove(function (userId, doc) {
 
       if (fCanUserDo('remove', doc) == false) {
+        throw new Meteor.Error('Acesso negado', 'Você não tem permissão para realizar esta operação.');
         return false;
       } else {
         if (collectionBase.canRemove(doc._id))
           return true;
-        else {
-          //console.log(this.args);
-          //this.args[0]._id = 'XXXXX';
-          return false;
-        }
-
       }
 
     });
 
     this.myCollection.before.update(function (userId, doc) {
       if (fCanUserDo('update', doc) == false) {
+        throw new Meteor.Error('Acesso negado', 'Você não tem permissão para realizar esta operação.');
         return false;
       } else
         return true;
@@ -232,6 +228,7 @@ export class ModelBase {
 
     this.myCollection.before.insert(function (userId, doc) {
       if (fCanUserDo('insert') == false) {
+        throw new Meteor.Error('Acesso negado', 'Você não tem permissão para realizar esta operação.');
         return false;
       } else {
         return true;
