@@ -219,6 +219,9 @@ class ViewUtils {
           $('.footable').footable();
         }, 100);
       },
+      "language": {
+        "url": "datatable/Portuguese-Brasil.json"
+      }
     };
 
     if (otherConfigurations != {}) {
