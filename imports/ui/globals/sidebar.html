@@ -6,20 +6,21 @@
                     <li class="nav-header">
 
                         <div class="dropdown profile-element">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <div style="text-align: center">
                             <span>
                                 <img alt="image" class="img-circle" height="35px" width="35px"
-                                     src="img/userDefault.png">
+                                     src='{{imagemUser}}'>
                             </span>
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
                                 <span class="clear">
-                                    <span class="block m-t-xs"> <strong
-                                            class="font-bold">User</strong>
-                                    </span>
                                     <span class="text-muted text-xs block"> {{emailUser}}
                                         <b class="caret"></b>
                                     </span>
                                 </span>
+                                </div>
                             </a>
+
                             <ul class="dropdown-menu animated fadeIn m-t-xs">
                                 <li><a href="#">Item A</a></li>
                                 <li><a href="#">Item B</a></li>
