@@ -1,4 +1,3 @@
-import { Utils } from '../../api/reuse/utils';
 import './formGeneratorTemplates.html';
 import { UtilsView } from './ViewUtils';
 
@@ -425,29 +424,25 @@ initializationFunction = (fieldName)=> {
 };
 getValueFunction = (value, fieldName = '')=> {
   let pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
-  let newvalue;
-  if (typeof value != 'undefined') {
+  if (value instanceof Date) {
     value = String(value);
-    newvalue = new Date(value.replace(pattern, '$3-$2-$1'));
+    value = new Date(value.replace(pattern, '$3-$2-$1'));
     pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
-    return newvalue.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
-  } else {
+    return value.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+  } else
     return '';
-  }
 };
 viewFunction = (value)=> {
   let pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
-  let result;
-  value = String(value);
-  if (typeof value == 'string') {
+  let result = '';
+  if (value instanceof Date) {
     try {
+      value = String(value);
       result = new Date(value.replace(pattern, '$3-$2-$1'));
       pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
       result = result.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
     } catch (e) {
       console.error(e.message);
-    } finally {
-      result = '';
     }
 
   } else {
@@ -485,27 +480,28 @@ initializationFunction = (fieldName)=> {
   return '';
 };
 getValueFunction = (value, fieldName = '')=> {
-  var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
-  if (typeof value == 'string')
+  let pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+  if (value instanceof Date) {
+    value = String(value);
+
     value = new Date(value.replace(pattern, '$3-$2-$1'));
 
-  pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
-  return value.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
-
+    pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+    return value.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+  } else
+    return '';
 };
 viewFunction = (value)=> {
   let pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
-  let result;
-  value = String(value);
-  if (typeof value == 'string') {
+  let result = '';
+  if (value instanceof Date) {
     try {
+      value = String(value);
       result = new Date(value.replace(pattern, '$3-$2-$1'));
       pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
       result = result.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
     } catch (e) {
       console.error(e.message);
-    } finally {
-      result = '';
     }
 
   } else {

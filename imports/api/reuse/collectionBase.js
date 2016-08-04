@@ -202,7 +202,7 @@ export class CollectionBase {
    * @param collection - é a collection dependente
    */
   isRequiredBy (collection) {
-    console.log(collection.collectionName + ' depende da collection ' + this.collectionName);
+    //console.log(collection.collectionName + ' depende da collection ' + this.collectionName);
     this.collectionsDependents.push(collection);
 
   }
