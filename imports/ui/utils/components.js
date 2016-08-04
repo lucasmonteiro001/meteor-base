@@ -357,7 +357,6 @@ viewFunction = (value, schema)=> {
       controllerTmp.getSubSchemaJson(collectionSchema), value);
   return (defaultViewComponent(result));
 };
-
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
@@ -392,7 +391,6 @@ viewFunction = (value, schema)=> {
       controllerTmp.getSubSchemaJson(collectionSchema), value);
   return (defaultViewComponent(result));
 };
-
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
@@ -988,6 +986,130 @@ template = '<div class="form-group"> \
  </div>';
 templateFunction = ()=> {
   return '';
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente checkboxNH ########################################################
+name = 'checkboxNH';
+template = '<div class="form-group"> \
+ <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div class="col-md-10" id="{FIELD_NAME}">\
+ {LABEL_OPTIONS} \
+ </div> </div>';
+templateFunction = (fieldName, fieldOptions, schema)=> {
+  let labelsTmp = '';
+  let labels = schema.formOptions.LABELS;
+
+  for (let oKey in labels) {
+    labelsTmp = labelsTmp + '<input type="checkbox" name="' + labels[oKey].NAME + '  " value="' + labels[oKey].VALUE + '"> \
+        <label class="control-label" for="' + labels[oKey].FOR + '">' + labels[oKey].LABEL + ' </label><br>';
+  }
+
+  fieldOptions.template = fieldOptions.template.replace(
+      new RegExp('{LABEL_OPTIONS}', 'g'), labelsTmp);
+
+
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente checkboxNV ########################################################
+name = 'checkboxNV';
+template = '<div class="form-group"> \
+ <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div id="{FIELD_NAME}">\
+ {LABEL_OPTIONS} \
+ </div> </div>';
+templateFunction = (fieldName, fieldOptions, schema)=> {
+  let labelsTmp = '';
+  let labels = schema.formOptions.LABELS;
+
+  for (let oKey in labels) {
+    labelsTmp = labelsTmp + '<input type="checkbox" name="' + labels[oKey].NAME + '  " value="' + labels[oKey].VALUE + '"> \
+        <label class="control-label" for="' + labels[oKey].FOR + '">' + labels[oKey].LABEL + ' </label><br>';
+  }
+
+  fieldOptions.template = fieldOptions.template.replace(
+      new RegExp('{LABEL_OPTIONS}', 'g'), labelsTmp);
+
+
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente radioNH ########################################################
+name = 'radioNH';
+template = '<div class="form-group"> \
+ <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div class="col-md-10" id="{FIELD_NAME}">\
+ {LABEL_OPTIONS} \
+ </div> </div>';
+templateFunction = (fieldName, fieldOptions, schema)=> {
+  let labelsTmp = '';
+  let labels = schema.formOptions.LABELS;
+
+  for (let oKey in labels) {
+    labelsTmp = labelsTmp + '<input type="radio" name="' + labels[oKey].NAME + '  " value="' + labels[oKey].VALUE + '"> \
+        <label class="control-label" for="' + labels[oKey].FOR + '">' + labels[oKey].LABEL + ' </label><br>';
+  }
+
+  fieldOptions.template = fieldOptions.template.replace(
+      new RegExp('{LABEL_OPTIONS}', 'g'), labelsTmp);
+
+
+};
+initializationFunction = (fieldName, fieldOptions, Schema)=> {
+  return '';
+};
+getValueFunction = (value, fieldName = '')=> {
+  return '';
+};
+viewFunction = defaultViewComponent;
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
+
+//##############################################################################################
+//#############  Componente radioNV ########################################################
+name = 'radioNV';
+template = '<div class="form-group"> \
+ <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div id="{FIELD_NAME}">\
+ {LABEL_OPTIONS} \
+ </div> </div>';
+templateFunction = (fieldName, fieldOptions, schema)=> {
+  let labelsTmp = '';
+  let labels = schema.formOptions.LABELS;
+
+  for (let oKey in labels) {
+    labelsTmp = labelsTmp + '<input type="radio" name="' + labels[oKey].NAME + '  " value="' + labels[oKey].VALUE + '"> \
+        <label class="control-label" for="' + labels[oKey].FOR + '">' + labels[oKey].LABEL + ' </label><br>';
+  }
+
+  fieldOptions.template = fieldOptions.template.replace(
+      new RegExp('{LABEL_OPTIONS}', 'g'), labelsTmp);
+
+
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
   return '';
