@@ -20,10 +20,6 @@ Template.header.helpers({
     return !Meteor.loggingIn() && !Meteor.userId() ? login : index;
   },
 
-  'email': function () {
-    return Meteor.user().emails[0].address;
-  },
-
 });
 
 Template.header.events({
