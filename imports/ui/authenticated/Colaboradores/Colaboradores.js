@@ -37,7 +37,7 @@ Template.ColaboradoresAdd.events({
 
     ColaboradoresController.insert(ColaboradoresData, (error, data) => {
       if (error) {
-        Message.showErrorNotification(error.message);
+        Message.showErro(error.message);
 
       } else {
         Message.showSuccessNotification(' inserido com sucesso!');
@@ -92,7 +92,7 @@ Template.ColaboradoresView.events({
             ColaboradoresController.remove(id, (error, data) => {
 
               if (error) {
-                Message.showErrorNotification(error.message);
+                Message.showErro(error.message);
 
               } else {
 
@@ -135,7 +135,7 @@ Template.ColaboradoresEdit.events({
 
     ColaboradoresController.update(id, ColaboradoresData, (error, data) => {
       if (error) {
-        Message.showErrorNotification(error.message);
+        Message.showErro(error.message);
 
       } else {
         Message.showSuccessNotification('O Cliente foi atualizado com sucesso!');

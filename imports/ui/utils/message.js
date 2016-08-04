@@ -8,7 +8,6 @@ class message {
       title: 'Erro Interno',
       text: msgError,
       type: 'error',
-      closeOnConfirm: true,
     });
   };
 
@@ -17,23 +16,27 @@ class message {
   };
 
   showConfirmation (title, msg, comando, callback) {
+
     swal({
-          title: title,
-          text: msg,
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#DD6B55',
-          confirmButtonText: comando,
-          closeOnConfirm: true,
-          closeOnCancel: true,
-        },
-        function (isConfirm) {
-          if (isConfirm) {
-            callback(null, true);
-          } else {
-            callback(null, false);
-          }
-        });
+      title: title,
+      text: msg,
+      type: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: comando,
+      cancelButtonText: 'Cancelar',
+      confirmButtonClass: 'btn btn-success',
+      cancelButtonClass: 'btn btn-danger',
+      buttonsStyling: true
+    }).then(function () {
+
+      callback(null, true);
+
+    }, function (dismiss) {
+      callback(null, false);
+    })
+
   }
 
   /**
