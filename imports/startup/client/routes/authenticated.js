@@ -2,6 +2,7 @@ import '../../../ui/authenticated/Colaboradores/Colaboradores';
 import '../../../ui/authenticated/Projetos/Projetos';
 import '../../../ui/authenticated/index';
 import '../../../ui/authenticated/users/users';
+import '../../../ui/authenticated/users/profile';
 import { Message } from '../../../ui/utils/message';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { UtilsView } from '../../../ui/utils/ViewUtils';
@@ -43,6 +44,22 @@ authenticatedRoutes.route('/users', {
   triggersEnter: [blockUnauthorizedAdmin],
   action() {
     BlazeLayout.render('default', { yield: 'users' });
+  },
+});
+
+authenticatedRoutes.route('/profile', {
+  name: 'profile',
+  triggersEnter: [blockUnauthorizedAdmin],
+  action() {
+    BlazeLayout.render('default', { yield: 'profile' });
+  },
+});
+
+authenticatedRoutes.route('/profileEdit', {
+  name: 'profileEdit',
+  //triggersEnter: [blockUnauthorizedAdmin],
+  action() {
+    BlazeLayout.render('default', { yield: 'profileEdit' });
   },
 });
 

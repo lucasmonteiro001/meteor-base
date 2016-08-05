@@ -28,7 +28,6 @@ CollectionProjetos.setSchema({
       },
     },
   },
-
   diasdetrabalho: {
     type: [Object],
     blackbox: true,
@@ -78,7 +77,6 @@ CollectionProjetos.setSchema({
       RenderObjects: 'OnTable',
     },
   },
-
   tecnologias: {
     type: [String],
     blackbox: true,

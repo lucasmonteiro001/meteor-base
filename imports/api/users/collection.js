@@ -50,13 +50,14 @@ export const CltUsers = new CollectionUsers();
 CltUsers.setSchema({
   profile: {
     type: String,
+    defaultValue: '',
     label: 'Nome',
     formOptions: {
       FIELD_COMPONENT: 'input',
       FIELD_TYPE: 'text',
     },
     formValidation: {
-      required: { value: true, message: 'O profile é obrigatório' },
+      required: { value: true, message: 'O nome é obrigatório' },
     },
     dataTableConfig: {
       label: 'Nome',
@@ -90,7 +91,50 @@ CltUsers.setSchema({
   //#############################Profile###############
   //#############################Profile###############
   //#############################Profile###############
+  descricao: {
+    type: String,
+    defaultValue: '',
+    label: 'Nome',
+    formOptions: {
+      FIELD_COMPONENT: 'textareaH',
+      ROWS: 5,
+    },
+    formValidation: {
+      required: { value: true, message: 'O nome é obrigatório' },
+    },
+    dataTableConfig: {
+      label: 'Nome',
+      template: 'profileUsersTmp',
+    },
 
+  },
+  titulo: {
+    type: String,
+    defaultValue: '',
+    label: 'Nome',
+    formOptions: {
+      FIELD_COMPONENT: 'inputH',
+      FIELD_TYPE: 'text',
+      PLACEHOLDER: 'Titulação',
+    },
+    formValidation: {
+      required: { value: true, message: 'O nome é obrigatório' },
+    },
+    dataTableConfig: {
+      label: 'Nome',
+      template: 'profileUsersTmp',
+    },
+
+  },
+  foto: {
+    type: String,
+    defaultValue: '',
+    label: 'Minha Foto',
+    formOptions: {
+      VISIBLE: true,
+      FIELD_COMPONENT: 'imageH',
+    },
+  }
 
 });
 
