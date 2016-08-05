@@ -53,17 +53,21 @@ CltUsers.setSchema({
     defaultValue: '',
     label: 'Nome',
     formOptions: {
-      FIELD_COMPONENT: 'input',
+      VISIBLE: true,
+      FIELD_COMPONENT: 'inputH',
       FIELD_TYPE: 'text',
+      PLACEHOLDER: 'Nome',
     },
     formValidation: {
       required: { value: true, message: 'O nome é obrigatório' },
     },
     dataTableConfig: {
-      label: 'Nome',
-      template: 'profileUsersTmp',
+      title: 'Novo_Nome',
+      link: {
+        router: 'profile',
+        field: '_id',
+      },
     },
-
   },
   roles: {
     type: Object,
@@ -94,37 +98,31 @@ CltUsers.setSchema({
   descricao: {
     type: String,
     defaultValue: '',
-    label: 'Nome',
+    optional: true,
+    label: 'Descrição:',
     formOptions: {
+      VISIBLE: true,
       FIELD_COMPONENT: 'textareaH',
-      ROWS: 5,
+      ROWS: 3,
     },
-    formValidation: {
-      required: { value: true, message: 'O nome é obrigatório' },
-    },
-    dataTableConfig: {
-      label: 'Nome',
-      template: 'profileUsersTmp',
-    },
-
+    formValidation: {},
   },
   titulo: {
     type: String,
     defaultValue: '',
-    label: 'Nome',
+    label: 'Título',
     formOptions: {
+      VISIBLE: true,
       FIELD_COMPONENT: 'inputH',
       FIELD_TYPE: 'text',
-      PLACEHOLDER: 'Titulação',
+      PLACEHOLDER: 'Títulos',
     },
     formValidation: {
-      required: { value: true, message: 'O nome é obrigatório' },
+
     },
     dataTableConfig: {
-      label: 'Nome',
-      template: 'profileUsersTmp',
+      title: 'Título',
     },
-
   },
   foto: {
     type: String,
@@ -137,6 +135,10 @@ CltUsers.setSchema({
   }
 
 });
+
+CltUsers.addSubSchema('update',
+    ['profile', 'descricao', 'titulo', 'foto']);
+
 
 //################################################
 //############ RESTRIÇÃO DE ACESSO ###############
