@@ -87,18 +87,31 @@ CltUsers.setSchema({
       template: 'emailUsersTmp',
     },
   },
+  //#############################Profile###############
+  //#############################Profile###############
+  //#############################Profile###############
+
+
 });
 
 //################################################
 //############ RESTRIÇÃO DE ACESSO ###############
 //################################################
 
-let permissions = {
+let permissions = [{
+  actions: ['insert'],
+  groups: ['administrador'], //Permissions by Functionality
+},
+  {
+    actions: ['update', 'remove'],
+    groups: ['administrador'], //Permissions by Functionality
+  },
+  {
+    actions: ['update', 'remove'],
+    groups: ['comum'], //Permissions by Functionality
+    data: { _id: "{_UserID_}" }, //Filter/Permissions by Data
+  }
 
-  byFunctionality: [{
-    actions: ['update', 'read'],
-    groups: ['administrador'],
-  }]
-}
+];
 
 CltUsers.setPermissions(permissions);
