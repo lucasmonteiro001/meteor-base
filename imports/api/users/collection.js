@@ -149,11 +149,11 @@ let permissions = [{
   groups: ['administrador'], //Permissions by Functionality
 },
   {
-    actions: ['update', 'remove'],
+    actions: ['update', 'remove', 'read'],
     groups: ['administrador'], //Permissions by Functionality
   },
   {
-    actions: ['update', 'remove'],
+    actions: ['update', 'remove', 'read'],
     groups: ['comum'], //Permissions by Functionality
     data: { _id: "{_UserID_}" }, //Filter/Permissions by Data
   }

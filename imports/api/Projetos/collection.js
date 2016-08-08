@@ -35,7 +35,7 @@ CollectionProjetos.setSchema({
     label: 'Dias de Trabalho',
     formOptions: {
       VISIBLE: true,
-      FIELD_COMPONENT: 'fieldObjectManagement',
+      FIELD_COMPONENT: 'fieldObjectManagementH',
       FIELD_TYPE: 'text',
       FIELD_SCHEMA: {
         dia: {

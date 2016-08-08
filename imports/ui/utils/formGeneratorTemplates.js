@@ -127,7 +127,10 @@ let fieldObjectManagement = {};
 
 Template.fieldObjectManagement.onCreated(() => {
   template = Template.instance();
-  fieldObjectManagement.objectsData = template.data.listOfObjects;
+  if (typeof template.data.listOfObjects != 'undefined')
+    fieldObjectManagement.objectsData = template.data.listOfObjects;
+  else
+    fieldObjectManagement.objectsData = [];
   fieldObjectManagement.schema = template.data.schema;
 });
 Template.fieldObjectManagement.onRendered(() => {

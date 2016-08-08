@@ -80,7 +80,8 @@ CollectionColaboradores.setSchema({
   },
   addInfo: {
     type: [Object],
-    defaultValue: '',
+    defaultValue: [],
+    blackbox: true,
     label: 'adicionar Informacoes',
     formOptions: {
       VISIBLE: true,
