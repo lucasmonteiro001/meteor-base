@@ -130,7 +130,6 @@ Template.fieldObjectManagement.onCreated(() => {
   fieldObjectManagement.objectsData = template.data.listOfObjects;
   fieldObjectManagement.schema = template.data.schema;
 });
-
 Template.fieldObjectManagement.onRendered(() => {
   template = Template.instance();
 
@@ -187,13 +186,11 @@ Template.fieldObjectManagement.onRendered(() => {
   });
 
 });
-
 Template.fieldObjectManagement.helpers(() => {
 });
 Template.fieldObjectManagement.events({
   'click button[data-target=".addInfo"]': function () {
     formGen.simpleFormRender('formModal', fieldObjectManagement.schema);
-    //formGen.formRender('formContext', true, ColaboradoresController, 'insert', '', 'formTag');
   },
   'click button[data-dismiss="modal"]': function () {
   },
@@ -206,14 +203,6 @@ Template.fieldObjectManagement.events({
     document.getElementById('tableview').innerHTML =
         UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData,
             'table dataTable no-footer', 'tableEdit-' + template.data.fieldName);
-
-    //  var $infoInto = $("#testeInto"),
-    //     $infoView = $("#testeView");
-
-    // var data = $("#namefield-nome").val();
-
-    // $infoInto.val(data);
-    // $infoView.val(data);
 
   }
 });

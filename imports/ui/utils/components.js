@@ -1016,7 +1016,6 @@ templateFunction = (fieldName, fieldOptions, schema)=> {
   fieldOptions.template = fieldOptions.template.replace(
       new RegExp('{LABEL_OPTIONS}', 'g'), labelsTmp);
 
-
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
   return '';
@@ -1046,7 +1045,6 @@ templateFunction = (fieldName, fieldOptions, schema)=> {
 
   fieldOptions.template = fieldOptions.template.replace(
       new RegExp('{LABEL_OPTIONS}', 'g'), labelsTmp);
-
 
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -1078,7 +1076,6 @@ templateFunction = (fieldName, fieldOptions, schema)=> {
   fieldOptions.template = fieldOptions.template.replace(
       new RegExp('{LABEL_OPTIONS}', 'g'), labelsTmp);
 
-
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
   return '';
@@ -1108,7 +1105,6 @@ templateFunction = (fieldName, fieldOptions, schema)=> {
 
   fieldOptions.template = fieldOptions.template.replace(
       new RegExp('{LABEL_OPTIONS}', 'g'), labelsTmp);
-
 
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -1148,8 +1144,8 @@ FormComponents.addComponent(name, template, templateFunction, initializationFunc
 //#############  Componente imageV ########################################################
 name = 'imageV';
 template = '<div class="form-group"> \
- <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
- <div class="col-md-10"> \
+ <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div> \
  <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
  <div id="templateImage"></div>\
  </div> \
@@ -1169,8 +1165,8 @@ viewFunction = (value) => {
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################
-//#############  Componente ModalObjectInsert #################################################
-name = 'fieldObjectManagement';
+//#############  Componente fieldObjectManagementH ##############################################
+name = 'fieldObjectManagementH';
 template = '<div class="form-group"> \
         <label class="col-md-2 control-label" for="template-{FIELD_NAME}">{FIELD_LABEL}</label> \
           <div class="col-md-10" id="template-{FIELD_NAME}"> \
@@ -1186,8 +1182,6 @@ initializationFunction = (fieldName, fieldOptions, schema)=> {
     data.listOfObjects = this['value' + fieldName];
     data.schema = schema.formOptions.FIELD_SCHEMA;
 
-    // data['FIELD_NAME'] = fieldName;
-    //data['FIELD_VALUES'] = this['value' + fieldName];
     UtilsView.templateRender('fieldObjectManagement', 'template-' + fieldName, data);
   } else {
     console.log('Error: Schema não definido');
@@ -1202,8 +1196,37 @@ viewFunction = (value, schema)=> {
 };
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
+//##############################################################################################
+//#############  Componente fieldObjectManagementV ##############################################
+name = 'fieldObjectManagementV';
+template = '<div class="form-group"> \
+        <label class="control-label" for="template-{FIELD_NAME}">{FIELD_LABEL}</label> \
+          <div id="template-{FIELD_NAME}"> \
+         </div>\
+        </div>';
+templateFunction = (fieldName, fieldOptions, schema)=> {
+  return '';
+};
+initializationFunction = (fieldName, fieldOptions, schema)=> {
+  if (typeof schema.formOptions.FIELD_SCHEMA != 'undefined') {
+    let data = {};
+    data.fieldName = fieldName;
+    data.listOfObjects = this['value' + fieldName];
+    data.schema = schema.formOptions.FIELD_SCHEMA;
 
-
+    UtilsView.templateRender('fieldObjectManagement', 'template-' + fieldName, data);
+  } else {
+    console.log('Error: Schema não definido');
+  }
+};
+getValueFunction = (value, fieldName = '')=> {
+  this['value' + fieldName] = value;
+  return '';
+};
+viewFunction = (value, schema)=> {
+  return '';
+};
+FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction)
 
 //#################################################################
 //#################################################################

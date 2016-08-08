@@ -77,11 +77,44 @@ CollectionColaboradores.setSchema({
       VISIBLE: true,
       FIELD_COMPONENT: 'imageH',
     },
-  }
+  },
+  addInfo: {
+    type: [Object],
+    defaultValue: '',
+    label: 'adicionar Informacoes',
+    formOptions: {
+      VISIBLE: true,
+      FIELD_COMPONENT: 'fieldObjectManagementH',
+      FIELD_SCHEMA: {
+        dia: {
+          type: String,
+          defaultValue: '',
+          label: 'Dia da Semana',
+          formOptions: {
+            VISIBLE: true,
+            FIELD_COMPONENT: 'inputH',
+            FIELD_TYPE: 'text',
+            PLACEHOLDER: 'dia da semana'
+          },
+        },
+        horario: {
+          type: String,
+          defaultValue: '',
+          label: 'Horario',
+          formOptions: {
+            VISIBLE: true,
+            FIELD_COMPONENT: 'inputH',
+            FIELD_TYPE: 'text',
+            PLACEHOLDER: 'horario'
+          },
+        },
+      },
+    }
+  },
 });
 
 CollectionColaboradores.addSubSchema('insert',
-    ['nome', 'dataNascimento', 'email', 'imageInto']);
+    ['nome', 'dataNascimento', 'email', 'imageInto', 'addInfo']);
 
 CollectionColaboradores.addSubSchema('update',
     ['nome', 'dataNascimento', 'email']);

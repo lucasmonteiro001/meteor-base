@@ -63,7 +63,7 @@ export class FormGenerator {
     }
 
     //######################################################################
-    //################## DEFINIÇAÕ DOS TEMPLATES############################
+    //################## DEFINIÇÃO DOS TEMPLATES ###########################
     //######################################################################
 
     //Itera sobre todos os campos que estarão disponíveis no formulário para
@@ -96,7 +96,7 @@ export class FormGenerator {
     }
 
     //######################################################################
-    //#############DEFINIÇAÕ DOS VALORES DE CADA CAMPO######################
+    //############# DEFINIÇÃO DOS VALORES DE CADA CAMPO ####################
     //######################################################################
 
     //Itera sobre todos a lista de campos que serão renderizados e definie o valor
@@ -123,7 +123,7 @@ export class FormGenerator {
     }
 
     //######################################################################
-    //########REALIZA MODIFICAÇÕES NOS TEPLATES DOS COMPONENTES#############
+    //####### REALIZA MODIFICAÇÕES NOS TEMPLATES DOS COMPONENTES ###########
     //######################################################################
 
     //Itera sobre todos a lista de campos que serão renderizados e executa
@@ -136,7 +136,7 @@ export class FormGenerator {
     }
 
     //######################################################################
-    //#############INSERÇÃO DOS CAMPONENTES NO FORMULARIO###################
+    //############ INSERÇÃO DOS CAMPONENTES NO FORMULARIO ##################
     //######################################################################
 
     //Itera sobre todos a lista de campos que serão renderizados e insere na
@@ -148,7 +148,7 @@ export class FormGenerator {
     document.getElementById(idOfElement).innerHTML = form;
 
     //######################################################################
-    //#############INICIALIZAÇÃO DOS COMPONENTES############################
+    //############ INICIALIZAÇÃO DOS COMPONENTES ###########################
     //######################################################################
 
     //Itera sobre todos a lista de campos que serão renderizados e executa
@@ -161,7 +161,7 @@ export class FormGenerator {
     }
 
     //######################################################################
-    //#############APLICAÇÃO DO JQUERY VALIDATION###########################
+    //############ APLICAÇÃO DO JQUERY VALIDATION ##########################
     //######################################################################
 
     //Esta opção de aplicar a validação tem que ser a ultima ação do método
@@ -221,7 +221,7 @@ export class FormGenerator {
       }
     }
     //######################################################################
-    //#############INSERÇÃO DOS CAMPONENTES NO FORMULARIO###################
+    //############ INSERÇÃO DOS CAMPONENTES NO FORMULARIO ##################
     //######################################################################
 
     //Itera sobre todos a lista de campos que serão renderizados e insere na
