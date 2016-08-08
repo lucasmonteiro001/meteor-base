@@ -153,12 +153,22 @@ Template.fieldObjectManagement.onRendered(() => {
       elem.after(replaceWith);
       replaceWith.focus();
 
-      replaceWith.blur(function () {
+      let line = $(this).attr('id');
+      let field = $(this).attr('name');
 
-        if ($(this).val() != "") {
+
+
+      replaceWith.blur(function () {
+        let val = $(this).val();
+        console.log('Linha:' + line)
+        console.log('Novo Valor:' + val)
+        let fieldInput = document.getElementById(template.data.fieldName);
+        fieldObjectManagement.objectsData[line][field] = val;
+        fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
+
+        console.log(fieldInput.value);
           connectWith.val($(this).val()).change();
           elem.text($(this).val());
-        }
 
         $(this).remove();
         elem.show();

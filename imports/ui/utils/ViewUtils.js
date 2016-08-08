@@ -347,7 +347,7 @@ class ViewUtils {
               console.log('TODo - Campo = Objeto');
             }
 
-            fieldTmp = fieldTmp + '<td id="' + count + '">' + valor + '</td>';
+            fieldTmp = fieldTmp + '<td id="' + count + '" name="' + key + '">' + valor + '</td>';
           }
         }
       }
