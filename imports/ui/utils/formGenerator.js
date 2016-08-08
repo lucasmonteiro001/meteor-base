@@ -266,8 +266,154 @@ export class FormGenerator {
   }
 
   getFormData (controller, schemaName = 'default', template) {
-    let objData = {};
     let schema = controller.getSchemaJson(schemaName);
+    return this.getSimpleFormData(schema, template);
+  }
+
+  getTableViewData (controller, schemaName = 'default', templates) {
+    let objData = [];
+    let schema = controller.getSchemaJson(schemaName);
+    for (let key in schema) {
+      if (typeof schema[key].dataTableConfig != 'undefined') {
+
+        //insere o item e pega o wiltimeo
+        let objIndex = objData.push({ key: key, label: schema[key].dataTableConfig.label }) - 1;
+
+        if (typeof schema[key].dataTableConfig.template != 'undefined') {
+          objData[objIndex].tmpl = templates[schema[key].dataTableConfig.template];
+        }
+
+      }
+    }
+
+    return objData;
+  }
+
+  simpleFormRender (idOfElement, schema) {
+
+    let form = '';
+    let listOfFieldsAndComponents = {};
+    //######################################################################
+    //################## DEFINIÇAÕ DOS TEMPLATES############################
+    //######################################################################
+
+    //Itera sobre todos os campos que estarão disponíveis no formulário para
+    // inserir os componentes no formulario com as tags apropriadas
+    for (let key in schema) {
+      if (typeof schema[key].formOptions != 'undefined' && schema[key].formOptions.VISIBLE) {
+
+        //Define qual componente será utilizado
+        if (typeof schema[key].formOptions.FIELD_COMPONENT == 'undefined')
+          listOfFieldsAndComponents[key] = FormComponents.getComponente(this.getDefaultComponent(schema[key].type));
+        else
+          listOfFieldsAndComponents[key] = FormComponents.getComponente(schema[key].formOptions.FIELD_COMPONENT);
+
+        let template = listOfFieldsAndComponents[key].template;
+
+        //FIELD_NAME = key
+        template = template.replace(new RegExp('{FIELD_NAME}', 'g'), key);
+
+        //FIELD_LABEL = schema[key].label
+        template = template.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
+
+        for (let fieldOptions in schema[key].formOptions) {
+          template = template.replace(
+              new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
+        }
+
+        listOfFieldsAndComponents[key].template = template;
+
+      }
+    }
+
+    //######################################################################
+    //#############DEFINIÇAÕ DOS VALORES DE CADA CAMPO######################
+    //######################################################################
+
+    //Itera sobre todos a lista de campos que serão renderizados e definie o valor
+    //inicial para cada um deles com base nos dados do documento (collection)
+
+    for (let field in listOfFieldsAndComponents) {
+      let val = '';
+
+      let template = listOfFieldsAndComponents[field].template;
+      template = template.replace(new RegExp('{VALUE}', 'g'), val || '');
+      listOfFieldsAndComponents[field].template = template;
+    }
+
+    //######################################################################
+    //########REALIZA MODIFICAÇÕES NOS TEPLATES DOS COMPONENTES#############
+    //######################################################################
+
+    //Itera sobre todos a lista de campos que serão renderizados e executa
+    //a função de inicialização de cada um deles
+    for (let field in listOfFieldsAndComponents) {
+
+      listOfFieldsAndComponents[field].templateFunction(field, listOfFieldsAndComponents[field]
+          , schema[field]);
+
+    }
+
+    //######################################################################
+    //#############INSERÇÃO DOS CAMPONENTES NO FORMULARIO###################
+    //######################################################################
+
+    //Itera sobre todos a lista de campos que serão renderizados e insere na
+    //variavel form e, em seguida, insere na Div que o forma será renderizado
+    for (let field in listOfFieldsAndComponents) {
+      form = form + listOfFieldsAndComponents[field].template;
+    }
+
+    document.getElementById(idOfElement + 'Context').innerHTML = form;
+
+    //######################################################################
+    //#############INICIALIZAÇÃO DOS COMPONENTES############################
+    //######################################################################
+
+    //Itera sobre todos a lista de campos que serão renderizados e executa
+    //a função de inicialização de cada um deles
+    for (let field in listOfFieldsAndComponents) {
+
+      listOfFieldsAndComponents[field].init(field, listOfFieldsAndComponents[field]
+          , schema[field]);
+
+    }
+
+    //######################################################################
+    //#############APLICAÇÃO DO JQUERY VALIDATION###########################
+    //######################################################################
+
+    let rules = [];
+    let message = [];
+    //Esta opção de aplicar a validação tem que ser a ultima ação do método
+    for (let key in listOfFieldsAndComponents) {
+
+      if (typeof schema[key].formValidation != 'undefined') {
+        for (let rulesKey in schema[key].formValidation) {
+          if (typeof rules[key] == 'undefined') {
+            rules[key] = {};
+          }
+
+          rules[key][rulesKey] = schema[key].formValidation[rulesKey].value;
+
+          if (typeof message[key] == 'undefined') {
+            message[key] = {};
+          }
+
+          message[key][rulesKey] = schema[key].formValidation[rulesKey].message;
+        }
+      }
+    }
+
+    $('#' + idOfElement).validate({
+      rules: rules,
+      messages: message,
+    });
+
+  }
+
+  getSimpleFormData (schema, template) {
+    let objData = {};
     for (let key in schema) {
       if (typeof schema[key].formOptions != 'undefined') {
 
@@ -329,25 +475,6 @@ export class FormGenerator {
               objData[key] = value;
             }
         }
-      }
-    }
-
-    return objData;
-  }
-
-  getTableViewData (controller, schemaName = 'default', templates) {
-    let objData = [];
-    let schema = controller.getSchemaJson(schemaName);
-    for (let key in schema) {
-      if (typeof schema[key].dataTableConfig != 'undefined') {
-
-        //insere o item e pega o wiltimeo
-        let objIndex = objData.push({ key: key, label: schema[key].dataTableConfig.label }) - 1;
-
-        if (typeof schema[key].dataTableConfig.template != 'undefined') {
-          objData[objIndex].tmpl = templates[schema[key].dataTableConfig.template];
-        }
-
       }
     }
 

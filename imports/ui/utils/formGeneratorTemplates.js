@@ -1,8 +1,6 @@
 import { Blaze } from 'meteor/blaze';
-import { Utils } from '.././../api/reuse/utils';
 import './formGeneratorTemplates.html';
 import { formGen } from './formGenerator';
-import { ColaboradoresController } from '../../api/Colaboradores/controller.js';
 import { UtilsView } from './ViewUtils';
 
 let template;
@@ -125,34 +123,87 @@ Template.selectImageTemplate.events({
   }
 });
 
-Template.addInfoTemplate.onCreated(() => {
+let fieldObjectManagement = {};
+
+Template.fieldObjectManagement.onCreated(() => {
   template = Template.instance();
+  fieldObjectManagement.objectsData = template.data.listOfObjects;
+  fieldObjectManagement.schema = template.data.schema;
 });
-Template.addInfoTemplate.onRendered(() => {
-  let infoData = template.data;
-  template.controller = Blaze._globalHelpers.getController(template.data.COLLECTION);
 
-  formGen.formRender2('modalContext', true, ColaboradoresController, 'teste', '', 'modalTag');
-  
-  document.getElementById('tableview').innerHTML = UtilsView.getDataTableConfig(ColaboradoresController,'teste', {});
+Template.fieldObjectManagement.onRendered(() => {
+  template = Template.instance();
+
+  let replaceWith = $('<input name="temp" type="text" />');
+  let connectWith = $('input[name="hiddenField"]');
+
+  $.fn.inlineEdit = function (replaceWith, connectWith) {
+
+    $(this).hover(function () {
+      $(this).addClass('hover');
+    }, function () {
+      $(this).removeClass('hover');
+    });
+
+    $(this).click(function () {
+
+      var elem = $(this);
+
+      elem.hide();
+      elem.after(replaceWith);
+      replaceWith.focus();
+
+      replaceWith.blur(function () {
+
+        if ($(this).val() != "") {
+          connectWith.val($(this).val()).change();
+          elem.text($(this).val());
+        }
+
+        $(this).remove();
+        elem.show();
+      });
+    });
+  };
+
+  let fieldInput = document.getElementById(template.data.fieldName);
+  fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
+  document.getElementById('tableview').innerHTML =
+      UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData,
+          'table dataTable no-footer', 'tableEdit-' + template.data.fieldName);
+
+  $('#' + 'tableEdit-' + template.data.fieldName + ' td').each(function () {
+    $(this).inlineEdit(replaceWith, connectWith);
+  });
 
 });
-Template.addInfoTemplate.helpers(() => {
+
+Template.fieldObjectManagement.helpers(() => {
 });
-Template.addInfoTemplate.events({
+Template.fieldObjectManagement.events({
   'click button[data-target=".addInfo"]': function () {
+    formGen.simpleFormRender('formModal', fieldObjectManagement.schema);
+    //formGen.formRender('formContext', true, ColaboradoresController, 'insert', '', 'formTag');
   },
   'click button[data-dismiss="modal"]': function () {
   },
   'click button[id="save"]': function () {
+    template = Template.instance();
+    let newObject = formGen.getSimpleFormData(fieldObjectManagement.schema, template);
+    fieldObjectManagement.objectsData.push(newObject);
+    let fieldInput = document.getElementById(template.data.fieldName);
+    fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
+    document.getElementById('tableview').innerHTML =
+        UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData,
+            'table dataTable no-footer', 'tableEdit-' + template.data.fieldName);
 
-    var $infoInto = $("#testeInto"),
-        $infoView = $("#testeView");
+    //  var $infoInto = $("#testeInto"),
+    //     $infoView = $("#testeView");
 
-    var data = $("#namefield-nome").val();
+    // var data = $("#namefield-nome").val();
 
-    $infoInto.val(data);
-    $infoView.val(data);
+    // $infoInto.val(data);
+    // $infoView.val(data);
 
   }
 });

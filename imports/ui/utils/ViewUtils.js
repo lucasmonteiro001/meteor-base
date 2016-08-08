@@ -302,9 +302,9 @@ class ViewUtils {
    * @param listOfObjects lista de objetos que serão inseridos na tabela
    * @returns {string}
    */
-  getTableViewFromSchemaAndListOfObjects (schema, listOfObjects) {
+  getTableViewFromSchemaAndListOfObjects (schema, listOfObjects, tableClass = 'footable metro-synergiaMeteorBase', tableId = '') {
 
-    let fieldTmp = '<table class="footable metro-synergiaMeteorBase" data-page-size="5"> \
+    let fieldTmp = '<table class="' + tableClass + '" data-page-size="5" id="' + tableId + '"> \
         <thead><tr> ';
     let firstLine = true;
     for (let key in schema) {
@@ -325,7 +325,7 @@ class ViewUtils {
     fieldTmp = fieldTmp + '</tr></thead>';
 
     fieldTmp = fieldTmp + '<tbody>';
-
+    let count = 0;
     for (let keyObject in listOfObjects) {
       fieldTmp = fieldTmp + '<tr>';
       for (let key in schema) {
@@ -347,12 +347,14 @@ class ViewUtils {
               console.log('TODo - Campo = Objeto');
             }
 
-            fieldTmp = fieldTmp + '<td>' + valor + '</td>';
+            fieldTmp = fieldTmp + '<td id="' + count + '">' + valor + '</td>';
           }
         }
       }
 
       fieldTmp = fieldTmp + '</tr>';
+      count = count + 1;
+      ;
     }
 
     fieldTmp = fieldTmp + '</tbody></table>';

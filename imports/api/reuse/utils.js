@@ -94,8 +94,14 @@ class Util {
    */
   toObjectArray (arr) {
 
+
     var objArrRetorno = [];
     if (arr !== undefined && arr != null) {
+
+      if (typeof arr == 'string') {
+        arr = JSON.parse(arr);
+      }
+
       for (let i = 0; i<arr.length; ++i) {
         try {
           if (arr[i] !== undefined)

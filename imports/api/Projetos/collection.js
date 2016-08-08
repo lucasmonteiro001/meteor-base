@@ -35,17 +35,8 @@ CollectionProjetos.setSchema({
     label: 'Dias de Trabalho',
     formOptions: {
       VISIBLE: true,
-      FIELD_COMPONENT: 'multipleH',
+      FIELD_COMPONENT: 'fieldObjectManagement',
       FIELD_TYPE: 'text',
-      OPTIONS: [
-        { VALUE: { dia: 'Segunda-feira', horario: '8h-18h' }, LABEL: 'Segunda-feira' },
-        { VALUE: { dia: 'Terça-feira', horario: '8h-18h' }, LABEL: 'Terça-feira' },
-        { VALUE: { dia: 'Quarta-feira', horario: '8h-18h' }, LABEL: 'Quarta-feira' },
-        { VALUE: { dia: 'Quinta-feira', horario: '8h-18h' }, LABEL: 'Quinta-feira' },
-        { VALUE: { dia: 'Sexta-feira', horario: '8h-18h' }, LABEL: 'Sexta-feira' },
-        { VALUE: { dia: 'Sabado', horario: '8h-16h' }, LABEL: 'Sabado' },
-        { VALUE: { dia: 'Domingo', horario: '8h-12h' }, LABEL: 'Domingo' },
-      ],
       FIELD_SCHEMA: {
         dia: {
           type: String,
