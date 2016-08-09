@@ -518,18 +518,19 @@ template = '<div class="form-group" id="hour_1"> \
          <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label>\
          <div class="col-md-10"> \
             <div class="input-group clockpicker" data-autoclose="true">\
-              <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>\
               <input type="text" class="form-control" value="00:00" id="{FIELD_NAME}" \
-              name="{FIELD_NAME}"> \
+              name="{FIELD_NAME}"/> \
+              <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>\
             </div>\
           </div> \
          </div>';
-templateFunction = ()=> {
-  $('.clockpicker').clockpicker();
+templateFunction = (fieldName)=> {
   return '';
 };
 initializationFunction = (fieldName)=> {
-  $('#' + fieldName).clockpicker({});
+  $('#' + fieldName).clockpicker({
+    autoclose: true
+  });
   return '';
 };
 getValueFunction = (value, fieldName = '')=> {

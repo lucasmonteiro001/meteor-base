@@ -135,7 +135,54 @@ Template.selectImageTemplate.events({
   }
 });
 
+$.fn.inlineEdit = function (replaceWith = '<input name="temp" type="text" />', connectWith = 'input[name="hiddenField"]') {
+
+  let rWith = $(replaceWith);
+  let cWith = $(connectWith);
+  $(this).hover(function () {
+    $(this).addClass('hover');
+  }, function () {
+    $(this).removeClass('hover');
+  });
+
+  $(this).click(function () {
+    rWith.val($(this).text());
+    let elem = $(this);
+
+    elem.hide();
+    elem.after(rWith);
+    rWith.focus();
+
+    let line = $(this).attr('id');
+    let field = $(this).attr('name');
+
+    rWith.blur(function () {
+      let val = $(this).val();
+      let fieldInput = document.getElementById(template.data.fieldName);
+      fieldObjectManagement.objectsData[line][field] = val;
+      fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
+      cWith.val($(this).val()).change();
+      elem.text($(this).val());
+
+      $(this).remove();
+      elem.show();
+    });
+  });
+};
+
 let fieldObjectManagement = {};
+
+Template.fieldObjectManagement.updateTable = (template)=> {
+  let fieldInput = document.getElementById(template.data.fieldName);
+  fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
+  document.getElementById('tableview-' + template.data.fieldName).innerHTML =
+      UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData, true,
+          'table dataTable no-footer', 'tableEdit-' + template.data.fieldName);
+
+  $('#' + 'tableEdit-' + template.data.fieldName + ' td.val').each(function () {
+    $(this).inlineEdit();
+  });
+};
 
 Template.fieldObjectManagement.onCreated(() => {
   template = Template.instance();
@@ -148,83 +195,42 @@ Template.fieldObjectManagement.onCreated(() => {
 Template.fieldObjectManagement.onRendered(() => {
   template = Template.instance();
 
-  let replaceWith = $('<input name="temp" type="text" />');
-  let connectWith = $('input[name="hiddenField"]');
+  Template.fieldObjectManagement.updateTable(template);
 
-  $.fn.inlineEdit = function (replaceWith, connectWith) {
-
-    $(this).hover(function () {
-      $(this).addClass('hover');
-    }, function () {
-      $(this).removeClass('hover');
-    });
-
-    $(this).click(function () {
-      replaceWith.val($(this).text());
-      console.log($(this));
-      let elem = $(this);
-
-      elem.hide();
-      elem.after(replaceWith);
-      replaceWith.focus();
-
-      let line = $(this).attr('id');
-      let field = $(this).attr('name');
-
-      replaceWith.blur(function () {
-        let val = $(this).val();
-        let fieldInput = document.getElementById(template.data.fieldName);
-        fieldObjectManagement.objectsData[line][field] = val;
-        fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
-        connectWith.val($(this).val()).change();
-        elem.text($(this).val());
-
-        $(this).remove();
-        elem.show();
-      });
-    });
-  };
-
-  let fieldInput = document.getElementById(template.data.fieldName);
-  fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
-  document.getElementById('tableview').innerHTML =
-      UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData, true,
-          'table dataTable no-footer', 'tableEdit-' + template.data.fieldName);
-
-  $('#' + 'tableEdit-' + template.data.fieldName + ' td.val').each(function () {
-    $(this).inlineEdit(replaceWith, connectWith);
-  });
 
 });
 Template.fieldObjectManagement.helpers(() => {
 });
 Template.fieldObjectManagement.events({
   'click button[data-target=".addInfo"]': function () {
-    formGen.simpleFormRender('formModal', fieldObjectManagement.schema);
+    template = Template.instance();
+    console.log('formModal-' + template.data.fieldName);
+    formGen.simpleFormRender('formModal-' + template.data.fieldName, fieldObjectManagement.schema);
   },
   'click button[data-dismiss="modal"]': function () {
   },
   'click button[id="save"]': function () {
     template = Template.instance();
-    let newObject = formGen.getSimpleFormData(fieldObjectManagement.schema, template);
-    fieldObjectManagement.objectsData.push(newObject);
-    let fieldInput = document.getElementById(template.data.fieldName);
-    fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
-    document.getElementById('tableview').innerHTML =
-        UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData, true,
-            'table dataTable no-footer', 'tableEdit-' + template.data.fieldName);
+    if ($('#formModal-' + template.data.fieldName).valid()) {
+
+      let newObject = formGen.getSimpleFormData(fieldObjectManagement.schema, template);
+      fieldObjectManagement.objectsData.push(newObject);
+      Template.fieldObjectManagement.updateTable(template);
+      $('#modal-' + template.data.fieldName).modal('hide');
+      return true;
+    } else {
+      return false;
+      console.log('Validação = false');
+    }
 
   },
   'click a[id="delObj"]': function (evt) {
+    template = Template.instance();
     let linha = $(evt.currentTarget).attr("value");
     if (linha > -1) {
       fieldObjectManagement.objectsData.splice(linha, 1);
     }
-    let fieldInput = document.getElementById(template.data.fieldName);
-    fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
-    document.getElementById('tableview').innerHTML =
-        UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData, true,
-            'table dataTable no-footer', 'tableEdit-' + template.data.fieldName);
+    Template.fieldObjectManagement.updateTable(template);
 
   }
 

@@ -344,8 +344,13 @@ class ViewUtils {
             let valor = listOfObjects[keyObject][key];
 
             if (schema[key].type == Date && valor) {
-              let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+              let pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+
+              valor = String(valor);
+              valor = new Date(valor.replace(pattern, '$3-$2-$1'));
+              pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
               valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
+
             } else if (schema[key].type == Object && typeof schema[key].formOptions['FIELD_SCHEMA']
                 != 'undefined' && valor) {
               console.log('TODo - Campo = Objeto');

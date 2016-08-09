@@ -88,3 +88,7 @@
 .navbar-static-side {
     z-index: 0;
 }
+
+.popover {
+    z-index: 3000;
+}

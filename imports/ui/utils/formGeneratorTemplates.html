@@ -91,7 +91,7 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".addInfo">Adicionar
         </button>
     </div>
-    <div class="modal fade addInfo" hidden tabindex="-1" role="dialog"
+    <div id="modal-{{fieldName}}" class="modal fade addInfo" hidden tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -101,17 +101,18 @@
                     <h4 class="modal-title" id="myModalLabel">Adicionar Informacoes</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal row-border" id="formModal" data-toggle="validator" role="form">
+                    <form class="form-horizontal row-border" id="formModal-{{fieldName}}" data-toggle="validator"
+                          role="form">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="panel-body" id="formModalContext"></div>
+                                <div class="panel-body" id="formModal-{{fieldName}}Context"></div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <div class="pull-right btAdd">
-                        <button class="btn btn-primary" data-dismiss="modal" id="save" data-toggle="tooltip"
+                        <button class="btn btn-primary" id="save" data-toggle="tooltip"
                                 type="button"> Salvar </button>
                         <a data-dismiss="modal" id="save" data-toggle="tooltip" class="btn">Voltar</a>
                     </div>
@@ -119,5 +120,5 @@
             </div>
         </div>
     </div>
-    <div id="tableview"></div>
+    <div id="tableview-{{fieldName}}"></div>
 </template>

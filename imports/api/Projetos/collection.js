@@ -47,6 +47,9 @@ CollectionProjetos.setSchema({
             FIELD_COMPONENT: 'inputH',
             FIELD_TYPE: 'text',
           },
+          formValidation: {
+            required: { value: true, message: 'O dia da semana é obrigatório' },
+          },
         },
         horario: {
           type: String,
@@ -56,6 +59,19 @@ CollectionProjetos.setSchema({
             VISIBLE: true,
             FIELD_COMPONENT: 'inputHourH',
             FIELD_TYPE: 'text',
+          },
+        },
+        dataInicio: {
+          type: Date,
+          optional: true,
+          label: 'Data de Início',
+          formOptions: {
+            VISIBLE: true,
+            FIELD_COMPONENT: 'inputDateH',
+            FIELD_TYPE: 'date',
+          },
+          formValidation: {
+            required: { value: true, message: 'A data de início é obrigatória' },
           },
         },
       },
