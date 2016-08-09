@@ -302,7 +302,7 @@ class ViewUtils {
    * @param listOfObjects lista de objetos que serão inseridos na tabela
    * @returns {string}
    */
-  getTableViewFromSchemaAndListOfObjects (schema, listOfObjects, buttons = {}, tableClass = 'footable metro-synergiaMeteorBase', tableId = '') {
+  getTableViewFromSchemaAndListOfObjects (schema, listOfObjects, buttons = false, tableClass = 'footable metro-synergiaMeteorBase', tableId = '') {
 
     let fieldTmp = '<table class="' + tableClass + '" data-page-size="5" id="' + tableId + '"> \
         <thead><tr> ';
@@ -320,6 +320,10 @@ class ViewUtils {
         } else
           fieldTmp = fieldTmp + '<th data-hide="phone">' + schema[key].label + '</th>';
       }
+    }
+
+    if (buttons) {
+      fieldTmp = fieldTmp + '<th data-hide="phone"></th>';
     }
 
     fieldTmp = fieldTmp + '</tr></thead>';
@@ -347,11 +351,15 @@ class ViewUtils {
               console.log('TODo - Campo = Objeto');
             }
 
-            fieldTmp = fieldTmp + '<td id="' + count + '" name="' + key + '">' + valor + '</td>';
+            fieldTmp = fieldTmp + '<td class="val" id="' + count + '" name="' + key + '">' + valor + '</td>';
           }
         }
       }
-
+      if (buttons) {
+        fieldTmp = fieldTmp + '<td><a href="#!" id="delObj" name="' + keyObject + '" value="' + count + '">\
+            <i class="fa fa-trash-o text-navy"></i>\
+            </a></td>';
+      }
       fieldTmp = fieldTmp + '</tr>';
       count = count + 1;
       ;

@@ -160,7 +160,8 @@ Template.fieldObjectManagement.onRendered(() => {
     });
 
     $(this).click(function () {
-
+      replaceWith.val($(this).text());
+      console.log($(this));
       let elem = $(this);
 
       elem.hide();
@@ -172,13 +173,9 @@ Template.fieldObjectManagement.onRendered(() => {
 
       replaceWith.blur(function () {
         let val = $(this).val();
-        console.log('Linha:' + line)
-        console.log('Novo Valor:' + val)
         let fieldInput = document.getElementById(template.data.fieldName);
         fieldObjectManagement.objectsData[line][field] = val;
         fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
-
-        console.log(fieldInput.value);
         connectWith.val($(this).val()).change();
         elem.text($(this).val());
 
@@ -191,10 +188,10 @@ Template.fieldObjectManagement.onRendered(() => {
   let fieldInput = document.getElementById(template.data.fieldName);
   fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
   document.getElementById('tableview').innerHTML =
-      UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData, {},
+      UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData, true,
           'table dataTable no-footer', 'tableEdit-' + template.data.fieldName);
 
-  $('#' + 'tableEdit-' + template.data.fieldName + ' td').each(function () {
+  $('#' + 'tableEdit-' + template.data.fieldName + ' td.val').each(function () {
     $(this).inlineEdit(replaceWith, connectWith);
   });
 
@@ -214,8 +211,21 @@ Template.fieldObjectManagement.events({
     let fieldInput = document.getElementById(template.data.fieldName);
     fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
     document.getElementById('tableview').innerHTML =
-        UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData,
+        UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData, true,
+            'table dataTable no-footer', 'tableEdit-' + template.data.fieldName);
+
+  },
+  'click a[id="delObj"]': function (evt) {
+    let linha = $(evt.currentTarget).attr("value");
+    if (linha > -1) {
+      fieldObjectManagement.objectsData.splice(linha, 1);
+    }
+    let fieldInput = document.getElementById(template.data.fieldName);
+    fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
+    document.getElementById('tableview').innerHTML =
+        UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData, true,
             'table dataTable no-footer', 'tableEdit-' + template.data.fieldName);
 
   }
+
 });

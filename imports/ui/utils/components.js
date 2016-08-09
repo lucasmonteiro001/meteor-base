@@ -1195,7 +1195,9 @@ getValueFunction = (value, fieldName = '')=> {
   return '';
 };
 viewFunction = (value, schema)=> {
-  return '';
+  let result = UtilsView.getTableViewFromSchemaAndListOfObjects(
+      schema.formOptions.FIELD_SCHEMA, value);
+  return (defaultViewComponent(result));
 };
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
