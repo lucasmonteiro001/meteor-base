@@ -3,20 +3,20 @@
 </template>
 
 <template name="select2Collection">
+    teste
     <select class="select2_demo_2 form-control" style="width: 100%" multiple id="{{FIELD_NAME}}" name="{{FIELD_NAME}}">
         {{#each item in collectionData}}
             {{#if containsValueInList FIELD_NAME "nome" item.nome FIELD_VALUES}}
-                <option selected value={{json item}}>{{item.nome}}</option>
+                <option selected value={{json item}}>{{getFieldValue item FIRST_FIELD}}</option>
             {{else}}
-                <option value={{json item}}>{{item.nome}}</option>
+                <option value={{json item}}>{{getFieldValue item FIRST_FIELD}}</option>
             {{/if}}
         {{/each}}
     </select>
 </template>
 
 <template name="selectImageTemplate">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".imageModal">Insira uma imagem
-    </button>
+    <input type="hidden" id="{{FIELD_NAME}}" name="{{FIELD_NAME}}"/>
     <div class="modal fade imageModal" hidden tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
@@ -63,6 +63,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button class="btn btn-secundary" data-dismiss="modal" data-toggle="tooltip"
+                            type="button"> Cancelar
+                    </button>
                     <button class="btn btn-primary" data-dismiss="modal" id="getDataURL2" data-toggle="tooltip"
                             type="button"> Salvar edições
                     </button>
@@ -71,8 +74,14 @@
         </div>
     </div>
     <div class="row">
-        <div id="imageView"><img src=""></div>
+        <div class="col-md-9" style="max-width: 100%;">
+            <img id="imageView" style="max-width: 80%;" src="{{image}}">
+        </div>
+
     </div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".imageModal" id="insertImg">Insira
+        uma imagem
+    </button>
 </template>
 
 <template name="fieldObjectManagement">

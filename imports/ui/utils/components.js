@@ -91,20 +91,20 @@ FormComponents.addTemplate('spanV', '<div class="form-group"  style="overflow-x:
  </div>');
 
 FormComponents.addTemplate('showImageH', '<div class="form-group"> \
- <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
- <div class="col-md-10" id="{FIELD_NAME}"> \
- <img src="{VALUE}" >\
+ <label class="col-md-3 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div class="col-md-9" id="{FIELD_NAME}"> \
+ <img style="max-width: 80%;" src="{VALUE}" >\
  </div> </div>');
 
 FormComponents.addTemplate('showImageV', '<div class="form-group"> \
  <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
  <div id="{FIELD_NAME}"> \
- <img src="{VALUE}" >\
+ <img style="max-width: 80%;" src="{VALUE}" >\
  </div> </div>');
 
 FormComponents.addTemplate('inputDisabledH', '<div class="form-group"> \
- <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
- <div class="col-md-10"> \
+ <label class="col-md-3 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
+ <div class="col-md-9"> \
  <input type="text" disabled="" name="{FIELD_NAME}" class="form-control" value="{VALUE}">\
  </div> \
  </div>');
@@ -1122,7 +1122,6 @@ name = 'imageH';
 template = '<div class="form-group"> \
  <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
  <div class="col-md-10"> \
- <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
  <div id="templateImage"></div>\
  </div> \
  </div>';
@@ -1130,9 +1129,13 @@ templateFunction = ()=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
-  UtilsView.templateRender('selectImageTemplate', 'templateImage', { name: 'teste' });
+  UtilsView.templateRender('selectImageTemplate', 'templateImage', {
+    image: this['value' + fieldName],
+    FIELD_NAME: fieldName
+  });
 };
 getValueFunction = (value, fieldName = '')=> {
+  this['value' + fieldName] = value;
   return '';
 };
 viewFunction = (value) => {
@@ -1146,7 +1149,6 @@ name = 'imageV';
 template = '<div class="form-group"> \
  <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
  <div> \
- <input type="hidden" id="{FIELD_NAME}" name="{FIELD_NAME}">{VALUE}</input> \
  <div id="templateImage"></div>\
  </div> \
  </div>';
@@ -1154,9 +1156,10 @@ templateFunction = ()=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
-  UtilsView.templateRender('selectImageTemplate', 'templateImage', { name: 'teste' });
+  UtilsView.templateRender('selectImageTemplate', 'templateImage', { image: this['value' + fieldName] });
 };
 getValueFunction = (value, fieldName = '')=> {
+  this['value' + fieldName] = value;
   return '';
 };
 viewFunction = (value) => {

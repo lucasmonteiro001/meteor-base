@@ -118,7 +118,7 @@ CollectionColaboradores.addSubSchema('insert',
     ['nome', 'dataNascimento', 'email', 'imageInto', 'addInfo']);
 
 CollectionColaboradores.addSubSchema('update',
-    ['nome', 'dataNascimento', 'email']);
+    ['nome', 'dataNascimento', 'imageInto', 'email']);
 
 CollectionColaboradores.addSubSchema('view',
     ['nome', 'dataNascimento', 'email', 'userId', 'imageInto']);

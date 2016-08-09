@@ -1,5 +1,6 @@
 import { ColaboradoresController } from '../../api/Colaboradores/controller';
 import { ProjetosController } from '../../api/Projetos/controller';
+import { usersController } from '../../api/users/controller';
 //######################################################################
 //#################### GLOBAL TEMPLATE HELPERS #########################
 //######################################################################
@@ -12,6 +13,9 @@ Template.registerHelper('getController', (controllerName) => {
       break;
     case 'Projetos':
       return ProjetosController;
+      break;
+    case 'Users':
+      return usersController;
       break;
       //Se não existir return null
     default:

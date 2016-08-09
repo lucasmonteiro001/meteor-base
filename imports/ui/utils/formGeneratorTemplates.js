@@ -23,6 +23,11 @@ Template.select2Collection.onCreated(() => {
 Template.select2Collection.onRendered(() => {
 
 });
+
+Template.select2Collection.getFieldValue = (object, fieldName)=> {
+  return object[fieldName];
+}
+
 Template.select2Collection.helpers({
   'collectionData': () => {
     template = Template.instance();
@@ -41,8 +46,14 @@ Template.selectImageTemplate.onCreated(() => {
 });
 Template.selectImageTemplate.onRendered(() => {
   template = Template.instance();
+  let imageData = template.data;
+  let $buttomInsert = $("#insertImg");
 
-  var $image = $(".image-crop > img")
+  if (typeof imageData.image != 'undefined') {
+    $buttomInsert.html("Atualizar Imagem");
+  }
+
+  let $image = $(".image-crop > img")
   $($image).cropper({
     aspectRatio: 1.1,
     preview: ".img-preview",
@@ -51,10 +62,10 @@ Template.selectImageTemplate.onRendered(() => {
     }
   });
 
-  var $inputImage = $("#inputImage");
+  let $inputImage = $("#inputImage");
   if (window.FileReader) {
     $inputImage.change(function () {
-      var fileReader = new FileReader(),
+      let fileReader = new FileReader(),
           files = this.files,
           file;
 
@@ -78,17 +89,18 @@ Template.selectImageTemplate.onRendered(() => {
     $inputImage.addClass("hide");
   }
 
-  var $dataURLInto = $("#imageInto"),
+  let $dataURLInto = $("#" + imageData.FIELD_NAME),
       $dataURLView = $("#imageView");
 
   $("#getDataURL2").click(function () {
-    var dataURL = $image.cropper("getDataURL", "image/jpeg");
+    let dataURL = $image.cropper("getDataURL", "image/jpeg");
 
     $dataURLInto.val(dataURL);
-    $dataURLView.html('<img src="' + dataURL + '">');
+    $buttomInsert.html("Atualizar Imagem");
+    $dataURLView.attr('src', dataURL);
   });
 
-  $("#salvar").click(function () {
+  $("#sallet").click(function () {
     window.open($image.cropper("getDataURL", "image/jpeg"));
   });
 
@@ -149,7 +161,7 @@ Template.fieldObjectManagement.onRendered(() => {
 
     $(this).click(function () {
 
-      var elem = $(this);
+      let elem = $(this);
 
       elem.hide();
       elem.after(replaceWith);
@@ -157,8 +169,6 @@ Template.fieldObjectManagement.onRendered(() => {
 
       let line = $(this).attr('id');
       let field = $(this).attr('name');
-
-
 
       replaceWith.blur(function () {
         let val = $(this).val();
@@ -169,8 +179,8 @@ Template.fieldObjectManagement.onRendered(() => {
         fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
 
         console.log(fieldInput.value);
-          connectWith.val($(this).val()).change();
-          elem.text($(this).val());
+        connectWith.val($(this).val()).change();
+        elem.text($(this).val());
 
         $(this).remove();
         elem.show();
@@ -181,7 +191,7 @@ Template.fieldObjectManagement.onRendered(() => {
   let fieldInput = document.getElementById(template.data.fieldName);
   fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
   document.getElementById('tableview').innerHTML =
-      UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData,
+      UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData, {},
           'table dataTable no-footer', 'tableEdit-' + template.data.fieldName);
 
   $('#' + 'tableEdit-' + template.data.fieldName + ' td').each(function () {

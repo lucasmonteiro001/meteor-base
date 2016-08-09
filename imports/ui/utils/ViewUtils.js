@@ -302,7 +302,7 @@ class ViewUtils {
    * @param listOfObjects lista de objetos que serão inseridos na tabela
    * @returns {string}
    */
-  getTableViewFromSchemaAndListOfObjects (schema, listOfObjects, tableClass = 'footable metro-synergiaMeteorBase', tableId = '') {
+  getTableViewFromSchemaAndListOfObjects (schema, listOfObjects, buttons = {}, tableClass = 'footable metro-synergiaMeteorBase', tableId = '') {
 
     let fieldTmp = '<table class="' + tableClass + '" data-page-size="5" id="' + tableId + '"> \
         <thead><tr> ';

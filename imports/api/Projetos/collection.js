@@ -54,7 +54,7 @@ CollectionProjetos.setSchema({
           label: 'Horario',
           formOptions: {
             VISIBLE: true,
-            FIELD_COMPONENT: 'inputH',
+            FIELD_COMPONENT: 'inputHourH',
             FIELD_TYPE: 'text',
           },
         },
@@ -148,6 +148,7 @@ CollectionProjetos.setSchema({
       OPTIONSCOLLECTION: {
         COLLECTION: 'Colaboradores',
         COLLECTION_SCHEMA: 'tableview',
+        FIRST_FIELD: 'nome',
       },
     },
     formValidation: {
@@ -170,6 +171,7 @@ CollectionProjetos.setSchema({
       OPTIONSCOLLECTION: {
         COLLECTION: 'Colaboradores',
         COLLECTION_SCHEMA: 'tableview',
+        FIRST_FIELD: 'nome',
       },
     },
     formValidation: {
