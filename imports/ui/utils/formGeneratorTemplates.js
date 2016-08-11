@@ -24,7 +24,6 @@ Template.select2Collection.onRendered(() => {
 
 });
 
-
 Template.select2Collection.helpers({
   'getFieldValue': (object, fieldName) => {
     return object[fieldName];
@@ -169,70 +168,72 @@ $.fn.inlineEdit = function (fieldName, schema) {
 
       if (typeof schema[field].formValidation != 'undefined')
         validation = schema[field].formValidation;
-    }
 
-    let formTemp = $('<form id="tempInlineForm"> </form>');
+      let formTemp = $('<form id="tempInlineForm"> </form>');
 
-    actualObjectFieldInEditionByField.formTemp = formTemp;
+      actualObjectFieldInEditionByField.formTemp = formTemp;
 
-    let rWith = $('<input name="tempInLIneField" type="text" style="width:100%;border:0px;" />');
+      let rWith = $('<input name="tempInLIneField" type="text" style="width:100%;border:0px;" />');
 
-    rWith.val($(this).text());
-    let elem = $(this);
-    actualObjectFieldInEditionByField.elem = elem;
+      rWith.val($(this).text());
+      let elem = $(this);
+      actualObjectFieldInEditionByField.elem = elem;
 
-    //rWith.appendTo(formTemp);
+      //rWith.appendTo(formTemp);
 
-    elem.hide();
-    elem.after(formTemp);
+      elem.hide();
+      elem.after(formTemp);
 
-    if (validation != {}) {
-      let rules = { tempInLIneField: {} };
-      let message = { tempInLIneField: {} };
+      if (validation != {}) {
+        let rules = { tempInLIneField: {} };
+        let message = { tempInLIneField: {} };
 
-      for (let rulesKey in validation) {
+        for (let rulesKey in validation) {
 
-        rules["tempInLIneField"][rulesKey] = validation[rulesKey].value;
-        message["tempInLIneField"][rulesKey] = validation[rulesKey].message;
+          rules["tempInLIneField"][rulesKey] = validation[rulesKey].value;
+          message["tempInLIneField"][rulesKey] = validation[rulesKey].message;
+        }
+
+        //Jquery Validation - https://jqueryvalidation.org/validate
+        formTemp.validate({
+          rules: rules,
+          messages: message,
+        });
+
+      } else {
+        formTemp.validate().currentForm = '';
       }
 
-      //Jquery Validation - https://jqueryvalidation.org/validate
-      formTemp.validate({
-        rules: rules,
-        messages: message,
+      rWith.appendTo(formTemp);
+      rWith.focus();
+
+      let line = $(this).attr('id');
+
+      rWith.blur(function () {
+
+        let validationOK = true;
+
+        if (validation != {})
+          validationOK = formTemp.valid();
+
+        if (validationOK) {
+          let val = $(this).val();
+          let fieldInput = document.getElementById(fieldName);
+          fieldObjectManagement.objectsData[line][field] = val;
+          fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
+          elem.text($(this).val());
+
+          formTemp.remove();
+          elem.show();
+
+          actualObjectFieldInEditionByField.fieldName = "";
+
+        }
+        ;
       });
 
-    } else {
-      formTemp.validate().currentForm = '';
     }
 
-    rWith.appendTo(formTemp);
-    rWith.focus();
-
-    let line = $(this).attr('id');
-
-    rWith.blur(function () {
-
-      let validationOK = true;
-
-      if (validation != {})
-        validationOK = formTemp.valid();
-
-      if (validationOK) {
-        let val = $(this).val();
-        let fieldInput = document.getElementById(fieldName);
-        fieldObjectManagement.objectsData[line][field] = val;
-        fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
-        elem.text($(this).val());
-
-        formTemp.remove();
-        elem.show();
-
-        actualObjectFieldInEditionByField.fieldName = "";
-
-      }
-      ;
-    });
   });
 
 };
@@ -270,7 +271,6 @@ Template.fieldObjectManagement.helpers(() => {
 Template.fieldObjectManagement.events({
   'click button[data-target=".addInfo"]': function () {
     template = Template.instance();
-    console.log('formModal-' + template.data.fieldName);
     formGen.simpleFormRender('formModal-' + template.data.fieldName, fieldObjectManagement.schema);
   },
   'click button[data-dismiss="modal"]': function () {
@@ -286,7 +286,6 @@ Template.fieldObjectManagement.events({
       return true;
     } else {
       return false;
-      console.log('Validação = false');
     }
 
   },

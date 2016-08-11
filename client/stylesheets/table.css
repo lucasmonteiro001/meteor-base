@@ -2,7 +2,58 @@
     max-width: 100%;
 }
 
+
 .fixedSWidthDiv {
-    overflow-y: auto;
-    max-width: 100%;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/*
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media screen and (max-width: 760px) {
+
+    /* Force table to not be like tables anymore */
+    .fixedSWidthDiv thead, .fixedSWidthDiv tbody, .fixedSWidthDiv th, .fixedSWidthDiv td, .fixedSWidthDiv tr {
+        display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    .fixedSWidthDiv thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .fixedSWidthDiv tr {
+        border: 1px solid #ccc;
+    }
+
+    .fixedSWidthDiv td {
+        /* Behave  like a "row" */
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .fixedSWidthDiv td:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+
+    /*
+    Label the data
+
+    td:nth-of-type(1):before { content: "First Name"; }
+      */
+
 }
