@@ -7,7 +7,7 @@
           "append": "",
           "prepend": "",
           "setTemplateFile": "",
-          "setTemplate": "",
+          "setTemplate": "collection.js",
           "copyFromCollection": "Colaboradores"
         },
         "controller.js": {
@@ -15,7 +15,7 @@
           "append": "",
           "prepend": "",
           "setTemplateFile": "",
-          "setTemplate": "",
+          "setTemplate": "controller.js",
           "copyFromCollection": "Colaboradores"
         },
         "model.js": {
@@ -23,9 +23,8 @@
           "append": "",
           "prepend": "",
           "setTemplateFile": "",
-          "setTemplate": "",
+          "setTemplate": "model.js",
           "copyFromCollection": "Colaboradores"
-
         }
       }
     },
@@ -67,7 +66,7 @@
             "append": "",
             "prepend": "",
             "setTemplateFile": "",
-            "setTemplate": "",
+            "setTemplate": "uiTemplateCRUD.html",
             "copyFromCollection": "Colaboradores"
           },
           "{COLLECTION_NAME}.js": {
@@ -75,7 +74,7 @@
             "append": "",
             "prepend": "",
             "setTemplateFile": "",
-            "setTemplate": "",
+            "setTemplate": "uiTemplateCRUD.js",
             "copyFromCollection": "Colaboradores"
           }
         }

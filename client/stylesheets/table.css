@@ -57,3 +57,38 @@ and also iPads specifically.
       */
 
 }
+
+/* Force table to not be like tables anymore */
+.colunsToRow thead, .colunsToRow tbody, .colunsToRow th, .colunsToRow td, .colunsToRow tr {
+    display: block;
+}
+
+/* Hide table headers (but not display: none;, for accessibility) */
+.colunsToRow thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+
+.colunsToRow tr {
+    border: 1px solid #ccc;
+}
+
+.colunsToRow td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+}
+
+.colunsToRow td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+}

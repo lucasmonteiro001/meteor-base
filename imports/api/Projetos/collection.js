@@ -101,7 +101,7 @@ CollectionProjetos.setSchema({
     },
     dataTableConfig: {
       orderable: false,
-      RenderObjects: 'OnTable',
+      RenderObjects: 'inList',
     },
   },
   esforcoestimado: {
@@ -224,7 +224,7 @@ CollectionProjetos.addSubSchema('update',
     ['nome', 'cliente', 'dataInicio', 'dataFim', 'descricao', 'colaboradores', 'coordenadores', 'tecnologias', 'esforcoestimado']);
 
 CollectionProjetos.addSubSchema('tableview',
-    ['nome', 'cliente', 'userId', 'colaboradores', 'tecnologias', 'coordenadores', 'esforcoestimado']);
+    ['nome', 'cliente', 'userId', 'tecnologias']);
 
 CollectionProjetos.addSubSchema('view',
     ['nome', 'cliente', 'colaboradores', 'dataInicio', 'tecnologias', 'userId', 'coordenadores', 'esforcoestimado']);

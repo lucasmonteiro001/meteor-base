@@ -131,6 +131,10 @@ let defaultViewComponent = (value) => {
   return (FormComponents.templates['spanH'].replace(new RegExp('{VALUE}', 'g'), value || ''))
 };
 
+let viewInList = (value) => {
+  return (FormComponents.templates['spanH'].replace(new RegExp('{VALUE}', 'g'), UtilsView.getListViewFromListOfObjects(value) || ''))
+};
+
 //##############################################################################################
 //#############  Componente inputH ########################################################
 name = 'inputH';
@@ -268,7 +272,8 @@ getValueFunction = (value, fieldName = '')=> {
   this['value' + fieldName] = value;
   return '';
 };
-viewFunction = defaultViewComponent;
+viewFunction = viewInList;
+
 FormComponents.addComponent(name, template, templateFunction, initializationFunction, getValueFunction, viewFunction);
 
 //##############################################################################################

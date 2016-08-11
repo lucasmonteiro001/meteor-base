@@ -211,7 +211,7 @@ class ViewUtils {
   getDataTableConfig (controllerVar, schemaName, otherConfigurations = {}) {
 
     let tableRenderFunction = this.getTableViewFromSchemaAndListOfObjects;
-    let listRenderFunction = this.getListViewFromSchemaAndListOfObjects;
+    let listRenderFunction = this.getListViewFromListOfObjects;
     let optionsObject = {
       columns: [],
       'initComplete': function (settings, json) {
@@ -256,7 +256,8 @@ class ViewUtils {
             if (dtConfig['RenderObjects'] == 'OnTable') {
               let renderTable = function (cellData, renderType, currentRow) {
                 if (schema[key].formOptions && schema[key].formOptions.FIELD_SCHEMA)
-                  return tableRenderFunction(schema[key].formOptions.FIELD_SCHEMA, currentRow[key]);
+                  return tableRenderFunction(schema[key].formOptions.FIELD_SCHEMA, currentRow[key],
+                      false, 'table dataTable no-footer colunsToRow');
                 else if (schema[key].formOptions && schema[key].formOptions.OPTIONSCOLLECTION) {
                   //Renderizar a partir de uma Collectino
                   let controllerTmp = Blaze._globalHelpers.getController(
@@ -264,7 +265,7 @@ class ViewUtils {
                   let collectionSchema =
                       schema[key].formOptions.OPTIONSCOLLECTION.COLLECTION_SCHEMA;
                   return tableRenderFunction(controllerTmp.getSubSchemaJson(
-                      collectionSchema), currentRow[key]);
+                      collectionSchema), currentRow[key], false, 'table dataTable no-footer colunsToRow');
                 }
               };
 
@@ -273,7 +274,7 @@ class ViewUtils {
               //To Do
 
               let renderList = function (cellData, renderType, currentRow) {
-                return listRenderFunction(schema[key].formOptions.FIELD_SCHEMA, currentRow[key]);
+                return listRenderFunction(currentRow[key]);
               };
 
               collunsConfig['render'] = renderList;
@@ -381,48 +382,17 @@ class ViewUtils {
    * @param listOfObjects lista de objetos que serão inseridos na tabela
    * @returns {string}
    */
-  getListViewFromSchemaAndListOfObjects (schema, listOfObjects) {
+  getListViewFromListOfObjects (listOfObjects) {
 
     //TO DO
 
-    let fieldTmp = '<ul> \
-        <thead><tr> ';
+    let fieldTmp = '<ul>';
 
-    for (let key in schema) {
-      if (typeof schema[key].label != 'undefined') {
-        fieldTmp = fieldTmp + '<th>' + schema[key].label + '</th>';
-      }
+    for (let key in listOfObjects) {
+      fieldTmp = fieldTmp + '<li>' + listOfObjects[key] + '</li>';
     }
 
-    fieldTmp = fieldTmp + '</tr></thead>';
-
-    fieldTmp = fieldTmp + '<tbody>';
-
-    for (let keyObject in listOfObjects) {
-      fieldTmp = fieldTmp + '<tr>';
-      for (let key in schema) {
-        if (typeof schema[key].label != 'undefined') {
-
-          if (typeof listOfObjects[keyObject] != 'undefined') {
-            let valor = listOfObjects[keyObject][key];
-
-            if (schema[key].type == Date && valor) {
-              let pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
-              valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
-            } else if (schema[key].type == Object && typeof schema[key].formOptions['FIELD_SCHEMA']
-                != 'undefined' && valor) {
-              console.log('TODo - Campo = Objeto');
-            }
-
-            fieldTmp = fieldTmp + '<td>' + valor + '</td>';
-          }
-        }
-      }
-
-      fieldTmp = fieldTmp + '</tr>';
-    }
-
-    fieldTmp = fieldTmp + '</tbody></table>';
+    fieldTmp = fieldTmp + '</ul>';
 
     return fieldTmp;
   }
