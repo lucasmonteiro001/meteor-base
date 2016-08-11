@@ -1183,8 +1183,9 @@ initializationFunction = (fieldName, fieldOptions, schema)=> {
   if (typeof schema.formOptions.FIELD_SCHEMA != 'undefined') {
     let data = {};
     data.fieldName = fieldName;
+    data.schema = schema;
     data.listOfObjects = this['value' + fieldName];
-    data.schema = schema.formOptions.FIELD_SCHEMA;
+    data.FIELD_SCHEMA = schema.formOptions.FIELD_SCHEMA;
 
     UtilsView.templateRender('fieldObjectManagement', 'template-' + fieldName, data);
   } else {

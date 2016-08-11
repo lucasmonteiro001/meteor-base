@@ -2,6 +2,8 @@ import { Blaze } from 'meteor/blaze';
 import './formGeneratorTemplates.html';
 import { formGen } from './formGenerator';
 import { UtilsView } from './ViewUtils';
+import { Message } from './message';
+//import { FormComponents } from './components';
 
 let template;
 
@@ -135,10 +137,14 @@ Template.selectImageTemplate.events({
   }
 });
 
-$.fn.inlineEdit = function (replaceWith = '<input name="temp" type="text" />', connectWith = 'input[name="hiddenField"]') {
+$.fn.inlineEdit = function (replaceWith = '<input name="temp" type="text"  />') {
+
+  let isObject = false;
+  if (typeof replaceWith != 'string') {
+    isObject = true;
+  }
 
   let rWith = $(replaceWith);
-  let cWith = $(connectWith);
   $(this).hover(function () {
     $(this).addClass('hover');
   }, function () {
@@ -161,7 +167,6 @@ $.fn.inlineEdit = function (replaceWith = '<input name="temp" type="text" />', c
       let fieldInput = document.getElementById(template.data.fieldName);
       fieldObjectManagement.objectsData[line][field] = val;
       fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
-      cWith.val($(this).val()).change();
       elem.text($(this).val());
 
       $(this).remove();
@@ -190,13 +195,12 @@ Template.fieldObjectManagement.onCreated(() => {
     fieldObjectManagement.objectsData = template.data.listOfObjects;
   else
     fieldObjectManagement.objectsData = [];
-  fieldObjectManagement.schema = template.data.schema;
+  fieldObjectManagement.schema = template.data.FIELD_SCHEMA;
 });
 Template.fieldObjectManagement.onRendered(() => {
   template = Template.instance();
 
   Template.fieldObjectManagement.updateTable(template);
-
 
 });
 Template.fieldObjectManagement.helpers(() => {
@@ -225,12 +229,14 @@ Template.fieldObjectManagement.events({
 
   },
   'click a[id="delObj"]': function (evt) {
-    template = Template.instance();
+    let template = Template.instance();
     let linha = $(evt.currentTarget).attr("value");
-    if (linha > -1) {
-      fieldObjectManagement.objectsData.splice(linha, 1);
-    }
-    Template.fieldObjectManagement.updateTable(template);
+    Message.showConfirmation('Confirmar remoção', 'você deseja remover o item?', 'Sim', ()=> {
+      if (linha > -1) {
+        fieldObjectManagement.objectsData.splice(linha, 1);
+      }
+      Template.fieldObjectManagement.updateTable(template);
+    });
 
   }
 
