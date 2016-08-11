@@ -198,7 +198,7 @@ class ViewUtils {
 
     window.location.hash = '#openTemplateModal';
 
-    console.log('showModalWithTemplate:OK');
+    //console.log('showModalWithTemplate:OK');
 
     //endregion
   }

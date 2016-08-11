@@ -15,7 +15,6 @@ Template.select2Collection.onCreated(() => {
       '', function () {
         $(document).ready(function () {
           $('#' + collectionData.FIELD_NAME).select2();
-          console.log('#' + collectionData.FIELD_NAME);
         });
       }
   );
@@ -25,11 +24,11 @@ Template.select2Collection.onRendered(() => {
 
 });
 
-Template.select2Collection.getFieldValue = (object, fieldName)=> {
-  return object[fieldName];
-}
 
 Template.select2Collection.helpers({
+  'getFieldValue': (object, fieldName) => {
+    return object[fieldName];
+  },
   'collectionData': () => {
     template = Template.instance();
     if (template.controller) {
@@ -136,9 +135,9 @@ Template.selectImageTemplate.events({
   }
 });
 
-$.fn.inlineEdit = function (replaceWith = '<input name="temp" type="text" style="width:100%;border:0px;" />') {
+let actualObjectFieldInEditionByField = {};
 
-  let rWith = $(replaceWith);
+$.fn.inlineEdit = function (fieldName, schema) {
 
   $(this).hover(function () {
     $(this).addClass('hover');
@@ -147,25 +146,92 @@ $.fn.inlineEdit = function (replaceWith = '<input name="temp" type="text" style=
   });
 
   $(this).click(function () {
+
+    let inputType = 'text';
+    let validation = {};
+    let field = $(this).attr('name');
+
+    if (typeof actualObjectFieldInEditionByField.fieldName != 'undefined' &&
+        actualObjectFieldInEditionByField.fieldName != "" &&
+        actualObjectFieldInEditionByField.fieldName != field) {
+      actualObjectFieldInEditionByField.formTemp.remove();
+      actualObjectFieldInEditionByField.elem.show();
+      actualObjectFieldInEditionByField.fieldName = field;
+    } else {
+      actualObjectFieldInEditionByField.fieldName = field;
+    }
+
+    if (typeof schema[field] != 'undefined' &&
+        typeof schema[field].formOptions != 'undefined' &&
+        typeof schema[field].formOptions.FIELD_TYPE != 'undefined') {
+
+      inputType = schema[field].formOptions.FIELD_TYPE;
+
+      if (typeof schema[field].formValidation != 'undefined')
+        validation = schema[field].formValidation;
+    }
+
+    let formTemp = $('<form id="tempInlineForm"> </form>');
+
+    actualObjectFieldInEditionByField.formTemp = formTemp;
+
+    let rWith = $('<input name="tempInLIneField" type="text" style="width:100%;border:0px;" />');
+
     rWith.val($(this).text());
     let elem = $(this);
+    actualObjectFieldInEditionByField.elem = elem;
+
+    //rWith.appendTo(formTemp);
 
     elem.hide();
-    elem.after(rWith);
+    elem.after(formTemp);
+
+    if (validation != {}) {
+      let rules = { tempInLIneField: {} };
+      let message = { tempInLIneField: {} };
+
+      for (let rulesKey in validation) {
+
+        rules["tempInLIneField"][rulesKey] = validation[rulesKey].value;
+        message["tempInLIneField"][rulesKey] = validation[rulesKey].message;
+      }
+
+      //Jquery Validation - https://jqueryvalidation.org/validate
+      formTemp.validate({
+        rules: rules,
+        messages: message,
+      });
+
+    } else {
+      formTemp.validate().currentForm = '';
+    }
+
+    rWith.appendTo(formTemp);
     rWith.focus();
 
     let line = $(this).attr('id');
-    let field = $(this).attr('name');
 
     rWith.blur(function () {
-      let val = $(this).val();
-      let fieldInput = document.getElementById(template.data.fieldName);
-      fieldObjectManagement.objectsData[line][field] = val;
-      fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
-      elem.text($(this).val());
 
-      $(this).remove();
-      elem.show();
+      let validationOK = true;
+
+      if (validation != {})
+        validationOK = formTemp.valid();
+
+      if (validationOK) {
+        let val = $(this).val();
+        let fieldInput = document.getElementById(fieldName);
+        fieldObjectManagement.objectsData[line][field] = val;
+        fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
+        elem.text($(this).val());
+
+        formTemp.remove();
+        elem.show();
+
+        actualObjectFieldInEditionByField.fieldName = "";
+
+      }
+      ;
     });
   });
 
@@ -181,7 +247,7 @@ Template.fieldObjectManagement.updateTable = (template)=> {
           'table dataTable no-footer', 'tableEdit-' + template.data.fieldName);
 
   $('#' + 'tableEdit-' + template.data.fieldName + ' td.val').each(function () {
-    $(this).inlineEdit();
+    $(this).inlineEdit(template.data.fieldName, template.data.FIELD_SCHEMA);
   });
 };
 

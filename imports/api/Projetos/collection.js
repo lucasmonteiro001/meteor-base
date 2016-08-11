@@ -28,50 +28,54 @@ CollectionProjetos.setSchema({
       },
     },
   },
-  diasdetrabalho: {
+  cliente: {
     type: [Object],
     blackbox: true,
     defaultValue: [],
-    label: 'Dias de Trabalho',
+    label: 'Cliente',
     formOptions: {
       VISIBLE: true,
       FIELD_COMPONENT: 'fieldObjectManagementH',
-      FIELD_TYPE: 'text',
       FIELD_SCHEMA: {
-        dia: {
+        nomecliente: {
           type: String,
           defaultValue: '',
-          label: 'Dia da Semana',
+          label: 'Nome',
           formOptions: {
             VISIBLE: true,
             FIELD_COMPONENT: 'inputH',
             FIELD_TYPE: 'text',
           },
           formValidation: {
-            required: { value: true, message: 'O dia da semana é obrigatório' },
+            required: { value: true, message: 'O nome do cliente é obrigatório' },
           },
         },
-        horario: {
+        emailcliente: {
           type: String,
           defaultValue: '',
-          label: 'Horario',
+          label: 'Email',
           formOptions: {
             VISIBLE: true,
-            FIELD_COMPONENT: 'inputHourH',
-            FIELD_TYPE: 'text',
+            FIELD_COMPONENT: 'inputH',
+            FIELD_TYPE: 'email',
+          },
+          formValidation: {
+            required: { value: true, message: 'O email do cliente é obrigatório' },
+            email: { value: true, message: 'O email informado não é válido' },
           },
         },
-        dataInicio: {
+        datanascimentocliente: {
           type: Date,
           optional: true,
-          label: 'Data de Início',
+          label: 'Data de Nascimento',
           formOptions: {
             VISIBLE: true,
             FIELD_COMPONENT: 'inputDateH',
             FIELD_TYPE: 'date',
           },
           formValidation: {
-            required: { value: true, message: 'A data de início é obrigatória' },
+            required: { value: true, message: 'A data de nascimento do cliente é obrigatória' },
+            date: { value: true, message: 'A data informada é inválida' },
           },
         },
       },
@@ -214,16 +218,16 @@ CollectionProjetos.setSchema({
 });
 
 CollectionProjetos.addSubSchema('insert',
-    ['nome', 'dataInicio', 'diasdetrabalho', 'colaboradores', 'coordenadores', 'tecnologias', 'esforcoestimado']);
+    ['nome', 'dataInicio', 'cliente', 'colaboradores', 'coordenadores', 'tecnologias', 'esforcoestimado']);
 
 CollectionProjetos.addSubSchema('update',
-    ['nome', 'diasdetrabalho', 'dataInicio', 'dataFim', 'descricao', 'colaboradores', 'coordenadores', 'tecnologias', 'esforcoestimado']);
+    ['nome', 'cliente', 'dataInicio', 'dataFim', 'descricao', 'colaboradores', 'coordenadores', 'tecnologias', 'esforcoestimado']);
 
 CollectionProjetos.addSubSchema('tableview',
-    ['nome', 'diasdetrabalho', 'userId', 'colaboradores', 'tecnologias', 'coordenadores', 'esforcoestimado']);
+    ['nome', 'cliente', 'userId', 'colaboradores', 'tecnologias', 'coordenadores', 'esforcoestimado']);
 
 CollectionProjetos.addSubSchema('view',
-    ['nome', 'diasdetrabalho', 'colaboradores', 'dataInicio', 'tecnologias', 'userId', 'coordenadores', 'esforcoestimado']);
+    ['nome', 'cliente', 'colaboradores', 'dataInicio', 'tecnologias', 'userId', 'coordenadores', 'esforcoestimado']);
 
 //################################################
 //############ RESTRIÇÃO DE ACESSO ###############
