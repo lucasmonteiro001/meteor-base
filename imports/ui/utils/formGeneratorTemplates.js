@@ -3,7 +3,6 @@ import './formGeneratorTemplates.html';
 import { formGen } from './formGenerator';
 import { UtilsView } from './ViewUtils';
 import { Message } from './message';
-//import { FormComponents } from './components';
 
 let template;
 
@@ -137,14 +136,10 @@ Template.selectImageTemplate.events({
   }
 });
 
-$.fn.inlineEdit = function (replaceWith = '<input name="temp" type="text"  />') {
-
-  let isObject = false;
-  if (typeof replaceWith != 'string') {
-    isObject = true;
-  }
+$.fn.inlineEdit = function (replaceWith = '<input name="temp" type="text" style="width:100%;border:0px;" />') {
 
   let rWith = $(replaceWith);
+
   $(this).hover(function () {
     $(this).addClass('hover');
   }, function () {
@@ -173,6 +168,7 @@ $.fn.inlineEdit = function (replaceWith = '<input name="temp" type="text"  />') 
       elem.show();
     });
   });
+
 };
 
 let fieldObjectManagement = {};
@@ -231,11 +227,12 @@ Template.fieldObjectManagement.events({
   'click a[id="delObj"]': function (evt) {
     let template = Template.instance();
     let linha = $(evt.currentTarget).attr("value");
-    Message.showConfirmation('Confirmar remoção', 'você deseja remover o item?', 'Sim', ()=> {
-      if (linha > -1) {
+    Message.showConfirmation('Confirmar remoção', 'você deseja remover o item?', 'Sim', (e, result)=> {
+      if (linha > -1 && result) {
         fieldObjectManagement.objectsData.splice(linha, 1);
+        Template.fieldObjectManagement.updateTable(template);
       }
-      Template.fieldObjectManagement.updateTable(template);
+
     });
 
   }

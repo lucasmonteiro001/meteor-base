@@ -304,7 +304,7 @@ class ViewUtils {
    */
   getTableViewFromSchemaAndListOfObjects (schema, listOfObjects, buttons = false, tableClass = 'footable metro-synergiaMeteorBase', tableId = '') {
 
-    let fieldTmp = '<table class="' + tableClass + '" data-page-size="5" id="' + tableId + '"> \
+    let fieldTmp = '<table class="' + tableClass + '" data-page-size="5" id="' + tableId + '" style="table-layout: fixed;"> \
         <thead><tr> ';
     let firstLine = true;
     for (let key in schema) {
@@ -323,7 +323,7 @@ class ViewUtils {
     }
 
     if (buttons) {
-      fieldTmp = fieldTmp + '<th data-hide="phone"></th>';
+      fieldTmp = fieldTmp + '<th data-hide="phone" width="10px"></th>';
     }
 
     fieldTmp = fieldTmp + '</tr></thead>';
