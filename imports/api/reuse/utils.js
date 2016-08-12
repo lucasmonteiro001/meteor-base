@@ -1,6 +1,4 @@
-/**
- * Created by luizluz on 22/06/2016.
- */
+
 
 class Util {
 
