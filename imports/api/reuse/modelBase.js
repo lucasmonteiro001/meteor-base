@@ -95,55 +95,59 @@ export class ModelBase {
       let permissions = this.myCollectionBase.getPermissions();
       let userId = Meteor.userId();
       let result = false;
-      if (permissions.length>0) {
-        for (let keyPerm in permissions) {
-          if (typeof permissions[keyPerm].groups != 'undefined') {
+      if (userId === null) {
+        //Se não existir userId o retorno é true para permitir que o usuário se cadastre e logue.
+        result = true;
+      } else {
+        if (permissions.length>0) {
+          for (let keyPerm in permissions) {
+            if (typeof permissions[keyPerm].groups != 'undefined') {
 
-            if (Roles.userIsInRole(userId, permissions[keyPerm].groups)
-                && (permissions[keyPerm].actions.indexOf(action)> -1)) {
-              result = true;
-            }
-
-          }
-
-          //Verifica somente o acesso, o filtro de dados é feito no Model
-          if ((result || typeof permissions[keyPerm].groups == 'undefined')
-              && ((typeof permissions[keyPerm].data != 'undefined') && (typeof doc != 'undefined'))) {
-
-            //Não basta ter permissão de functionalidade, tem que ter por dados também caso ela seja definida
-            result = false;
-
-            if (typeof doc != 'undefined') {
-
-              //Substitui as tags {_UserID_} pelo ID do usuário no Objeto
-              let dataTmp = JSON.stringify(permissions[keyPerm].data);
-              permissions[keyPerm].data = JSON.parse(dataTmp.replace(new RegExp('{_UserID_}', 'g'), userId));
-
-              for (let field in permissions[keyPerm].data) {
-                if (permissions[keyPerm].data[field] == doc[field]) {
-                  result = true;
-                }
-
+              if (Roles.userIsInRole(userId, permissions[keyPerm].groups)
+                  && (permissions[keyPerm].actions.indexOf(action)> -1)) {
+                result = true;
               }
 
-            } else {
-              //Caso o subscribe não tenha efetivado não dá acesso à tela.
+            }
+            //Verifica somente o acesso, o filtro de dados é feito no Model
+            if ((result || typeof permissions[keyPerm].groups == 'undefined')
+                && ((typeof permissions[keyPerm].data != 'undefined') && (typeof doc != 'undefined'))) {
+
+              //Não basta ter permissão de functionalidade, tem que ter por dados também caso ela seja definida
               result = false;
+
+              if (typeof doc != 'undefined') {
+
+                //Substitui as tags {_UserID_} pelo ID do usuário no Objeto
+                let dataTmp = JSON.stringify(permissions[keyPerm].data);
+                permissions[keyPerm].data = JSON.parse(dataTmp.replace(new RegExp('{_UserID_}', 'g'), userId));
+
+                for (let field in permissions[keyPerm].data) {
+                  if (permissions[keyPerm].data[field] == doc[field]) {
+                    result = true;
+                  }
+
+                }
+
+              } else {
+                //Caso o subscribe não tenha efetivado não dá acesso à tela.
+                result = false;
+              }
+
             }
 
+            if (result) {
+              return true;
+            }
           }
 
-          if (result) {
-            return true;
-          }
+          //Se nenhuma permissão é atendida o resultado é sempre falso.
+          return false;
+
+        } else {
+          //Se não existir permissões por funcionalidade (groups) ou data o acesso é sempre permitido.
+          return true;
         }
-
-        //Se nenhuma permissão é atendida o resultado é sempre falso.
-        return false;
-
-      } else {
-        //Se não existir permissões por funcionalidade (groups) ou data o acesso é sempre permitido.
-        return true;
       }
 
     }
