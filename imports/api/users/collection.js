@@ -1,4 +1,5 @@
 import { CollectionBase } from '../reuse/collectionBase';
+import { schemaUsers } from './schema';
 
 class CollectionUsers extends CollectionBase {
   constructor () {
@@ -46,95 +47,12 @@ class CollectionUsers extends CollectionBase {
 //Objeto Duplicado
 export const CltUsers = new CollectionUsers();
 
-//Definição dos Schemas
-CltUsers.setSchema({
-  profile: {
-    type: String,
-    defaultValue: '',
-    label: 'Nome',
-    formOptions: {
-      VISIBLE: true,
-      FIELD_COMPONENT: 'inputH',
-      FIELD_TYPE: 'text',
-      PLACEHOLDER: 'Nome',
-    },
-    formValidation: {
-      required: { value: true, message: 'O nome é obrigatório' },
-    },
-    dataTableConfig: {
-      title: 'Novo_Nome',
-      link: {
-        router: 'profile',
-        field: '_id',
-      },
-    },
-  },
-  roles: {
-    type: Object,
-    label: 'Roles',
-    dataTableConfig: {
-      label: 'Grupo',
-      template: 'selectRoles',
-    },
-  },
-  emails: {
-    type: Object,
-    label: 'Email',
-    formOptions: {
-      FIELD_COMPONENT: 'input',
-      FIELD_TYPE: 'text',
-    },
-    formValidation: {
-      required: { value: true, message: 'O Email é obrigatório' },
-    },
-    dataTableConfig: {
-      label: 'Email',
-      template: 'emailUsersTmp',
-    },
-  },
-  //#############################Profile###############
-  //#############################Profile###############
-  //#############################Profile###############
-  descricao: {
-    type: String,
-    defaultValue: '',
-    optional: true,
-    label: 'Descrição:',
-    formOptions: {
-      VISIBLE: true,
-      FIELD_COMPONENT: 'textareaH',
-      ROWS: 3,
-    },
-    formValidation: {},
-  },
-  titulo: {
-    type: String,
-    defaultValue: '',
-    label: 'Título',
-    formOptions: {
-      VISIBLE: true,
-      FIELD_COMPONENT: 'inputH',
-      FIELD_TYPE: 'text',
-      PLACEHOLDER: 'Títulos',
-    },
-    formValidation: {
+//Definição do Schema da Collection - Schema Default
+CltUsers.setSchema(schemaUsers);
 
-    },
-    dataTableConfig: {
-      title: 'Título',
-    },
-  },
-  foto: {
-    type: String,
-    defaultValue: '',
-    label: 'Minha Foto',
-    formOptions: {
-      VISIBLE: true,
-      FIELD_COMPONENT: 'imageH',
-    },
-  }
-
-});
+//################################################
+//################ SUB-SCHEMAS ###################
+//################################################
 
 CltUsers.addSubSchema('update',
     ['profile', 'descricao', 'titulo', 'foto']);
@@ -151,6 +69,7 @@ let permissions = [{
   {
     actions: ['update', 'remove', 'read'],
     groups: ['administrador'], //Permissions by Functionality
+    data: { userId: "{_UserID_}" }, //Filter/Permissions by Data
   },
   {
     actions: ['update', 'remove', 'read'],
