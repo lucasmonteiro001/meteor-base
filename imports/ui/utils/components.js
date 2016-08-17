@@ -1128,14 +1128,14 @@ name = 'imageH';
 template = '<div class="form-group"> \
  <label class="col-md-2 control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
  <div class="col-md-10"> \
- <div id="templateImage"></div>\
+ <div id="templateImage-{FIELD_NAME}"></div>\
  </div> \
  </div>';
 templateFunction = ()=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
-  UtilsView.templateRender('selectImageTemplate', 'templateImage', {
+  UtilsView.templateRender('selectImageTemplate', 'templateImage-' + fieldName, {
     image: this['value' + fieldName],
     FIELD_NAME: fieldName
   });

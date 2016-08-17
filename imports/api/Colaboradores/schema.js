@@ -52,19 +52,6 @@ export const schemaColaboradores = {
       label: 'Email',
     },
   },
-  userId: {
-    type: String,
-    label: 'Associated User ID',
-    autoValue: function () {
-      return this.userId;
-    },
-
-    dataTableConfig: {
-      visible: false,
-      orderable: false,
-      searchable: false,
-    },
-  },
   imageInto: {
     type: String,
     defaultValue: '',
@@ -108,4 +95,80 @@ export const schemaColaboradores = {
       },
     }
   },
+  /* AUTOVALUE */
+  userId: {
+    type: String,
+    label: 'Associated User ID',
+    autoValue: function () {
+      return this.userId;
+    },
+
+    dataTableConfig: {
+      visible: false,
+      orderable: false,
+      searchable: false,
+    },
+  },
+  createdDate: {
+    type: Date,
+    label: "Data de Criação",
+    autoValue: function () {
+      if (this.isInsert)
+        return new Date;
+    },
+    denyUpdate: true,
+    optional: true,
+    formOptions: {
+      VISIBLE: true,
+      FIELD_COMPONENT: 'inputDateH',
+      FIELD_TYPE: 'date',
+    },
+  },
+  updatedDate: {
+    type: Date,
+    label: "Ultima atualização",
+    autoValue: function () {
+      if (this.isUpdate || this.isInsert)
+        return new Date();
+    },
+    optional: true,
+    formOptions: {
+      VISIBLE: true,
+      FIELD_COMPONENT: 'inputDateH',
+      FIELD_TYPE: 'date',
+    },
+  },
+  createdUserEmail: {
+    type: String,
+    label: "Criado Por",
+    autoValue: function () {
+      if (this.isInsert)
+        return Meteor.users.find({ "_id": this.userId }).fetch()[0].emails[0].address;//
+    },
+    denyUpdate: true,
+    optional: true,
+    formOptions: {
+      VISIBLE: true,
+      FIELD_COMPONENT: 'inputH',
+      FIELD_TYPE: 'text',
+      PLACEHOLDER: 'horario'
+    },
+  },
+  updatedUserEmail: {
+    type: String,
+    label: "Atualizado Por",
+    autoValue: function () {
+      if (this.isUpdate || this.isInsert)
+        return Meteor.users.find({ "_id": this.userId }).fetch()[0].emails[0].address;//
+    },
+    optional: true,
+    formOptions: {
+      VISIBLE: true,
+      FIELD_COMPONENT: 'inputH',
+      FIELD_TYPE: 'text',
+      PLACEHOLDER: 'horario'
+    },
+  },  
+  
+  
 };

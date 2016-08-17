@@ -18,7 +18,7 @@ CollectionColaboradores.addSubSchema('update',
     ['nome', 'dataNascimento', 'imageInto', 'email']);
 
 CollectionColaboradores.addSubSchema('view',
-    ['nome', 'dataNascimento', 'email', 'userId', 'imageInto']);
+    ['nome', 'dataNascimento', 'email', 'userId', 'imageInto', 'createdDate', 'updatedDate', 'createdUserEmail', 'updatedUserEmail']);
 
 CollectionColaboradores.addSubSchema('tableview',
     ['nome', 'email', 'userId']);
