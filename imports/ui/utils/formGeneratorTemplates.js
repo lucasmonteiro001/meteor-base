@@ -49,6 +49,8 @@ Template.selectImageTemplate.onRendered(() => {
   let $buttomInsert = $("#insertImg");
 
   if (typeof imageData.image != 'undefined') {
+    $dataURLInto = $("#" + imageData.FIELD_NAME);
+    $dataURLInto.val(imageData.image);
     $buttomInsert.html("Atualizar Imagem");
   }
 
