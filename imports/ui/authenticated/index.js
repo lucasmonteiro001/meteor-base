@@ -7,4 +7,14 @@ Template.index.onCreated(() => {
   template = Template.instance();
 });
 
-Template.index.helpers({});
+Template.index.helpers({
+  emailUser: ()=> {
+    let user = Meteor.user();
+
+
+    if (user.emails = "admin@admin")
+      return "Administrador";
+    else
+      return 'Comum';
+  },
+});

@@ -12,7 +12,6 @@ Template.header.rendered = function () {
   );
 
 };
-
 Template.header.helpers({
   brandLink() {
     let login = FlowRouter.path('login');
@@ -21,7 +20,6 @@ Template.header.helpers({
   },
 
 });
-
 Template.header.events({
   'click .logout'() {
     Meteor.logout((error) => {
