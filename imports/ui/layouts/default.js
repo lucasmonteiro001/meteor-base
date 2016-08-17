@@ -12,18 +12,17 @@ import '../globals/sidebar.html';
 import '../globals/sidebar';
 
 const handleRedirect = (routes, redirect) => {
-      let currentRoute = FlowRouter.getRouteName();
+  let currentRoute = FlowRouter.getRouteName();
 
-      if (routes.indexOf(currentRoute) > -1) {
-        FlowRouter.go(redirect);
-      } else
-        return false;
-    }
-    ;
+  if (routes.indexOf(currentRoute) > -1) {
+    FlowRouter.go(redirect);
+  } else
+    return false;
+};
 
 Template.default.onCreated(() => {
-  //Inicializa o Menu
-  $('#side-menu').metisMenu();
+});
+Template.default.rendered = function () {
 
   // FIXED TOP NAVBAR OPTION
   // Uncomment this if you want to have fixed top navbar
@@ -82,9 +81,7 @@ Template.default.onCreated(() => {
   // Uncomment this if you want to have boxed layout
   //$('body').addClass('boxed-layout');
 
-})
-;
-
+};
 Template.default.helpers({
   'email': function () {
     return Meteor.user().emails[0].address;
@@ -116,7 +113,6 @@ Template.default.helpers({
   },
 
 });
-
 Template.default.events({
 
   // Toggle left navigation
@@ -153,5 +149,4 @@ Template.default.events({
     Meteor.logout();
     Bert.alert('Logged out', 'info');
   },
-})
-;
+});

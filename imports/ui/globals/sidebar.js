@@ -1,10 +1,9 @@
-/**
- * Created by luizluz on 01/07/2016.
- */
-
 Template.sidebar.rendered = function () {
-};
 
+  // Initialize metisMenu
+  $('#side-menu').metisMenu();
+
+};
 Template.sidebar.helpers({
   emailUser: ()=> {
     let user = Meteor.user();
