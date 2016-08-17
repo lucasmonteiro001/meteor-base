@@ -63,7 +63,7 @@ class ViewUtils {
     if (this.templatesRendereds[templateName]
         && Blaze.getData(this.templatesRendereds[templateName])
         && Blaze.getData(this.templatesRendereds[templateName]).FIELD_NAME == data.FIELD_NAME) {
-      Blaze.remove(this.templatesRendereds[templateName]);
+      //Blaze.remove(this.templatesRendereds[templateName]);
     }
 
     this.templatesRendereds[templateName] = Blaze.renderWithData(Template[templateName],

@@ -286,25 +286,63 @@ Template.fieldObjectManagement.onRendered(() => {
 Template.fieldObjectManagement.helpers(() => {
 });
 Template.fieldObjectManagement.events({
-  'click button[data-target=".addInfo"]': function () {
+  'click button[id="showModalButton"]': function (event) {
     template = Template.instance();
-    formGen.simpleFormRender('formModal-' + template.data.fieldName, template.data.fieldObjectManagement.schema);
-  },
-  'click button[data-dismiss="modal"]': function () {
-  },
-  'click button[id="save"]': function () {
-    template = Template.instance();
-    if ($('#formModal-' + template.data.fieldName).valid()) {
+    if (event.target.value == template.data.fieldName) {
 
-      let newObject = formGen.getSimpleFormData(template.data.fieldObjectManagement.schema, template);
-      template.data.fieldObjectManagement.objectsData.push(newObject);
-      Template.fieldObjectManagement.updateTable(template);
-      $('#modal-' + template.data.fieldName).modal('hide');
-      return true;
-    } else {
-      return false;
+      $('#modal-' + template.data.fieldName).modal('show');
+
+      var zIndex = 1040 + (10 * $('.modal:visible').length);
+      $('#modal-' + template.data.fieldName).css('z-index', zIndex);
+      setTimeout(function () {
+        $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+      }, 0);
+
+      formGen.simpleFormRender('formModal-' + template.data.fieldName, template.data.fieldObjectManagement.schema);
     }
 
+    
+  },
+  'click button[id="closeModalButton"]': function (event) {
+    template = Template.instance();
+    if (event.target.value == template.data.fieldName) {
+
+      $('#modal-' + template.data.fieldName).modal('hide');
+
+      if ($('.modal:visible').length > 0) {
+        // restore the modal-open class to the body element, so that scrolling works
+        // properly after de-stacking a modal.
+        setTimeout(function () {
+          $('body').addClass('modal-open');
+        }, 500);
+      }
+
+    }    
+  },
+  'click button[id="save"]': function (event) {
+    template = Template.instance();
+    if (event.target.value == template.data.fieldName) {
+
+      if ($('#formModal-' + template.data.fieldName).valid()) {
+
+        let newObject = formGen.getSimpleFormData(template.data.fieldObjectManagement.schema, template);
+        template.data.fieldObjectManagement.objectsData.push(newObject);
+        Template.fieldObjectManagement.updateTable(template);
+        $('#modal-' + template.data.fieldName).modal('hide');
+
+        if ($('.modal:visible').length > 0) {
+          // restore the modal-open class to the body element, so that scrolling works
+          // properly after de-stacking a modal.
+          setTimeout(function () {
+            $('body').addClass('modal-open');
+          }, 500);
+        }
+
+        return true;
+      } else {
+        return false;
+      }
+    }
   },
   'click a[id="delObj"]': function (evt) {
     let template = Template.instance();

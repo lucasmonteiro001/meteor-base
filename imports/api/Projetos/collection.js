@@ -14,7 +14,7 @@ CollectionProjetos.addSubSchema('insert',
     ['nome', 'dataInicio', 'cliente', 'colaboradores', 'coordenadores', 'tecnologias', 'esforcoestimado']);
 
 CollectionProjetos.addSubSchema('update',
-    ['nome', 'cliente', 'dataInicio', 'dataFim', 'descricao', 'colaboradores', 'coordenadores', 'tecnologias', 'esforcoestimado']);
+    ['nome', 'cliente', 'dataInicio', 'dataFim', 'descricao', 'colaboradores', 'coordenadores', 'tecnologias', 'esforcoestimado', 'mapsSample']);
 
 CollectionProjetos.addSubSchema('tableview',
     ['nome', 'cliente', 'userId', 'tecnologias']);
