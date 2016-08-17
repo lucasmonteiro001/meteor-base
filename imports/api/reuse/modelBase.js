@@ -61,11 +61,14 @@ export class ModelBase {
             }
             //Altera o filtro para informar as permissões de acesso
             if (result && permissions[keyPerm].data != 'undefined' && permissions[keyPerm].actions.indexOf('read')> -1) {
+              console.log(data);
               //Faz a substituiçãop da tag {_UserID_} pelo ID do usuário logado
               let data = JSON.stringify(permissions[keyPerm].data);
+              console.log(data);
               if (typeof userId != 'undefined') {
                 data = data.replace(new RegExp('{_UserID_}', 'g'), userId);
               }
+              console.log(data);
               filter = Utils.mergeObj(filter, JSON.parse(data));
 
             }
