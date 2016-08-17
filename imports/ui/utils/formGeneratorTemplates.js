@@ -138,7 +138,7 @@ Template.selectImageTemplate.events({
 
 let actualObjectFieldInEditionByField = {};
 
-$.fn.inlineEdit = function (fieldName, schema) {
+$.fn.inlineEdit = function (fieldName, schema, template) {
 
   $(this).hover(function () {
     $(this).addClass('hover');
@@ -176,6 +176,14 @@ $.fn.inlineEdit = function (fieldName, schema) {
       actualObjectFieldInEditionByField.formTemp = formTemp;
 
       let rWith = $('<input name="tempInLIneField" type="text" style="width:100%;border:0px;" />');
+
+      rWith.keydown(function (e) {
+        if (e.which == 13) {
+          $(this).blur();
+          return false;
+        }
+
+      });
 
       rWith.val($(this).text());
       let elem = $(this);
@@ -221,8 +229,8 @@ $.fn.inlineEdit = function (fieldName, schema) {
         if (validationOK) {
           let val = $(this).val();
           let fieldInput = document.getElementById(fieldName);
-          fieldObjectManagement.objectsData[line][field] = val;
-          fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
+          template.data.fieldObjectManagement.objectsData[line][field] = val;
+          fieldInput.value = JSON.stringify(template.data.fieldObjectManagement.objectsData);
           elem.text($(this).val());
 
           formTemp.remove();
@@ -240,27 +248,34 @@ $.fn.inlineEdit = function (fieldName, schema) {
 
 };
 
-let fieldObjectManagement = {};
+
 
 Template.fieldObjectManagement.updateTable = (template)=> {
   let fieldInput = document.getElementById(template.data.fieldName);
-  fieldInput.value = JSON.stringify(fieldObjectManagement.objectsData);
+  fieldInput.value = JSON.stringify(template.data.fieldObjectManagement.objectsData);
   document.getElementById('tableview-' + template.data.fieldName).innerHTML =
-      UtilsView.getTableViewFromSchemaAndListOfObjects(fieldObjectManagement.schema, fieldObjectManagement.objectsData, true,
+      UtilsView.getTableViewFromSchemaAndListOfObjects(template.data.fieldObjectManagement.schema, template.data.fieldObjectManagement.objectsData, true,
           'table dataTable no-footer', 'tableEdit-' + template.data.fieldName);
 
   $('#' + 'tableEdit-' + template.data.fieldName + ' td.val').each(function () {
-    $(this).inlineEdit(template.data.fieldName, template.data.FIELD_SCHEMA);
+    $(this).inlineEdit(template.data.fieldName, template.data.FIELD_SCHEMA, template);
   });
 };
 
 Template.fieldObjectManagement.onCreated(() => {
   template = Template.instance();
+
+  //Objeto que guardará a Lista de Objetos do Campo
+  template.data.fieldObjectManagement = {};
+
+
   if (typeof template.data.listOfObjects != 'undefined')
-    fieldObjectManagement.objectsData = template.data.listOfObjects;
+    template.data.fieldObjectManagement.objectsData = template.data.listOfObjects;
   else
-    fieldObjectManagement.objectsData = [];
-  fieldObjectManagement.schema = template.data.FIELD_SCHEMA;
+    template.data.fieldObjectManagement.objectsData = [];
+
+  template.data.fieldObjectManagement.schema = template.data.FIELD_SCHEMA;
+
 });
 Template.fieldObjectManagement.onRendered(() => {
   template = Template.instance();
@@ -273,7 +288,7 @@ Template.fieldObjectManagement.helpers(() => {
 Template.fieldObjectManagement.events({
   'click button[data-target=".addInfo"]': function () {
     template = Template.instance();
-    formGen.simpleFormRender('formModal-' + template.data.fieldName, fieldObjectManagement.schema);
+    formGen.simpleFormRender('formModal-' + template.data.fieldName, template.data.fieldObjectManagement.schema);
   },
   'click button[data-dismiss="modal"]': function () {
   },
@@ -281,8 +296,8 @@ Template.fieldObjectManagement.events({
     template = Template.instance();
     if ($('#formModal-' + template.data.fieldName).valid()) {
 
-      let newObject = formGen.getSimpleFormData(fieldObjectManagement.schema, template);
-      fieldObjectManagement.objectsData.push(newObject);
+      let newObject = formGen.getSimpleFormData(template.data.fieldObjectManagement.schema, template);
+      template.data.fieldObjectManagement.objectsData.push(newObject);
       Template.fieldObjectManagement.updateTable(template);
       $('#modal-' + template.data.fieldName).modal('hide');
       return true;
@@ -296,7 +311,7 @@ Template.fieldObjectManagement.events({
     let linha = $(evt.currentTarget).attr("value");
     Message.showConfirmation('Confirmar remoção', 'você deseja remover o item?', 'Sim', (e, result)=> {
       if (linha > -1 && result) {
-        fieldObjectManagement.objectsData.splice(linha, 1);
+        template.data.fieldObjectManagement.objectsData.splice(linha, 1);
         Template.fieldObjectManagement.updateTable(template);
       }
 
