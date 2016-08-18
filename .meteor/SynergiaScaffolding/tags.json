@@ -5,12 +5,21 @@
     "to": "Fazendas"
   },
   "{REPLACE_IN_setTemplateFile_All_Files}": {
-    "from": "Atlético-MG",
-    "to": "SUPER Atlético-MG"
+    "from": "Colaboradores",
+    "to": "Animais"
   },
   "{REPLACE_IN_setTemplateFile_file_Collection}": {
     "file": "./imports/api/Fazendas/collection.js",
     "from": "Colaboradores",
     "to": "Animais"
+  },
+  "{REPLACE_IN_setTemplateFile_file_schema}": {
+    "from": "colaboradores",
+    "to": "animais"
+  },
+  "{REPLACE_IN_setTemplateFile_file_schema_2}": {
+    "file": "./imports/api/Fazendas/schema.js",
+    "from": "Coordenadores",
+    "to": "Animais Supervisores"
   }
 }
