@@ -181,6 +181,8 @@ export class ModelBase {
     this.functions[collectionBase.getCollection()._name + '.update'] = function (id, dataObj) {
 
       check(id, String);
+      console.log(dataObj);
+      console.log(collectionBase.getSchema('update'));
       check(dataObj, collectionBase.getSchema('update'));
 
       let result = collectionBase.getCollection().update(id, {

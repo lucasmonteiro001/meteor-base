@@ -509,65 +509,69 @@ export class FormGenerator {
   getSimpleFormData (schema, template) {
     let objData = {};
     for (let key in schema) {
-      if (typeof schema[key].formOptions != 'undefined') {
+      if (typeof schema[key].nested != 'undefined' && schema[key].nested) {
+        objData[key] = this.getSimpleFormData(schema[key].type, template);
+      } else {
+        if (typeof schema[key].formOptions != 'undefined') {
 
-        let value = '';
+          let value = '';
 
-        //Necessário para preencher collections que possuem vetor
-        let objAux = template.find('[id="' + key + '"]');
+          //Necessário para preencher collections que possuem vetor
+          let objAux = template.find('[id="' + key + '"]');
 
-        if (objAux != null) {
+          if (objAux != null) {
 
-          value = $(objAux).val();
+            value = $(objAux).val();
 
-        } else {
-          objAux = template.findAll('[name="' + key + '"]');
-          for (i = 0; i < objAux.length; i++) {
-            objAux[i] = objAux[i].value.trim();
+          } else {
+            objAux = template.findAll('[name="' + key + '"]');
+            for (i = 0; i<objAux.length; i++) {
+              objAux[i] = objAux[i].value.trim();
+            }
+
+            value = objAux;
           }
 
-          value = objAux;
-        }
+          if (typeof schema[key].type == 'object') {
 
-        if (typeof schema[key].type == 'object') {
+            if (schema[key].type[0].name == 'Object') {
+              objData[key] = Utils.toObjectArray(value)
 
-          if (schema[key].type[0].name == 'Object') {
-            objData[key] = Utils.toObjectArray(value)
-
-          } else if (schema[key].type[0].name == 'String') {
-            if (typeof value != 'array') {
-              value = value.split(",");
-            }
-            objData[key] = value;
-          }
-        }
-        else switch (schema[key].type) {
-          case String:
-            objData[key] = value;
-            break;
-          case Number:
-            objData[key] = Number(value);
-            break;
-          case Date:
-            var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
-            objData[key] = new Date(value.replace(pattern, '$3-$2-$1'));
-            break;
-          case Array:
-            objData[key] = value.split(',');
-            break;
-          case Object:
-            objData[key] = Utils.toObject(value);
-            break;
-          case Boolean:
-            objData[key] = Boolean(value);
-            break;
-          default:
-            try {
-              objData[key] = Utils.toObjectArray(value);
-            }
-            catch (err) {
+            } else if (schema[key].type[0].name == 'String') {
+              if (typeof value != 'array') {
+                value = value.split(",");
+              }
               objData[key] = value;
             }
+          }
+          else switch (schema[key].type) {
+            case String:
+              objData[key] = value;
+              break;
+            case Number:
+              objData[key] = Number(value);
+              break;
+            case Date:
+              var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+              objData[key] = new Date(value.replace(pattern, '$3-$2-$1'));
+              break;
+            case Array:
+              objData[key] = value.split(',');
+              break;
+            case Object:
+              objData[key] = Utils.toObject(value);
+              break;
+            case Boolean:
+              objData[key] = Boolean(value);
+              break;
+            default:
+              try {
+                objData[key] = Utils.toObjectArray(value);
+              }
+              catch (err) {
+                objData[key] = value;
+              }
+          }
         }
       }
     }

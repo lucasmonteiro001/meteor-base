@@ -55,7 +55,7 @@ CltUsers.setSchema(schemaUsers);
 //################################################
 
 CltUsers.addSubSchema('update',
-    ['profile', 'emails']);
+    ['profile']);
 
 
 //################################################

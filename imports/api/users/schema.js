@@ -6,6 +6,7 @@ let profileSchema = {
     type: String,
     defaultValue: '',
     label: 'Nome',
+    blackbox: true,
     formOptions: {
       VISIBLE: true,
       FIELD_COMPONENT: 'inputH',
@@ -26,6 +27,7 @@ let profileSchema = {
   descricao: {
     type: String,
     defaultValue: '',
+    blackbox: true,
     optional: true,
     label: 'Descrição:',
     formOptions: {
@@ -38,6 +40,7 @@ let profileSchema = {
   titulo: {
     type: String,
     defaultValue: '',
+    blackbox: true,
     label: 'Título',
     formOptions: {
       VISIBLE: true,
@@ -53,6 +56,7 @@ let profileSchema = {
   foto: {
     type: String,
     defaultValue: '',
+    blackbox: true,
     label: 'Minha Foto',
     formOptions: {
       VISIBLE: true,
@@ -64,7 +68,9 @@ let profileSchema = {
 export const schemaUsers = {
   profile: {
     type: profileSchema,
+    defaultValue: {},
     label: 'Perfil',
+    blackbox: true,
     nested: true,
     dataTableConfig: {
       label: 'Perfil',

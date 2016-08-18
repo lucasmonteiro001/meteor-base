@@ -76,4 +76,21 @@ Template.profileEdit.helpers({
   },
 });
 
-Template.profileEdit.events({});
+Template.profileEdit.events({
+  //Eventos do template de inserção
+  'submit form'(event, template) {
+    event.preventDefault();
+    const id = Meteor.userId();
+    const UsersData = formGen.getFormData(usersController, 'update', template);
+    usersController.update(id, UsersData, (error, data) => {
+      if (error) {
+        Message.showErro(error.message);
+
+      } else {
+        Message.showSuccessNotification('O Usuário foi atualizado com sucesso!');
+        FlowRouter.go('/profile');
+      }
+
+    });
+  },
+});

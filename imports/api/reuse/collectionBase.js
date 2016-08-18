@@ -156,6 +156,10 @@ export class CollectionBase {
         delete schema[key].formOptions;
       }
 
+      if (typeof schema[key].nested != 'undefined') {
+        delete schema[key].nested;
+      }
+
       if (typeof schema[key].formValidation != 'undefined') {
         delete schema[key].formValidation;
       }
@@ -186,7 +190,7 @@ export class CollectionBase {
         delete schema[key];
       }
     }
-
+    console.log(schema);
     return schema;
 
   }
