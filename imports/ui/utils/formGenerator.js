@@ -69,72 +69,76 @@ export class FormGenerator {
     //Itera sobre todos os campos que estarão disponíveis no formulário para
     // inserir os componentes no formulario com as tags apropriadas
     for (let key in schema) {
-      if (typeof schema[key].formOptions != 'undefined' && schema[key].formOptions.VISIBLE) {
+      if (typeof schema[key].nested != 'undefined' && schema[key].nested) {
+        listOfFieldsAndComponents = Object.assign(listOfFieldsAndComponents,
+            this.formRenderNested(controller, schemaName, searchFor, key));
+      } else {
+        if (typeof schema[key].formOptions != 'undefined' && schema[key].formOptions.VISIBLE) {
 
-        //Define qual componente será utilizado
-        if (typeof schema[key].formOptions.FIELD_COMPONENT == 'undefined')
-          listOfFieldsAndComponents[key] = FormComponents.getComponente(this.getDefaultComponent(schema[key].type));
-        else
-          listOfFieldsAndComponents[key] = FormComponents.getComponente(schema[key].formOptions.FIELD_COMPONENT);
+          //Define qual componente será utilizado
+          if (typeof schema[key].formOptions.FIELD_COMPONENT == 'undefined')
+            listOfFieldsAndComponents[key] = FormComponents.getComponente(this.getDefaultComponent(schema[key].type));
+          else
+            listOfFieldsAndComponents[key] = FormComponents.getComponente(schema[key].formOptions.FIELD_COMPONENT);
 
-        let template = listOfFieldsAndComponents[key].template;
+          let template = listOfFieldsAndComponents[key].template;
 
-        //FIELD_NAME = key
-        template = template.replace(new RegExp('{FIELD_NAME}', 'g'), key);
+          //FIELD_NAME = key
+          template = template.replace(new RegExp('{FIELD_NAME}', 'g'), key);
 
-        //FIELD_LABEL = schema[key].label
-        template = template.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
+          //FIELD_LABEL = schema[key].label
+          template = template.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[key].label);
 
-        for (let fieldOptions in schema[key].formOptions) {
-          template = template.replace(
-              new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
+          for (let fieldOptions in schema[key].formOptions) {
+            template = template.replace(
+                new RegExp('{' + fieldOptions + '}', 'g'), schema[key].formOptions[fieldOptions]);
+          }
+
+          listOfFieldsAndComponents[key].template = template;
+
         }
 
-        listOfFieldsAndComponents[key].template = template;
+        //######################################################################
+        //############# DEFINIÇÃO DOS VALORES DE CADA CAMPO ####################
+        //######################################################################
 
-      }
-    }
+        //Itera sobre todos a lista de campos que serão renderizados e definie o valor
+        //inicial para cada um deles com base nos dados do documento (collection)
+        if (typeof dadosCollection != 'undefined') {
 
-    //######################################################################
-    //############# DEFINIÇÃO DOS VALORES DE CADA CAMPO ####################
-    //######################################################################
+          for (let field in listOfFieldsAndComponents) {
+            let val = dadosCollection[field];
 
-    //Itera sobre todos a lista de campos que serão renderizados e definie o valor
-    //inicial para cada um deles com base nos dados do documento (collection)
-    if (typeof dadosCollection != 'undefined') {
+            let calculateValue = listOfFieldsAndComponents[field].getValue(val, field);
 
-      for (let field in listOfFieldsAndComponents) {
-        let val = dadosCollection[field];
+            if (calculateValue != '') {
+              let template = listOfFieldsAndComponents[field].template;
+              template = template.replace(new RegExp('{VALUE}', 'g'), calculateValue || '');
+              listOfFieldsAndComponents[field].template = template;
+            } else {
+              let template = listOfFieldsAndComponents[field].template;
+              template = template.replace(new RegExp('{VALUE}', 'g'), val || '');
+              listOfFieldsAndComponents[field].template = template;
+            }
 
-        let calculateValue = listOfFieldsAndComponents[field].getValue(val, field);
+          }
 
-        if (calculateValue != '') {
-          let template = listOfFieldsAndComponents[field].template;
-          template = template.replace(new RegExp('{VALUE}', 'g'), calculateValue || '');
-          listOfFieldsAndComponents[field].template = template;
-        } else {
-          let template = listOfFieldsAndComponents[field].template;
-          template = template.replace(new RegExp('{VALUE}', 'g'), val || '');
-          listOfFieldsAndComponents[field].template = template;
         }
 
+        //######################################################################
+        //####### REALIZA MODIFICAÇÕES NOS TEMPLATES DOS COMPONENTES ###########
+        //######################################################################
+
+        //Itera sobre todos a lista de campos que serão renderizados e executa
+        //a função de inicialização de cada um deles
+        for (let field in listOfFieldsAndComponents) {
+
+          listOfFieldsAndComponents[field].templateFunction(field, listOfFieldsAndComponents[field]
+              , schema[field]);
+
+        }
       }
-
     }
-
-    //######################################################################
-    //####### REALIZA MODIFICAÇÕES NOS TEMPLATES DOS COMPONENTES ###########
-    //######################################################################
-
-    //Itera sobre todos a lista de campos que serão renderizados e executa
-    //a função de inicialização de cada um deles
-    for (let field in listOfFieldsAndComponents) {
-
-      listOfFieldsAndComponents[field].templateFunction(field, listOfFieldsAndComponents[field]
-          , schema[field]);
-
-    }
-
     //######################################################################
     //############ INSERÇÃO DOS CAMPONENTES NO FORMULARIO ##################
     //######################################################################
@@ -173,6 +177,96 @@ export class FormGenerator {
       this.applyJQueryValidation(controller, schemaName, idOfElement);
     }
 
+  }
+
+  formRenderNested (controller, schemaName = 'default', searchFor = '', keyObject) {
+
+    let form = '';
+    let listOfFieldsAndComponents = {};
+    let dadosCollection = {};
+    let schema = controller.getSchemaJson(schemaName);
+
+    if (searchFor != '' && typeof searchFor == 'string') {
+      dadosCollection = controller.get({ _id: searchFor })[keyObject];
+    } else if (searchFor != '' && typeof searchFor == 'object') {
+      dadosCollection = controller.get(searchFor)[keyObject];
+    }
+
+    //######################################################################
+    //################## DEFINIÇÃO DOS TEMPLATES ###########################
+    //######################################################################
+
+    //Itera sobre todos os campos que estarão disponíveis no formulário para
+    // inserir os componentes no formulario com as tags apropriadas
+    for (let key in schema[keyObject].type) {
+      if (typeof schema[keyObject].type[key].formOptions != 'undefined' && schema[keyObject].type[key].formOptions.VISIBLE) {
+
+        //Define qual componente será utilizado
+        if (typeof schema[keyObject].type[key].formOptions.FIELD_COMPONENT == 'undefined')
+          listOfFieldsAndComponents[key] = FormComponents.getComponente(this.getDefaultComponent(schema[keyObject].type[key].type));
+        else
+          listOfFieldsAndComponents[key] = FormComponents.getComponente(schema[keyObject].type[key].formOptions.FIELD_COMPONENT);
+
+        let template = listOfFieldsAndComponents[key].template;
+
+        //FIELD_NAME = key
+        template = template.replace(new RegExp('{FIELD_NAME}', 'g'), key);
+
+        //FIELD_LABEL = schema[key].label
+        template = template.replace(new RegExp('{FIELD_LABEL}', 'g'), schema[keyObject].type[key].label);
+
+        for (let fieldOptions in schema[keyObject].type[key].formOptions) {
+          template = template.replace(
+              new RegExp('{' + fieldOptions + '}', 'g'), schema[keyObject].type[key].formOptions[fieldOptions]);
+        }
+
+        listOfFieldsAndComponents[key].template = template;
+
+      }
+
+    }
+
+    //######################################################################
+    //############# DEFINIÇÃO DOS VALORES DE CADA CAMPO ####################
+    //######################################################################
+
+    //Itera sobre todos a lista de campos que serão renderizados e definie o valor
+    //inicial para cada um deles com base nos dados do documento (collection)
+    if (typeof dadosCollection != 'undefined') {
+
+      for (let field in listOfFieldsAndComponents) {
+        let val = dadosCollection[field];
+
+        let calculateValue = listOfFieldsAndComponents[field].getValue(val, field);
+
+        if (calculateValue != '') {
+          let template = listOfFieldsAndComponents[field].template;
+          template = template.replace(new RegExp('{VALUE}', 'g'), calculateValue || '');
+          listOfFieldsAndComponents[field].template = template;
+        } else {
+          let template = listOfFieldsAndComponents[field].template;
+          template = template.replace(new RegExp('{VALUE}', 'g'), val || '');
+          listOfFieldsAndComponents[field].template = template;
+        }
+
+      }
+
+    }
+
+    //######################################################################
+    //####### REALIZA MODIFICAÇÕES NOS TEMPLATES DOS COMPONENTES ###########
+    //######################################################################
+
+    //Itera sobre todos a lista de campos que serão renderizados e executa
+    //a função de inicialização de cada um deles
+    for (let field in listOfFieldsAndComponents) {
+
+      listOfFieldsAndComponents[field].templateFunction(field, listOfFieldsAndComponents[field]
+          , schema[keyObject].type[field]);
+
+    }
+
+    return listOfFieldsAndComponents;
   }
 
   formViewRender (idOfElement, controller, schemaName = 'default', searchFor = '') {

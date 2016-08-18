@@ -39,9 +39,9 @@ Template.profile.onRendered(() => {
 Template.profile.helpers({
   'collectionData': () => {
     let id = Meteor.userId();
-    return usersController.get({ _id: id });
+    return usersController.get({ _id: id }).profile;
   },
-  //region Teste para exibir contagem de elementos cadastrado por este usuário
+  //region Teste para exibir contagem de elementos cadastrados por este usuário
   'projetos': () => {
     let id = Meteor.userId();
     return ProjetosController.getAll({ userId: id }).fetch().length;
@@ -60,7 +60,7 @@ Template.profileEdit.onCreated(() => {
   let id = Meteor.userId();
 
   UtilsView.applySubscribe(usersController, 'update', template, id, ()=> {
-    template.collectionData = usersController.get({ _id: id });
+    template.collectionData = usersController.get({ _id: id }).profile;
     formGen.formRender('formContext', true, usersController, 'update', id, 'formTag');
   });
 });
@@ -72,7 +72,7 @@ Template.profileEdit.onRendered(() => {
 Template.profileEdit.helpers({
   'collectionData': () => {
     let id = Meteor.userId();
-    return usersController.get({ _id: id });
+    return usersController.get({ _id: id }).profile;
   },
 });
 

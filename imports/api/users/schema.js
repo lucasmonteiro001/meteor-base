@@ -1,5 +1,8 @@
-export const schemaUsers = {
-  profile: {
+let profileSchema = {
+  //#############################Profile###############
+  //#############################Profile###############
+  //#############################Profile###############
+  nome: {
     type: String,
     defaultValue: '',
     label: 'Nome',
@@ -20,32 +23,6 @@ export const schemaUsers = {
       },
     },
   },
-  roles: {
-    type: Object,
-    label: 'Roles',
-    dataTableConfig: {
-      label: 'Grupo',
-      template: 'selectRoles',
-    },
-  },
-  emails: {
-    type: Object,
-    label: 'Email',
-    formOptions: {
-      FIELD_COMPONENT: 'input',
-      FIELD_TYPE: 'text',
-    },
-    formValidation: {
-      required: { value: true, message: 'O Email é obrigatório' },
-    },
-    dataTableConfig: {
-      label: 'Email',
-      template: 'emailUsersTmp',
-    },
-  },
-  //#############################Profile###############
-  //#############################Profile###############
-  //#############################Profile###############
   descricao: {
     type: String,
     defaultValue: '',
@@ -82,4 +59,42 @@ export const schemaUsers = {
       FIELD_COMPONENT: 'imageH',
     },
   },
+};
+
+export const schemaUsers = {
+  profile: {
+    type: profileSchema,
+    label: 'Perfil',
+    nested: true,
+    dataTableConfig: {
+      label: 'Perfil',
+      template: 'selectPerfil',
+    },
+  },
+  roles: {
+    type: Object,
+    label: 'Roles',
+    dataTableConfig: {
+      label: 'Grupo',
+      template: 'selectRoles',
+    },
+  },
+  emails: {
+    type: Object,
+    label: 'Email',
+    formOptions: {
+      VISIBLE: true,
+      FIELD_COMPONENT: 'inputH',
+      FIELD_TYPE: 'text',
+      PLACEHOLDER: 'Email',
+    },
+    formValidation: {
+      required: { value: true, message: 'O Email é obrigatório' },
+    },
+    dataTableConfig: {
+      label: 'Email',
+      template: 'emailUsersTmp',
+    },
+  },
+
 };
