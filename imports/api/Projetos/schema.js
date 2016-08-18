@@ -19,7 +19,7 @@ export const schemaProjetos = {
         field: '_id',
       },
     },
-      },
+  },
   cliente: {
     type: [Object],
     blackbox: true,
@@ -70,7 +70,7 @@ export const schemaProjetos = {
             date: { value: true, message: 'A data informada é inválida' },
           },
         },
-          },
+      },
     },
     formValidation: {
       required: { value: true, message: 'Campo obrigatório' },
@@ -161,8 +161,8 @@ export const schemaProjetos = {
         COLLECTION: 'Colaboradores',
         COLLECTION_SCHEMA: 'tableview',
         FIRST_FIELD: 'nome',
-          },
-        },
+      },
+    },
     formValidation: {
       required: { value: true, message: 'Campo obrigatório' },
     },
@@ -184,8 +184,8 @@ export const schemaProjetos = {
         COLLECTION: 'Colaboradores',
         COLLECTION_SCHEMA: 'tableview',
         FIRST_FIELD: 'nome',
-          },
-        },
+      },
+    },
     formValidation: {
       required: { value: true, message: 'Campo obrigatório' },
     },
@@ -233,7 +233,7 @@ export const schemaProjetos = {
           type: [Object],
           blackbox: true,
           defaultValue: [],
-          label: 'Mapa',
+          label: 'Geometry',
           formOptions: {
             VISIBLE: true,
             FIELD_COMPONENT: 'fieldObjectManagementH',
@@ -254,7 +254,7 @@ export const schemaProjetos = {
               coordinates: {
                 type: String,
                 defaultValue: 'feature',
-                label: 'coordinates',
+                label: 'Coordinates',
                 formOptions: {
                   VISIBLE: true,
                   FIELD_COMPONENT: 'inputH',
@@ -270,15 +270,43 @@ export const schemaProjetos = {
             required: { value: true, message: 'O email do cliente é obrigatório' },
             email: { value: true, message: 'O email informado não é válido' },
           },
+        },
+        properties: {
+          type: [Object],
+          blackbox: true,
+          defaultValue: [],
+          label: 'Properties',
+          formOptions: {
+            VISIBLE: true,
+            FIELD_COMPONENT: 'fieldObjectManagementH',
+            FIELD_SCHEMA: {
+              name: {
+                type: String,
+                defaultValue: '',
+                label: 'Name',
+                formOptions: {
+                  VISIBLE: true,
+                  FIELD_COMPONENT: 'inputH',
+                  FIELD_TYPE: 'text',
+                },
+                formValidation: {
+                  required: { value: true, message: 'O nome é obrigatório' },
+                },
+              },
+            },
+          },
+          formValidation: {
+            required: { value: true, message: 'O nome do cliente é obrigatório' },
           },
         },
       },
+    },
     formValidation: {
       required: { value: true, message: 'Campo obrigatório' },
-      },
+    },
     dataTableConfig: {
       orderable: false,
       RenderObjects: 'OnTable',
-      },
     },
+  },
 };

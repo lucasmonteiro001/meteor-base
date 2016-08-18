@@ -145,7 +145,9 @@ template = '<div class="form-group"> \
           name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}"> \
           </div> \
         </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
+  //Remove o Placeholder caso ele não tenha sido informado.
+  fieldComponent.template = fieldComponent.template.replace(new RegExp('{PLACEHOLDER}', 'g'), '');
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -165,7 +167,7 @@ template = '<div class="form-group"> \
 <input type="{FIELD_TYPE}" id="{FIELD_NAME}" \
 name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}"> \
 </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -187,7 +189,7 @@ template = '<div class="form-group"> \
           name="{FIELD_NAME}" class="form-control" value="{VALUE}" data-mask="{DATA_MASK}"> \
           </div> \
         </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -208,7 +210,7 @@ template = '<div class="form-group"> \
           name="{FIELD_NAME}" class="form-control" value="{VALUE}" placeholder="{PLACEHOLDER}" \
           data-mask="{DATA_MASK}"> \
         </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -231,7 +233,7 @@ template = '<div class="form-group"> \
           </div> \
           </div> \
         </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -285,7 +287,7 @@ template = '<div class="form-group"> \
           <div id="{FIELD_NAME}-tagging"> \
           </div> \
         </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -411,7 +413,7 @@ template = '<div class="form-group" id="data_1"> \
             </div>\
           </div> \
          </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName)=> {
@@ -468,7 +470,7 @@ template = '<div class="form-group" id="data_1"> \
               value="{VALUE}"> \
           </div> \
          </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName)=> {
@@ -554,7 +556,7 @@ template = '<div class="form-group" id="hour_1"> \
               name="{FIELD_NAME}"> \
           </div> \
          </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   $('.clockpicker').clockpicker();
   return '';
 };
@@ -765,7 +767,7 @@ template = '<div class="form-group"> \
  {FIELD_OPTIONS} \
  </select>\
  </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   let optionsTmp = '';
   let options = schema[key].formOptions.OPTION;
   for (let oKey in options) {
@@ -806,7 +808,7 @@ template = '<div class="form-group"> \
           name="{FIELD_NAME}">{VALUE}</textarea> \
           </div> \
           </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -826,7 +828,7 @@ template = '<div class="form-group"> \
           <textarea class="form-control" rows="{ROWS}" id="{FIELD_NAME}" \
           name="{FIELD_NAME}">{VALUE}</textarea> \
           </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -849,7 +851,7 @@ template = '<div class="form-group">  \
                 <span class="help-block m-b-none">{HELP_TEXT}</span>\
             </div>\
             </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -870,7 +872,7 @@ template = '<div class="form-group">  \
                 class="form-control">\
                 <span class="help-block m-b-none">{HELP_TEXT}</span>\
             </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -889,7 +891,7 @@ template = '<div class="form-group"> \
  <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
  <input type="checkbox" id="{FIELD_NAME}" name="{FIELD_NAME}" />\
  </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -910,7 +912,7 @@ template = '<div class="form-group"> \
  <input type="checkbox" id="{FIELD_NAME}" name="{FIELD_NAME}" />\
  </div>\
  </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -931,7 +933,7 @@ template = '<div class="form-group"> \
  <input type="radio" id="{FIELD_NAME}" name="{FIELD_NAME}" />\
  </div>\
  </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -950,7 +952,7 @@ template = '<div class="form-group"> \
  <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
  <input type="radio" id="{FIELD_NAME}" name="{FIELD_NAME}" />\
  </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -971,7 +973,7 @@ template = '<div class="form-group"> \
  <input type="range" id="{FIELD_NAME}" name="{FIELD_NAME}" />\
  </div>\
  </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -990,7 +992,7 @@ template = '<div class="form-group"> \
  <label class="control-label" for="{FIELD_NAME}">{FIELD_LABEL}</label> \
  <input type="range" id="{FIELD_NAME}" name="{FIELD_NAME}" />\
  </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -1131,7 +1133,7 @@ template = '<div class="form-group"> \
  <div id="templateImage-{FIELD_NAME}"></div>\
  </div> \
  </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -1158,7 +1160,7 @@ template = '<div class="form-group"> \
  <div id="templateImage"></div>\
  </div> \
  </div>';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {
@@ -1250,7 +1252,7 @@ FormComponents.addComponent(name, template, templateFunction, initializationFunc
 //#############  Componente fieldSample ########################################################
 name = 'fieldSAMPLE';
 template = '';
-templateFunction = ()=> {
+templateFunction = (fieldName, fieldComponent, schema)=> {
   return '';
 };
 initializationFunction = (fieldName, fieldOptions, Schema)=> {

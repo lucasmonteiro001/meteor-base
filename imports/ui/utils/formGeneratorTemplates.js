@@ -154,7 +154,10 @@ $.fn.inlineEdit = function (fieldName, schema, template) {
 
     if (typeof actualObjectFieldInEditionByField.fieldName != 'undefined' &&
         actualObjectFieldInEditionByField.fieldName != "" &&
+        typeof actualObjectFieldInEditionByField.formTemp != 'undefined' &&
+        typeof actualObjectFieldInEditionByField.elem != 'undefined' &&
         actualObjectFieldInEditionByField.fieldName != field) {
+
       actualObjectFieldInEditionByField.formTemp.remove();
       actualObjectFieldInEditionByField.elem.show();
       actualObjectFieldInEditionByField.fieldName = field;
@@ -248,8 +251,6 @@ $.fn.inlineEdit = function (fieldName, schema, template) {
 
 };
 
-
-
 Template.fieldObjectManagement.updateTable = (template)=> {
   let fieldInput = document.getElementById(template.data.fieldName);
   fieldInput.value = JSON.stringify(template.data.fieldObjectManagement.objectsData);
@@ -268,7 +269,6 @@ Template.fieldObjectManagement.onCreated(() => {
   //Objeto que guardará a Lista de Objetos do Campo
   template.data.fieldObjectManagement = {};
 
-
   if (typeof template.data.listOfObjects != 'undefined')
     template.data.fieldObjectManagement.objectsData = template.data.listOfObjects;
   else
@@ -282,6 +282,28 @@ Template.fieldObjectManagement.onRendered(() => {
 
   Template.fieldObjectManagement.updateTable(template);
 
+  //Resonvendo problema quando é exibida mais de uma tela modal - On Show
+  $('#modal-' + template.data.fieldName).on('show.bs.modal', function () {
+    var zIndex = 1040 + (10 * $('.modal:visible').length);
+    $('#modal-' + template.data.fieldName).css('z-index', zIndex);
+    setTimeout(function () {
+      $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+    }, 0);
+  })
+
+  //Resonvendo problema quando é exibida mais de uma tela modal - On Hide
+  $('#modal-' + template.data.fieldName).on('hidden.bs.modal', function (e) {
+    if ($('.modal:visible').length > 0) {
+      // restore the modal-open class to the body element, so that scrolling works
+      // properly after de-stacking a modal.
+      setTimeout(function () {
+        $('body').addClass('modal-open');
+      }, 0);
+    }
+  })
+
+
+
 });
 Template.fieldObjectManagement.helpers(() => {
 });
@@ -291,17 +313,9 @@ Template.fieldObjectManagement.events({
     if (event.target.value == template.data.fieldName) {
 
       $('#modal-' + template.data.fieldName).modal('show');
-
-      var zIndex = 1040 + (10 * $('.modal:visible').length);
-      $('#modal-' + template.data.fieldName).css('z-index', zIndex);
-      setTimeout(function () {
-        $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
-      }, 0);
-
       formGen.simpleFormRender('formModal-' + template.data.fieldName, template.data.fieldObjectManagement.schema);
     }
 
-    
   },
   'click button[id="closeModalButton"]': function (event) {
     template = Template.instance();
@@ -309,15 +323,7 @@ Template.fieldObjectManagement.events({
 
       $('#modal-' + template.data.fieldName).modal('hide');
 
-      if ($('.modal:visible').length > 0) {
-        // restore the modal-open class to the body element, so that scrolling works
-        // properly after de-stacking a modal.
-        setTimeout(function () {
-          $('body').addClass('modal-open');
-        }, 500);
-      }
-
-    }    
+    }
   },
   'click button[id="save"]': function (event) {
     template = Template.instance();
@@ -329,14 +335,6 @@ Template.fieldObjectManagement.events({
         template.data.fieldObjectManagement.objectsData.push(newObject);
         Template.fieldObjectManagement.updateTable(template);
         $('#modal-' + template.data.fieldName).modal('hide');
-
-        if ($('.modal:visible').length > 0) {
-          // restore the modal-open class to the body element, so that scrolling works
-          // properly after de-stacking a modal.
-          setTimeout(function () {
-            $('body').addClass('modal-open');
-          }, 500);
-        }
 
         return true;
       } else {

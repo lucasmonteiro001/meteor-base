@@ -352,9 +352,13 @@ class ViewUtils {
               pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
               valor = valor.toISOString().slice(0, 10).replace(pattern, '$3/$2/$1');
 
-            } else if (schema[key].type == Object && typeof schema[key].formOptions['FIELD_SCHEMA']
-                != 'undefined' && valor) {
-              console.log('TODo - Campo = Objeto');
+            } else if (typeof schema[key].type == 'object') {
+
+              if (schema[key].type[0].name == 'Object') {
+                valor = this.getTableViewFromSchemaAndListOfObjects(schema[key].formOptions['FIELD_SCHEMA'], valor);
+              } else if (schema[key].type[0].name == 'String') {
+                valor = this.getListViewFromListOfObjects(valor);
+              }
             }
 
             fieldTmp = fieldTmp + '<td class="val" id="' + count + '" name="' + key + '">' + valor + '</td>';

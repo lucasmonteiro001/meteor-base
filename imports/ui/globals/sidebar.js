@@ -20,7 +20,7 @@ Template.sidebar.helpers({
     let user = Meteor.user();
 
     //Exibir no console as informações do objeto User
-    console.log(user);
+    //console.log(user);
 
     if (user && user.foto) {
       return user.foto;
