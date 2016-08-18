@@ -1,28 +1,28 @@
 <template name="profile">
-
-    <div id="wrapper">
-
+    <div class="page-margin">
         <div class="row m-b-lg m-t-lg">
-            <div class="col-md-6">
+            <div class="col-md-5">
 
                 <div class="profile-image">
-                    <img src="{{ collectionData.foto }}" class="img-circle circle-border m-b-md" alt="profile">
+                    <img src='data:image/png;base64,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'
+                         class="img-circle circle-border m-b-md" alt="profile">
+                    <!--<img src="{{ collectionData.foto }}" class="img-circle circle-border m-b-md" alt="profile">-->
                 </div>
                 <div class="profile-info">
                     <div class="">
                         <div>
                             <h2 class="no-margins">
-                                {{ collectionData.nome }}
+                                {{ collectionData.nome }} Wesley Simoes
                             </h2>
-                            <h4>{{ collectionData.titulo }}</h4>
+                            <h4>{{ collectionData.titulo }}</h4> Estagiario <br/>
                             <small>
-                                {{ collectionData.descricao }}
+                                {{ collectionData.descricao }} estagiario de processos
                             </small>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <table class="table small m-b-xs">
                     <tbody>
                     <tr>
@@ -58,12 +58,9 @@
                 <h2 class="no-margins">206 480</h2>
                 <div id="sparkline1"></div>
             </div>
-
-
         </div>
         <div class="row">
-
-            <div class="col-lg-3">
+            <div class="col-md-4">
 
                 <div class="ibox">
                     <div class="ibox-content">
@@ -143,8 +140,7 @@
                 </div>
 
             </div>
-
-            <div class="col-lg-5">
+            <div class="col-md-5">
 
                 <div class="social-feed-box">
 
@@ -329,7 +325,7 @@
 
 
             </div>
-            <div class="col-lg-4 m-b-lg">
+            <div class="col-md-3 ">
                 <div id="vertical-timeline" class="vertical-container light-timeline no-margins">
                     <div class="vertical-timeline-block">
                         <div class="vertical-timeline-icon navy-bg">
@@ -409,53 +405,49 @@
                 </div>
 
             </div>
-
         </div>
-
     </div>
-
 </template>
 
 <template name="profileEdit">
-
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-12">
-            <h2> Edição de {{ collectionData.nome }}</h2>
-            <ol class="breadcrumb">
-                <li>
-                    <a href="{{pathFor route='index'}}">Página Principal</a>
-                </li>
-                <li>
-                    <a href="{{pathFor route='users'}}">Lista de Usuários</a>
-                </li>
-                <li>
-                    <strong> <a href="{{pathFor route='profile'}}">{{ collectionData.nome }}</a> </strong>
-                </li>
-                <li>
-                    <strong> <a href="{{pathFor route='profileEdit'}}">Edição de {{ collectionData.nome }}</a>
-                    </strong>
-                </li>
-            </ol>
-        </div>
-    </div>
-
-
-    <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
-        <form class="form-horizontal row-border" id="formTag" data-toggle="validator" role="form">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel-body" id="formContext"></div>
-                </div>
+    <div class="page-margin">
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-12">
+                <h2> Edição de {{ collectionData.nome }}</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="{{pathFor route='index'}}">Página Principal</a>
+                    </li>
+                    <li>
+                        <a href="{{pathFor route='users'}}">Lista de Usuários</a>
+                    </li>
+                    <li>
+                        <strong> <a href="{{pathFor route='profile'}}">{{ collectionData.nome }}</a> </strong>
+                    </li>
+                    <li>
+                        <strong> <a href="{{pathFor route='profileEdit'}}">Edição de {{ collectionData.nome }}</a>
+                        </strong>
+                    </li>
+                </ol>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="pull-right btAdd">
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                        <a href="{{pathFor 'profile'}}" class="btn">Voltar</a>
+        </div>
+
+        <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
+            <form class="form-horizontal row-border" id="formTag" data-toggle="validator" role="form">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel-body" id="formContext"></div>
                     </div>
                 </div>
-            </div>
-        </form>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="pull-right btAdd">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            <a href="{{pathFor 'profile'}}" class="btn">Voltar</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-
 </template>

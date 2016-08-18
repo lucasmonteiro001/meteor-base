@@ -1,174 +1,179 @@
 <template name="Projetos">
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-8">
-            <h2> Lista de Projetos </h2>
-            <ol class="breadcrumb">
-                <li>
-                    <a href="{{pathFor route='index'}}">Página Principal</a>
-                </li>
-                <li class="active">
-                    <strong> Lista de Projetos </strong>
-                </li>
-            </ol>
+    <div class="page-margin">
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-8">
+                <h2> Lista de Projetos </h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="{{pathFor route='index'}}">Página Principal</a>
+                    </li>
+                    <li class="active">
+                        <strong> Lista de Projetos </strong>
+                    </li>
+                </ol>
+            </div>
         </div>
-    </div>
 
-    <div class="wrapper wrapper-content white-bg animated fadeIn">
+        <div class="wrapper wrapper-content white-bg animated fadeIn">
 
-        {{#if canUserInsert}}
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="pull-right btAdd">
-                        <a href="{{pathFor 'ProjetosAdd'}}" id="insert" class="btn btn-success" name="insert">
-                            <i class="fa fa-plus-circle" aria-hidden="true"></i> Novo</a>
+            {{#if canUserInsert}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="pull-right btAdd">
+                            <a href="{{pathFor 'ProjetosAdd'}}" id="insert" class="btn btn-success" name="insert">
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i> Novo</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {{/if}}
+            {{/if}}
 
-        <div class="row">
-            <div class="col-lg-12 fixedSWidthDiv">
-                {{> ProjetosList}}
+            <div class="row">
+                <div class="col-lg-12 fixedSWidthDiv">
+                    {{> ProjetosList}}
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <template name="ProjetosAdd">
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-8">
-            <h2> Cadastrar Projeto </h2>
-            <ol class="breadcrumb">
-                <li>
-                    <a href="{{pathFor route='index'}}">Página Principal</a>
-                </li>
-                <li>
-                    <a href="{{pathFor route='Projetos'}}">Lista de Projetos</a>
-                </li>
-                <li class="active">
-                    <strong> Cadastrar Projeto </strong>
-                </li>
-            </ol>
-        </div>
-    </div>
-
-
-    <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
-        <form class="form-horizontal row-border" id="formTag" data-toggle="validator" role="form">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel-body" id="formContext"></div>
-                </div>
+    <div class="page-margin">
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-8">
+                <h2> Cadastrar Projeto </h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="{{pathFor route='index'}}">Página Principal</a>
+                    </li>
+                    <li>
+                        <a href="{{pathFor route='Projetos'}}">Lista de Projetos</a>
+                    </li>
+                    <li class="active">
+                        <strong> Cadastrar Projeto </strong>
+                    </li>
+                </ol>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="pull-right btAdd">
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                        <a href="{{pathFor 'Projetos'}}" class="btn">Voltar</a>
+        <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
+            <form class="form-horizontal row-border" id="formTag" data-toggle="validator" role="form">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel-body" id="formContext"></div>
                     </div>
                 </div>
-            </div>
-        </form>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="pull-right btAdd">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            <a href="{{pathFor 'Projetos'}}" class="btn">Voltar</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
 <template name="ProjetosEdit">
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-12">
-            <h2> {{ collectionData.nome }}</h2>
-            <ol class="breadcrumb">
-                <li>
-                    <a href="{{pathFor route='index'}}">Página Principal</a>
-                </li>
-                <li>
-                    <a href="{{pathFor route='Projetos'}}">Lista de Projetos</a>
-                </li>
+    <div class="page-margin">
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-12">
+                <h2> {{ collectionData.nome }}</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="{{pathFor route='index'}}">Página Principal</a>
+                    </li>
+                    <li>
+                        <a href="{{pathFor route='Projetos'}}">Lista de Projetos</a>
+                    </li>
 
-                <li class="active">
-                    <strong> {{ collectionData.nome }}</strong>
-                </li>
-            </ol>
-        </div>
-    </div>
-
-
-    <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
-        <form class="form-horizontal row-border" id="formTag" data-toggle="validator" role="form">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel-body" id="formContext"></div>
-                </div>
+                    <li class="active">
+                        <strong> {{ collectionData.nome }}</strong>
+                    </li>
+                </ol>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="pull-right btAdd">
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                        <a href="{{pathFor 'ProjetosView'}}/{{collectionData._id}}" class="btn">Voltar</a>
+        </div>
+
+        <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
+            <form class="form-horizontal row-border" id="formTag" data-toggle="validator" role="form">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel-body" id="formContext"></div>
                     </div>
                 </div>
-            </div>
-        </form>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="pull-right btAdd">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            <a href="{{pathFor 'ProjetosView'}}/{{collectionData._id}}" class="btn">Voltar</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
 <template name="ProjetosView">
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-8">
-            <h2> {{ collectionData.nome }}</h2>
-            <ol class="breadcrumb">
-                <li>
-                    <a href="{{pathFor route='index'}}">Página Principal</a>
-                </li>
-                <li>
-                    <a href="{{pathFor route='Projetos'}}">Lista de Projetos</a>
-                </li>
+    <div class="page-margin">
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-8">
+                <h2> {{ collectionData.nome }}</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="{{pathFor route='index'}}">Página Principal</a>
+                    </li>
+                    <li>
+                        <a href="{{pathFor route='Projetos'}}">Lista de Projetos</a>
+                    </li>
 
-                <li class="active">
-                    <strong> {{ collectionData.nome }}</strong>
-                </li>
-            </ol>
-        </div>
-        <div class="col-lg-4">
-            <div class="pull-right">
-                <a id="btn-criar-chamado-voltar" class="btn btn-default" href="{{pathFor 'Projetos'}}">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    Voltar
-                </a>
-                {{#if canUserAccessActions}}
+                    <li class="active">
+                        <strong> {{ collectionData.nome }}</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-4">
+                <div class="pull-right">
+                    <a id="btn-criar-chamado-voltar" class="btn btn-default" href="{{pathFor 'Projetos'}}">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        Voltar
+                    </a>
+                    {{#if canUserAccessActions}}
 
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                aria-expanded="false">
-                            Ações <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                    aria-expanded="false">
+                                Ações <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
 
-                            {{#if canUserUpdate}}
-                                <li><a id="linkEdit" href="{{pathFor 'ProjetosEdit'}}/{{collectionData._id}}"
-                                       name="update"><i
-                                        class="icon icon-pencil"></i>
-                                    Editar</a></li>
-                            {{/if}}
-                            <li class="divider"></li>
-                            {{#if canUserRemove}}
-                                <li><a id="linkExcluir" href="#!" value="{{collectionData._id}}" name="remove"><i
-                                        class="icon icon-pencil"></i>
-                                    Excluir</a>
-                                </li>
-                            {{/if}}
-                        </ul>
-                    </div>
-                {{/if}}
+                                {{#if canUserUpdate}}
+                                    <li><a id="linkEdit" href="{{pathFor 'ProjetosEdit'}}/{{collectionData._id}}"
+                                           name="update"><i
+                                            class="icon icon-pencil"></i>
+                                        Editar</a></li>
+                                {{/if}}
+                                <li class="divider"></li>
+                                {{#if canUserRemove}}
+                                    <li><a id="linkExcluir" href="#!" value="{{collectionData._id}}" name="remove"><i
+                                            class="icon icon-pencil"></i>
+                                        Excluir</a>
+                                    </li>
+                                {{/if}}
+                            </ul>
+                        </div>
+                    {{/if}}
+                </div>
             </div>
         </div>
-    </div>
 
-
-    <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
-        <div class="row form-horizontal row-border">
-            <div class="col-lg-12">
-                <div class="panel-body" id="formContext"></div>
+        <div class="wrapper wrapper-content white-bg animated fadeIn" style="padding-bottom:10px;">
+            <div class="row form-horizontal row-border">
+                <div class="col-lg-12">
+                    <div class="panel-body" id="formContext"></div>
+                </div>
             </div>
         </div>
     </div>
