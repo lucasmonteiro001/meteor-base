@@ -1,4 +1,7 @@
 {
   "{COLLECTION_NAME}": "Animais",
-  "{COLLECTION_NAME_TO_COPY_FILES}": "Colaboradores"
+  "{COLLECTION_NAME_TO_COPY_FILES}": {
+    "from": "Colaboradores",
+    "to": "Animais"
+  }
 }

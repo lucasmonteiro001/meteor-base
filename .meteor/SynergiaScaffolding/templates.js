@@ -10,9 +10,9 @@ templates['collection.js'] = M(function () {
   /***
    import { CollectionBase } from '../reuse/collectionBase';
 
-   export const CollectionColaboradores = new CollectionBase('Colaboradores');
+   export const Collection{COLLECTION_NAME} = new CollectionBase('{COLLECTION_NAME}');
 
-   CollectionColaboradores.setSchema({
+   Collection{COLLECTION_NAME}.setSchema({
   nome: {
     type: String,
     defaultValue: '',
@@ -27,7 +27,7 @@ templates['collection.js'] = M(function () {
     },
     dataTableConfig: {
       link: {
-        router: 'ColaboradoresView',
+        router: '{COLLECTION_NAME}View',
         field: '_id',
       },
     },
@@ -78,16 +78,16 @@ templates['collection.js'] = M(function () {
   },
 });
 
-   CollectionColaboradores.addSubSchema('insert',
+   Collection{COLLECTION_NAME}.addSubSchema('insert',
    ['nome', 'dataNascimento','email']);
 
-   CollectionColaboradores.addSubSchema('update',
+   Collection{COLLECTION_NAME}.addSubSchema('update',
    ['nome', 'dataNascimento']);
 
-   CollectionColaboradores.addSubSchema('view',
+   Collection{COLLECTION_NAME}.addSubSchema('view',
    ['nome', 'dataNascimento','userId']);
 
-   CollectionColaboradores.addSubSchema('tableview',
+   Collection{COLLECTION_NAME}.addSubSchema('tableview',
    ['nome', 'dataNascimento','userId']);
 
    //################################################
@@ -101,21 +101,21 @@ templates['collection.js'] = M(function () {
 }
    ];
 
-   CollectionColaboradores.setPermissions(permissions);
+   Collection{COLLECTION_NAME}.setPermissions(permissions);
 
    ***/
 });
 
 templates['controller.js'] = M(function () {
   /***
-   import { CollectionColaboradores } from './collection';
+   import { Collection{COLLECTION_NAME} } from './collection';
    import { ControllerBase } from '../reuse/controllerBase';
 
-   class ControllerColaboradores extends ControllerBase {
+   class Controller{COLLECTION_NAME} extends ControllerBase {
 
 }
 
-   export const ColaboradoresController = new ControllerColaboradores(CollectionColaboradores);
+   export const {COLLECTION_NAME}Controller = new Controller{COLLECTION_NAME}(Collection{COLLECTION_NAME});
 
 
    ***/
@@ -123,21 +123,21 @@ templates['controller.js'] = M(function () {
 
 templates['model.js'] = M(function () {
   /***
-   import {CollectionColaboradores} from "./collection.js";
+   import {Collection{COLLECTION_NAME}} from "./collection.js";
    import {ModelBase} from "../reuse/modelBase";
 
-   class ModelColaboradores extends ModelBase {
+   class Model{COLLECTION_NAME} extends ModelBase {
 
 }
 
-   export const MdlColaboradores = new ModelColaboradores(CollectionColaboradores);
+   export const Mdl{COLLECTION_NAME} = new Model{COLLECTION_NAME}(Collection{COLLECTION_NAME});
 
    //Aplicar os métodos que serão utilizados no Client através do "Meteor.Call"
-   MdlColaboradores.applyAllMethods();
+   Mdl{COLLECTION_NAME}.applyAllMethods();
 
    //Aplicar as publicações que serão consideradas quando no Client for executado
    // o "Template.subscribe"
-   MdlColaboradores.applyPublications();
+   Mdl{COLLECTION_NAME}.applyPublications();
 
    ***/
 });
@@ -145,16 +145,16 @@ templates['model.js'] = M(function () {
 templates['uiTemplateCRUD.html'] = M(function () {
   /***
 
-   <template name="Colaboradores">
+   <template name="{COLLECTION_NAME}">
    <div class="row wrapper border-bottom white-bg page-heading">
    <div class="col-lg-8">
-   <h2> Lista de Colaboradores </h2>
+   <h2> Lista de {COLLECTION_NAME} </h2>
    <ol class="breadcrumb">
    <li>
    <a href="{{pathFor route='index'}}">Página Principal</a>
    </li>
    <li class="active">
-   <strong> Lista de Colaboradores </strong>
+   <strong> Lista de {COLLECTION_NAME} </strong>
    </li>
    </ol>
    </div>
@@ -166,7 +166,7 @@ templates['uiTemplateCRUD.html'] = M(function () {
    <div class="row">
    <div class="col-lg-12">
    <div class="pull-right btAdd">
-   <a href="{{pathFor 'ColaboradoresAdd'}}" id="insert" class="btn btn-success" name="insert">
+   <a href="{{pathFor '{COLLECTION_NAME}Add'}}" id="insert" class="btn btn-success" name="insert">
    <i class="fa fa-plus-circle" aria-hidden="true"></i> Novo</a>
    </div>
    </div>
@@ -175,13 +175,13 @@ templates['uiTemplateCRUD.html'] = M(function () {
 
    <div class="row">
    <div class="col-lg-12 fixedSWidthDiv">
-   {{> ColaboradoresList}}
+   {{> {COLLECTION_NAME}List}}
    </div>
    </div>
    </div>
    </template>
 
-   <template name="ColaboradoresAdd">
+   <template name="{COLLECTION_NAME}Add">
    <div class="row wrapper border-bottom white-bg page-heading">
    <div class="col-lg-8">
    <h2> Cadastrar Colaborador </h2>
@@ -190,7 +190,7 @@ templates['uiTemplateCRUD.html'] = M(function () {
    <a href="{{pathFor route='index'}}">Página Principal</a>
    </li>
    <li>
-   <a href="{{pathFor route='Colaboradores'}}">Lista de Colaboradores</a>
+   <a href="{{pathFor route='{COLLECTION_NAME}'}}">Lista de {COLLECTION_NAME}</a>
    </li>
    <li class="active">
    <strong> Cadastrar Colaborador </strong>
@@ -212,7 +212,7 @@ templates['uiTemplateCRUD.html'] = M(function () {
    <div class="col-lg-12">
    <div class="pull-right btAdd">
    <button type="submit" class="btn btn-primary">Salvar</button>
-   <a href="{{pathFor 'Colaboradores'}}" class="btn">Voltar</a>
+   <a href="{{pathFor '{COLLECTION_NAME}'}}" class="btn">Voltar</a>
    </div>
    </div>
    </div>
@@ -220,7 +220,7 @@ templates['uiTemplateCRUD.html'] = M(function () {
    </div>
    </template>
 
-   <template name="ColaboradoresEdit">
+   <template name="{COLLECTION_NAME}Edit">
    <div class="row wrapper border-bottom white-bg page-heading">
    <div class="col-lg-12">
    <h2> {{ collectionData.nome }}</h2>
@@ -229,7 +229,7 @@ templates['uiTemplateCRUD.html'] = M(function () {
    <a href="{{pathFor route='index'}}">Página Principal</a>
    </li>
    <li>
-   <a href="{{pathFor route='Colaboradores'}}">Lista de Colaboradores</a>
+   <a href="{{pathFor route='{COLLECTION_NAME}'}}">Lista de {COLLECTION_NAME}</a>
    </li>
 
    <li class="active">
@@ -251,7 +251,7 @@ templates['uiTemplateCRUD.html'] = M(function () {
    <div class="col-lg-12">
    <div class="pull-right btAdd">
    <button type="submit" class="btn btn-primary">Salvar</button>
-   <a href="{{pathFor 'ColaboradoresView'}}/{{collectionData._id}}" class="btn">Voltar</a>
+   <a href="{{pathFor '{COLLECTION_NAME}View'}}/{{collectionData._id}}" class="btn">Voltar</a>
    </div>
    </div>
    </div>
@@ -259,7 +259,7 @@ templates['uiTemplateCRUD.html'] = M(function () {
    </div>
    </template>
 
-   <template name="ColaboradoresView">
+   <template name="{COLLECTION_NAME}View">
    <div class="row wrapper border-bottom white-bg page-heading">
    <div class="col-lg-8">
    <h2> {{ collectionData.nome }}</h2>
@@ -268,7 +268,7 @@ templates['uiTemplateCRUD.html'] = M(function () {
    <a href="{{pathFor route='index'}}">Página Principal</a>
    </li>
    <li>
-   <a href="{{pathFor route='Colaboradores'}}">Lista de Colaboradores</a>
+   <a href="{{pathFor route='{COLLECTION_NAME}'}}">Lista de {COLLECTION_NAME}</a>
    </li>
 
    <li class="active">
@@ -278,7 +278,7 @@ templates['uiTemplateCRUD.html'] = M(function () {
    </div>
    <div class="col-lg-4">
    <div class="pull-right">
-   <a id="btn-criar-chamado-voltar" class="btn btn-default" href="{{pathFor 'Colaboradores'}}">
+   <a id="btn-criar-chamado-voltar" class="btn btn-default" href="{{pathFor '{COLLECTION_NAME}'}}">
    <i class="fa fa-arrow-left" aria-hidden="true"></i>
    Voltar
    </a>
@@ -292,7 +292,7 @@ templates['uiTemplateCRUD.html'] = M(function () {
    <ul class="dropdown-menu dropdown-menu-right" role="menu">
 
    {{#if canUserUpdate}}
-   <li><a id="linkEdit" href="{{pathFor 'ColaboradoresEdit'}}/{{collectionData._id}}"
+   <li><a id="linkEdit" href="{{pathFor '{COLLECTION_NAME}Edit'}}/{{collectionData._id}}"
    name="update"><i
    class="icon icon-pencil"></i>
    Editar</a></li>
@@ -321,7 +321,7 @@ templates['uiTemplateCRUD.html'] = M(function () {
    </div>
    </template>
 
-   <template name="ColaboradoresList">
+   <template name="{COLLECTION_NAME}List">
    {{> ReactiveDatatable tableData=reactiveDataFunction options=optionsObject}}
    </template>
 
@@ -333,32 +333,32 @@ templates['uiTemplateCRUD.js'] = M(function () {
 
    import { Template } from 'meteor/templating';
    import { FlowRouter } from 'meteor/kadira:flow-router';
-   import { ColaboradoresController } from '../../../api/Colaboradores/controller.js';
+   import { {COLLECTION_NAME}Controller } from '../../../api/{COLLECTION_NAME}/controller.js';
    import { Message } from '../../utils/message';
    import { formGen } from '../../utils/formGenerator';
    import { UtilsView } from '../../utils/ViewUtils';
-   import './Colaboradores.html';
+   import './{COLLECTION_NAME}.html';
 
    let template;
 
-   Template.Colaboradores.onCreated(() => {
+   Template.{COLLECTION_NAME}.onCreated(() => {
   template = Template.instance();
-  template.data.canUserInsert = ColaboradoresController.canUserDo('insert');
-  UtilsView.applySubscribe(ColaboradoresController, 'view', template, '', function () {
+  template.data.canUserInsert = {COLLECTION_NAME}Controller.canUserDo('insert');
+  UtilsView.applySubscribe({COLLECTION_NAME}Controller, 'view', template, '', function () {
       }
   );
 
 });
-   Template.Colaboradores.onRendered(() => {
+   Template.{COLLECTION_NAME}.onRendered(() => {
   template = Template.instance();
 
 });
-   Template.Colaboradores.helpers({});
+   Template.{COLLECTION_NAME}.helpers({});
 
-   Template.ColaboradoresAdd.onRendered(() => {
+   Template.{COLLECTION_NAME}Add.onRendered(() => {
   //Jquery Validation - https://jqueryvalidation.org/validate
 
-  formGen.formRender('formContext', true, ColaboradoresController, 'insert', '', 'formTag');
+  formGen.formRender('formContext', true, {COLLECTION_NAME}Controller, 'insert', '', 'formTag');
 
   // Set options for cropper plugin
 
@@ -433,7 +433,7 @@ templates['uiTemplateCRUD.js'] = M(function () {
   $('#myModal').modal('show');
 
 });
-   Template.ColaboradoresAdd.events({
+   Template.{COLLECTION_NAME}Add.events({
   'click a[id="testeModal"]': function () {
     UtilsView.showModalWithTemplateHTML("<div>Ola</div>", {});
   },
@@ -441,62 +441,62 @@ templates['uiTemplateCRUD.js'] = M(function () {
   //Eventos do template de inserção
   'submit form'(event, templateInstance){
     event.preventDefault();
-    const ColaboradoresData = formGen.getFormData(ColaboradoresController, 'insert', templateInstance);
+    const {COLLECTION_NAME}Data = formGen.getFormData({COLLECTION_NAME}Controller, 'insert', templateInstance);
 
-    ColaboradoresController.insert(ColaboradoresData, (error, data) => {
+    {COLLECTION_NAME}Controller.insert({COLLECTION_NAME}Data, (error, data) => {
       if (error) {
         Message.showErro(error);
 
       } else {
         Message.showSuccessNotification(' inserido com sucesso!');
-        FlowRouter.go('/ColaboradoresView/' + data);
+        FlowRouter.go('/{COLLECTION_NAME}View/' + data);
       }
 
     });
   }
 });
 
-   Template.ColaboradoresView.onCreated(() => {
+   Template.{COLLECTION_NAME}View.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
-  template.data.canUserUpdate = ColaboradoresController.canUserDo('update');
-  template.data.canUserRemove = ColaboradoresController.canUserDo('remove');
-  template.data.canUserAccessActions = ColaboradoresController.canUserDo('update') || ColaboradoresController.canUserDo('remove');
+  template.data.canUserUpdate = {COLLECTION_NAME}Controller.canUserDo('update');
+  template.data.canUserRemove = {COLLECTION_NAME}Controller.canUserDo('remove');
+  template.data.canUserAccessActions = {COLLECTION_NAME}Controller.canUserDo('update') || {COLLECTION_NAME}Controller.canUserDo('remove');
 
-  UtilsView.applySubscribe(ColaboradoresController, 'view', template, id, ()=> {
-    template.collectionData = ColaboradoresController.get({ _id: id });
-    formGen.formViewRender('formContext', ColaboradoresController, 'view', id);
+  UtilsView.applySubscribe({COLLECTION_NAME}Controller, 'view', template, id, ()=> {
+    template.collectionData = {COLLECTION_NAME}Controller.get({ _id: id });
+    formGen.formViewRender('formContext', {COLLECTION_NAME}Controller, 'view', id);
   });
 
 });
-   Template.ColaboradoresView.onRendered(() => {
+   Template.{COLLECTION_NAME}View.onRendered(() => {
 
 });
-   Template.ColaboradoresView.helpers({
+   Template.{COLLECTION_NAME}View.helpers({
   'collectionData': () => {
     let id = FlowRouter.getParam('_id');
-    return ColaboradoresController.get({ _id: id });
+    return {COLLECTION_NAME}Controller.get({ _id: id });
   },
 });
 
 
-   Template.ColaboradoresView.events({
+   Template.{COLLECTION_NAME}View.events({
 
   //Eventos do template de inserção
   'click #linkExcluir'(event, template) {
     let sel = event.target;
     let id = sel.getAttribute('value');
 
-    Message.showConfirmation('Remover o Colaboradores?', 'Não é possível recuperar um Colaboradores removido!',
+    Message.showConfirmation('Remover o {COLLECTION_NAME}?', 'Não é possível recuperar um {COLLECTION_NAME} removido!',
         'Sim, remover!', (erro, confirm) => {
           if (confirm) {
-            ColaboradoresController.remove(id, (error, data) => {
+            {COLLECTION_NAME}Controller.remove(id, (error, data) => {
               if (error) {
                 Message.showErro(error);
 
               } else {
-                FlowRouter.go('Colaboradores');
-                Message.showSuccessNotification('O Colaboradores foi removido com sucesso!');
+                FlowRouter.go('{COLLECTION_NAME}');
+                Message.showSuccessNotification('O {COLLECTION_NAME} foi removido com sucesso!');
               }
             });
           }
@@ -504,71 +504,71 @@ templates['uiTemplateCRUD.js'] = M(function () {
   },
 });
 
-   Template.ColaboradoresEdit.onCreated(() => {
+   Template.{COLLECTION_NAME}Edit.onCreated(() => {
   let template = Template.instance();
   let id = FlowRouter.getParam('_id');
 
-  UtilsView.applySubscribe(ColaboradoresController, 'update', template, id, ()=> {
-    template.collectionData = ColaboradoresController.get({ _id: id });
-    formGen.formRender('formContext', true, ColaboradoresController, 'update', id, 'formTag');
+  UtilsView.applySubscribe({COLLECTION_NAME}Controller, 'update', template, id, ()=> {
+    template.collectionData = {COLLECTION_NAME}Controller.get({ _id: id });
+    formGen.formRender('formContext', true, {COLLECTION_NAME}Controller, 'update', id, 'formTag');
   });
 
 });
-   Template.ColaboradoresEdit.onRendered(() => {
+   Template.{COLLECTION_NAME}Edit.onRendered(() => {
 
 });
-   Template.ColaboradoresEdit.helpers({
+   Template.{COLLECTION_NAME}Edit.helpers({
   'collectionData': () => {
     let id = FlowRouter.getParam('_id');
-    return ColaboradoresController.get({ _id: id });
+    return {COLLECTION_NAME}Controller.get({ _id: id });
   },
 });
-   Template.ColaboradoresEdit.events({
+   Template.{COLLECTION_NAME}Edit.events({
 
   //Eventos do template de inserção
   'submit form'(event, template) {
     event.preventDefault();
     const id = FlowRouter.getParam('_id');
-    const ColaboradoresData = formGen.getFormData(ColaboradoresController, 'update', template);
+    const {COLLECTION_NAME}Data = formGen.getFormData({COLLECTION_NAME}Controller, 'update', template);
 
-    ColaboradoresController.update(id, ColaboradoresData, (error, data) => {
+    {COLLECTION_NAME}Controller.update(id, {COLLECTION_NAME}Data, (error, data) => {
       if (error) {
         Message.showErro(error);
 
       } else {
         Message.showSuccessNotification('O Cliente foi atualizado com sucesso!');
-        FlowRouter.go('/ColaboradoresView/' + id);
+        FlowRouter.go('/{COLLECTION_NAME}View/' + id);
       }
 
     });
   },
 });
 
-   Template.ColaboradoresList.onCreated(() => {
+   Template.{COLLECTION_NAME}List.onCreated(() => {
   template = Template.instance();
-  UtilsView.applySubscribe(ColaboradoresController, 'tableview', template, '', function () {
+  UtilsView.applySubscribe({COLLECTION_NAME}Controller, 'tableview', template, '', function () {
   });
 });
 
    let dataTableData = function () {
 
-  return ColaboradoresController.getAll().fetch();
+  return {COLLECTION_NAME}Controller.getAll().fetch();
 
 };
 
-   let optionsObject = UtilsView.getDataTableConfig(ColaboradoresController, 'tableview');
+   let optionsObject = UtilsView.getDataTableConfig({COLLECTION_NAME}Controller, 'tableview');
 
-   Template.ColaboradoresList.helpers({
+   Template.{COLLECTION_NAME}List.helpers({
   reactiveDataFunction: function () {
 
     return dataTableData;
   },
   optionsObject: optionsObject,
 });
-   Template.ColaboradoresList.onRendered(() => {
+   Template.{COLLECTION_NAME}List.onRendered(() => {
 
 });
-   Template.ColaboradoresList.events({});
+   Template.{COLLECTION_NAME}List.events({});
 
 
 
@@ -648,7 +648,7 @@ templates['authenticated-routes-simple'] = M(function () {
 templates['authenticated-routes-crud'] = M(function () {
   /***
 
-   UtilsRouter.applyRoutersForCRUD(authenticatedRoutes,'Colaboradores',FlowRouter,BlazeLayout);
+   UtilsRouter.applyRoutersForCRUD(authenticatedRoutes,'{COLLECTION_NAME}',FlowRouter,BlazeLayout);
 
    ***/
 });

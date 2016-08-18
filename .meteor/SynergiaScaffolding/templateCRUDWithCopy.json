@@ -6,45 +6,29 @@
           "type": "newfile",
           "append": "",
           "prepend": "",
-          "setTemplateFile": "",
-          "setTemplate": "",
-          "setTemplateFileAndReplaceTags": {
-            "templateFile": "imports/api/{COLLECTION_NAME_TO_COPY_FILES}/schema.js",
-            "tag": "{COLLECTION_NAME_TO_COPY_FILES}"
-          }
+          "setTemplateFile": "./imports/api/{COLLECTION_NAME_TO_COPY_FILES}/schema.js",
+          "setTemplate": ""
         },
         "collection.js": {
           "type": "newfile",
           "append": "",
           "prepend": "",
-          "setTemplateFile": "",
-          "setTemplate": "",
-          "setTemplateFileAndReplaceTags": {
-            "templateFile": "imports/api/{COLLECTION_NAME_TO_COPY_FILES}/collection.js",
-            "tag": "{COLLECTION_NAME_TO_COPY_FILES}"
-          }
+          "setTemplateFile": "./imports/api/{COLLECTION_NAME_TO_COPY_FILES}/collection.js",
+          "setTemplate": ""
         },
         "controller.js": {
           "type": "newfile",
           "append": "",
           "prepend": "",
-          "setTemplateFile": "",
-          "setTemplate": "",
-          "setTemplateFileAndReplaceTags": {
-            "templateFile": "imports/api/{COLLECTION_NAME_TO_COPY_FILES}/controller.js",
-            "tag": "{COLLECTION_NAME_TO_COPY_FILES}"
-          }
+          "setTemplateFile": "./imports/api/{COLLECTION_NAME_TO_COPY_FILES}/controller.js",
+          "setTemplate": ""
         },
         "model.js": {
           "type": "newfile",
           "append": "",
           "prepend": "",
-          "setTemplateFile": "",
-          "setTemplate": "",
-          "setTemplateFileAndReplaceTags": {
-            "templateFile": "imports/api/{COLLECTION_NAME_TO_COPY_FILES}/model.js",
-            "tag": "{COLLECTION_NAME_TO_COPY_FILES}"
-          }
+          "setTemplateFile": "./imports/api/{COLLECTION_NAME_TO_COPY_FILES}/model.js",
+          "setTemplate": ""
         }
       }
     },
@@ -85,23 +69,17 @@
             "type": "newfile",
             "append": "",
             "prepend": "",
-            "setTemplateFile": "",
-            "setTemplate": "",
-            "setTemplateFileAndReplaceTags": {
-              "templateFile": "imports/ui/{COLLECTION_NAME_TO_COPY_FILES}/{COLLECTION_NAME_TO_COPY_FILES}.html",
-              "tag": "{COLLECTION_NAME_TO_COPY_FILES}"
-            }
+            "setTemplateFile": "./imports/ui/authenticated/{COLLECTION_NAME_TO_COPY_FILES}/{COLLECTION_NAME_TO_COPY_FILES}.html",
+            "setTemplate": ""
+
           },
           "{COLLECTION_NAME}.js": {
             "type": "newfile",
             "append": "",
             "prepend": "",
-            "setTemplateFile": "",
-            "setTemplate": "",
-            "setTemplateFileAndReplaceTags": {
-              "templateFile": "imports/ui/{COLLECTION_NAME_TO_COPY_FILES}/{COLLECTION_NAME_TO_COPY_FILES}.js",
-              "tag": "{COLLECTION_NAME_TO_COPY_FILES}"
-            }
+            "setTemplateFile": "./imports/ui/authenticated/{COLLECTION_NAME_TO_COPY_FILES}/{COLLECTION_NAME_TO_COPY_FILES}.js",
+            "setTemplate": ""
+
           }
         }
       },

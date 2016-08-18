@@ -38,12 +38,6 @@ var beHappy = function (appDataConfig, path, tags) {
             if (fileConfig[key2] != "")
               uf.setTemplate(filePath, templates.getTemplate(fileConfig[key2]), tags, fileConfig["insertBeforeLine"]);
             break;
-          case 'setTemplateFileAndReplaceTags':
-            if (fileConfig[key2] != "")
-              uf.replaceTagInFileFromTemplateFile(filePath, fileConfig[key2].templateFile, tags, fileConfig[key2].tag);
-            break;
-
-
 
           default:
             //do nothing
@@ -104,8 +98,14 @@ if (params[0] && params[1]) {
         }
 
         for (var key in tags) {
-          data = data.replace(
-              new RegExp(key, 'g'), tags[key]);
+          if (typeof tags[key].from == 'undefined')
+            data = data.replace(
+                new RegExp(key, 'g'), tags[key]);
+          else {
+            //Para substituir a tag da estrutura de arquivos e pastas pelas tegs
+            data = data.replace(
+                new RegExp(key, 'g'), tags[key].from);
+          }
         }
 
         setTimeout(function () {

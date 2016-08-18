@@ -138,8 +138,14 @@ var setTemplateFile = function (filePath, templateFilePath, tags) {
       }
 
       for (var key in tags) {
+        if (typeof tags[key].from == 'undefined')
         data = data.replace(
             new RegExp(key, 'g'), tags[key]);
+        //Se a tag for um objeto que contém as keys from e to
+        else {
+          data = data.replace(
+              new RegExp(tags[key].from, 'g'), tags[key].to);
+        }
       }
 
       setTimeout(function () {
@@ -152,44 +158,39 @@ var setTemplateFile = function (filePath, templateFilePath, tags) {
   }
 }
 
-var replaceTagInFileFromTemplateFile = function (filePath, templateFilePath, tags, tag) {
+var replaceTagInFileFromTemplateFile = function (filePath, templateFilePath, tags, tagsToReplace) {
+
 
   if (fileExists(templateFilePath)) {
+
     fs.readFile(templateFilePath, 'utf8', function (err, data) {
       if (err) {
         return console.log(err);
       }
 
+      console.log(tagsToReplace);
+
+      for (var key in tagsToReplace) {
+        data = data.replace(
+            new RegExp(tagsToReplace[key].from, 'g'), tagsToReplace[key].to);
+      }
+
+      
       for (var key in tags) {
         data = data.replace(
             new RegExp(key, 'g'), tags[key]);
       }
 
+      //Insere os novos dados
       setTimeout(function () {
 
-        fs.readFile(filePath, 'utf8', function (err, data2) {
-          if (err) {
-            return console.log(err);
-          }
-
-          data2 = data2.replace(
-              new RegExp(tag, 'g'), data);
-
-          //Clean Original File
-          createFile(filePath);
-
-          //Insere os novos dados
-          setTimeout(function () {
-
-            append(filePath, data2);
-
-          }, 1000);
-
-        });
+        append(filePath, data);
 
       }, 1000);
 
     });
+  } else {
+    console.log("O arquivo " + templateFilePath + ' NÃO existe');
   }
 }
 
