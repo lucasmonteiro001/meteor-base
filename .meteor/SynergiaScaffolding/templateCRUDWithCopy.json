@@ -2,29 +2,49 @@
   "imports": {
     "api": {
       "{COLLECTION_NAME}": {
+        "schema.js": {
+          "type": "newfile",
+          "append": "",
+          "prepend": "",
+          "setTemplateFile": "",
+          "setTemplate": "",
+          "setTemplateFileAndReplaceTags": {
+            "templateFile": "imports/api/{COLLECTION_NAME_TO_COPY_FILES}/schema.js",
+            "tag": "{COLLECTION_NAME_TO_COPY_FILES}"
+          }
+        },
         "collection.js": {
           "type": "newfile",
           "append": "",
           "prepend": "",
           "setTemplateFile": "",
-          "setTemplate": "collection.js",
-          "copyFromCollection": "Colaboradores"
+          "setTemplate": "",
+          "setTemplateFileAndReplaceTags": {
+            "templateFile": "imports/api/{COLLECTION_NAME_TO_COPY_FILES}/collection.js",
+            "tag": "{COLLECTION_NAME_TO_COPY_FILES}"
+          }
         },
         "controller.js": {
           "type": "newfile",
           "append": "",
           "prepend": "",
           "setTemplateFile": "",
-          "setTemplate": "controller.js",
-          "copyFromCollection": "Colaboradores"
+          "setTemplate": "",
+          "setTemplateFileAndReplaceTags": {
+            "templateFile": "imports/api/{COLLECTION_NAME_TO_COPY_FILES}/controller.js",
+            "tag": "{COLLECTION_NAME_TO_COPY_FILES}"
+          }
         },
         "model.js": {
           "type": "newfile",
           "append": "",
           "prepend": "",
           "setTemplateFile": "",
-          "setTemplate": "model.js",
-          "copyFromCollection": "Colaboradores"
+          "setTemplate": "",
+          "setTemplateFileAndReplaceTags": {
+            "templateFile": "imports/api/{COLLECTION_NAME_TO_COPY_FILES}/model.js",
+            "tag": "{COLLECTION_NAME_TO_COPY_FILES}"
+          }
         }
       }
     },
@@ -66,16 +86,22 @@
             "append": "",
             "prepend": "",
             "setTemplateFile": "",
-            "setTemplate": "uiTemplateCRUD.html",
-            "copyFromCollection": "Colaboradores"
+            "setTemplate": "",
+            "setTemplateFileAndReplaceTags": {
+              "templateFile": "imports/ui/{COLLECTION_NAME_TO_COPY_FILES}/{COLLECTION_NAME_TO_COPY_FILES}.html",
+              "tag": "{COLLECTION_NAME_TO_COPY_FILES}"
+            }
           },
           "{COLLECTION_NAME}.js": {
             "type": "newfile",
             "append": "",
             "prepend": "",
             "setTemplateFile": "",
-            "setTemplate": "uiTemplateCRUD.js",
-            "copyFromCollection": "Colaboradores"
+            "setTemplate": "",
+            "setTemplateFileAndReplaceTags": {
+              "templateFile": "imports/ui/{COLLECTION_NAME_TO_COPY_FILES}/{COLLECTION_NAME_TO_COPY_FILES}.js",
+              "tag": "{COLLECTION_NAME_TO_COPY_FILES}"
+            }
           }
         }
       },

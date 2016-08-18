@@ -38,10 +38,13 @@ var beHappy = function (appDataConfig, path, tags) {
             if (fileConfig[key2] != "")
               uf.setTemplate(filePath, templates.getTemplate(fileConfig[key2]), tags, fileConfig["insertBeforeLine"]);
             break;
-          case 'replaceTagInFileFromTemplateFile':
+          case 'setTemplateFileAndReplaceTags':
             if (fileConfig[key2] != "")
               uf.replaceTagInFileFromTemplateFile(filePath, fileConfig[key2].templateFile, tags, fileConfig[key2].tag);
-            break;          
+            break;
+
+
+
           default:
             //do nothing
         }
