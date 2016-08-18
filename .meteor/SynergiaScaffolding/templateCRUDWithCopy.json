@@ -43,7 +43,7 @@
             "setTemplate": "authenticated-routes-crud"
           }
         },
-        "index.js": {
+        "globaltemplates.js": {
           "type": "file",
           "append": "",
           "prepend": "import { {COLLECTION_NAME}Controller } from '../../api/{COLLECTION_NAME}/controller';",

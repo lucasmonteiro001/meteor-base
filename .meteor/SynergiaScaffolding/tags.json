@@ -1,6 +1,15 @@
 {
-  "{COLLECTION_NAME}": "Animais",
+  "{COLLECTION_NAME}": "Fazendas",
   "{COLLECTION_NAME_TO_COPY_FILES}": {
+    "from": "Projetos",
+    "to": "Fazendas"
+  },
+  "{REPLACE_IN_setTemplateFile_All_Files}": {
+    "from": "Atlético-MG",
+    "to": "SUPER Atlético-MG"
+  },
+  "{REPLACE_IN_setTemplateFile_file_Collection}": {
+    "file": "./imports/api/Fazendas/collection.js",
     "from": "Colaboradores",
     "to": "Animais"
   }

@@ -142,7 +142,7 @@ var setTemplateFile = function (filePath, templateFilePath, tags) {
         data = data.replace(
             new RegExp(key, 'g'), tags[key]);
         //Se a tag for um objeto que contém as keys from e to
-        else {
+        else if (typeof tags[key].file == 'undefined' || tags[key].file == filePath) {
           data = data.replace(
               new RegExp(tags[key].from, 'g'), tags[key].to);
         }
